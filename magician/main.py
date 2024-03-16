@@ -63,7 +63,12 @@ async def websocket_endpoint(websocket: WebSocket, user_id: str):
 
 # 채팅 내용 저장 함수
 async def save_chat(user_id, room_id,added_prompt, conversation, is_continued):
-    pass
+    if is_continued:
+        await collection.update_one({"room_id": room_id}, {"$set": {"conversation": conversation}})
+    else:
+        chat_data = {"start_time": datetime.datetime.now(), "user_id": user_id, "room_id": room_id,
+                     "added_prompt": added_prompt, "conversation": conversation}
+        await collection.insert_one(chat_data)
 
 # READ
 # 어떤 사용자가 진행했던 채팅들 리스트 반환
