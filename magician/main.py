@@ -4,6 +4,7 @@ import uvicorn
 import motor.motor_asyncio
 import uuid
 import gpt
+import datetime
 
 app = FastAPI()
 
@@ -15,6 +16,7 @@ MONGO_URI = os.getenv("MONGO_URI")
 client = motor.motor_asyncio.AsyncIOMotorClient(MONGO_URI)
 db = client["chat_db"]  # MongoDB 데이터베이스 선택
 collection = db["chats"]  # 채팅 내용을 저장할 컬렉션 선택
+
 
 # INPUT -> USERID
 @app.websocket("/ws/{user_id}")
@@ -61,8 +63,9 @@ async def websocket_endpoint(websocket: WebSocket, user_id: str):
     finally:
         await save_chat(user_id, room_id, added_prompt, conversation, is_continued)  # 대화 기록을 MongoDB에 저장
 
+
 # 채팅 내용 저장 함수
-async def save_chat(user_id, room_id,added_prompt, conversation, is_continued):
+async def save_chat(user_id, room_id, added_prompt, conversation, is_continued):
     if is_continued:
         await collection.update_one({"room_id": room_id}, {"$set": {"conversation": conversation}})
     else:
@@ -70,18 +73,25 @@ async def save_chat(user_id, room_id,added_prompt, conversation, is_continued):
                      "added_prompt": added_prompt, "conversation": conversation}
         await collection.insert_one(chat_data)
 
+
 # READ
 # 어떤 사용자가 진행했던 채팅들 리스트 반환
 @app.get("/chat/list/{user_id}")
 async def chat_list(user_id: str):
-    return None
+    chats = []
+    async for chat in collection.find({"user_id": user_id}):
+        chat["_id"] = str(chat["_id"])
+        chats.append(chat)
+    return {"chats": chats}
 
 
 # READ
 # 어떤 채팅의 디테일 내용을 반환
 @app.get("/chat/{room_id}")
 async def chat_detail(room_id: str):
-    return None
+    chat = await collection.find_one({"room_id": room_id})
+    chat["_id"] = str(chat["_id"])
+    return {"chat": chat}
 
 
 # FastAPI 서버 실행
