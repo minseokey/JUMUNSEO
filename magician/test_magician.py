@@ -42,3 +42,19 @@ async def test_gpt(chat_collection, client):
     await asyncio.sleep(2)
     await chat_collection.delete_many({"user_id": "Test1"})
     assert msg == "안녕"
+
+# 2. 처음 시작하는 방이 없을떄 (-1)
+@pytest.mark.asyncio
+# 대화종료후 메시지를 잘 저장하는지
+async def test_end_of_message(chat_collection, client):
+    with client.websocket_connect("/ws/Test2") as websocket:
+        websocket.send_text("test/-1")
+        websocket.send_text("all_저장테스트")
+        websocket.close()
+
+    # 웹소켓이 닫히고 5초 대기
+    await asyncio.sleep(3)
+
+    result = await chat_collection.find_one({"user_id": "Test2"})
+    await chat_collection.delete_many({"user_id": "Test2"})
+    assert result["conversation"][-1]["user_message"] == "all_저장테스트"
