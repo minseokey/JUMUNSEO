@@ -58,3 +58,26 @@ async def test_end_of_message(chat_collection, client):
     result = await chat_collection.find_one({"user_id": "Test2"})
     await chat_collection.delete_many({"user_id": "Test2"})
     assert result["conversation"][-1]["user_message"] == "all_저장테스트"
+
+
+# 새롭게 방을 연결할때
+# 대화가 끝난후 이어서 대화를 진행하려할때, 이전 대화내역을 모두 받아오는지.
+@pytest.mark.asyncio
+async def test_reload_message(chat_collection, client):
+    with client.websocket_connect("/ws/Test3") as websocket:
+        websocket.send_text("test/-1")
+        websocket.send_text("reload_테스트")
+        websocket.send_text("reload_테스트2")
+        websocket.close()
+
+    await asyncio.sleep(3)
+    raw_room_id = await chat_collection.find_one({"user_id": "Test3"})
+    room_id = raw_room_id["room_id"]
+
+    with client.websocket_connect("/ws/Test3") as websocket:
+        websocket.send_text(f"test/{room_id}")
+        msg = websocket.receive_json()
+        msg2 = websocket.receive_text()
+
+    await chat_collection.delete_many({"user_id": "Test3"})
+    assert msg[-1]["user_message"] == "reload_테스트2" and msg2 == "이전 대화를 이어서 진행합니다."
