@@ -33,6 +33,7 @@ public class JwtTokenProvider {
     public String createRefreshToken() {
         Claims claims = Jwts.claims();
         claims.put("UUID", UUID.randomUUID().toString());
+
         return Jwts.builder()
                 .setClaims(claims)
                 .setIssuedAt(new Date())
@@ -40,4 +41,5 @@ public class JwtTokenProvider {
                 .signWith(SignatureAlgorithm.HS256, secretKey)
                 .compact();
     }
+
 }
