@@ -1,10 +1,12 @@
 package com.jumunseo.authservice.domain.user.dto;
 
 import com.jumunseo.authservice.domain.user.entity.User;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@Component
 public class Mapper {
 
     public UserDto toDto(User user) {
