@@ -1,30 +1,38 @@
 package com.jumunseo.authservice.domain.user.dto;
 
+import com.jumunseo.authservice.domain.user.entity.Role;
 import com.jumunseo.authservice.domain.user.entity.User;
+import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Component
+@RequiredArgsConstructor
 public class Mapper {
 
+    private final PasswordEncoder passwordEncoder;
+
+    // User 객체를 UserDto 객체로 변환한다.
     public UserDto toDto(User user) {
-        UserDto userDto = new UserDto();
-        userDto.setEmail(user.getEmail());
-        userDto.setRole(user.getRole());
-        userDto.setName(user.getName());
-        return userDto;
+        return UserDto.builder()
+                .email(user.getEmail())
+                .role(user.getRole())
+                .name(user.getName())
+                .build();
     }
 
-    public User toEntity(UserDto userDto) {
-        User user = new User();
-        user.setEmail(userDto.getEmail());
-        user.setRole(userDto.getRole());
-        user.setName(userDto.getName());
-        return user;
+    // 회원가입 시에 사용자 정보를 User 객체로 만들어서 반환한다.
+    public User toEntity(SignupDto signupDto) {
+        return User.builder()
+                .email(signupDto.getEmail())
+                .password(passwordEncoder.encode(signupDto.getPassword()))
+                .name(signupDto.getName())
+                .role(Role.USER)
+                .build();
     }
-
 
     public List<UserDto> toDtoList(List<User> users) {
         List<UserDto> userDtos = new ArrayList<>();
@@ -32,14 +40,6 @@ public class Mapper {
             userDtos.add(toDto(user));
         }
         return userDtos;
-    }
-
-    public List<User> toEntityList(List<UserDto> userDtos) {
-        List<User> users = new ArrayList<>();
-        for (UserDto userDto : userDtos) {
-            users.add(toEntity(userDto));
-        }
-        return users;
     }
 
 }

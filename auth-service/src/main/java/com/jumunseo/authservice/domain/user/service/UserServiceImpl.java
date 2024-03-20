@@ -1,6 +1,7 @@
 package com.jumunseo.authservice.domain.user.service;
 
 import com.jumunseo.authservice.domain.user.dto.Mapper;
+import com.jumunseo.authservice.domain.user.dto.SignupDto;
 import com.jumunseo.authservice.domain.user.dto.UserDto;
 import com.jumunseo.authservice.domain.user.entity.User;
 import com.jumunseo.authservice.domain.user.exception.NotExistUserException;
@@ -32,8 +33,8 @@ public class UserServiceImpl implements UserService, UserDetailsService{
     }
 
     @Override
-    public void saveUser(UserDto userDto) {
-        userRepository.save(mapper.toEntity(userDto));
+    public void saveUser(SignupDto signupDto) {
+        userRepository.save(mapper.toEntity(signupDto));
     }
 
 

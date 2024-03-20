@@ -5,15 +5,15 @@ import jakarta.persistence.*;
 import static jakarta.persistence.EnumType.STRING;
 import static jakarta.persistence.GenerationType.IDENTITY;
 
-import lombok.Getter;
-import lombok.Setter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @Entity
 @Getter
 @Setter
 @NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class User {
 
     @Id
@@ -29,13 +29,4 @@ public class User {
 
     @Enumerated(STRING)
     private Role role;
-
-    // 비밀번호를 생성할때 암호화를 시켜버려
-    public User(String email, String password, String name, Role role) {
-        this.email = email;
-        this.password = new BCryptPasswordEncoder().encode(password);
-        this.name = name;
-        this.role = role;
-    }
-
 }

@@ -1,15 +1,12 @@
 package com.jumunseo.authservice.domain.user.dto;
 
-import com.jumunseo.authservice.domain.user.entity.Role;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
 @Setter
 @Getter
-@Builder
-public class UserDto {
+public class SignupDto {
     private String email;
-    private Role role;
+    private String password;
     private String name;
 }
