@@ -7,6 +7,6 @@ import lombok.Setter;
 @Setter
 @Getter
 public class UserDto {
-    String email;
-    Role role;
+    private String email;
+    private Role role;
 }
