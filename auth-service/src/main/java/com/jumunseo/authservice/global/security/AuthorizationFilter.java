@@ -8,6 +8,8 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
 
+// 인가 필터
+// 일단 지금 상황에선 필요가 없다. 추후에 User 단에서 인가가 필요하면 추가 구현.
 public class AuthorizationFilter  extends OncePerRequestFilter {
 
     // 로그인 받은 URI 설정
@@ -24,6 +26,5 @@ public class AuthorizationFilter  extends OncePerRequestFilter {
             return;
         }
         filterChain.doFilter(request, response);
-
     }
 }

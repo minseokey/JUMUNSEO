@@ -10,12 +10,15 @@ import java.util.UUID;
 @Component
 public class JwtTokenProvider {
 
+    // OS 환경변수
     @Value("${jwt.secret}")
     private String secretKey;
 
+    // OS 환경변수
     @Value("${jwt.access_expiration}")
     private long accessTokenExpiration;
 
+    // OS 환경변수
     @Value("${jwt.refresh_expiration}")
     private long refreshTokenExpiration;
 
@@ -72,6 +75,7 @@ public class JwtTokenProvider {
         return getClaimes(token).get("role").toString();
     }
 
+    // Token의 UUID 와 RefreshTokenId 비교
     public Boolean sameRefreshToken(String token, String tokenId) {
         return getRefreshTokenId(token).equals(tokenId);
     }
