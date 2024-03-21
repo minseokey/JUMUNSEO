@@ -16,6 +16,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import java.io.IOException;
@@ -29,6 +30,7 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter{
     private final JwtTokenProvider jwtTokenProvider;
     private final RefreshTokenService refreshTokenService;
     private final CookieProvider cookieProvider;
+    private final PasswordEncoder passwordEncoder;
 
     // 인증 시도
     @Override
@@ -59,7 +61,7 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter{
         String accessToken = jwtTokenProvider.createAccessToken(userEmail, role);
         Date accessTokenExpiredDate = jwtTokenProvider.getExpirationTime(accessToken);
         String refreshToken = jwtTokenProvider.createRefreshToken();
-        refreshTokenService.updateRefreshToken(userEmail, refreshToken);
+        refreshTokenService.updateRefreshToken(userEmail, jwtTokenProvider.getRefreshTokenId(refreshToken));
 
         // 쿠키에 refresh 토큰 저장
         ResponseCookie responseRefreshCookie = cookieProvider.createRefreshTokenCookie(refreshToken);

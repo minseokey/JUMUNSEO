@@ -34,7 +34,7 @@ public class RefreshTokenServiceImpl implements RefreshTokenService{
     @Override
     public JwtTokenDto refreshAccessJwtToken(String accessToken, String refreshToken) {
         // 1. refreshToken이 있는지 확인
-        User user = userRepository.findByEmail(jwtTokenProvider.getEmail(accessToken)).orElseThrow(
+        User user = userRepository.findByEmail(jwtTokenProvider.getEmailForAccessToken(accessToken)).orElseThrow(
                 () -> new NotExistUserException("존재하지 않는 사용자입니다."));
 
         RefreshToken refreshTokenEntity = refreshTokenRedisRepository.findById(user.getEmail()).orElseThrow(
@@ -50,13 +50,10 @@ public class RefreshTokenServiceImpl implements RefreshTokenService{
         if(!jwtTokenProvider.sameRefreshToken(refreshTokenEntity.getRefreshTokenId(), refreshToken)){
             throw new RefreshTokenNotValidException("레디스에 있는 토큰과 다릅니다.");
         }
-        // 2.3 이걸 보낸 유저가 존재하는 유저인가?
-        User finduser = userRepository.findByEmail(jwtTokenProvider.getEmail(refreshToken)).orElseThrow(
-                () -> new NotExistUserException("존재하지 않는 사용자입니다."));
 
         // 3. accessToken 업데이트
-        Role role = finduser.getRole();
-        String newAccessToken = jwtTokenProvider.createAccessToken(finduser.getEmail(), role.toString());
+        Role role = user.getRole();
+        String newAccessToken = jwtTokenProvider.createAccessToken(user.getEmail(), role.toString());
 
         return JwtTokenDto.builder()
                 .accessToken(newAccessToken)

@@ -35,7 +35,7 @@ public class SecurityConfig {
     SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         // 0. 전처리
         AuthenticationFilter authenticationFilter
-                = new AuthenticationFilter(authenticationManager(),jwtProvider,refreshTokenService,cookieProvider);
+                = new AuthenticationFilter(authenticationManager(),jwtProvider,refreshTokenService,cookieProvider,bCryptPasswordEncoder);
         authenticationFilter.setFilterProcessesUrl("/login");
 
         // 1. 필터체인 생성

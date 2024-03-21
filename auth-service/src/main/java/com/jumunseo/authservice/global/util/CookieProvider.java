@@ -7,7 +7,8 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class CookieProvider {
-    @Value("${jwt.refresh.expire-time}")
+
+    @Value("${jwt.refresh_expiration}")
     private String refreshTokenExpireTime;
 
     // 리프레시 토큰을 쿠키에 저장
@@ -22,7 +23,10 @@ public class CookieProvider {
     // 쿠키에 있는 리프레시 토큰 삭제
     public ResponseCookie deleteRefreshTokenCookie() {
         return ResponseCookie.from("refreshToken", null)
+                .maxAge(0)
+                .path("/")
                 .build();
+
     }
 
     // 쿠키에 있는 리프레시 토큰 가져오기
@@ -33,6 +37,5 @@ public class CookieProvider {
         cookie.setMaxAge((int) responseCookie.getMaxAge().getSeconds());
         cookie.setPath(responseCookie.getPath());
         return cookie;
-
     }
 }

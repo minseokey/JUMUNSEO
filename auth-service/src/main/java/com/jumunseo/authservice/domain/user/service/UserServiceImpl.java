@@ -51,7 +51,7 @@ public class UserServiceImpl implements UserService, UserDetailsService{
         } catch (Exception e) {
             throw new AccessTokenNotValidException("not valid token");
         }
-        return mapper.toDto(userRepository.findByEmail(jwtTokenProvider.getEmail(token)).orElseThrow(
+        return mapper.toDto(userRepository.findByEmail(jwtTokenProvider.getEmailForAccessToken(token)).orElseThrow(
                 () -> new NotExistUserException("User not found")));
     }
 
@@ -73,7 +73,15 @@ public class UserServiceImpl implements UserService, UserDetailsService{
             throw new AccessTokenNotValidException("not valid token");
         }
         User newuser = mapper.toEntity(signupDto);
-        userRepository.updateByEmail(jwtTokenProvider.getEmail(token),newuser);
+        User originUser = userRepository.findByEmail(jwtTokenProvider.getEmailForAccessToken(token)).orElseThrow(
+                () -> new NotExistUserException("User not found"));
+
+        // 더티체킹 활용
+        originUser.setEmail(newuser.getEmail());
+        originUser.setPassword(newuser.getPassword());
+        originUser.setRole(newuser.getRole());
+        userRepository.save(originUser);
+
     }
 
     @Override
@@ -83,7 +91,7 @@ public class UserServiceImpl implements UserService, UserDetailsService{
         } catch (Exception e) {
             throw new AccessTokenNotValidException("not valid token");
         }
-        userRepository.deleteByEmail(jwtTokenProvider.getEmail(token));
+        userRepository.deleteByEmail(jwtTokenProvider.getEmailForAccessToken(token));
     }
 
 

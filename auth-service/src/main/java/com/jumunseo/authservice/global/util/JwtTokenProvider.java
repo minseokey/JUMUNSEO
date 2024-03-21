@@ -49,7 +49,7 @@ public class JwtTokenProvider {
     }
 
     // 토큰의 서브젝트인 이메일 추출
-    public String getEmail(String token) {
+    public String getEmailForAccessToken(String token) {
         return getClaimes(token).getSubject();
     }
 
