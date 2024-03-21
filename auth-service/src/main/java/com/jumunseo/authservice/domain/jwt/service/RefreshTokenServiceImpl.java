@@ -60,4 +60,15 @@ public class RefreshTokenServiceImpl implements RefreshTokenService{
                 .refreshToken(refreshToken)
                 .build();
     }
+
+    @Override
+    public void logout(String accessToken) {
+        if(!jwtTokenProvider.validateToken(accessToken)){
+            throw new RefreshTokenNotValidException("유효하지 않은 토큰입니다.");
+        }
+        RefreshToken refreshToken = refreshTokenRedisRepository.findById(jwtTokenProvider.getEmailForAccessToken(accessToken)).orElseThrow(
+                () -> new RefreshTokenNotValidException("레디스에 어세스 토큰에 맞는 리프레쉬 토큰이 없습니다."));
+
+        refreshTokenRedisRepository.delete(refreshToken);
+    }
 }

@@ -35,4 +35,15 @@ public class JwtController {
         accessTokenService.CheckAccessToken(accessToken);
         return ResponseEntity.ok(Result.successResult(null));
     }
+
+    @GetMapping("/logout")
+    public ResponseEntity<Result<?>> logout(@RequestHeader("Authorization") String accessToken) {
+        // 레디스 삭제
+        refreshTokenService.logout(accessToken);
+        // 쿠키도 삭제
+        ResponseCookie responseCookie = cookieProvider.deleteRefreshTokenCookie();
+
+        return ResponseEntity.ok().header(HttpHeaders.SET_COOKIE, responseCookie.toString())
+                .body(Result.successResult(null));
+    }
 }
