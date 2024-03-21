@@ -12,7 +12,7 @@ public class AccessTokenServiceImpl implements AccessTokenService{
 
 
     @Override
-    public void CreateAccessToken(String authorizationHeader) {
+    public void CheckAccessToken(String authorizationHeader) {
         String token = authorizationHeader.replace("Bearer ", "");
 
         if (!jwtTokenProvider.validateToken(token)) {

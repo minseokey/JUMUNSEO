@@ -8,7 +8,6 @@ import com.jumunseo.authservice.domain.user.entity.Role;
 import com.jumunseo.authservice.domain.user.entity.User;
 import com.jumunseo.authservice.domain.user.exception.NotExistUserException;
 import com.jumunseo.authservice.domain.user.repository.UserRepository;
-import com.jumunseo.authservice.domain.user.service.UserService;
 import com.jumunseo.authservice.global.util.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -19,7 +18,6 @@ public class RefreshTokenServiceImpl implements RefreshTokenService{
 
     private final UserRepository userRepository;
     private final JwtTokenProvider jwtTokenProvider;
-    private final UserService userService;
     private final RefreshTokenRedisRepository refreshTokenRedisRepository;
 
 

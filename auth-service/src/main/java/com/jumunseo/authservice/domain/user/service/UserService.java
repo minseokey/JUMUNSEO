@@ -3,9 +3,16 @@ package com.jumunseo.authservice.domain.user.service;
 import com.jumunseo.authservice.domain.user.dto.SignupDto;
 import com.jumunseo.authservice.domain.user.dto.UserDto;
 
+import java.util.List;
+
 public interface UserService {
 
     UserDto findUserById(Long Id);
     UserDto findUserByEmail(String email);
     void saveUser(SignupDto signupDto);
+
+    UserDto findUserByToken(String token);
+    List<UserDto> findUsersByIds(List<Long> userIds);
+    void updateUser(String token, SignupDto signupDto);
+    void deleteUser(String token);
 }
