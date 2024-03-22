@@ -1,5 +1,8 @@
 package com.jumunseo.authservice.global.util;
 
+import com.jumunseo.authservice.domain.user.repository.UserRepository;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import io.jsonwebtoken.*;
 import org.springframework.stereotype.Component;
@@ -8,6 +11,7 @@ import java.util.Date;
 import java.util.UUID;
 
 @Component
+@RequiredArgsConstructor
 public class JwtTokenProvider {
 
     // OS 환경변수
@@ -22,11 +26,13 @@ public class JwtTokenProvider {
     @Value("${jwt.refresh_expiration}")
     private long refreshTokenExpiration;
 
+    private final UserRepository userRepository;
     private final String JwtPrefix = "Bearer ";
 
     public String createAccessToken(String userId, String role) {
         Claims claims = Jwts.claims().setSubject(userId);
         claims.put("role", role);
+        claims.put("name", userRepository.findByEmail(userId).get().getName());
 
         return Jwts.builder()
                 .setClaims(claims)

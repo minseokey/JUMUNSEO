@@ -2,6 +2,7 @@ package com.jumunseo.authservice.global.security;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jumunseo.authservice.domain.jwt.service.RefreshTokenService;
+import com.jumunseo.authservice.domain.user.repository.UserRepository;
 import com.jumunseo.authservice.global.dto.LoginRequest;
 import com.jumunseo.authservice.global.dto.Result;
 import com.jumunseo.authservice.global.util.CookieProvider;

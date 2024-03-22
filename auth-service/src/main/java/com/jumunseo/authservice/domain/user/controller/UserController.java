@@ -1,6 +1,7 @@
 package com.jumunseo.authservice.domain.user.controller;
 
 import com.jumunseo.authservice.domain.user.dto.SignupDto;
+import com.jumunseo.authservice.domain.user.dto.UserDto;
 import com.jumunseo.authservice.global.dto.Result;
 import com.jumunseo.authservice.domain.user.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import jakarta.validation.Valid;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/user")
@@ -20,7 +22,7 @@ public class UserController {
 
     // 토큰으로 유저 정보 가져오기
     @GetMapping("/info")
-    public ResponseEntity<Result<?>> getUserInfoByToken(@RequestHeader("Authorization") String authorizationHeader) throws Exception{
+    public ResponseEntity<Result<?>> getUserInfoByToken(@RequestHeader("Authorization") String authorizationHeader){
         return ResponseEntity.ok(Result.successResult(userService.findUserByToken(authorizationHeader)));
     }
 
@@ -43,15 +45,15 @@ public class UserController {
     }
 
     // 토큰으로 유저 정보 수정
-    @PutMapping("/")
+    @PutMapping("/update")
     public ResponseEntity<Result<?>> updateUserInfo(@RequestHeader("Authorization") String authorizationHeader,
-                                                    @RequestBody SignupDto signupDto) {
-        userService.updateUser(authorizationHeader, signupDto);
-        return ResponseEntity.ok(Result.successResult(null));
+                                                    @RequestBody Map<String,String> updateInfo) {
+        UserDto newUser = userService.updateUser(authorizationHeader, updateInfo);
+        return ResponseEntity.ok(Result.successResult(newUser));
     }
 
     // 토큰으로 유저 정보 삭제
-    @DeleteMapping("/")
+    @DeleteMapping("/delete")
     public ResponseEntity<Result<?>> deleteUserInfo(@RequestHeader("Authorization") String authorizationHeader) {
         userService.deleteUser(authorizationHeader);
         return ResponseEntity.ok(Result.successResult(null));

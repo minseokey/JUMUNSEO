@@ -6,6 +6,7 @@ import static jakarta.persistence.EnumType.STRING;
 import static jakarta.persistence.GenerationType.IDENTITY;
 
 import lombok.*;
+import org.hibernate.annotations.DynamicUpdate;
 
 @Entity
 @Getter
@@ -14,6 +15,7 @@ import lombok.*;
 @AllArgsConstructor
 @Builder
 @Table(name = "auth_user")
+@DynamicUpdate
 public class User {
 
     @Id

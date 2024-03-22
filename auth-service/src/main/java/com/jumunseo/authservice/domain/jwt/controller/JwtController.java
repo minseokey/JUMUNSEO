@@ -19,8 +19,9 @@ public class JwtController {
     private final CookieProvider cookieProvider;
     private final RefreshTokenService refreshTokenService;
     private final AccessTokenService accessTokenService;
-    @GetMapping("/refresh-reissue")
-    public ResponseEntity<Result<?>> refreshReissue(@RequestHeader("Authorization") String accessToken, @CookieValue("refreshToken") String refreshToken) {
+    @GetMapping("/reissue")
+    public ResponseEntity<Result<?>> refreshReissue(@RequestHeader("Authorization") String accessToken,
+                                                    @CookieValue("refreshToken") String refreshToken) {
         // Access 재발급
         JwtTokenDto jwtTokenDto = refreshTokenService.refreshAccessJwtToken(accessToken,refreshToken);
         // Refresh 재발급

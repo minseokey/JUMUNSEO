@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
@@ -66,22 +67,26 @@ public class UserServiceImpl implements UserService, UserDetailsService{
     }
 
     @Override
-    public void updateUser(String token, SignupDto signupDto) {
+    public UserDto updateUser(String token, Map<String, String> updateInfo) {
         try {
             jwtTokenProvider.validateToken(token);
         } catch (Exception e) {
             throw new AccessTokenNotValidException("not valid token");
         }
-        User newuser = mapper.toEntity(signupDto);
         User originUser = userRepository.findByEmail(jwtTokenProvider.getEmailForAccessToken(token)).orElseThrow(
                 () -> new NotExistUserException("User not found"));
 
         // 더티체킹 활용
-        originUser.setEmail(newuser.getEmail());
-        originUser.setPassword(newuser.getPassword());
-        originUser.setRole(newuser.getRole());
-        userRepository.save(originUser);
-
+        if(updateInfo.containsKey("email")) {
+            originUser.setEmail(updateInfo.get("email"));
+        }
+        if(updateInfo.containsKey("password")) {
+            originUser.setPassword(updateInfo.get("password"));
+        }
+        if(updateInfo.containsKey("name")) {
+            originUser.setName(updateInfo.get("name"));
+        }
+        return mapper.toDto(originUser);
     }
 
     @Override
