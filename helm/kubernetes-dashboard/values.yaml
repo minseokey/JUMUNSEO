@@ -17,7 +17,7 @@ app:
   # Mode determines if chart should deploy a full Dashboard with all containers or just the API.
   # - dashboard - deploys all the containers
   # - api - deploys just the API
-  mode: 'dashboard'
+  mode: "dashboard"
   image:
     pullPolicy: IfNotPresent
     pullSecrets: []
@@ -326,7 +326,7 @@ metricsScraper:
 ##  - https://github.com/kubernetes-sigs/metrics-server
 ##  - https://github.com/kubernetes-sigs/metrics-server/tree/master/charts/metrics-server
 metrics-server:
-  enabled: false
+  enabled: true
   args:
     - --kubelet-preferred-address-types=InternalIP
     - --kubelet-insecure-tls
@@ -342,9 +342,9 @@ kong:
   dblessConfig:
     configMap: kong-dbless-config
   proxy:
-    type: ClusterIP
+    type: LoadBalancer
     http:
-      enabled: false
+      enabled: true
 
 ## Optional Cert Manager sub-chart configuration
 ## Enable this if you don't already have cert-manager enabled on your cluster.
