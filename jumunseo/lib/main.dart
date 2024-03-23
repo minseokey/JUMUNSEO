@@ -5,6 +5,7 @@ import 'package:jumunseo/config/theme/app_theme.dart';
 Future<void> main() async {
   //TODO: 스플래시 스크린
   //TODO: 앱 초기화
+  //TODO: asdf
 
   runApp(const MyApp());
 }
