@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:just_ham/core/logger.dart';
+import 'package:jumunseo/core/logger.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
+
+  static const String routeName = '/';
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
@@ -71,7 +73,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                       color: Colors.transparent,
                                       child: InkWell(
                                         onTap: () {
-                                          context.push('/dilemma');
+                                          context.push('/dilemma/1/1');
                                         },
                                         child: const Column(
                                           mainAxisAlignment:

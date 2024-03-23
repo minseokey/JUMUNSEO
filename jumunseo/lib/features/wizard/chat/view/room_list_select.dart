@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:just_ham/core/blank.dart';
-import 'package:just_ham/shared/room_information.dart';
+import 'package:jumunseo/core/blank.dart';
+import 'package:jumunseo/shared/room_information.dart';
 
 class Room extends StatelessWidget {
   final RoomInfo info;

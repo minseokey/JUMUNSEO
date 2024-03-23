@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:just_ham/config/routes/app_routes.dart';
-import 'package:just_ham/config/theme/app_theme.dart';
+import 'package:jumunseo/config/routes/app_routes.dart';
+import 'package:jumunseo/config/theme/app_theme.dart';
 
 import 'features/wizard/chat_observer.dart';
 

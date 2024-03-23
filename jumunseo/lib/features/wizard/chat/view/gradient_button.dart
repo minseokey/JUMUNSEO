@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:just_ham/config/theme/app_color.dart';
+import 'package:jumunseo/config/theme/app_color.dart';
 
 class GradientButton extends StatelessWidget {
   final VoidCallback onButtonPress;

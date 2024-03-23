@@ -1,7 +1,7 @@
 import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
-import 'package:just_ham/config/theme/app_color.dart';
-import 'package:just_ham/features/wizard/chat/view/wizard_setting_select.dart';
+import 'package:jumunseo/config/theme/app_color.dart';
+import 'package:jumunseo/features/wizard/chat/view/wizard_setting_select.dart';
 
 class SettingView extends StatefulWidget {
   const SettingView({super.key});

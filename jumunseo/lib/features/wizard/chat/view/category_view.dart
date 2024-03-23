@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:just_ham/config/theme/app_color.dart';
-import 'package:just_ham/core/blank.dart';
-import 'package:just_ham/features/wizard/chat/view/category_select.dart';
-import 'package:just_ham/features/wizard/chat/view/gradient_button.dart';
+import 'package:jumunseo/config/theme/app_color.dart';
+import 'package:jumunseo/core/blank.dart';
+import 'package:jumunseo/features/wizard/chat/view/category_select.dart';
+import 'package:jumunseo/features/wizard/chat/view/gradient_button.dart';
 
 import '../cubit/wizard_cubit.dart';
 

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:just_ham/features/community/community_screen.dart';
-import 'package:just_ham/features/dilemma/dilemma_screen.dart';
-import 'package:just_ham/features/home/home_screen.dart';
-import 'package:just_ham/features/wizard/chat/view/wizard_screen.dart';
+import 'package:jumunseo/features/community/community_screen.dart';
+import 'package:jumunseo/features/dilemma/dilemma_screen.dart';
+import 'package:jumunseo/features/home/home_screen.dart';
+import 'package:jumunseo/features/wizard/wizard_screen.dart';
 
 final GlobalKey<NavigatorState> rootNavigatorKey =
     GlobalKey<NavigatorState>(debugLabel: 'root');
@@ -17,9 +17,9 @@ GoRouter appRouter = GoRouter(
       },
     ),
     GoRoute(
-        path: '/dilemma',
+        path: '/dilemma/:catagory/:id',
         builder: (context, state) {
-          return const DilemmaScreen();
+          return DilemmaScreen();
         }),
     GoRoute(
         path: '/wizard',

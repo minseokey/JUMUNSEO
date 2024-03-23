@@ -1,4 +1,4 @@
-package com.justham.justham.just_ham
+package com.justham.justham.jumunseo
 
 import io.flutter.embedding.android.FlutterActivity
 
