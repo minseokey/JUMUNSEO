@@ -16,4 +16,5 @@ public interface UserService {
     List<UserDto> findUsersByIds(List<Long> userIds);
     UserDto updateUser(String token, Map<String,String> updateInfo);
     void deleteUser(String token);
+    void deleteUserByEmail(String email);
 }

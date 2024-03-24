@@ -99,6 +99,12 @@ public class UserServiceImpl implements UserService, UserDetailsService{
         userRepository.deleteByEmail(jwtTokenProvider.getEmailForAccessToken(token));
     }
 
+    @Override
+    // Test Method
+    public void deleteUserByEmail(String email) {
+        userRepository.deleteByEmail(email);
+    }
+
 
     // 기존 LoadUserByUsername 재정의, 로그인 시에 사용된다.
     // 로그인 시에 사용자 정보를 가져와서 Security의 User 객체로 만들어서 반환한다.
