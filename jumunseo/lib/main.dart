@@ -8,6 +8,7 @@ import 'features/wizard/chat_observer.dart';
 Future<void> main() async {
   //TODO: 스플래시 스크린
   //TODO: 앱 초기화
+  //TODO: asdf
 
   Bloc.observer = CompositeBlocObserver([ChatObserver()]);
   runApp(const MyApp());
