@@ -1,6 +1,7 @@
 package com.jumunseo.authservice.controller.jwt;
 
 import com.jumunseo.authservice.domain.jwt.controller.JwtController;
+import com.jumunseo.authservice.domain.jwt.redis.RefreshTokenRedisRepository;
 import com.jumunseo.authservice.domain.jwt.service.RefreshTokenService;
 import com.jumunseo.authservice.domain.user.dto.SignupDto;
 import com.jumunseo.authservice.domain.user.dto.UserDto;
@@ -39,6 +40,8 @@ public class JwtControllerTest {
     private RefreshTokenService refreshTokenService;
     @Autowired
     private CookieProvider cookieProvider;
+    @Autowired
+    private RefreshTokenRedisRepository refreshTokenRedisRepository;
 
     @BeforeEach
     void setUp() {
@@ -63,6 +66,7 @@ public class JwtControllerTest {
     @Transactional
     //Get Test
     void reissueToken() throws Exception {
+        // GIVEN
         UserDto testUser = userService.findUserByEmail("Test");
         String accessToken = jwtTokenProvider.createAccessToken("Test", testUser.getRole().toString());
         String refreshToken = jwtTokenProvider.createRefreshToken();
@@ -74,11 +78,13 @@ public class JwtControllerTest {
         ResponseCookie responseRefreshCookie = cookieProvider.createRefreshTokenCookie(refreshToken);
         Cookie cookie = cookieProvider.of(responseRefreshCookie);
 
+        // WHEN
         ResultActions resultActions = mockMvc.perform(MockMvcRequestBuilders.get("/auth/reissue")
                 .cookie(cookie)
                 .header("Authorization", accessToken)
                 .contentType("application/json"));
 
+        // THEN
         resultActions.andExpect(status().isOk())
                 .andExpect(jsonPath("code").value(Code.SUCCESS.name()))
                 .andExpect(jsonPath("message").value(""))
@@ -91,8 +97,35 @@ public class JwtControllerTest {
 
     @Test
     @DisplayName("로그아웃 테스트")
+    @Transactional
     //Get Test
-    void logout() {
-    }
+    void logout() throws Exception {
+        // GIVEN
+        UserDto testUser = userService.findUserByEmail("Test");
+        String accessToken = jwtTokenProvider.createAccessToken("Test", testUser.getRole().toString());
+        String refreshToken = jwtTokenProvider.createRefreshToken();
 
+        // 인증절차 따라하기, 레디스에 저장 -> 로그인이 되었다고 판단.
+        refreshTokenService.updateRefreshToken("Test", jwtTokenProvider.getRefreshTokenId(refreshToken));
+
+        // 쿠키에 refresh 토큰 저장
+        ResponseCookie responseRefreshCookie = cookieProvider.createRefreshTokenCookie(refreshToken);
+        Cookie cookie = cookieProvider.of(responseRefreshCookie);
+
+        // WHEN
+        ResultActions resultActions = mockMvc.perform(MockMvcRequestBuilders.get("/auth/logout")
+                .cookie(cookie)
+                .header("Authorization", accessToken)
+                .contentType("application/json"));
+
+        // THEN
+        resultActions.andExpect(status().isOk())
+                .andExpect(jsonPath("code").value(Code.SUCCESS.name()))
+                .andExpect(jsonPath("message").value(""))
+                .andExpect(jsonPath("data").isEmpty())
+                .andExpect(header().exists("Set-Cookie"));
+
+        // 레디스 저장소 삭제 확인
+        Assertions.assertNull(refreshTokenRedisRepository.findById("Test").orElse(null));
+    }
 }
