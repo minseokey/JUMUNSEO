@@ -1,6 +1,7 @@
 package com.jumunseo.authservice.controller.user;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.jayway.jsonpath.JsonPath;
 import com.jumunseo.authservice.domain.user.controller.UserController;
 import com.jumunseo.authservice.domain.user.dto.SignupDto;
 import com.jumunseo.authservice.domain.user.exception.NotExistUserException;
@@ -136,18 +137,24 @@ public class UserControllerTest {
         ResultActions resultActions = mockMvc.perform(MockMvcRequestBuilders.put("/user/update")
                 .header("Authorization", accessToken)
                 .contentType("application/json")
-                .content("{\"name\":\"Changed\"}"));
+                .content("{\"email\":\"Changed\", \"name\":\"Changed\"}"));
 
         // Then
-        // TODO: 이름 or 이메일 변경시 토큰 재발급 확인
         resultActions.andExpect(status().isOk())
                 .andExpect(jsonPath("code").value("SUCCESS"))
                 .andExpect(jsonPath("message").value(""))
-                .andExpect(jsonPath("data.email").value("Test"))
+                .andExpect(jsonPath("data.email").value("Changed"))
                 .andExpect(jsonPath("data.name").value("Changed"))
-                .andExpect(jsonPath("data.role").value("USER"));
+                .andExpect(jsonPath("data.role").value("USER"))
+                .andExpect(header().exists("Set-Cookie"))
+                .andExpect(cookie().exists("refreshToken"));
 
-        assert userService.findUserByEmail("Test").getName().equals("Changed");
+        String changedToken = JsonPath.read(resultActions.andReturn().
+                getResponse().getContentAsString(), "$.data.accessToken");
+
+        assert jwtTokenProvider.getEmailForAccessToken(changedToken).equals("Changed");
+        assert userService.findUserByEmail("Changed").getName().equals("Changed");
+
     }
 
     @Test
