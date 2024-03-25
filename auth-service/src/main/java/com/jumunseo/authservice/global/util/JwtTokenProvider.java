@@ -22,10 +22,6 @@ public class JwtTokenProvider {
     @Value("${jwt.access_expiration}")
     private long accessTokenExpiration;
 
-    // OS 환경변수
-    @Value("${jwt.refresh_expiration}")
-    private long refreshTokenExpiration;
-
     private final UserRepository userRepository;
     private final String JwtPrefix = "Bearer ";
 
@@ -49,7 +45,6 @@ public class JwtTokenProvider {
         return Jwts.builder()
                 .setClaims(claims)
                 .setIssuedAt(new Date())
-                .setExpiration(new Date(System.currentTimeMillis() + refreshTokenExpiration))
                 .signWith(SignatureAlgorithm.HS256, secretKey)
                 .compact();
     }

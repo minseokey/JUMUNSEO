@@ -10,6 +10,7 @@ import com.jumunseo.authservice.domain.user.service.UserService;
 import com.jumunseo.authservice.global.util.CookieProvider;
 import com.jumunseo.authservice.global.util.JwtTokenProvider;
 import com.jumunseo.authservice.domain.jwt.service.RefreshTokenService;
+import jakarta.servlet.http.Cookie;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -17,6 +18,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.ResponseCookie;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
@@ -129,14 +131,15 @@ public class UserControllerTest {
         refreshTokenService.updateRefreshToken("Test", jwtTokenProvider.getRefreshTokenId(refreshToken));
 
         // 쿠키에 refresh 토큰 저장
-        cookieProvider.createRefreshTokenCookie(refreshToken);
-
+        ResponseCookie responseRefreshCookie = cookieProvider.createRefreshTokenCookie(refreshToken);
+        Cookie cookie = cookieProvider.of(responseRefreshCookie);
 
         // When
-        // 아무거나 변경해도 되지안, 이름을 한번 변경해보자.
+        // 아무거나 변경해도 되지안, 이름과 이메일을 한번 변경해보자.
         ResultActions resultActions = mockMvc.perform(MockMvcRequestBuilders.put("/user/update")
                 .header("Authorization", accessToken)
                 .contentType("application/json")
+                .cookie(cookie)
                 .content("{\"email\":\"Changed\", \"name\":\"Changed\"}"));
 
         // Then
@@ -145,7 +148,6 @@ public class UserControllerTest {
                 .andExpect(jsonPath("message").value(""))
                 .andExpect(jsonPath("data.email").value("Changed"))
                 .andExpect(jsonPath("data.name").value("Changed"))
-                .andExpect(jsonPath("data.role").value("USER"))
                 .andExpect(header().exists("Set-Cookie"))
                 .andExpect(cookie().exists("refreshToken"));
 

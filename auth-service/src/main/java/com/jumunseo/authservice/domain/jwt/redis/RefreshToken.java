@@ -4,11 +4,12 @@ package com.jumunseo.authservice.domain.jwt.redis;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.redis.core.RedisHash;
 
 @NoArgsConstructor
-@RedisHash(value = "refreshToken") // 레디스에 저장될 해시 키
+@RedisHash(value = "refreshToken", timeToLive = 86400000) // 레디스에 저장될 해시 키
 @Getter
 public class RefreshToken {
 

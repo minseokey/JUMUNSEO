@@ -24,7 +24,7 @@ public class JwtController {
                                                     @CookieValue("refreshToken") String refreshToken) {
         // Access 재발급
         JwtTokenDto jwtTokenDto = refreshTokenService.refreshAccessJwtToken(accessToken,refreshToken);
-        // Refresh 재발급
+        // 쿠키 재발급
         ResponseCookie responseCookie = cookieProvider.createRefreshTokenCookie(refreshToken);
 
         return ResponseEntity.ok().header(HttpHeaders.SET_COOKIE, responseCookie.toString())
