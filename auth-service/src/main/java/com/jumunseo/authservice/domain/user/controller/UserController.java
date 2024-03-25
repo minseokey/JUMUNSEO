@@ -1,11 +1,17 @@
 package com.jumunseo.authservice.domain.user.controller;
 
+import com.jumunseo.authservice.domain.jwt.dto.JwtTokenDto;
+import com.jumunseo.authservice.domain.jwt.service.RefreshTokenService;
 import com.jumunseo.authservice.domain.user.dto.SignupDto;
+import com.jumunseo.authservice.domain.user.dto.UpdateDto;
 import com.jumunseo.authservice.domain.user.dto.UserDto;
 import com.jumunseo.authservice.global.dto.Result;
 import com.jumunseo.authservice.domain.user.service.UserService;
+import com.jumunseo.authservice.global.util.CookieProvider;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import jakarta.validation.Valid;
@@ -19,6 +25,7 @@ import java.util.Map;
 public class UserController {
 
     private final UserService userService;
+    private final CookieProvider cookieProvider;
 
     // 토큰으로 유저 정보 가져오기
     @GetMapping("/info")
@@ -47,9 +54,14 @@ public class UserController {
     // 토큰으로 유저 정보 수정
     @PutMapping("/update")
     public ResponseEntity<Result<?>> updateUserInfo(@RequestHeader("Authorization") String authorizationHeader,
+                                                    @CookieValue("refreshToken") String refreshToken,
                                                     @RequestBody Map<String,String> updateInfo) {
-        UserDto newUser = userService.updateUser(authorizationHeader, updateInfo);
-        return ResponseEntity.ok(Result.successResult(newUser));
+
+        UpdateDto updateDto = userService.updateUser(authorizationHeader, updateInfo);
+        ResponseCookie responseCookie = cookieProvider.createRefreshTokenCookie(updateDto.getRefreshToken());
+
+        return ResponseEntity.ok().header(HttpHeaders.SET_COOKIE, responseCookie.toString())
+                .body(Result.successResult(updateDto));
     }
 
     // 토큰으로 유저 정보 삭제
