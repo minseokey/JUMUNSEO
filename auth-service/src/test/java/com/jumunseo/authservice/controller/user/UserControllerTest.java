@@ -231,8 +231,35 @@ public class UserControllerTest {
 
     @Test
     @DisplayName("회원목록 조회 테스트")
+    @Transactional
     //Get Test
-    void getUserList() {
+    void getUserList() throws Exception {
+        // Given
+        // 토큰과 상관 없이 받아와야 한다. 유저 여러개 받아오기임으로 테스트 데이터 추가
+        setUp();
+        SignupDto testUser = new SignupDto();
+        testUser.setEmail("Test2");
+        testUser.setPassword("Test2");
+        testUser.setName("Test2");
+        userService.saveUser(testUser);
+
+        Long userId1 = userRepository.findByEmail("Test").get().getId();
+        Long userId2 = userRepository.findByEmail("Test2").get().getId();
+        // When
+        ResultActions resultActions = mockMvc.perform(MockMvcRequestBuilders.get(
+                "/user/info/users/" + userId1 + "," + userId2));
+
+        // Then
+        resultActions.andExpect(status().isOk())
+                .andExpect(jsonPath("code").value("SUCCESS"))
+                .andExpect(jsonPath("message").value(""))
+                .andExpect(jsonPath("data[0].email").value("Test"))
+                .andExpect(jsonPath("data[0].name").value("Test"))
+                .andExpect(jsonPath("data[0].role").value("USER"))
+                .andExpect(jsonPath("data[1].email").value("Test2"))
+                .andExpect(jsonPath("data[1].name").value("Test2"))
+                .andExpect(jsonPath("data[1].role").value("USER"));
+
     }
 
     @Test
