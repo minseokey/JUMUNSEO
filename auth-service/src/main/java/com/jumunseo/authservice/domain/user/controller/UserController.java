@@ -65,4 +65,7 @@ public class UserController {
         userService.saveUser(signupDto);
         return ResponseEntity.status(HttpStatus.CREATED).body(Result.successResult(null));
     }
+
+    // 이메일 중복 체크
+
 }
