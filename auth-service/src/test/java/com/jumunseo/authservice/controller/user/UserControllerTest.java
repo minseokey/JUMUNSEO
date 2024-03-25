@@ -192,14 +192,41 @@ public class UserControllerTest {
 
     @Test
     @DisplayName("회원정보 이메일 조회 테스트")
+    @Transactional
     //Get Test
-    void getUserInfoByEmail() {
+    void getUserInfoByEmail() throws Exception {
+        // Given
+        // 토큰과 상관 없이 이메일을 통해 받아와야 한다 (비회원으로 조회도 가능해야함)
+        setUp();
+        // When
+        ResultActions resultActions = mockMvc.perform(MockMvcRequestBuilders.get("/user/info/email/Test"));
+        // Then
+        resultActions.andExpect(status().isOk())
+                .andExpect(jsonPath("code").value("SUCCESS"))
+                .andExpect(jsonPath("message").value(""))
+                .andExpect(jsonPath("data.email").value("Test"))
+                .andExpect(jsonPath("data.name").value("Test"))
+                .andExpect(jsonPath("data.role").value("USER"));
     }
 
     @Test
     @DisplayName("회원정보 아이디 조회 테스트")
+    @Transactional
     //Get Test
-    void getUserInfoById() {
+    void getUserInfoById() throws Exception {
+        // Given
+        // 토큰과 상관 없이 아이디를 통해 받아와야 한다 (비회원으로 조회도 가능해야함)
+        setUp();
+        Long userId = userRepository.findByEmail("Test").get().getId();
+        // When
+        ResultActions resultActions = mockMvc.perform(MockMvcRequestBuilders.get("/user/info/" + userId));
+        // Then
+        resultActions.andExpect(status().isOk())
+                .andExpect(jsonPath("code").value("SUCCESS"))
+                .andExpect(jsonPath("message").value(""))
+                .andExpect(jsonPath("data.email").value("Test"))
+                .andExpect(jsonPath("data.name").value("Test"))
+                .andExpect(jsonPath("data.role").value("USER"));
     }
 
     @Test
