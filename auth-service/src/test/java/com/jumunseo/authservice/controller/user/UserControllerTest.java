@@ -17,8 +17,7 @@ import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.transaction.annotation.Transactional;
 
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -79,8 +78,24 @@ public class UserControllerTest {
 
     @Test
     @DisplayName("로그인 테스트")
+    @Transactional
     //Post Test
-    void signIn() {
+    void signIn() throws Exception {
+        // Given
+        setUp();
+        // When
+        // 인증과정은 패스
+        ResultActions resultActions = mockMvc.perform(MockMvcRequestBuilders.post("/login")
+                .contentType("application/json")
+                .content("{\"email\":\"Test\",\"password\":\"Test\"}"));
+        // Then
+        resultActions.andExpect(status().isOk())
+                .andExpect(jsonPath("code").value("SUCCESS"))
+                .andExpect(jsonPath("message").value(""))
+                .andExpect(jsonPath("data.accessToken").exists())
+                .andExpect(jsonPath("data.expiredTime").exists())
+                .andExpect(header().exists("Set-Cookie"))
+                .andExpect(cookie().exists("refreshToken"));
     }
 
     @Test
