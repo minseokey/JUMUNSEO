@@ -1,5 +1,6 @@
 package com.jumunseo.authservice.controller.user;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jumunseo.authservice.domain.user.controller.UserController;
 import com.jumunseo.authservice.domain.user.dto.SignupDto;
 import com.jumunseo.authservice.domain.user.service.UserService;
@@ -12,6 +13,12 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.ResultActions;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.transaction.annotation.Transactional;
+
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -45,9 +52,29 @@ public class UserControllerTest {
 
     @Test
     @DisplayName("회원가입 테스트")
+    @Transactional
     //Post Test
-    void signUp() {
+    void signUp() throws Exception{
+        // setUp 사용 안한다. 회원 가입하는것 자체가 테스트이기 때문에.
+        // Given
+        SignupDto testUser = new SignupDto();
+        testUser.setEmail("Test");
+        testUser.setPassword("Test");
+        testUser.setName("Test");
 
+        // When
+        ResultActions result = mockMvc.perform(MockMvcRequestBuilders.post("/user/signup")
+                .contentType("application/json")
+                .content(new ObjectMapper().writeValueAsString(testUser)));
+
+        // Then
+        result.andExpect(status().isCreated())
+                .andExpect(jsonPath("code").value("SUCCESS"))
+                .andExpect(jsonPath("message").value(""))
+                .andExpect(jsonPath("data").isEmpty());
+
+        // 유저 있는지 확인
+        assert userService.findUserByEmail("Test") != null;
     }
 
     @Test
