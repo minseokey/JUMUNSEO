@@ -4,13 +4,17 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jumunseo.authservice.domain.user.controller.UserController;
 import com.jumunseo.authservice.domain.user.dto.SignupDto;
 import com.jumunseo.authservice.domain.user.service.UserService;
+import com.jumunseo.authservice.global.util.CookieProvider;
 import com.jumunseo.authservice.global.util.JwtTokenProvider;
+import com.jumunseo.authservice.domain.jwt.service.RefreshTokenService;
+import jakarta.servlet.http.Cookie;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.ResponseCookie;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
@@ -31,6 +35,11 @@ public class UserControllerTest {
     private UserController userController;
     @Autowired
     private UserService userService;
+    @Autowired
+    private RefreshTokenService refreshTokenService;
+    @Autowired
+    private CookieProvider cookieProvider;
+
 
     void setUp() {
         // 테스트 세팅
@@ -100,8 +109,40 @@ public class UserControllerTest {
 
     @Test
     @DisplayName("회원정보 수정 테스트")
+    @Transactional
     //Put Test
-    void updateUserInfo() {
+    void updateUserInfo() throws Exception {
+        // Given
+        setUp();
+
+        // 토큰을 기반으로 수정, 토큰 가져와야함.
+        String accessToken = jwtTokenProvider.createAccessToken("Test", "USER");
+        String refreshToken = jwtTokenProvider.createRefreshToken();
+
+        // 인증절차 따라하기
+        refreshTokenService.updateRefreshToken("Test", jwtTokenProvider.getRefreshTokenId(refreshToken));
+
+        // 쿠키에 refresh 토큰 저장
+        cookieProvider.createRefreshTokenCookie(refreshToken);
+
+
+        // When
+        // 아무거나 변경해도 되지안, 이름을 한번 변경해보자.
+        ResultActions resultActions = mockMvc.perform(MockMvcRequestBuilders.put("/user/update")
+                .header("Authorization", accessToken)
+                .contentType("application/json")
+                .content("{\"name\":\"Changed\"}"));
+
+        // Then
+        // TODO: 이름 or 이메일 변경시 토큰 재발급 확인
+        resultActions.andExpect(status().isOk())
+                .andExpect(jsonPath("code").value("SUCCESS"))
+                .andExpect(jsonPath("message").value(""))
+                .andExpect(jsonPath("data.email").value("Test"))
+                .andExpect(jsonPath("data.name").value("Changed"))
+                .andExpect(jsonPath("data.role").value("USER"));
+
+        assert userService.findUserByEmail("Test").getName().equals("Changed");
     }
 
     @Test

@@ -66,6 +66,7 @@ public class UserServiceImpl implements UserService, UserDetailsService{
         return mapper.toDtoList(users);
     }
 
+    // TODO: 유저 이름 or 이메일이 변경되면, Refresh 토큰, Access 토큰 재발급
     @Override
     public UserDto updateUser(String token, Map<String, String> updateInfo) {
         try {
