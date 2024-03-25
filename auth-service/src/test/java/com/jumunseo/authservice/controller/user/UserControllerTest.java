@@ -3,18 +3,19 @@ package com.jumunseo.authservice.controller.user;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jumunseo.authservice.domain.user.controller.UserController;
 import com.jumunseo.authservice.domain.user.dto.SignupDto;
+import com.jumunseo.authservice.domain.user.exception.NotExistUserException;
+import com.jumunseo.authservice.domain.user.repository.UserRepository;
 import com.jumunseo.authservice.domain.user.service.UserService;
 import com.jumunseo.authservice.global.util.CookieProvider;
 import com.jumunseo.authservice.global.util.JwtTokenProvider;
 import com.jumunseo.authservice.domain.jwt.service.RefreshTokenService;
-import jakarta.servlet.http.Cookie;
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.http.ResponseCookie;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
@@ -33,6 +34,8 @@ public class UserControllerTest {
     private JwtTokenProvider jwtTokenProvider;
     @Autowired
     private UserController userController;
+    @Autowired
+    private UserRepository userRepository;
     @Autowired
     private UserService userService;
     @Autowired
@@ -53,8 +56,10 @@ public class UserControllerTest {
     @AfterEach
     void tearDown() {
         // 테스트 종료
-        if (userService.findUserByEmail("Test") != null) {
+        try{
             userService.deleteUserByEmail("Test");
+        }
+        catch (NotExistUserException ignored) {
         }
     }
 
@@ -147,8 +152,22 @@ public class UserControllerTest {
 
     @Test
     @DisplayName("회원탈퇴 테스트")
+    @Transactional
     //Delete Test
-    void deleteUser() {
+    void deleteUser() throws Exception {
+        // Given
+        setUp();
+        // When
+        ResultActions resultActions = mockMvc.perform(MockMvcRequestBuilders.delete("/user/delete")
+                .contentType("application/json")
+                .header("Authorization", jwtTokenProvider.createAccessToken("Test", "USER")));
+        // Then
+        resultActions.andExpect(status().isOk())
+                .andExpect(jsonPath("code").value("SUCCESS"))
+                .andExpect(jsonPath("message").value(""))
+                .andExpect(jsonPath("data").isEmpty());
+
+        Assertions.assertThrows(NotExistUserException.class,() -> userService.findUserByEmail("Test"));
     }
 
     @Test

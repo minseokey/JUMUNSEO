@@ -5,6 +5,7 @@ import com.jumunseo.authservice.domain.jwt.redis.RefreshTokenRedisRepository;
 import com.jumunseo.authservice.domain.jwt.service.RefreshTokenService;
 import com.jumunseo.authservice.domain.user.dto.SignupDto;
 import com.jumunseo.authservice.domain.user.dto.UserDto;
+import com.jumunseo.authservice.domain.user.exception.NotExistUserException;
 import com.jumunseo.authservice.domain.user.service.UserService;
 import com.jumunseo.authservice.global.dto.Code;
 import com.jumunseo.authservice.global.util.CookieProvider;
@@ -55,9 +56,11 @@ public class JwtControllerTest {
 
     @AfterEach
     void tearDown() {
-        // 테스트 종료, 유저 삭제도 있으니까 매번 지워주기
-        if (userService.findUserByEmail("Test") != null) {
+        // 테스트 종료
+        try{
             userService.deleteUserByEmail("Test");
+        }
+        catch (NotExistUserException ignored) {
         }
     }
 
