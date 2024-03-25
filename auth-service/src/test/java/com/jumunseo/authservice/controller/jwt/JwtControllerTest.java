@@ -1,15 +1,27 @@
 package com.jumunseo.authservice.controller.jwt;
 
 import com.jumunseo.authservice.domain.jwt.controller.JwtController;
+import com.jumunseo.authservice.domain.jwt.service.RefreshTokenService;
 import com.jumunseo.authservice.domain.user.dto.SignupDto;
+import com.jumunseo.authservice.domain.user.dto.UserDto;
 import com.jumunseo.authservice.domain.user.service.UserService;
+import com.jumunseo.authservice.global.dto.Code;
+import com.jumunseo.authservice.global.util.CookieProvider;
 import com.jumunseo.authservice.global.util.JwtTokenProvider;
+import jakarta.servlet.http.Cookie;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.ResponseCookie;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.ResultActions;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.transaction.annotation.Transactional;
+
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -23,6 +35,10 @@ public class JwtControllerTest {
     private JwtTokenProvider jwtTokenProvider;
     @Autowired
     private UserService userService;
+    @Autowired
+    private RefreshTokenService refreshTokenService;
+    @Autowired
+    private CookieProvider cookieProvider;
 
     @BeforeEach
     void setUp() {
@@ -36,7 +52,7 @@ public class JwtControllerTest {
 
     @AfterEach
     void tearDown() {
-        // 테스트 종료
+        // 테스트 종료, 유저 삭제도 있으니까 매번 지워주기
         if (userService.findUserByEmail("Test") != null) {
             userService.deleteUserByEmail("Test");
         }
@@ -44,10 +60,33 @@ public class JwtControllerTest {
 
     @Test
     @DisplayName("토큰 갱신 테스트")
+    @Transactional
     //Get Test
-    void refreshToken() {
+    void reissueToken() throws Exception {
+        UserDto testUser = userService.findUserByEmail("Test");
+        String accessToken = jwtTokenProvider.createAccessToken("Test", testUser.getRole().toString());
+        String refreshToken = jwtTokenProvider.createRefreshToken();
 
+        // 인증절차 따라하기
+        refreshTokenService.updateRefreshToken("Test", jwtTokenProvider.getRefreshTokenId(refreshToken));
 
+        // 쿠키에 refresh 토큰 저장
+        ResponseCookie responseRefreshCookie = cookieProvider.createRefreshTokenCookie(refreshToken);
+        Cookie cookie = cookieProvider.of(responseRefreshCookie);
+
+        ResultActions resultActions = mockMvc.perform(MockMvcRequestBuilders.get("/auth/reissue")
+                .cookie(cookie)
+                .header("Authorization", accessToken)
+                .contentType("application/json"));
+
+        resultActions.andExpect(status().isOk())
+                .andExpect(jsonPath("code").value(Code.SUCCESS.name()))
+                .andExpect(jsonPath("message").value(""))
+                .andExpect(jsonPath("data.accessToken").exists())
+                .andExpect(jsonPath("data.refreshToken").exists())
+                .andExpect(jsonPath("data.accessTokenExpiredDate").exists())
+                .andExpect(header().exists("Set-Cookie"))
+                .andExpect(cookie().exists("refreshToken"));
     }
 
     @Test
