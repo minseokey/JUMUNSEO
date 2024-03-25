@@ -172,8 +172,22 @@ public class UserControllerTest {
 
     @Test
     @DisplayName("회원정보 토큰 조회 테스트")
+    @Transactional
     //Get Test
-    void getUserInfoByToken() {
+    void getUserInfoByToken() throws Exception {
+        // Given
+        setUp();
+        String accessToken = jwtTokenProvider.createAccessToken("Test", "USER");
+        // When
+        ResultActions resultActions = mockMvc.perform(MockMvcRequestBuilders.get("/user/info")
+                .header("Authorization", accessToken));
+        // Then
+        resultActions.andExpect(status().isOk())
+                .andExpect(jsonPath("code").value("SUCCESS"))
+                .andExpect(jsonPath("message").value(""))
+                .andExpect(jsonPath("data.email").value("Test"))
+                .andExpect(jsonPath("data.name").value("Test"))
+                .andExpect(jsonPath("data.role").value("USER"));
     }
 
     @Test
