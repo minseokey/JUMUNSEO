@@ -79,5 +79,8 @@ public class UserController {
     }
 
     // 이메일 중복 체크
-
+    @GetMapping("/duplicate/{email}")
+    public ResponseEntity<Result<?>> checkDuplicateEmail(@PathVariable String email) {
+        return ResponseEntity.ok(Result.successResult(userService.duplicateEmailCheck(email)));
+    }
 }

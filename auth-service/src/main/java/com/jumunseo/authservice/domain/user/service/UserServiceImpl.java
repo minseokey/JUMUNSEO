@@ -7,6 +7,7 @@ import com.jumunseo.authservice.domain.user.dto.SignupDto;
 import com.jumunseo.authservice.domain.user.dto.UpdateDto;
 import com.jumunseo.authservice.domain.user.dto.UserDto;
 import com.jumunseo.authservice.domain.user.entity.User;
+import com.jumunseo.authservice.domain.user.exception.DuplicateEmailException;
 import com.jumunseo.authservice.domain.user.exception.NotExistUserException;
 import com.jumunseo.authservice.domain.user.repository.UserRepository;
 import com.jumunseo.authservice.global.util.JwtTokenProvider;
@@ -46,7 +47,10 @@ public class UserServiceImpl implements UserService, UserDetailsService{
 
 
     @Override
-    public void saveUser(SignupDto signupDto) {
+    public void saveUser(SignupDto signupDto) throws DuplicateEmailException {
+        if(userRepository.findByEmail(signupDto.getEmail()).isPresent()) {
+            throw new DuplicateEmailException("Email already exists");
+        }
         userRepository.save(mapper.toEntity(signupDto));
     }
 
@@ -139,5 +143,9 @@ public class UserServiceImpl implements UserService, UserDetailsService{
                 .password(user.getPassword())
                 .authorities(authority)
                 .build();
+    }
+    @Override
+    public boolean duplicateEmailCheck(String email) {
+        return userRepository.findByEmail(email).isPresent();
     }
 }
