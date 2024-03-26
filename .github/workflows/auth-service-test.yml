@@ -1,4 +1,4 @@
-name: auth-server test and deploy
+name: auth-server test
 
 on:
   pull_request:
@@ -10,7 +10,6 @@ env:
   working-directory: ./auth-server
 
 jobs:
-
   test:
     name: Build
     runs-on: ubuntu-latest
