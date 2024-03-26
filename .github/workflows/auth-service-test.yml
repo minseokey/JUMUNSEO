@@ -1,13 +1,20 @@
 name: auth-server test
 
+# back-dev, back 하위 브랜치에 풀리퀘, 푸시가 일어날때 auth-server 하위에 변경이 있다면 실행.
 on:
   pull_request:
-    branches: [ "back-dev" ]
+    branches: 
+    - back-dev
+    - back/*
+    paths: 'auth-service/**'
   push:
-    branches: [ "back-dev" ]
+    branches: 
+    - back-dev
+    - back/*
+    paths: 'auth-service/**'
     
 env:
-  working-directory: ./auth-server
+  working-directory: ./auth-service
 
 jobs:
   test:
@@ -39,3 +46,10 @@ jobs:
     - name: Test with gradle
       run: ./gradlew test
       working-directory: ${{ env.working-directory }}
+
+    # 테스트 결과를 PR에 코멘트로 등록합니다
+    - name: Add Test Comment 
+      uses: EnricoMi/publish-unit-test-result-action@v1
+      if: always()
+      with:
+        files: '**/build/test-results/test/TEST-*.xml'
