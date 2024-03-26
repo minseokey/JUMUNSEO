@@ -273,7 +273,25 @@ public class UserControllerTest {
 
     @Test
     @DisplayName("아이디 중복 테스트")
+    @Transactional
     //Get Test
-    void checkDuplicateId() {
+    void checkDuplicateId() throws Exception {
+        //Given
+        setUp();
+        // When
+        ResultActions resultActions = mockMvc.perform(MockMvcRequestBuilders.get("/user/duplicate/Test"));
+        // Then
+        resultActions.andExpect(status().isOk())
+                .andExpect(jsonPath("code").value("SUCCESS"))
+                .andExpect(jsonPath("message").value(""))
+                .andExpect(jsonPath("data").value("true"));
+
+        // When
+        ResultActions resultActions2 = mockMvc.perform(MockMvcRequestBuilders.get("/user/duplicate/NotTest"));
+        // Then
+        resultActions2.andExpect(status().isOk())
+                .andExpect(jsonPath("code").value("SUCCESS"))
+                .andExpect(jsonPath("message").value(""))
+                .andExpect(jsonPath("data").value("false"));
     }
 }
