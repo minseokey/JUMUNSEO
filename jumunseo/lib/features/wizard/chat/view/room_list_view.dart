@@ -1,9 +1,11 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:jumunseo/config/theme/app_color.dart';
+import 'package:jumunseo/data/repository/wizard_repository.dart';
+import 'package:jumunseo/features/wizard/chat/parsing/chat_parser.dart';
 import 'package:jumunseo/features/wizard/chat/view/gradient_button.dart';
 import 'package:jumunseo/features/wizard/chat/view/room_list_select.dart';
-import 'package:jumunseo/shared/room_information.dart';
 
 import '../cubit/wizard_cubit.dart';
 
@@ -15,8 +17,14 @@ class RoomListView extends StatefulWidget{
 }
 
 class _RoomListViewState extends State<RoomListView> {
-  List<RoomInfo> infos = [const RoomInfo("카테고리", "assets/images/categories/1.png", "제목", "내용"),
-                          const RoomInfo("카테고리", "assets/images/categories/1.png", "제목", "내용"),];
+  late WizardRepository repo;
+  Dio dio = Dio();
+
+  @override
+  void initState() {
+    super.initState();
+    repo = WizardRepository(dio);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -44,13 +52,27 @@ class _RoomListViewState extends State<RoomListView> {
           Expanded(
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 30),
-              child: ListView(
-                padding: const EdgeInsets.symmetric(vertical: 19.0),
-                clipBehavior: Clip.none,
-                shrinkWrap: true,
-                children: List.generate(infos.length, (index) {
-                  return Room(infos[index]);
-                })
+              child: FutureBuilder(
+                future: repo.getRooms("sangrok"),
+                initialData: [],
+                builder: (_, AsyncSnapshot snapshot) {
+                  if(snapshot.connectionState == ConnectionState.waiting) {
+                    return const Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  }
+
+                  ChatParser chats = snapshot.data;
+
+                  return ListView(
+                    padding: const EdgeInsets.symmetric(vertical: 19.0),
+                    clipBehavior: Clip.none,
+                    shrinkWrap: true,
+                    children: List.generate(chats.chats.length, (index) {
+                      return Room(chats.chats[index]);
+                    })
+                  );
+                },
               ),
             ),
           ),
