@@ -19,10 +19,15 @@ jobs:
 
     # 파이썬 환경설정
     - name: Setup Python
-      uses: setup-python@5
+      uses: action/setup-python@5
       with:
         python-version: 3.11.8
 
+    # 테스트 환경설정
+    - name: Setup Test inv
+      run: docker-compose -f magician-test-docker-compose.yml up
+      working-directory: ${{ env.working-directory }}
+      
     # requirements 다운
     - name: Install requirements.txt
       run: pip install -r requirements.txt
