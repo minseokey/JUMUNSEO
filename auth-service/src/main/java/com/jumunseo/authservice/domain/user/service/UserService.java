@@ -18,4 +18,5 @@ public interface UserService {
     UpdateDto updateUser(String token, Map<String,String> updateInfo);
     void deleteUser(String token);
     void deleteUserByEmail(String email);
+    boolean duplicateEmailCheck(String email);
 }

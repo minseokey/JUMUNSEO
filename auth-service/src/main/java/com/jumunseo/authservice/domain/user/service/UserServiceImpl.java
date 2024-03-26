@@ -144,4 +144,8 @@ public class UserServiceImpl implements UserService, UserDetailsService{
                 .authorities(authority)
                 .build();
     }
+    @Override
+    public boolean duplicateEmailCheck(String email) {
+        return userRepository.findByEmail(email).isPresent();
+    }
 }
