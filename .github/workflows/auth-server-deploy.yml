@@ -1,0 +1,61 @@
+# This is a basic workflow to help you get started with Actions
+
+name: auth-server test and deploy
+
+on:
+  pull_request:
+    branches: [ "main" ]
+env:
+  working-directory: ./auth-server
+  image-name: auth-server
+
+jobs:
+
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+
+    # 자바 17 환경설정
+    - name: Setup Java17
+      uses: action/setup-java@4.2.1
+      with:
+        java-version: 17
+
+    # 테스트 환경설정
+    - name: Setup Test inv
+      run: docker-compose -f auth-service-env-docker-compose.yml up
+      working-directory: ${{ env.working-directory }}
+    
+    # Gradle 실행권한 부여
+    - name: Grant execute permission to gradlew
+      run: chmod +x ./gradlew
+      working-directory: ${{ env.working-directory }}
+
+    # Spring boot application 빌드 + 테스트 실행
+    - name: Build with gradle
+      run: ./gradlew clean build
+      working-directory: ${{ env.working-directory }}
+
+  deploy:
+    name: Deploy
+    runs-on: ubuntu-lastest
+    steps:
+    # docker image 빌드
+    - name: Build docker image
+      run: docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/$image-name .
+      working-directory: ${{ env.working-directory }}
+      
+    # docker hub 로그인
+    - name: Login docker hub
+      uses: docker/login-action@v2
+      with:
+        username: ${{ secrets.DOCKERHUB_USERNAME }}
+        password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+    # docker hub 퍼블리시
+    - name: Publish to docker hub
+      run: docker push ${{ secrets.DOCKERHUB_USERNAME }}/$image-name
+    
+
+    
