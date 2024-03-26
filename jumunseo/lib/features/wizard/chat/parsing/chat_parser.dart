@@ -1,14 +1,14 @@
 import 'package:jumunseo/features/wizard/chat/parsing/room_parser.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 
-class ChatParser {
-  final List<RoomParser> chats;
+part 'chat_parser.g.dart';
+part 'chat_parser.freezed.dart';
 
-  ChatParser(
-      {required this.chats});
+@freezed
+class ChatParser with _$ChatParser{
+  factory ChatParser(
+      {required List<RoomParser> chats}) = _ChatParser;
 
-  factory ChatParser.fromJson(Map<String, dynamic> json) {
-    return ChatParser(
-      chats: json["chats"],
-    );
-  }
+  factory ChatParser.fromJson(Map<String, dynamic> json) =>
+    _$ChatParserFromJson(json);
 }

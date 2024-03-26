@@ -1,15 +1,14 @@
-class ConversationParser {
-  final String userMessage;
-  final String botResponse;
+import 'package:freezed_annotation/freezed_annotation.dart';
 
-  ConversationParser(
-      {required this.userMessage,
-      required this.botResponse});
+part 'conversation_parser.g.dart';
+part 'conversation_parser.freezed.dart';
 
-  factory ConversationParser.fromJson(Map<String, dynamic> json) {
-    return ConversationParser(
-      userMessage: json["user_message"],
-      botResponse: json["bot_response"],
-    );
-  }
+@freezed
+class ConversationParser with _$ConversationParser{
+  factory ConversationParser(
+      {required String userMessage,
+      required String botResponse}) = _ConversationParser;
+
+  factory ConversationParser.fromJson(Map<String, dynamic> json) =>
+    _$ConversationParserFromJson(json);
 }

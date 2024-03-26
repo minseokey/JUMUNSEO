@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:jumunseo/core/blank.dart';
-import 'package:jumunseo/shared/room_information.dart';
+import 'package:jumunseo/features/wizard/chat/parsing/room_parser.dart';
 
 class Room extends StatelessWidget {
-  final RoomInfo info;
+  final RoomParser info;
 
   const Room(
     this.info,
@@ -32,19 +32,19 @@ class Room extends StatelessWidget {
             padding: const EdgeInsets.all(15.0),
             child: Row(
               children: [
-                CircleAvatar(backgroundImage: AssetImage(info.imageName), radius: 25.0,),
+                const CircleAvatar(backgroundImage: AssetImage('assets/images/categories/1.png'), radius: 25.0,),
                 const Blank(10, 0),
-                Text(info.category, style: const TextStyle(fontSize: 12.0),)
+                Text("카테고리", style: const TextStyle(fontSize: 12.0),)
               ]
             ),
           ),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 22, vertical: 12),
-            child: Text(info.title, style: const TextStyle(color: Colors.black, fontSize: 20.0, fontWeight: FontWeight.bold),),
+            child: Text(info.roomId, style: const TextStyle(color: Colors.black, fontSize: 20.0, fontWeight: FontWeight.bold),),
           ),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 22, vertical: 12),
-            child: Text(info.content, style: const TextStyle(color: Colors.black, fontSize: 15.0),),
+            child: Text(info.addedPrompt, style: const TextStyle(color: Colors.black, fontSize: 15.0),),
           ),
       ],),
     );
