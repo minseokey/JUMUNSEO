@@ -36,7 +36,7 @@ jobs:
 
     # 테스트 환경설정
     - name: Setup Test inv
-      run: docker-compose -f magician-test-docker-compose.yml up
+      run: docker-compose -f magician-test-docker-compose.yml up -d
       working-directory: ${{ env.working-directory }}
       
     # requirements 다운
