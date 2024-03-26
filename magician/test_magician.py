@@ -5,7 +5,12 @@ import motor.motor_asyncio
 import asyncio
 import os
 
-MONGO_URI = os.getenv("MONGO_URI")
+MAGICIAN_MONGO_USERNAME = os.getenv("MAGICIAN_MONGO_USERNAME")
+MAGICIAN_MONGO_PASSWORD = os.getenv("MAGICIAN_MONGO_PASSWORD")
+MAGICIAN_MONGO_PORT = os.getenv("MAGICIAN_MONGO_PORT")
+MAGICIAN_MONGO_HOST = os.getenv("MAGICIAN_MONGO_HOST")
+db_name = "chat_db"
+MONGO_URI = f"mongodb://{MAGICIAN_MONGO_USERNAME}:{MAGICIAN_MONGO_PASSWORD}@{MAGICIAN_MONGO_HOST}:{MAGICIAN_MONGO_PORT}/{db_name}?authSource=admin"
 
 
 @pytest.fixture(scope="module")
