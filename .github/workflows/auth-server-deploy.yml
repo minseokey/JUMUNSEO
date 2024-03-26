@@ -5,9 +5,20 @@ name: auth-server test and deploy
 on:
   pull_request:
     branches: [ "main" ]
+
+# 환경변수 주입
 env:
   working-directory: ./auth-server
   image-name: auth-server
+  AUTH_POSTGRES_HOST: ${{ secrets.AUTH_POSTGRES_HOST }}
+  AUTH_POSTGRES_PORT: ${{ secrets.AUTH_POSTGRES_PORT }}
+  AUTH_POSTGRES_USER: ${{ secrets.AUTH_POSTGRES_USER }}
+  AUTH_POSTGRES_PASSWORD: ${{ secrets.AUTH_POSTGRES_PASSWORD }}
+  AUTH_REDIS_PORT: ${{ secrets.AUTH_REDIS_PORT }}
+  AUTH_REDIS_HOST: ${{ secrets.AUTH_REDIS_HOST }}
+  JWT_SECRET: ${{ secrets.JWT_SECRET }}
+  ACCESS_EXPIRATION: ${{ secrets.ACCESS_EXPIRATION }}
+  REFRESH_EXPIRATION: ${{ secrets.REFRESH_EXPIRATION }}
 
 jobs:
 
@@ -19,6 +30,7 @@ jobs:
     # 체크아웃
     - name: Checkout Source
       uses: action/checkout@4.1.2
+      
       
     # 자바 17 환경설정
     - name: Setup Java17
