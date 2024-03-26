@@ -2,15 +2,26 @@ name: magician-server test
 
 on:
   pull_request:
-    branches: ["back-dev"]
+    branches: 
+    - back-dev
+    - back/*
+    paths: 'magician/**'
   push:
-    branches: ["back-dev"]
+    branches: 
+    - back-dev
+    - back/*
+    paths: 'magician/**'
 env:
   working-directory: ./magician
+  MAGICIAN_MONGO_HOST: 127.0.0.1
+  MAGICIAN_MONGO_PASSWORD: 1234
+  MAGICIAN_MONGO_PORT: 6379
+  MAGICIAN_MONGO_USERNAME: root
+  OPENAI_KEY: ${{ secret.OPENAI_KEY }}
 
 jobs:
   test:
-    name: Build
+    name: Test
     runs-on: ubuntu-latest
     steps:
     # 체크아웃
@@ -33,5 +44,7 @@ jobs:
       run: pip install -r requirements.txt
 
     # 테스트 실행
-    - name: Init Pytest
-      run: pytest
+    - name: Test with pytest
+      run: | 
+        pip install pytest pytest-cov
+        pytest tests.py --doctest-modules --junitxml=junit/test-results.xml --cov=com --cov-report=xml --cov-report=html
