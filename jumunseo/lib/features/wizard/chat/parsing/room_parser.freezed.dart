@@ -21,10 +21,10 @@ RoomParser _$RoomParserFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$RoomParser {
   String get id => throw _privateConstructorUsedError;
-  String get startTime => throw _privateConstructorUsedError;
-  String get userId => throw _privateConstructorUsedError;
-  String get roomId => throw _privateConstructorUsedError;
-  String get addedPrompt => throw _privateConstructorUsedError;
+  String get start_time => throw _privateConstructorUsedError;
+  String get user_id => throw _privateConstructorUsedError;
+  String get room_id => throw _privateConstructorUsedError;
+  String get added_prompt => throw _privateConstructorUsedError;
   List<ConversationParser> get conversation =>
       throw _privateConstructorUsedError;
 
@@ -42,10 +42,10 @@ abstract class $RoomParserCopyWith<$Res> {
   @useResult
   $Res call(
       {String id,
-      String startTime,
-      String userId,
-      String roomId,
-      String addedPrompt,
+      String start_time,
+      String user_id,
+      String room_id,
+      String added_prompt,
       List<ConversationParser> conversation});
 }
 
@@ -63,10 +63,10 @@ class _$RoomParserCopyWithImpl<$Res, $Val extends RoomParser>
   @override
   $Res call({
     Object? id = null,
-    Object? startTime = null,
-    Object? userId = null,
-    Object? roomId = null,
-    Object? addedPrompt = null,
+    Object? start_time = null,
+    Object? user_id = null,
+    Object? room_id = null,
+    Object? added_prompt = null,
     Object? conversation = null,
   }) {
     return _then(_value.copyWith(
@@ -74,21 +74,21 @@ class _$RoomParserCopyWithImpl<$Res, $Val extends RoomParser>
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
               as String,
-      startTime: null == startTime
-          ? _value.startTime
-          : startTime // ignore: cast_nullable_to_non_nullable
+      start_time: null == start_time
+          ? _value.start_time
+          : start_time // ignore: cast_nullable_to_non_nullable
               as String,
-      userId: null == userId
-          ? _value.userId
-          : userId // ignore: cast_nullable_to_non_nullable
+      user_id: null == user_id
+          ? _value.user_id
+          : user_id // ignore: cast_nullable_to_non_nullable
               as String,
-      roomId: null == roomId
-          ? _value.roomId
-          : roomId // ignore: cast_nullable_to_non_nullable
+      room_id: null == room_id
+          ? _value.room_id
+          : room_id // ignore: cast_nullable_to_non_nullable
               as String,
-      addedPrompt: null == addedPrompt
-          ? _value.addedPrompt
-          : addedPrompt // ignore: cast_nullable_to_non_nullable
+      added_prompt: null == added_prompt
+          ? _value.added_prompt
+          : added_prompt // ignore: cast_nullable_to_non_nullable
               as String,
       conversation: null == conversation
           ? _value.conversation
@@ -108,10 +108,10 @@ abstract class _$$RoomParserImplCopyWith<$Res>
   @useResult
   $Res call(
       {String id,
-      String startTime,
-      String userId,
-      String roomId,
-      String addedPrompt,
+      String start_time,
+      String user_id,
+      String room_id,
+      String added_prompt,
       List<ConversationParser> conversation});
 }
 
@@ -127,10 +127,10 @@ class __$$RoomParserImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? id = null,
-    Object? startTime = null,
-    Object? userId = null,
-    Object? roomId = null,
-    Object? addedPrompt = null,
+    Object? start_time = null,
+    Object? user_id = null,
+    Object? room_id = null,
+    Object? added_prompt = null,
     Object? conversation = null,
   }) {
     return _then(_$RoomParserImpl(
@@ -138,21 +138,21 @@ class __$$RoomParserImplCopyWithImpl<$Res>
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
               as String,
-      startTime: null == startTime
-          ? _value.startTime
-          : startTime // ignore: cast_nullable_to_non_nullable
+      start_time: null == start_time
+          ? _value.start_time
+          : start_time // ignore: cast_nullable_to_non_nullable
               as String,
-      userId: null == userId
-          ? _value.userId
-          : userId // ignore: cast_nullable_to_non_nullable
+      user_id: null == user_id
+          ? _value.user_id
+          : user_id // ignore: cast_nullable_to_non_nullable
               as String,
-      roomId: null == roomId
-          ? _value.roomId
-          : roomId // ignore: cast_nullable_to_non_nullable
+      room_id: null == room_id
+          ? _value.room_id
+          : room_id // ignore: cast_nullable_to_non_nullable
               as String,
-      addedPrompt: null == addedPrompt
-          ? _value.addedPrompt
-          : addedPrompt // ignore: cast_nullable_to_non_nullable
+      added_prompt: null == added_prompt
+          ? _value.added_prompt
+          : added_prompt // ignore: cast_nullable_to_non_nullable
               as String,
       conversation: null == conversation
           ? _value._conversation
@@ -167,10 +167,10 @@ class __$$RoomParserImplCopyWithImpl<$Res>
 class _$RoomParserImpl implements _RoomParser {
   _$RoomParserImpl(
       {required this.id,
-      required this.startTime,
-      required this.userId,
-      required this.roomId,
-      required this.addedPrompt,
+      required this.start_time,
+      required this.user_id,
+      required this.room_id,
+      required this.added_prompt,
       required final List<ConversationParser> conversation})
       : _conversation = conversation;
 
@@ -180,13 +180,13 @@ class _$RoomParserImpl implements _RoomParser {
   @override
   final String id;
   @override
-  final String startTime;
+  final String start_time;
   @override
-  final String userId;
+  final String user_id;
   @override
-  final String roomId;
+  final String room_id;
   @override
-  final String addedPrompt;
+  final String added_prompt;
   final List<ConversationParser> _conversation;
   @override
   List<ConversationParser> get conversation {
@@ -197,7 +197,7 @@ class _$RoomParserImpl implements _RoomParser {
 
   @override
   String toString() {
-    return 'RoomParser(id: $id, startTime: $startTime, userId: $userId, roomId: $roomId, addedPrompt: $addedPrompt, conversation: $conversation)';
+    return 'RoomParser(_id: $id, start_time: $start_time, user_id: $user_id, room_id: $room_id, added_prompt: $added_prompt, conversation: $conversation)';
   }
 
   @override
@@ -206,20 +206,20 @@ class _$RoomParserImpl implements _RoomParser {
         (other.runtimeType == runtimeType &&
             other is _$RoomParserImpl &&
             (identical(other.id, id) || other.id == id) &&
-            (identical(other.startTime, startTime) ||
-                other.startTime == startTime) &&
-            (identical(other.userId, userId) || other.userId == userId) &&
-            (identical(other.roomId, roomId) || other.roomId == roomId) &&
-            (identical(other.addedPrompt, addedPrompt) ||
-                other.addedPrompt == addedPrompt) &&
+            (identical(other.start_time, start_time) ||
+                other.start_time == start_time) &&
+            (identical(other.user_id, user_id) || other.user_id == user_id) &&
+            (identical(other.room_id, room_id) || other.room_id == room_id) &&
+            (identical(other.added_prompt, added_prompt) ||
+                other.added_prompt == added_prompt) &&
             const DeepCollectionEquality()
                 .equals(other._conversation, _conversation));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, id, startTime, userId, roomId,
-      addedPrompt, const DeepCollectionEquality().hash(_conversation));
+  int get hashCode => Object.hash(runtimeType, id, start_time, user_id, room_id,
+      added_prompt, const DeepCollectionEquality().hash(_conversation));
 
   @JsonKey(ignore: true)
   @override
@@ -238,10 +238,10 @@ class _$RoomParserImpl implements _RoomParser {
 abstract class _RoomParser implements RoomParser {
   factory _RoomParser(
       {required final String id,
-      required final String startTime,
-      required final String userId,
-      required final String roomId,
-      required final String addedPrompt,
+      required final String start_time,
+      required final String user_id,
+      required final String room_id,
+      required final String added_prompt,
       required final List<ConversationParser> conversation}) = _$RoomParserImpl;
 
   factory _RoomParser.fromJson(Map<String, dynamic> json) =
@@ -250,13 +250,13 @@ abstract class _RoomParser implements RoomParser {
   @override
   String get id;
   @override
-  String get startTime;
+  String get start_time;
   @override
-  String get userId;
+  String get user_id;
   @override
-  String get roomId;
+  String get room_id;
   @override
-  String get addedPrompt;
+  String get added_prompt;
   @override
   List<ConversationParser> get conversation;
   @override

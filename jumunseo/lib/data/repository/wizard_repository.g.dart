@@ -13,7 +13,7 @@ class _WizardRepository implements WizardRepository {
     this._dio, {
     this.baseUrl,
   }) {
-    baseUrl ??= 'http://10.0.0.2:8080';
+    baseUrl ??= 'http://10.0.2.2:8000';
   }
 
   final Dio _dio;
@@ -34,7 +34,7 @@ class _WizardRepository implements WizardRepository {
     )
             .compose(
               _dio.options,
-              '/chat.list/${userId}',
+              '/chat/list/${userId}',
               queryParameters: queryParameters,
               data: _data,
             )

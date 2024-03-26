@@ -9,13 +9,13 @@ part of 'conversation_parser.dart';
 _$ConversationParserImpl _$$ConversationParserImplFromJson(
         Map<String, dynamic> json) =>
     _$ConversationParserImpl(
-      userMessage: json['userMessage'] as String,
-      botResponse: json['botResponse'] as String,
+      user_message: json['user_message'] as String,
+      bot_response: json['bot_response'] as String,
     );
 
 Map<String, dynamic> _$$ConversationParserImplToJson(
         _$ConversationParserImpl instance) =>
     <String, dynamic>{
-      'userMessage': instance.userMessage,
-      'botResponse': instance.botResponse,
+      'user_message': instance.user_message,
+      'bot_response': instance.bot_response,
     };

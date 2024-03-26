@@ -6,8 +6,8 @@ part 'conversation_parser.freezed.dart';
 @freezed
 class ConversationParser with _$ConversationParser{
   factory ConversationParser(
-      {required String userMessage,
-      required String botResponse}) = _ConversationParser;
+      {required String user_message,
+      required String bot_response}) = _ConversationParser;
 
   factory ConversationParser.fromJson(Map<String, dynamic> json) =>
     _$ConversationParserFromJson(json);

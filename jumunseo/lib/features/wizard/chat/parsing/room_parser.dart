@@ -8,10 +8,10 @@ part 'room_parser.freezed.dart';
 class RoomParser with _$RoomParser{
   factory RoomParser(
       {required String id,
-      required String startTime,
-      required String userId,
-      required String roomId,
-      required String addedPrompt,
+      required String start_time,
+      required String user_id,
+      required String room_id,
+      required String added_prompt,
       required List<ConversationParser> conversation}) = _RoomParser;
 
   factory RoomParser.fromJson(Map<String, dynamic> json) =>

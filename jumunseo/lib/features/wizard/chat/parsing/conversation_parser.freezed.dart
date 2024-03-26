@@ -20,8 +20,8 @@ ConversationParser _$ConversationParserFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$ConversationParser {
-  String get userMessage => throw _privateConstructorUsedError;
-  String get botResponse => throw _privateConstructorUsedError;
+  String get user_message => throw _privateConstructorUsedError;
+  String get bot_response => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -35,7 +35,7 @@ abstract class $ConversationParserCopyWith<$Res> {
           ConversationParser value, $Res Function(ConversationParser) then) =
       _$ConversationParserCopyWithImpl<$Res, ConversationParser>;
   @useResult
-  $Res call({String userMessage, String botResponse});
+  $Res call({String user_message, String bot_response});
 }
 
 /// @nodoc
@@ -51,17 +51,17 @@ class _$ConversationParserCopyWithImpl<$Res, $Val extends ConversationParser>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? userMessage = null,
-    Object? botResponse = null,
+    Object? user_message = null,
+    Object? bot_response = null,
   }) {
     return _then(_value.copyWith(
-      userMessage: null == userMessage
-          ? _value.userMessage
-          : userMessage // ignore: cast_nullable_to_non_nullable
+      user_message: null == user_message
+          ? _value.user_message
+          : user_message // ignore: cast_nullable_to_non_nullable
               as String,
-      botResponse: null == botResponse
-          ? _value.botResponse
-          : botResponse // ignore: cast_nullable_to_non_nullable
+      bot_response: null == bot_response
+          ? _value.bot_response
+          : bot_response // ignore: cast_nullable_to_non_nullable
               as String,
     ) as $Val);
   }
@@ -75,7 +75,7 @@ abstract class _$$ConversationParserImplCopyWith<$Res>
       __$$ConversationParserImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String userMessage, String botResponse});
+  $Res call({String user_message, String bot_response});
 }
 
 /// @nodoc
@@ -89,17 +89,17 @@ class __$$ConversationParserImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? userMessage = null,
-    Object? botResponse = null,
+    Object? user_message = null,
+    Object? bot_response = null,
   }) {
     return _then(_$ConversationParserImpl(
-      userMessage: null == userMessage
-          ? _value.userMessage
-          : userMessage // ignore: cast_nullable_to_non_nullable
+      user_message: null == user_message
+          ? _value.user_message
+          : user_message // ignore: cast_nullable_to_non_nullable
               as String,
-      botResponse: null == botResponse
-          ? _value.botResponse
-          : botResponse // ignore: cast_nullable_to_non_nullable
+      bot_response: null == bot_response
+          ? _value.bot_response
+          : bot_response // ignore: cast_nullable_to_non_nullable
               as String,
     ));
   }
@@ -109,19 +109,19 @@ class __$$ConversationParserImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$ConversationParserImpl implements _ConversationParser {
   _$ConversationParserImpl(
-      {required this.userMessage, required this.botResponse});
+      {required this.user_message, required this.bot_response});
 
   factory _$ConversationParserImpl.fromJson(Map<String, dynamic> json) =>
       _$$ConversationParserImplFromJson(json);
 
   @override
-  final String userMessage;
+  final String user_message;
   @override
-  final String botResponse;
+  final String bot_response;
 
   @override
   String toString() {
-    return 'ConversationParser(userMessage: $userMessage, botResponse: $botResponse)';
+    return 'ConversationParser(user_message: $user_message, bot_response: $bot_response)';
   }
 
   @override
@@ -129,15 +129,15 @@ class _$ConversationParserImpl implements _ConversationParser {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$ConversationParserImpl &&
-            (identical(other.userMessage, userMessage) ||
-                other.userMessage == userMessage) &&
-            (identical(other.botResponse, botResponse) ||
-                other.botResponse == botResponse));
+            (identical(other.user_message, user_message) ||
+                other.user_message == user_message) &&
+            (identical(other.bot_response, bot_response) ||
+                other.bot_response == bot_response));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, userMessage, botResponse);
+  int get hashCode => Object.hash(runtimeType, user_message, bot_response);
 
   @JsonKey(ignore: true)
   @override
@@ -156,16 +156,16 @@ class _$ConversationParserImpl implements _ConversationParser {
 
 abstract class _ConversationParser implements ConversationParser {
   factory _ConversationParser(
-      {required final String userMessage,
-      required final String botResponse}) = _$ConversationParserImpl;
+      {required final String user_message,
+      required final String bot_response}) = _$ConversationParserImpl;
 
   factory _ConversationParser.fromJson(Map<String, dynamic> json) =
       _$ConversationParserImpl.fromJson;
 
   @override
-  String get userMessage;
+  String get user_message;
   @override
-  String get botResponse;
+  String get bot_response;
   @override
   @JsonKey(ignore: true)
   _$$ConversationParserImplCopyWith<_$ConversationParserImpl> get copyWith =>

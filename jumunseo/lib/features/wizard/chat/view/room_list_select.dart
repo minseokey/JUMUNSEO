@@ -40,11 +40,11 @@ class Room extends StatelessWidget {
           ),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 22, vertical: 12),
-            child: Text(info.roomId, style: const TextStyle(color: Colors.black, fontSize: 20.0, fontWeight: FontWeight.bold),),
+            child: Text(info.room_id, style: const TextStyle(color: Colors.black, fontSize: 20.0, fontWeight: FontWeight.bold),),
           ),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 22, vertical: 12),
-            child: Text(info.addedPrompt, style: const TextStyle(color: Colors.black, fontSize: 15.0),),
+            child: Text(info.added_prompt, style: const TextStyle(color: Colors.black, fontSize: 15.0),),
           ),
       ],),
     );
