@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:jumunseo/core/blank.dart';
-import 'package:jumunseo/features/wizard/chat/parsing/room_parser.dart';
+import 'package:jumunseo/model/wizard/room_model.dart';
 
 class Room extends StatelessWidget {
   final RoomParser info;

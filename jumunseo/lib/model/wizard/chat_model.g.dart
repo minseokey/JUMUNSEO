@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'chat_parser.dart';
+part of 'chat_model.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator

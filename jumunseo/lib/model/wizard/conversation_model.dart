@@ -1,7 +1,7 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-part 'conversation_parser.g.dart';
-part 'conversation_parser.freezed.dart';
+part 'conversation_model.g.dart';
+part 'conversation_model.freezed.dart';
 
 @freezed
 class ConversationParser with _$ConversationParser{

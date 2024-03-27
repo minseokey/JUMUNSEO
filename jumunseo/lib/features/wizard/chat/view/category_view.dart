@@ -57,18 +57,25 @@ class _CategoryViewState extends State<CategoryView> {
           Expanded(
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 24),
-              child: GridView(
+              child: GridView.builder(
+                itemCount: images.length,
                 clipBehavior: Clip.none,
                 shrinkWrap: true,
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                   mainAxisSpacing: 12.0, crossAxisCount: 2, crossAxisSpacing: 12.0, childAspectRatio: (158 / 90),
                 ),
-                children: List.generate(images.length, (index) {
-                  return Category(images[index], names[index]);
+                itemBuilder: (BuildContext context, int index) {
+                  return GestureDetector(
+                    onTapUp: (details) {
+                      setState(() {
+                        context.read<WizardCubit>().setCateogry(names[index]);
+                      });
+                    },
+                    child: Category(images[index], names[index])
+                  );
                 })
               ),
             ),
-          ),
           Column(
             children: [
               Padding(

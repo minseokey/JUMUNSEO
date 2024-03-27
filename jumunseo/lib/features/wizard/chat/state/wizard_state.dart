@@ -13,4 +13,8 @@ class WizardState{
       io.OptionBuilder()
           .setTransports(['websocket']) 
           .build());
+
+  String userId = 'sangrok';
+  String roomId = "-1";
+  String cateogry = "";
 }

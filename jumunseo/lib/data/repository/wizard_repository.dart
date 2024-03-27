@@ -1,6 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:retrofit/retrofit.dart';
-import '../../features/wizard/chat/parsing/chat_parser.dart';
+import '../../model/wizard/chat_model.dart';
 
 part 'wizard_repository.g.dart';
 

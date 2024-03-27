@@ -81,6 +81,18 @@ class WizardCubit extends Cubit<WizardState> {
     return state.statusKey;
   }
 
+  void setCateogry(String newCategory) {
+    state.cateogry = newCategory;
+  }
+
+  String getCategory() {
+    return state.cateogry;
+  }
+
+  void setRoom(String newId) {
+    state.roomId = newId;
+  }
+
   void toFwoh(BuildContext context) {
     Navigator.push(
       context, 

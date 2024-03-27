@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'room_parser.dart';
+part of 'room_model.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
@@ -20,7 +20,7 @@ _$RoomParserImpl _$$RoomParserImplFromJson(Map<String, dynamic> json) =>
 
 Map<String, dynamic> _$$RoomParserImplToJson(_$RoomParserImpl instance) =>
     <String, dynamic>{
-      '_id': instance.id,
+      'id': instance.id,
       'start_time': instance.start_time,
       'user_id': instance.user_id,
       'room_id': instance.room_id,

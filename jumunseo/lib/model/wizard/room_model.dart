@@ -1,8 +1,9 @@
-import 'package:jumunseo/features/wizard/chat/parsing/conversation_parser.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-part 'room_parser.g.dart';
-part 'room_parser.freezed.dart';
+import 'conversation_model.dart';
+
+part 'room_model.g.dart';
+part 'room_model.freezed.dart';
 
 @freezed
 class RoomParser with _$RoomParser{
