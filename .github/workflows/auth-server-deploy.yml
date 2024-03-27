@@ -1,10 +1,10 @@
-# This is a basic workflow to help you get started with Actions
-
-name: auth-server test and deploy
+name: Auth-Server Deploy
 
 on:
   pull_request:
     branches: [ "main" ]
+    paths:
+    - "auth-service/**"
 
 # 환경변수 주입
 env:
@@ -21,46 +21,57 @@ env:
   REFRESH_EXPIRATION: ${{ secrets.REFRESH_EXPIRATION }}
 
 jobs:
-
-  build:
-    name: Build
+  test-build:
+    name: Test-Build
     runs-on: ubuntu-latest
+    services:
+      redis:
+        image: redis:latest
+        ports:
+          - "6379:6379"
+        env:
+          TZ: "Asia/Seoul"
+    
+      postgres:
+        image: postgres:latest
+        ports:
+          - "5432:5432"
+        env:
+          POSTGRES_DB: auth
+          POSTGRES_USER: auth
+          POSTGRES_PASSWORD: 1234
+          TZ: "Asia/Seoul"
+          
     steps:
-
     # 체크아웃
     - name: Checkout Source
-      uses: action/checkout@4.1.2
-      
+      uses: actions/checkout@v4
       
     # 자바 17 환경설정
     - name: Setup Java17
-      uses: action/setup-java@4.2.1
+      uses: actions/setup-java@v4
       with:
         java-version: 17
-
-    # 테스트 환경설정
-    - name: Setup Test inv
-      run: docker-compose -f auth-service-test-docker-compose.yml up
-      working-directory: ${{ env.working-directory }}
+        distribution: 'zulu'
     
     # Gradle 실행권한 부여
     - name: Grant execute permission to gradlew
       run: chmod +x ./gradlew
       working-directory: ${{ env.working-directory }}
 
-    # Spring boot application 빌드 + 테스트 실행
+    # Spring boot application 테스트 실행
+    - name: Test with gradle
+      run: ./gradlew test
+      working-directory: ${{ env.working-directory }}
+      
+      # Spring boot application 빌드
     - name: Build with gradle
       run: ./gradlew clean build
       working-directory: ${{ env.working-directory }}
-
-  deploy:
-    name: Deploy
-    runs-on: ubuntu-lastest
-    needs: build
-    steps:
+      
     # docker image 빌드
     - name: Build docker image
-      run: docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/$image-name .
+      run: docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/${{env.image-name}} .
       working-directory: ${{ env.working-directory }}
       
     # docker hub 로그인
@@ -72,7 +83,7 @@ jobs:
 
     # docker hub 퍼블리시
     - name: Publish to docker hub
-      run: docker push ${{ secrets.DOCKERHUB_USERNAME }}/$image-name
+      run: docker push ${{ secrets.DOCKERHUB_USERNAME }}/${{env.image-name}}
     
 
     

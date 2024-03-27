@@ -1,65 +1,68 @@
-name: magician-server test and deploy
+name: Magician-Server Deploy
 
 on:
   pull_request:
     branches: [ "main" ]
+    paths:
+    - "magician/**"
 env:
   working-directory: ./magician
   image-name: magician-server
-  MAGICIAN_MONGO_HOST: ${{ secret.MAGICIAN_MONGO_HOST }}
-  MAGICIAN_MONGO_PASSWORD: ${{ secret.MAGICIAN_MONGO_PASSWORD }}
-  MAGICIAN_MONGO_PORT: ${{ secret.MAGICIAN_MONGO_PORT }}
-  MAGICIAN_MONGO_USERNAME: ${{ secret.MAGICIAN_MONGO_USERNAME }}
-  OPENAI_KEY: ${{ secret.OPENAI_KEY }}
+  OPENAI_KEY: ${{ secrets.OPENAI_KEY }}
+  MAGICIAN_MONGO_HOST: 0.0.0.0
+  MAGICIAN_MONGO_PASSWORD: 1234
+  MAGICIAN_MONGO_PORT: 27017
+  MAGICIAN_MONGO_USERNAME: root
 
 jobs:
-
-  build-with-test:
-    name: Build
+  test-build:
+    name: Test-Build
     runs-on: ubuntu-latest
+    
+    services:
+      mongodb:
+        image: mongo:latest
+        env:
+          MONGO_INITDB_ROOT_USERNAME: root
+          MONGO_INITDB_ROOT_PASSWORD: 1234
+          MONGO_INITDB_DATABASE: chat_db
+        ports:
+          - 27017:27017
+    
     steps:
-    # 체크아웃
-    - name: Checkout Source
-      uses: action/checkout@4.1.2
-
-    # 파이썬 환경설정
-    - name: Setup Python
-      uses: action/setup-python@5
-      with:
-        python-version: 3.11.8
-
-    # 테스트 환경설정
-    - name: Setup Test inv
-      run: docker-compose -f magician-test-docker-compose.yml up
-      working-directory: ${{ env.working-directory }}
+      # 체크아웃
+      - name: Checkout Source
+        uses: actions/checkout@v4
       
-    # requirements 다운
-    - name: Install requirements.txt
-      run: pip install -r requirements.txt
-
-    # 테스트 실행
-    - name: Test with pytest
-      run: | 
-        pip install pytest pytest-cov
-        pytest tests.py --doctest-modules --junitxml=junit/test-results.xml --cov=com --cov-report=xml --cov-report=html
-
-  deploy:
-    name: Deploy
-    runs-on: ubuntu-lastest
-    needs: build-with-test
-    steps:
-    # docker image 빌드
-    - name: Build docker image
-      run: docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/$image-name .
-      working-directory: ${{ env.working-directory }}
+      # 파이썬 환경설정
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: 3.11.8
       
-    # docker hub 로그인
-    - name: Login docker hub
-      uses: docker/login-action@v2
-      with:
-        username: ${{ secrets.DOCKERHUB_USERNAME }}
-        password: ${{ secrets.DOCKERHUB_TOKEN }}
+      # requirements 다운
+      - name: Install requirements.txt
+        run: pip install -r requirements.txt
+        working-directory: ${{ env.working-directory }}
 
-    # docker hub 퍼블리시
-    - name: Publish to docker hub
-      run: docker push ${{ secrets.DOCKERHUB_USERNAME }}/$image-name
+      # 테스트 실행
+      - name: Test with pytest
+        run: pytest
+        working-directory: ${{ env.working-directory }}
+      
+      # docker image 빌드
+      - name: Build docker image
+        run: docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.image-name }} .
+        working-directory: ${{ env.working-directory }}
+        
+      # docker hub 로그인
+      - name: Login docker hub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+  
+      # docker hub 퍼블리시
+      - name: Publish to docker hub
+        run: docker push ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.image-name }}
+        working-directory: ${{ env.working-directory }}
