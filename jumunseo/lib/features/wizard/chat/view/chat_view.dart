@@ -1,6 +1,5 @@
 import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:jumunseo/config/theme/app_color.dart';
 import '../chat.dart';
@@ -98,6 +97,9 @@ class _ChatViewState extends State<ChatView> {
                             isDense: true,
                             contentPadding: EdgeInsets.symmetric(horizontal: 0, vertical: 0),
                           ),
+                          keyboardType: TextInputType.multiline,
+                          minLines: 1,
+                          maxLines: 7,
                           onSubmitted: (String text){
                             context.read<WizardCubit>().onButtonPress();
                           },

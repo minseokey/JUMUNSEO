@@ -20,21 +20,9 @@ class _CategoryViewState extends State<CategoryView> {
                         'assets/images/categories/3.png',
                         'assets/images/categories/4.png',
                         'assets/images/categories/5.png',
-                        'assets/images/categories/6.png',
-                        'assets/images/categories/7.png',
-                        'assets/images/categories/8.png',
-                        'assets/images/categories/9.png',
-                        'assets/images/categories/10.png',
-                        'assets/images/categories/11.png',
-                        'assets/images/categories/12.png',
-                        'assets/images/categories/13.png',
-                        'assets/images/categories/14.png',
-                        'assets/images/categories/15.png',
-                        'assets/images/categories/16.png',];
-  List<String> names = ['카테고리1','카테고리2','카테고리3','카테고리4',
-                        '카테고리1','카테고리2','카테고리3','카테고리4',
-                        '카테고리1','카테고리2','카테고리3','카테고리4',
-                        '카테고리1','카테고리2','카테고리3','카테고리4',];
+                        'assets/images/categories/6.png',];
+  List<String> names = ['교통사고','돈','폭행','절도',
+                        '성 문제','그 외'];
 
   @override
   Widget build(BuildContext context) {
@@ -56,7 +44,7 @@ class _CategoryViewState extends State<CategoryView> {
         children: [
           Expanded(
             child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 24),
+              padding: const EdgeInsets.only(left: 24,right: 24, top: 20),
               child: GridView.builder(
                 itemCount: images.length,
                 clipBehavior: Clip.none,

@@ -40,18 +40,17 @@ class _PlusInfoViewState extends State<PlusInfoView> {
           ),
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 12.0, horizontal: 15.0),
-            child: Container(
-              height: 40.0,
-              child: TextField(
-                controller: textEditingController,
-                maxLines: 1,
-                decoration: const InputDecoration(
-                  border: OutlineInputBorder(),
-                  hintText: "Enter Text",
-                  hintStyle: TextStyle(color: Color.fromARGB(0xff, 0xab, 0xab, 0xab), fontSize: 12.0),
-                ),
-                onSubmitted: (String text){},
+            child: TextField(
+              controller: textEditingController,
+              keyboardType: TextInputType.multiline,
+              minLines: 7,
+              maxLines: 7,
+              decoration: const InputDecoration(
+                border: OutlineInputBorder(),
+                hintText: "Enter Text",
+                hintStyle: TextStyle(color: Color.fromARGB(0xff, 0xab, 0xab, 0xab), fontSize: 12.0),
               ),
+              onSubmitted: (String text){},
             ),
           ),
           const Spacer(),
