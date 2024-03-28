@@ -5,12 +5,12 @@ on:
   pull_request:
     branches: 
     - back-dev
-    - back/*
+    - back/**
     paths: 'auth-service/**'
   push:
     branches: 
     - back-dev
-    - back/*
+    - back/**
     paths: 'auth-service/**'
     
 env:
