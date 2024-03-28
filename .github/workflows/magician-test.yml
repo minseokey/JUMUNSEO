@@ -48,6 +48,11 @@ jobs:
         run: pip install -r requirements.txt
         working-directory: ${{ env.working-directory }}
 
+      # 백그라운드 어플리케이션 실행
+      - name: Start application
+        run: python main.py &
+        working-directory: ${{ env.working-directory }}
+        
       # 테스트 실행
       - name: Test with pytest
         run: pytest
