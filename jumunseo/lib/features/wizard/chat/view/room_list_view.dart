@@ -53,7 +53,7 @@ class _RoomListViewState extends State<RoomListView> {
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 30),
               child: FutureBuilder(
-                future: repo.getRooms("sangrok"),
+                future: repo.getRooms(context.read<WizardCubit>().getUserId()),
                 initialData: [],
                 builder: (_, AsyncSnapshot snapshot) {
                   if(snapshot.connectionState == ConnectionState.waiting) {
@@ -69,7 +69,13 @@ class _RoomListViewState extends State<RoomListView> {
                     clipBehavior: Clip.none,
                     shrinkWrap: true,
                     children: List.generate(chats.chats.length, (index) {
-                      return Room(chats.chats[index]);
+                      return GestureDetector(
+                        onTapUp: (details) {
+                          context.read<WizardCubit>().setRoom(chats.chats[index].room_id);
+                          context.read<WizardCubit>().toChat(context, null); 
+                        },
+                        child: Room(chats.chats[index])
+                      );
                     })
                   );
                 },
@@ -82,7 +88,10 @@ class _RoomListViewState extends State<RoomListView> {
               children: [
                 Expanded(
                   child: GradientButton(
-                    onButtonPress: () {context.read<WizardCubit>().toCategory(context); },
+                    onButtonPress: () {
+                      context.read<WizardCubit>().setRoom("-1");
+                      context.read<WizardCubit>().toCategory(context); 
+                    },
                     message: '새로 시작하기',
                   ),
                 ),

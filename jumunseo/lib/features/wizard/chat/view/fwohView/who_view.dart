@@ -57,7 +57,7 @@ class _WhoViewState extends State<WhoView> {
               children: [
                 Expanded(
                   child: GradientButton(
-                    onButtonPress: () {context.read<WizardCubit>().toPlusInfo(context); },
+                    onButtonPress: () {context.read<WizardCubit>().toPlusInfo(context, textEditingController); },
                     message: 'Continue',
                   ),
                 ),

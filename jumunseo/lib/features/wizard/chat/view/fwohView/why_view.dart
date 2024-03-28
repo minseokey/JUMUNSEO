@@ -57,7 +57,9 @@ class _WhyViewState extends State<WhyView> {
               children: [
                 Expanded(
                   child: GradientButton(
-                    onButtonPress: () {context.read<WizardCubit>().toWhere(context); },
+                    onButtonPress: () {
+                      context.read<WizardCubit>().toWhere(context, textEditingController); 
+                    },
                     message: 'Continue',
                   ),
                 ),

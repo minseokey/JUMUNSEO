@@ -18,10 +18,14 @@ class _ChatViewState extends State<ChatView> {
 
     //웹소켓 연결
     context.read<WizardCubit>().sokectEventSetting(context);
+
+    WidgetsBinding.instance
+        .addPostFrameCallback((_) => context.read<WizardCubit>().pushFirstMessage());
   }
 
   @override
   void dispose(){
+    context.read<WizardCubit>().socketDispose();
     super.dispose();
   }
 
