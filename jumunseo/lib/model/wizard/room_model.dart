@@ -6,15 +6,15 @@ part 'room_model.g.dart';
 part 'room_model.freezed.dart';
 
 @freezed
-class RoomParser with _$RoomParser{
-  factory RoomParser(
+class RoomModel with _$RoomModel{
+  factory RoomModel(
       {required String id,
       required String start_time,
       required String user_id,
       required String room_id,
       required String added_prompt,
-      required List<ConversationParser> conversation}) = _RoomParser;
+      required List<ConversationModel> conversation}) = _RoomModel;
 
-  factory RoomParser.fromJson(Map<String, dynamic> json) =>
-    _$RoomParserFromJson(json);
+  factory RoomModel.fromJson(Map<String, dynamic> json) =>
+    _$RoomModelFromJson(json);
 }

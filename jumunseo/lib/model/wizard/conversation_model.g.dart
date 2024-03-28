@@ -6,15 +6,15 @@ part of 'conversation_model.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$ConversationParserImpl _$$ConversationParserImplFromJson(
+_$ConversationModelImpl _$$ConversationModelImplFromJson(
         Map<String, dynamic> json) =>
-    _$ConversationParserImpl(
+    _$ConversationModelImpl(
       user_message: json['user_message'] as String,
       bot_response: json['bot_response'] as String,
     );
 
-Map<String, dynamic> _$$ConversationParserImplToJson(
-        _$ConversationParserImpl instance) =>
+Map<String, dynamic> _$$ConversationModelImplToJson(
+        _$ConversationModelImpl instance) =>
     <String, dynamic>{
       'user_message': instance.user_message,
       'bot_response': instance.bot_response,

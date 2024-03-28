@@ -14,33 +14,33 @@ T _$identity<T>(T value) => value;
 final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
-ChatParser _$ChatParserFromJson(Map<String, dynamic> json) {
-  return _ChatParser.fromJson(json);
+ChatModel _$ChatModelFromJson(Map<String, dynamic> json) {
+  return _ChatModel.fromJson(json);
 }
 
 /// @nodoc
-mixin _$ChatParser {
-  List<RoomParser> get chats => throw _privateConstructorUsedError;
+mixin _$ChatModel {
+  List<RoomModel> get chats => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
-  $ChatParserCopyWith<ChatParser> get copyWith =>
+  $ChatModelCopyWith<ChatModel> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $ChatParserCopyWith<$Res> {
-  factory $ChatParserCopyWith(
-          ChatParser value, $Res Function(ChatParser) then) =
-      _$ChatParserCopyWithImpl<$Res, ChatParser>;
+abstract class $ChatModelCopyWith<$Res> {
+  factory $ChatModelCopyWith(
+          ChatModel value, $Res Function(ChatModel) then) =
+      _$ChatModelCopyWithImpl<$Res, ChatModel>;
   @useResult
-  $Res call({List<RoomParser> chats});
+  $Res call({List<RoomModel> chats});
 }
 
 /// @nodoc
-class _$ChatParserCopyWithImpl<$Res, $Val extends ChatParser>
-    implements $ChatParserCopyWith<$Res> {
-  _$ChatParserCopyWithImpl(this._value, this._then);
+class _$ChatModelCopyWithImpl<$Res, $Val extends ChatModel>
+    implements $ChatModelCopyWith<$Res> {
+  _$ChatModelCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
   final $Val _value;
@@ -56,28 +56,28 @@ class _$ChatParserCopyWithImpl<$Res, $Val extends ChatParser>
       chats: null == chats
           ? _value.chats
           : chats // ignore: cast_nullable_to_non_nullable
-              as List<RoomParser>,
+              as List<RoomModel>,
     ) as $Val);
   }
 }
 
 /// @nodoc
-abstract class _$$ChatParserImplCopyWith<$Res>
-    implements $ChatParserCopyWith<$Res> {
-  factory _$$ChatParserImplCopyWith(
-          _$ChatParserImpl value, $Res Function(_$ChatParserImpl) then) =
-      __$$ChatParserImplCopyWithImpl<$Res>;
+abstract class _$$ChatModelImplCopyWith<$Res>
+    implements $ChatModelCopyWith<$Res> {
+  factory _$$ChatModelImplCopyWith(
+          _$ChatModelImpl value, $Res Function(_$ChatModelImpl) then) =
+      __$$ChatModelImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({List<RoomParser> chats});
+  $Res call({List<RoomModel> chats});
 }
 
 /// @nodoc
-class __$$ChatParserImplCopyWithImpl<$Res>
-    extends _$ChatParserCopyWithImpl<$Res, _$ChatParserImpl>
-    implements _$$ChatParserImplCopyWith<$Res> {
-  __$$ChatParserImplCopyWithImpl(
-      _$ChatParserImpl _value, $Res Function(_$ChatParserImpl) _then)
+class __$$ChatModelImplCopyWithImpl<$Res>
+    extends _$ChatModelCopyWithImpl<$Res, _$ChatModelImpl>
+    implements _$$ChatModelImplCopyWith<$Res> {
+  __$$ChatModelImplCopyWithImpl(
+      _$ChatModelImpl _value, $Res Function(_$ChatModelImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -85,26 +85,26 @@ class __$$ChatParserImplCopyWithImpl<$Res>
   $Res call({
     Object? chats = null,
   }) {
-    return _then(_$ChatParserImpl(
+    return _then(_$ChatModelImpl(
       chats: null == chats
           ? _value._chats
           : chats // ignore: cast_nullable_to_non_nullable
-              as List<RoomParser>,
+              as List<RoomModel>,
     ));
   }
 }
 
 /// @nodoc
 @JsonSerializable()
-class _$ChatParserImpl implements _ChatParser {
-  _$ChatParserImpl({required final List<RoomParser> chats}) : _chats = chats;
+class _$ChatModelImpl implements _ChatModel {
+  _$ChatModelImpl({required final List<RoomModel> chats}) : _chats = chats;
 
-  factory _$ChatParserImpl.fromJson(Map<String, dynamic> json) =>
-      _$$ChatParserImplFromJson(json);
+  factory _$ChatModelImpl.fromJson(Map<String, dynamic> json) =>
+      _$$ChatModelImplFromJson(json);
 
-  final List<RoomParser> _chats;
+  final List<RoomModel> _chats;
   @override
-  List<RoomParser> get chats {
+  List<RoomModel> get chats {
     if (_chats is EqualUnmodifiableListView) return _chats;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_chats);
@@ -112,14 +112,14 @@ class _$ChatParserImpl implements _ChatParser {
 
   @override
   String toString() {
-    return 'ChatParser(chats: $chats)';
+    return 'ChatModel(chats: $chats)';
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$ChatParserImpl &&
+            other is _$ChatModelImpl &&
             const DeepCollectionEquality().equals(other._chats, _chats));
   }
 
@@ -131,28 +131,28 @@ class _$ChatParserImpl implements _ChatParser {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$ChatParserImplCopyWith<_$ChatParserImpl> get copyWith =>
-      __$$ChatParserImplCopyWithImpl<_$ChatParserImpl>(this, _$identity);
+  _$$ChatModelImplCopyWith<_$ChatModelImpl> get copyWith =>
+      __$$ChatModelImplCopyWithImpl<_$ChatModelImpl>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$ChatParserImplToJson(
+    return _$$ChatModelImplToJson(
       this,
     );
   }
 }
 
-abstract class _ChatParser implements ChatParser {
-  factory _ChatParser({required final List<RoomParser> chats}) =
-      _$ChatParserImpl;
+abstract class _ChatModel implements ChatModel {
+  factory _ChatModel({required final List<RoomModel> chats}) =
+      _$ChatModelImpl;
 
-  factory _ChatParser.fromJson(Map<String, dynamic> json) =
-      _$ChatParserImpl.fromJson;
+  factory _ChatModel.fromJson(Map<String, dynamic> json) =
+      _$ChatModelImpl.fromJson;
 
   @override
-  List<RoomParser> get chats;
+  List<RoomModel> get chats;
   @override
   @JsonKey(ignore: true)
-  _$$ChatParserImplCopyWith<_$ChatParserImpl> get copyWith =>
+  _$$ChatModelImplCopyWith<_$ChatModelImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

@@ -6,6 +6,7 @@ import 'package:jumunseo/data/repository/wizard_repository.dart';
 import 'package:jumunseo/model/wizard/chat_model.dart';
 import 'package:jumunseo/features/wizard/chat/view/gradient_button.dart';
 import 'package:jumunseo/features/wizard/chat/view/room_list_select.dart';
+import 'package:logger/logger.dart';
 
 import '../cubit/wizard_cubit.dart';
 
@@ -62,7 +63,7 @@ class _RoomListViewState extends State<RoomListView> {
                     );
                   }
 
-                  ChatParser chats = snapshot.data;
+                  ChatModel chats = snapshot.data;
 
                   return ListView(
                     padding: const EdgeInsets.symmetric(vertical: 19.0),
@@ -71,6 +72,7 @@ class _RoomListViewState extends State<RoomListView> {
                     children: List.generate(chats.chats.length, (index) {
                       return GestureDetector(
                         onTapUp: (details) {
+                          Logger().d("선택");
                           context.read<WizardCubit>().setRoom(chats.chats[index].room_id);
                           context.read<WizardCubit>().toChat(context, null); 
                         },

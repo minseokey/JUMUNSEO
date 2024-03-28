@@ -4,11 +4,11 @@ part 'conversation_model.g.dart';
 part 'conversation_model.freezed.dart';
 
 @freezed
-class ConversationParser with _$ConversationParser{
-  factory ConversationParser(
+class ConversationModel with _$ConversationModel{
+  factory ConversationModel(
       {required String user_message,
-      required String bot_response}) = _ConversationParser;
+      required String bot_response}) = _ConversationModel;
 
-  factory ConversationParser.fromJson(Map<String, dynamic> json) =>
-    _$ConversationParserFromJson(json);
+  factory ConversationModel.fromJson(Map<String, dynamic> json) =>
+    _$ConversationModelFromJson(json);
 }

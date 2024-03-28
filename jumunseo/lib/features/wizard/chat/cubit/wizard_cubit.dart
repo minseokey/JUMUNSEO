@@ -11,6 +11,7 @@ import 'package:jumunseo/features/wizard/chat/view/fwohView/who_view.dart';
 import 'package:jumunseo/features/wizard/chat/view/fwohView/why_view.dart';
 import 'package:jumunseo/features/wizard/chat/view/fwoh_view.dart';
 import 'package:jumunseo/features/wizard/chat/view/wizard_setting_view.dart';
+import 'package:jumunseo/model/wizard/room_model.dart';
 import 'package:logger/logger.dart';
 import 'package:web_socket_channel/io.dart';
 import '../state/wizard_state.dart';
@@ -32,6 +33,7 @@ class WizardCubit extends Cubit<WizardState> {
   }
 
   void pushPrompt(String txt) {
+    Logger().d(txt);
     state.socket?.sink.add(txt);
   }
 
@@ -51,6 +53,26 @@ class WizardCubit extends Cubit<WizardState> {
     state.chats.insert(0, data);
     state.myChat.insert(0, false);
     state.statusKey.currentState?.insertItem(0);
+  }
+
+  void setPrompt(String prompt) {
+    List<String> prompts = prompt.split(',');
+
+    state.explain = prompts[0];
+    state.edit = prompts[1];
+    state.translate = prompts[2];
+  }
+
+  String parsingCategory(RoomModel room) {
+    if(room.conversation.isNotEmpty) {
+      if(room.conversation[0].user_message.contains('카테고리')){
+        Logger().d(room.conversation[0].user_message);
+        String category = room.conversation[0].user_message.split("\n")[0].split(":")[1].replaceAll(",", "");
+        return category;
+      }
+    }
+
+    return "";
   }
 
   void sokectEventSetting(BuildContext context){
@@ -172,12 +194,12 @@ class WizardCubit extends Cubit<WizardState> {
       if(textEdit.text.trim() != ""){
         setPlusInfo(textEdit.text);
       }
+    }
 
-      Navigator.push(
+    Navigator.push(
         context, 
         MaterialPageRoute(builder: (context)=> const ChatView())
       );
-    }
   }
 
   void toWizardSet(BuildContext context) {

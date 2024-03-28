@@ -6,14 +6,14 @@ part of 'chat_model.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$ChatParserImpl _$$ChatParserImplFromJson(Map<String, dynamic> json) =>
-    _$ChatParserImpl(
+_$ChatModelImpl _$$ChatModelImplFromJson(Map<String, dynamic> json) =>
+    _$ChatModelImpl(
       chats: (json['chats'] as List<dynamic>)
-          .map((e) => RoomParser.fromJson(e as Map<String, dynamic>))
+          .map((e) => RoomModel.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
 
-Map<String, dynamic> _$$ChatParserImplToJson(_$ChatParserImpl instance) =>
+Map<String, dynamic> _$$ChatModelImplToJson(_$ChatModelImpl instance) =>
     <String, dynamic>{
       'chats': instance.chats,
     };

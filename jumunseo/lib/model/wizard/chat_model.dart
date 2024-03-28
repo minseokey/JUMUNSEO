@@ -5,10 +5,10 @@ part 'chat_model.g.dart';
 part 'chat_model.freezed.dart';
 
 @freezed
-class ChatParser with _$ChatParser{
-  factory ChatParser(
-      {required List<RoomParser> chats}) = _ChatParser;
+class ChatModel with _$ChatModel{
+  factory ChatModel(
+      {required List<RoomModel> chats}) = _ChatModel;
 
-  factory ChatParser.fromJson(Map<String, dynamic> json) =>
-    _$ChatParserFromJson(json);
+  factory ChatModel.fromJson(Map<String, dynamic> json) =>
+    _$ChatModelFromJson(json);
 }

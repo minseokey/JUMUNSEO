@@ -14,34 +14,34 @@ T _$identity<T>(T value) => value;
 final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
-ConversationParser _$ConversationParserFromJson(Map<String, dynamic> json) {
-  return _ConversationParser.fromJson(json);
+ConversationModel _$ConversationModelFromJson(Map<String, dynamic> json) {
+  return _ConversationModel.fromJson(json);
 }
 
 /// @nodoc
-mixin _$ConversationParser {
+mixin _$ConversationModel {
   String get user_message => throw _privateConstructorUsedError;
   String get bot_response => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
-  $ConversationParserCopyWith<ConversationParser> get copyWith =>
+  $ConversationModelCopyWith<ConversationModel> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $ConversationParserCopyWith<$Res> {
-  factory $ConversationParserCopyWith(
-          ConversationParser value, $Res Function(ConversationParser) then) =
-      _$ConversationParserCopyWithImpl<$Res, ConversationParser>;
+abstract class $ConversationModelCopyWith<$Res> {
+  factory $ConversationModelCopyWith(
+          ConversationModel value, $Res Function(ConversationModel) then) =
+      _$ConversationModelCopyWithImpl<$Res, ConversationModel>;
   @useResult
   $Res call({String user_message, String bot_response});
 }
 
 /// @nodoc
-class _$ConversationParserCopyWithImpl<$Res, $Val extends ConversationParser>
-    implements $ConversationParserCopyWith<$Res> {
-  _$ConversationParserCopyWithImpl(this._value, this._then);
+class _$ConversationModelCopyWithImpl<$Res, $Val extends ConversationModel>
+    implements $ConversationModelCopyWith<$Res> {
+  _$ConversationModelCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
   final $Val _value;
@@ -68,22 +68,22 @@ class _$ConversationParserCopyWithImpl<$Res, $Val extends ConversationParser>
 }
 
 /// @nodoc
-abstract class _$$ConversationParserImplCopyWith<$Res>
-    implements $ConversationParserCopyWith<$Res> {
-  factory _$$ConversationParserImplCopyWith(_$ConversationParserImpl value,
-          $Res Function(_$ConversationParserImpl) then) =
-      __$$ConversationParserImplCopyWithImpl<$Res>;
+abstract class _$$ConversationModelImplCopyWith<$Res>
+    implements $ConversationModelCopyWith<$Res> {
+  factory _$$ConversationModelImplCopyWith(_$ConversationModelImpl value,
+          $Res Function(_$ConversationModelImpl) then) =
+      __$$ConversationModelImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({String user_message, String bot_response});
 }
 
 /// @nodoc
-class __$$ConversationParserImplCopyWithImpl<$Res>
-    extends _$ConversationParserCopyWithImpl<$Res, _$ConversationParserImpl>
-    implements _$$ConversationParserImplCopyWith<$Res> {
-  __$$ConversationParserImplCopyWithImpl(_$ConversationParserImpl _value,
-      $Res Function(_$ConversationParserImpl) _then)
+class __$$ConversationModelImplCopyWithImpl<$Res>
+    extends _$ConversationModelCopyWithImpl<$Res, _$ConversationModelImpl>
+    implements _$$ConversationModelImplCopyWith<$Res> {
+  __$$ConversationModelImplCopyWithImpl(_$ConversationModelImpl _value,
+      $Res Function(_$ConversationModelImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -92,7 +92,7 @@ class __$$ConversationParserImplCopyWithImpl<$Res>
     Object? user_message = null,
     Object? bot_response = null,
   }) {
-    return _then(_$ConversationParserImpl(
+    return _then(_$ConversationModelImpl(
       user_message: null == user_message
           ? _value.user_message
           : user_message // ignore: cast_nullable_to_non_nullable
@@ -107,12 +107,12 @@ class __$$ConversationParserImplCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$ConversationParserImpl implements _ConversationParser {
-  _$ConversationParserImpl(
+class _$ConversationModelImpl implements _ConversationModel {
+  _$ConversationModelImpl(
       {required this.user_message, required this.bot_response});
 
-  factory _$ConversationParserImpl.fromJson(Map<String, dynamic> json) =>
-      _$$ConversationParserImplFromJson(json);
+  factory _$ConversationModelImpl.fromJson(Map<String, dynamic> json) =>
+      _$$ConversationModelImplFromJson(json);
 
   @override
   final String user_message;
@@ -121,14 +121,14 @@ class _$ConversationParserImpl implements _ConversationParser {
 
   @override
   String toString() {
-    return 'ConversationParser(user_message: $user_message, bot_response: $bot_response)';
+    return 'ConversationModel(user_message: $user_message, bot_response: $bot_response)';
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$ConversationParserImpl &&
+            other is _$ConversationModelImpl &&
             (identical(other.user_message, user_message) ||
                 other.user_message == user_message) &&
             (identical(other.bot_response, bot_response) ||
@@ -142,25 +142,25 @@ class _$ConversationParserImpl implements _ConversationParser {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$ConversationParserImplCopyWith<_$ConversationParserImpl> get copyWith =>
-      __$$ConversationParserImplCopyWithImpl<_$ConversationParserImpl>(
+  _$$ConversationModelImplCopyWith<_$ConversationModelImpl> get copyWith =>
+      __$$ConversationModelImplCopyWithImpl<_$ConversationModelImpl>(
           this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$ConversationParserImplToJson(
+    return _$$ConversationModelImplToJson(
       this,
     );
   }
 }
 
-abstract class _ConversationParser implements ConversationParser {
-  factory _ConversationParser(
+abstract class _ConversationModel implements ConversationModel {
+  factory _ConversationModel(
       {required final String user_message,
-      required final String bot_response}) = _$ConversationParserImpl;
+      required final String bot_response}) = _$ConversationModelImpl;
 
-  factory _ConversationParser.fromJson(Map<String, dynamic> json) =
-      _$ConversationParserImpl.fromJson;
+  factory _ConversationModel.fromJson(Map<String, dynamic> json) =
+      _$ConversationModelImpl.fromJson;
 
   @override
   String get user_message;
@@ -168,6 +168,6 @@ abstract class _ConversationParser implements ConversationParser {
   String get bot_response;
   @override
   @JsonKey(ignore: true)
-  _$$ConversationParserImplCopyWith<_$ConversationParserImpl> get copyWith =>
+  _$$ConversationModelImplCopyWith<_$ConversationModelImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

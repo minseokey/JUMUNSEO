@@ -14,31 +14,31 @@ T _$identity<T>(T value) => value;
 final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
-RoomParser _$RoomParserFromJson(Map<String, dynamic> json) {
-  return _RoomParser.fromJson(json);
+RoomModel _$RoomModelFromJson(Map<String, dynamic> json) {
+  return _RoomModel.fromJson(json);
 }
 
 /// @nodoc
-mixin _$RoomParser {
+mixin _$RoomModel {
   String get id => throw _privateConstructorUsedError;
   String get start_time => throw _privateConstructorUsedError;
   String get user_id => throw _privateConstructorUsedError;
   String get room_id => throw _privateConstructorUsedError;
   String get added_prompt => throw _privateConstructorUsedError;
-  List<ConversationParser> get conversation =>
+  List<ConversationModel> get conversation =>
       throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
-  $RoomParserCopyWith<RoomParser> get copyWith =>
+  $RoomModelCopyWith<RoomModel> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $RoomParserCopyWith<$Res> {
-  factory $RoomParserCopyWith(
-          RoomParser value, $Res Function(RoomParser) then) =
-      _$RoomParserCopyWithImpl<$Res, RoomParser>;
+abstract class $RoomModelCopyWith<$Res> {
+  factory $RoomModelCopyWith(
+          RoomModel value, $Res Function(RoomModel) then) =
+      _$RoomModelCopyWithImpl<$Res, RoomModel>;
   @useResult
   $Res call(
       {String id,
@@ -46,13 +46,13 @@ abstract class $RoomParserCopyWith<$Res> {
       String user_id,
       String room_id,
       String added_prompt,
-      List<ConversationParser> conversation});
+      List<ConversationModel> conversation});
 }
 
 /// @nodoc
-class _$RoomParserCopyWithImpl<$Res, $Val extends RoomParser>
-    implements $RoomParserCopyWith<$Res> {
-  _$RoomParserCopyWithImpl(this._value, this._then);
+class _$RoomModelCopyWithImpl<$Res, $Val extends RoomModel>
+    implements $RoomModelCopyWith<$Res> {
+  _$RoomModelCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
   final $Val _value;
@@ -93,17 +93,17 @@ class _$RoomParserCopyWithImpl<$Res, $Val extends RoomParser>
       conversation: null == conversation
           ? _value.conversation
           : conversation // ignore: cast_nullable_to_non_nullable
-              as List<ConversationParser>,
+              as List<ConversationModel>,
     ) as $Val);
   }
 }
 
 /// @nodoc
-abstract class _$$RoomParserImplCopyWith<$Res>
-    implements $RoomParserCopyWith<$Res> {
-  factory _$$RoomParserImplCopyWith(
-          _$RoomParserImpl value, $Res Function(_$RoomParserImpl) then) =
-      __$$RoomParserImplCopyWithImpl<$Res>;
+abstract class _$$RoomModelImplCopyWith<$Res>
+    implements $RoomModelCopyWith<$Res> {
+  factory _$$RoomModelImplCopyWith(
+          _$RoomModelImpl value, $Res Function(_$RoomModelImpl) then) =
+      __$$RoomModelImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -112,15 +112,15 @@ abstract class _$$RoomParserImplCopyWith<$Res>
       String user_id,
       String room_id,
       String added_prompt,
-      List<ConversationParser> conversation});
+      List<ConversationModel> conversation});
 }
 
 /// @nodoc
-class __$$RoomParserImplCopyWithImpl<$Res>
-    extends _$RoomParserCopyWithImpl<$Res, _$RoomParserImpl>
-    implements _$$RoomParserImplCopyWith<$Res> {
-  __$$RoomParserImplCopyWithImpl(
-      _$RoomParserImpl _value, $Res Function(_$RoomParserImpl) _then)
+class __$$RoomModelImplCopyWithImpl<$Res>
+    extends _$RoomModelCopyWithImpl<$Res, _$RoomModelImpl>
+    implements _$$RoomModelImplCopyWith<$Res> {
+  __$$RoomModelImplCopyWithImpl(
+      _$RoomModelImpl _value, $Res Function(_$RoomModelImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -133,7 +133,7 @@ class __$$RoomParserImplCopyWithImpl<$Res>
     Object? added_prompt = null,
     Object? conversation = null,
   }) {
-    return _then(_$RoomParserImpl(
+    return _then(_$RoomModelImpl(
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
@@ -157,25 +157,25 @@ class __$$RoomParserImplCopyWithImpl<$Res>
       conversation: null == conversation
           ? _value._conversation
           : conversation // ignore: cast_nullable_to_non_nullable
-              as List<ConversationParser>,
+              as List<ConversationModel>,
     ));
   }
 }
 
 /// @nodoc
 @JsonSerializable()
-class _$RoomParserImpl implements _RoomParser {
-  _$RoomParserImpl(
+class _$RoomModelImpl implements _RoomModel {
+  _$RoomModelImpl(
       {required this.id,
       required this.start_time,
       required this.user_id,
       required this.room_id,
       required this.added_prompt,
-      required final List<ConversationParser> conversation})
+      required final List<ConversationModel> conversation})
       : _conversation = conversation;
 
-  factory _$RoomParserImpl.fromJson(Map<String, dynamic> json) =>
-      _$$RoomParserImplFromJson(json);
+  factory _$RoomModelImpl.fromJson(Map<String, dynamic> json) =>
+      _$$RoomModelImplFromJson(json);
 
   @override
   final String id;
@@ -187,9 +187,9 @@ class _$RoomParserImpl implements _RoomParser {
   final String room_id;
   @override
   final String added_prompt;
-  final List<ConversationParser> _conversation;
+  final List<ConversationModel> _conversation;
   @override
-  List<ConversationParser> get conversation {
+  List<ConversationModel> get conversation {
     if (_conversation is EqualUnmodifiableListView) return _conversation;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_conversation);
@@ -197,14 +197,14 @@ class _$RoomParserImpl implements _RoomParser {
 
   @override
   String toString() {
-    return 'RoomParser(id: $id, start_time: $start_time, user_id: $user_id, room_id: $room_id, added_prompt: $added_prompt, conversation: $conversation)';
+    return 'RoomModel(id: $id, start_time: $start_time, user_id: $user_id, room_id: $room_id, added_prompt: $added_prompt, conversation: $conversation)';
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$RoomParserImpl &&
+            other is _$RoomModelImpl &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.start_time, start_time) ||
                 other.start_time == start_time) &&
@@ -224,28 +224,28 @@ class _$RoomParserImpl implements _RoomParser {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$RoomParserImplCopyWith<_$RoomParserImpl> get copyWith =>
-      __$$RoomParserImplCopyWithImpl<_$RoomParserImpl>(this, _$identity);
+  _$$RoomModelImplCopyWith<_$RoomModelImpl> get copyWith =>
+      __$$RoomModelImplCopyWithImpl<_$RoomModelImpl>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$RoomParserImplToJson(
+    return _$$RoomModelImplToJson(
       this,
     );
   }
 }
 
-abstract class _RoomParser implements RoomParser {
-  factory _RoomParser(
+abstract class _RoomModel implements RoomModel {
+  factory _RoomModel(
       {required final String id,
       required final String start_time,
       required final String user_id,
       required final String room_id,
       required final String added_prompt,
-      required final List<ConversationParser> conversation}) = _$RoomParserImpl;
+      required final List<ConversationModel> conversation}) = _$RoomModelImpl;
 
-  factory _RoomParser.fromJson(Map<String, dynamic> json) =
-      _$RoomParserImpl.fromJson;
+  factory _RoomModel.fromJson(Map<String, dynamic> json) =
+      _$RoomModelImpl.fromJson;
 
   @override
   String get id;
@@ -258,9 +258,9 @@ abstract class _RoomParser implements RoomParser {
   @override
   String get added_prompt;
   @override
-  List<ConversationParser> get conversation;
+  List<ConversationModel> get conversation;
   @override
   @JsonKey(ignore: true)
-  _$$RoomParserImplCopyWith<_$RoomParserImpl> get copyWith =>
+  _$$RoomModelImplCopyWith<_$RoomModelImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

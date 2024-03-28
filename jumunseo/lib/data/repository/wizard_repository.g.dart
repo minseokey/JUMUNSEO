@@ -21,13 +21,13 @@ class _WizardRepository implements WizardRepository {
   String? baseUrl;
 
   @override
-  Future<ChatParser> getRooms(String userId) async {
+  Future<ChatModel> getRooms(String userId) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     final Map<String, dynamic>? _data = null;
     final _result = await _dio
-        .fetch<Map<String, dynamic>>(_setStreamType<ChatParser>(Options(
+        .fetch<Map<String, dynamic>>(_setStreamType<ChatModel>(Options(
       method: 'GET',
       headers: _headers,
       extra: _extra,
@@ -43,7 +43,7 @@ class _WizardRepository implements WizardRepository {
               _dio.options.baseUrl,
               baseUrl,
             ))));
-    final value = ChatParser.fromJson(_result.data!);
+    final value = ChatModel.fromJson(_result.data!);
     return value;
   }
 

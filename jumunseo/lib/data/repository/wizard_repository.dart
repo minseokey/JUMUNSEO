@@ -9,5 +9,5 @@ abstract class WizardRepository {
   factory WizardRepository(Dio dio, {String baseUrl}) = _WizardRepository;
 
   @GET('/chat/list/{userId}')
-  Future<ChatParser> getRooms(@Path() String userId);
+  Future<ChatModel> getRooms(@Path() String userId);
 }
