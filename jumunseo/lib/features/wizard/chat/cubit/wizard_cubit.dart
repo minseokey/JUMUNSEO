@@ -12,26 +12,35 @@ import 'package:jumunseo/features/wizard/chat/view/fwohView/why_view.dart';
 import 'package:jumunseo/features/wizard/chat/view/fwoh_view.dart';
 import 'package:jumunseo/features/wizard/chat/view/wizard_setting_view.dart';
 import 'package:logger/logger.dart';
+import 'package:web_socket_channel/io.dart';
 import '../state/wizard_state.dart';
 import '../view/my_chat_message.dart';
 import '../view/other_chat_message.dart';
-import 'package:socket_io_client/socket_io_client.dart';
 
 class WizardCubit extends Cubit<WizardState> {
   WizardCubit() : super(WizardState());
 
-  void onButtonPress(){
-    String txt = state.textEditingController.text;
-
+  void onButtonPress(String txt){
     if(txt != ""){
       Logger().d(txt);
 
-      state.textEditingController.clear();
       state.chats.insert(0, txt);
       state.myChat.insert(0, true);
       state.statusKey.currentState?.insertItem(0);
-      // state.socket.emit('chatMessage', txt);
+      state.socket?.sink.add(txt);
     }
+  }
+
+  void pushPrompt(String txt) {
+    state.socket?.sink.add(txt);
+  }
+
+  String getChatTextField() {
+    return state.textEditingController.text;
+  }
+
+  void clearChatTextField() {
+    state.textEditingController.clear();
   }
 
   void chatInsert(String data) {
@@ -41,27 +50,21 @@ class WizardCubit extends Cubit<WizardState> {
   }
 
   void sokectEventSetting(BuildContext context){
-    //소켓 연결시 함수
-    state.socket.onConnect((_) {
-      Logger().d('Connected to server');
-    });
+    state.socket = IOWebSocketChannel.connect(Uri.parse('ws://10.0.2.2:8000/ws/sangrok'));
 
-    //소켓 종료시 함수
-    state.socket.onDisconnect((_) {
-      Logger().d('Disconnected from server');
-    });
+    Logger().d('서버 연결 시작');
 
-    //소켓 에러시 함수
-    state.socket.onError((error) {
-      Logger().e('Error: $error');
-    });
-
-    state.socket.connect();
-    state.socket.on('chatMessage', (data) {
-      // 메세지 감지
+    // 메세지 감지
+    state.socket?.stream.listen((data) {
       Logger().d('Received message: $data');
       chatInsert(data);
     });
+
+    pushPrompt("냉정하게 대답해줘,진지한 말투로 대답해줘,한국어로 대답해줘/-1");
+  }
+
+  void socketDispose(){
+    // state.socket?.dispose();
   }
 
   Widget onSubmitAnimation(BuildContext context, int index, Animation<double> animation){

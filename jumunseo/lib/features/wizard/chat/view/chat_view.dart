@@ -13,10 +13,20 @@ class ChatView extends StatefulWidget {
 
 class _ChatViewState extends State<ChatView> {
   @override
-  Widget build(BuildContext context) {
-    //웹소켓 연결
-    // context.read<WizardCubit>().sokectEventSetting(context);
+  void initState(){
+    super.initState();
 
+    //웹소켓 연결
+    context.read<WizardCubit>().sokectEventSetting(context);
+  }
+
+  @override
+  void dispose(){
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.blue.shade50,
       appBar: AppBar(
@@ -26,13 +36,13 @@ class _ChatViewState extends State<ChatView> {
             const Padding(
               padding: EdgeInsets.symmetric(horizontal: 20.0),
               child: Text(
-              "주문서 봇",
-              style: TextStyle(
-                color: ColorStyles.mainColor,
-                fontSize: 20.0,
-                fontWeight: FontWeight.bold,
+                "주문서 봇",
+                style: TextStyle(
+                  color: ColorStyles.mainColor,
+                  fontSize: 20.0,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
-                        ),
             ),]
         ),
         shape: const Border(
@@ -101,7 +111,8 @@ class _ChatViewState extends State<ChatView> {
                           minLines: 1,
                           maxLines: 7,
                           onSubmitted: (String text){
-                            context.read<WizardCubit>().onButtonPress();
+                            context.read<WizardCubit>().onButtonPress(context.read<WizardCubit>().getChatTextField());
+                            context.read<WizardCubit>().clearChatTextField();
                           },
                         )),
                       GestureDetector(
@@ -111,7 +122,8 @@ class _ChatViewState extends State<ChatView> {
                           height: 24.0,
                         ),
                         onTap: () {
-                          context.read<WizardCubit>().onButtonPress();
+                          context.read<WizardCubit>().onButtonPress(context.read<WizardCubit>().getChatTextField());
+                          context.read<WizardCubit>().clearChatTextField();
                         },
                       ),
                     ],

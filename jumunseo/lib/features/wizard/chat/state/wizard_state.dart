@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:socket_io_client/socket_io_client.dart' as io;
+import 'package:web_socket_channel/web_socket_channel.dart';
 
 class WizardState{
   TextEditingController textEditingController = TextEditingController();
@@ -9,10 +9,7 @@ class WizardState{
   
   final GlobalKey<AnimatedListState> statusKey = GlobalKey<AnimatedListState>();
 
-  final io.Socket socket = io.io('http://10.0.2.2:3000',
-      io.OptionBuilder()
-          .setTransports(['websocket']) 
-          .build());
+  WebSocketChannel? socket;
 
   String userId = 'sangrok';
   String roomId = "-1";
