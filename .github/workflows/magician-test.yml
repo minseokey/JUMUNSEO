@@ -4,12 +4,12 @@ on:
   pull_request:
     branches: 
     - back-dev
-    - back/*
+    - back/**
     paths: 'magician/**'
   push:
     branches: 
     - back-dev
-    - back/*
+    - back/**
     paths: 'magician/**'
 env:
   working-directory: ./magician
@@ -24,20 +24,18 @@ jobs:
     name: Test
     runs-on: ubuntu-latest
     
-    services:
-      mongodb:
-        image: mongo:latest
-        env:
-          MONGO_INITDB_ROOT_USERNAME: root
-          MONGO_INITDB_ROOT_PASSWORD: 1234
-          MONGO_INITDB_DATABASE: chat_db
-        ports:
-          - 27017:27017
-    
     steps:
       # 체크아웃
       - name: Checkout Source
         uses: actions/checkout@v4
+
+      # 몽고디비 설정
+      - name: mongo-action
+        uses: supercharge/mongodb-github-action@v1
+        with:
+          mongodb-db: 'chat_db'
+          mongodb-username: 'root'
+          mongodb-password: 1234
       
       # 파이썬 환경설정
       - name: Setup Python
