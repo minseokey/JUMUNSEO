@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:jumunseo/core/blank.dart';
-import 'package:jumunseo/shared/room_information.dart';
+import 'package:jumunseo/features/wizard/chat/chat.dart';
+import 'package:jumunseo/features/wizard/model/room_model.dart';
 
 class Room extends StatelessWidget {
-  final RoomInfo info;
+  final RoomModel info;
 
   const Room(
     this.info,
@@ -12,6 +14,8 @@ class Room extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    String cateogry = context.read<WizardCubit>().parsingCategory(info);
+
     return Container(
       margin: const EdgeInsets.all(8.0),
       decoration: BoxDecoration(
@@ -32,19 +36,19 @@ class Room extends StatelessWidget {
             padding: const EdgeInsets.all(15.0),
             child: Row(
               children: [
-                CircleAvatar(backgroundImage: AssetImage(info.imageName), radius: 25.0,),
+                const Text("카테고리:", style: TextStyle(fontSize: 12.0),),
                 const Blank(10, 0),
-                Text(info.category, style: const TextStyle(fontSize: 12.0),)
+                Text(cateogry, style: const TextStyle(fontSize: 12.0),),
               ]
             ),
           ),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 22, vertical: 12),
-            child: Text(info.title, style: const TextStyle(color: Colors.black, fontSize: 20.0, fontWeight: FontWeight.bold),),
+            child: Text(info.start_time, style: const TextStyle(color: Colors.black, fontSize: 20.0, fontWeight: FontWeight.bold),),
           ),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 22, vertical: 12),
-            child: Text(info.content, style: const TextStyle(color: Colors.black, fontSize: 15.0),),
+            child: Text(info.added_prompt, style: const TextStyle(color: Colors.black, fontSize: 15.0),),
           ),
       ],),
     );

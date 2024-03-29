@@ -11,27 +11,42 @@ import 'package:jumunseo/features/wizard/chat/view/fwohView/who_view.dart';
 import 'package:jumunseo/features/wizard/chat/view/fwohView/why_view.dart';
 import 'package:jumunseo/features/wizard/chat/view/fwoh_view.dart';
 import 'package:jumunseo/features/wizard/chat/view/wizard_setting_view.dart';
+import 'package:jumunseo/features/wizard/model/room_model.dart';
 import 'package:logger/logger.dart';
+import 'package:web_socket_channel/io.dart';
 import '../state/wizard_state.dart';
 import '../view/my_chat_message.dart';
 import '../view/other_chat_message.dart';
-import 'package:socket_io_client/socket_io_client.dart';
 
 class WizardCubit extends Cubit<WizardState> {
   WizardCubit() : super(WizardState());
 
-  void onButtonPress(){
-    String txt = state.textEditingController.text;
-
+  void onButtonPress(String txt){
     if(txt != ""){
       Logger().d(txt);
 
-      state.textEditingController.clear();
       state.chats.insert(0, txt);
       state.myChat.insert(0, true);
       state.statusKey.currentState?.insertItem(0);
-      // state.socket.emit('chatMessage', txt);
+      state.socket?.sink.add(txt);
     }
+  }
+
+  void pushPrompt(String txt) {
+    Logger().d(txt);
+    state.socket?.sink.add(txt);
+  }
+
+  String getChatTextField() {
+    return state.textEditingController.text;
+  }
+
+  void clearChatTextField() {
+    state.textEditingController.clear();
+  }
+
+  String getUserId() {
+    return state.userId;
   }
 
   void chatInsert(String data) {
@@ -40,32 +55,106 @@ class WizardCubit extends Cubit<WizardState> {
     state.statusKey.currentState?.insertItem(0);
   }
 
+  void setPrompt(String prompt) {
+    List<String> prompts = prompt.split(',');
+
+    state.explain = prompts[0];
+    state.edit = prompts[1];
+    state.translate = prompts[2];
+  }
+
+  String parsingCategory(RoomModel room) {
+    if(room.conversation.isNotEmpty) {
+      if(room.conversation[0].user_message.contains('카테고리')){
+        Logger().d(room.conversation[0].user_message);
+        String category = room.conversation[0].user_message.split("\n")[0].split(":")[1].replaceAll(",", "");
+        return category;
+      }
+    }
+
+    return "";
+  }
+
   void sokectEventSetting(BuildContext context){
-    //소켓 연결시 함수
-    state.socket.onConnect((_) {
-      Logger().d('Connected to server');
-    });
+    state.myChat.clear();
+    state.chats.clear();
 
-    //소켓 종료시 함수
-    state.socket.onDisconnect((_) {
-      Logger().d('Disconnected from server');
-    });
+    state.socket = IOWebSocketChannel.connect(Uri.parse('ws://10.0.2.2:8000/ws/${state.userId}'));
 
-    //소켓 에러시 함수
-    state.socket.onError((error) {
-      Logger().e('Error: $error');
-    });
+    Logger().d('서버 연결 시작');
 
-    state.socket.connect();
-    state.socket.on('chatMessage', (data) {
-      // 메세지 감지
+    // 메세지 감지
+    state.socket?.stream.listen((data) {
       Logger().d('Received message: $data');
       chatInsert(data);
     });
+
+    pushPrompt("${state.explain},${state.edit},${state.translate}/${state.roomId}");
+  }
+
+  void pushFirstMessage() {
+    if(state.roomId == "-1"){
+      onButtonPress("카테고리:${state.cateogry},\n언제?: ${state.when},\n왜?: ${state.why},\n어디서?: ${state.where},\n무엇을?: ${state.what},\n어떻게?: ${state.how},\n누가?: ${state.who}\n,추가 정보: ${state.plusInfo}");
+    }
+  }
+
+  void setExplain(String newExplain) {
+    state.explain = newExplain;
+  }
+
+  String getExplain() {
+    return state.explain;
+  }
+
+  void setEdit(String newEdit) {
+    state.edit = newEdit;
+  }
+  
+  String getEdit() {
+    return state.edit;
+  }
+
+  void setTranslate(String newTranslate) {
+    state.translate = newTranslate;
+  }
+
+  String getTranslate() {
+    return state.translate;
+  }
+
+  void setWhy(String newWhy){
+    state.why = newWhy;
+  }
+
+  void setWhat(String newWhat){
+    state.what = newWhat;
+  }
+
+  void setWho(String newWho){
+    state.who = newWho;
+  }
+
+  void setHow(String newHow){
+    state.how = newHow;
+  }
+
+  void setWhen(String newWhen){
+    state.when = newWhen;
+  }
+
+  void setWhere(String newWhere){
+    state.where = newWhere;
+  }
+
+  void setPlusInfo(String newPlusInfo){
+    state.plusInfo = newPlusInfo;
+  }
+
+  void socketDispose(){
+    state.socket?.sink.close();
   }
 
   Widget onSubmitAnimation(BuildContext context, int index, Animation<double> animation){
-    // if(false){
     if(state.myChat[index]) {
       return MyChatMsg("나", state.chats[index], animation);
     } else {
@@ -81,6 +170,18 @@ class WizardCubit extends Cubit<WizardState> {
     return state.statusKey;
   }
 
+  void setCateogry(String newCategory) {
+    state.cateogry = newCategory;
+  }
+
+  String getCategory() {
+    return state.cateogry;
+  }
+
+  void setRoom(String newId) {
+    state.roomId = newId;
+  }
+
   void toFwoh(BuildContext context) {
     Navigator.push(
       context, 
@@ -88,17 +189,23 @@ class WizardCubit extends Cubit<WizardState> {
     );
   }
 
-  void toChat(BuildContext context) {
+  void toChat(BuildContext context, TextEditingController? textEdit) {
+    if(textEdit != null){
+      if(textEdit.text.trim() != ""){
+        setPlusInfo(textEdit.text);
+      }
+    }
+
     Navigator.push(
-      context, 
-      MaterialPageRoute(builder: (context)=> const ChatView())
-    );
+        context, 
+        MaterialPageRoute(builder: (context)=> const ChatView())
+      );
   }
 
   void toWizardSet(BuildContext context) {
     Navigator.push(
       context, 
-       MaterialPageRoute(builder: (context)=> const SettingView())
+      MaterialPageRoute(builder: (context)=> const SettingView())
     );
   }
 
@@ -116,45 +223,69 @@ class WizardCubit extends Cubit<WizardState> {
     );
   }
 
-  void toWhere(BuildContext context) {
-    Navigator.push(
-      context, 
-       MaterialPageRoute(builder: (context)=> const WhereView())
-    );
+  void toWhere(BuildContext context, TextEditingController textEdit) {
+    if(textEdit.text.trim() != "") {
+      setWhy(textEdit.text);
+
+      Navigator.push(
+        context, 
+        MaterialPageRoute(builder: (context)=> const WhereView())
+      );
+    }
   }
 
-  void toWho(BuildContext context) {
-    Navigator.push(
-      context, 
-       MaterialPageRoute(builder: (context)=> const WhoView())
-    );
+  void toWho(BuildContext context, TextEditingController textEdit) {
+    if(textEdit.text.trim() != "") {
+      setHow(textEdit.text);
+
+      Navigator.push(
+        context, 
+        MaterialPageRoute(builder: (context)=> const WhoView())
+      );
+    }
   }
 
-  void toWhat(BuildContext context) {
-    Navigator.push(
-      context, 
-       MaterialPageRoute(builder: (context)=> const WhatView())
-    );
+  void toWhat(BuildContext context, TextEditingController textEdit) {
+    if(textEdit.text.trim() != ""){
+      setWhere(textEdit.text);
+
+      Navigator.push(
+        context, 
+        MaterialPageRoute(builder: (context)=> const WhatView())
+      );
+    }
   }
 
-  void toHow(BuildContext context) {
-    Navigator.push(
-      context, 
-       MaterialPageRoute(builder: (context)=> const HowView())
-    );
+  void toHow(BuildContext context, TextEditingController textEdit) {
+    if(textEdit.text.trim() != ""){
+      setWhat(textEdit.text);
+
+      Navigator.push(
+        context, 
+        MaterialPageRoute(builder: (context)=> const HowView())
+      );
+    }
   }
 
-  void toWhy(BuildContext context) {
-    Navigator.push(
-      context, 
-       MaterialPageRoute(builder: (context)=> const WhyView())
-    );
+  void toWhy(BuildContext context, TextEditingController textEdit) {
+    if(textEdit.text.trim() != ""){
+      setWhen(textEdit.text);
+
+      Navigator.push(
+        context, 
+        MaterialPageRoute(builder: (context)=> const WhyView())
+      );
+    }
   }
 
-  void toPlusInfo(BuildContext context) {
-    Navigator.push(
-      context, 
-       MaterialPageRoute(builder: (context)=> const PlusInfoView())
-    );
+  void toPlusInfo(BuildContext context, TextEditingController textEdit) {
+    if(textEdit.text.trim() != ""){
+      setWho(textEdit.text);
+
+      Navigator.push(
+        context, 
+        MaterialPageRoute(builder: (context)=> const PlusInfoView())
+      );
+    }
   }
 }

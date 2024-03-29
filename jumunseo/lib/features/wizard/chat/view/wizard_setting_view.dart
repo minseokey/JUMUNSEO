@@ -17,7 +17,7 @@ class _SettingViewState extends State<SettingView> {
     List<String> setNames = ['Explain', 'Write & edit', 'Translate'];
 
     List<List<String>> answerList = [
-      ['냉정하게 대답해줘!', '그냥 내편을 들어줘 ㅠㅠ'],
+      ['냉정하게 대답해줘', '그냥 내 편을 들어줘'],
       ['귀여운 말투로 대답해줘', '진지한 말투로 대답해줘', '냥냥체로 대답해줘'],
       ['한국어로 대답해줘', '영어로 대답해줘'],
     ];
@@ -87,7 +87,7 @@ class _SettingViewState extends State<SettingView> {
                     children: [
                       const Expanded(
                         child: Text(
-                          '주문서봇의 성격을 설정해주세요!',
+                          '마법사봇의 성격을 설정해주세요!',
                           style: TextStyle(
                             color: ColorStyles.mainColor,
                             fontWeight: FontWeight.bold,

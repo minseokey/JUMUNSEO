@@ -1,9 +1,12 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:jumunseo/config/theme/app_color.dart';
 import 'package:jumunseo/features/wizard/chat/view/gradient_button.dart';
 import 'package:jumunseo/features/wizard/chat/view/room_list_select.dart';
-import 'package:jumunseo/shared/room_information.dart';
+import 'package:jumunseo/features/wizard/data/repository/wizard_repository.dart';
+import 'package:jumunseo/features/wizard/model/chat_model.dart';
+import 'package:logger/logger.dart';
 
 import '../cubit/wizard_cubit.dart';
 
@@ -15,8 +18,14 @@ class RoomListView extends StatefulWidget{
 }
 
 class _RoomListViewState extends State<RoomListView> {
-  List<RoomInfo> infos = [const RoomInfo("카테고리", "assets/images/categories/1.png", "제목", "내용"),
-                          const RoomInfo("카테고리", "assets/images/categories/1.png", "제목", "내용"),];
+  late WizardRepository repo;
+  Dio dio = Dio();
+
+  @override
+  void initState() {
+    super.initState();
+    repo = WizardRepository(dio);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -44,13 +53,34 @@ class _RoomListViewState extends State<RoomListView> {
           Expanded(
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 30),
-              child: ListView(
-                padding: const EdgeInsets.symmetric(vertical: 19.0),
-                clipBehavior: Clip.none,
-                shrinkWrap: true,
-                children: List.generate(infos.length, (index) {
-                  return Room(infos[index]);
-                })
+              child: FutureBuilder(
+                future: repo.getRooms(context.read<WizardCubit>().getUserId()),
+                initialData: [],
+                builder: (_, AsyncSnapshot snapshot) {
+                  if(snapshot.connectionState == ConnectionState.waiting) {
+                    return const Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  }
+
+                  ChatModel chats = snapshot.data;
+
+                  return ListView(
+                    padding: const EdgeInsets.symmetric(vertical: 19.0),
+                    clipBehavior: Clip.none,
+                    shrinkWrap: true,
+                    children: List.generate(chats.chats.length, (index) {
+                      return GestureDetector(
+                        onTapUp: (details) {
+                          Logger().d("선택");
+                          context.read<WizardCubit>().setRoom(chats.chats[index].room_id);
+                          context.read<WizardCubit>().toChat(context, null); 
+                        },
+                        child: Room(chats.chats[index])
+                      );
+                    })
+                  );
+                },
               ),
             ),
           ),
@@ -60,7 +90,10 @@ class _RoomListViewState extends State<RoomListView> {
               children: [
                 Expanded(
                   child: GradientButton(
-                    onButtonPress: () {context.read<WizardCubit>().toCategory(context); },
+                    onButtonPress: () {
+                      context.read<WizardCubit>().setRoom("-1");
+                      context.read<WizardCubit>().toCategory(context); 
+                    },
                     message: '새로 시작하기',
                   ),
                 ),
