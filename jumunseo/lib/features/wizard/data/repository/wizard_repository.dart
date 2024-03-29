@@ -1,6 +1,6 @@
 import 'package:dio/dio.dart';
+import 'package:jumunseo/features/wizard/model/chat_model.dart';
 import 'package:retrofit/retrofit.dart';
-import '../../model/wizard/chat_model.dart';
 
 part 'wizard_repository.g.dart';
 

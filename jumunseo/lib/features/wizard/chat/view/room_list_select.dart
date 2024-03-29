@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:jumunseo/core/blank.dart';
 import 'package:jumunseo/features/wizard/chat/chat.dart';
-import 'package:jumunseo/model/wizard/room_model.dart';
+import 'package:jumunseo/features/wizard/model/room_model.dart';
 
 class Room extends StatelessWidget {
   final RoomModel info;

@@ -2,10 +2,10 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:jumunseo/config/theme/app_color.dart';
-import 'package:jumunseo/data/repository/wizard_repository.dart';
-import 'package:jumunseo/model/wizard/chat_model.dart';
 import 'package:jumunseo/features/wizard/chat/view/gradient_button.dart';
 import 'package:jumunseo/features/wizard/chat/view/room_list_select.dart';
+import 'package:jumunseo/features/wizard/data/repository/wizard_repository.dart';
+import 'package:jumunseo/features/wizard/model/chat_model.dart';
 import 'package:logger/logger.dart';
 
 import '../cubit/wizard_cubit.dart';

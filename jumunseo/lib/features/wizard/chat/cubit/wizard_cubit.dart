@@ -11,7 +11,7 @@ import 'package:jumunseo/features/wizard/chat/view/fwohView/who_view.dart';
 import 'package:jumunseo/features/wizard/chat/view/fwohView/why_view.dart';
 import 'package:jumunseo/features/wizard/chat/view/fwoh_view.dart';
 import 'package:jumunseo/features/wizard/chat/view/wizard_setting_view.dart';
-import 'package:jumunseo/model/wizard/room_model.dart';
+import 'package:jumunseo/features/wizard/model/room_model.dart';
 import 'package:logger/logger.dart';
 import 'package:web_socket_channel/io.dart';
 import '../state/wizard_state.dart';
