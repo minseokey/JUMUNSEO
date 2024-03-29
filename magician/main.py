@@ -13,7 +13,12 @@ app = FastAPI()
 loop = asyncio.get_event_loop()
 
 # MongoDB와의 연결 설정
-MONGO_URI = os.getenv("MONGO_URI")
+MAGICIAN_MONGO_USERNAME = os.getenv("MAGICIAN_MONGO_USERNAME")
+MAGICIAN_MONGO_PASSWORD = os.getenv("MAGICIAN_MONGO_PASSWORD")
+MAGICIAN_MONGO_PORT = os.getenv("MAGICIAN_MONGO_PORT")
+MAGICIAN_MONGO_HOST = os.getenv("MAGICIAN_MONGO_HOST")
+db_name = "chat_db"
+MONGO_URI = f"mongodb://{MAGICIAN_MONGO_USERNAME}:{MAGICIAN_MONGO_PASSWORD}@{MAGICIAN_MONGO_HOST}:{MAGICIAN_MONGO_PORT}/{db_name}?authSource=admin"
 client = motor.motor_asyncio.AsyncIOMotorClient(MONGO_URI)
 db = client["chat_db"]  # MongoDB 데이터베이스 선택
 collection = db["chats"]  # 채팅 내용을 저장할 컬렉션 선택
