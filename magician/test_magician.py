@@ -4,6 +4,8 @@ import motor.motor_asyncio
 import asyncio
 import os
 import websockets
+from httpx import AsyncClient
+from main import app
 
 MAGICIAN_MONGO_USERNAME = os.getenv("MAGICIAN_MONGO_USERNAME")
 MAGICIAN_MONGO_PASSWORD = os.getenv("MAGICIAN_MONGO_PASSWORD")
