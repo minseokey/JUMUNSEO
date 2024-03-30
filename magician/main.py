@@ -1,4 +1,5 @@
 from fastapi import FastAPI, WebSocket
+from fastapi.middleware.cors import CORSMiddleware
 import asyncio
 import uvicorn
 import motor.motor_asyncio
@@ -8,6 +9,18 @@ import datetime
 import os
 
 app = FastAPI()
+
+# CORS
+# TODO: CORS 수정하기
+origins = ["*"]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 # Asyncio 이벤트 루프 생성
 loop = asyncio.get_event_loop()
@@ -81,6 +94,7 @@ async def save_chat(user_id, room_id, added_prompt, conversation, is_continued):
 
 
 # READ
+# TODO: CQRS 패턴으로 변경
 # 어떤 사용자가 진행했던 채팅들 리스트 반환
 @app.get("/chat/list/{user_id}")
 async def chat_list(user_id: str):
@@ -92,12 +106,20 @@ async def chat_list(user_id: str):
 
 
 # READ
+# TODO: CQRS 패턴으로 변경
 # 어떤 채팅의 디테일 내용을 반환
 @app.get("/chat/{room_id}")
 async def chat_detail(room_id: str):
     chat = await collection.find_one({"room_id": room_id})
     chat["_id"] = str(chat["_id"])
     return {"chat": chat}
+
+# DELETE
+# 채팅방의 채팅 내용 삭제
+@app.delete("/chat/{room_id}")
+async def delete_chat(room_id: str):
+    await collection.delete_one({"room_id": room_id})
+    return {"message": "Chat deleted successfully"}
 
 
 # FastAPI 서버 실행
