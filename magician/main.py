@@ -10,6 +10,18 @@ import os
 
 app = FastAPI()
 
+# CORS
+# TODO: CORS 수정하기
+origins = ["*"]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
 # Asyncio 이벤트 루프 생성
 loop = asyncio.get_event_loop()
 
