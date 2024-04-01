@@ -40,13 +40,13 @@
               20191630
         </td>
         <td style="min-width: 150px;">
-            <a href="">
-              <img src="" width="100">
+            <a href="https://github.com/Misun-k">
+              <img src="https://github.com/Misun-k.png" width="100">
               <br />
-              <b>이름+깃허브</b>
+              <b>김미선(Misun-k)</b>
             </a> 
             <br/>
-              학번
+              20181583
         </td>
         <td style="min-width: 150px;">
             <a href="">
