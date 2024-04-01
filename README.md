@@ -58,13 +58,13 @@
               학번
         </td>
         <td style="min-width: 150px;">
-          <a href="">
-            <img src="" width="100">
+          <a href="https://github.com/minseokey">
+            <img src="https://github.com/minseokey.png" width="100">
             <br />
-            <b>이름+깃허브</b>
+            <b>이민석(minseokey)</b>
           </a> 
           <br/>
-            학번
+            ****1637
         </td>
         <td style="min-width: 150px;">
             <a href="">
