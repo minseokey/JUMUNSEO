@@ -31,13 +31,13 @@
 <table>
     <tr align="center">
         <td style="min-width: 150px;">
-            <a href="">
-              <img src="" width="100">
+            <a href="https://github.com/dbtkdfhr">
+              <img src="https://github.com/dbtkdfhr.png" width="100">
               <br />
-              <b>이름+깃허브</b>
+              <b>유상록(dbtkdfhr)</b>
             </a> 
             <br/>
-              학번
+              20191630
         </td>
         <td style="min-width: 150px;">
             <a href="">
