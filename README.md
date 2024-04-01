@@ -68,13 +68,13 @@
             ****1637
         </td>
         <td style="min-width: 150px;">
-            <a href="">
-              <img src="" width="100">
+            <a href="https://github.com/binary-h0">
+              <img src="https://github.com/binary-h0.png" width="100">
               <br />
-              <b>이름+깃허브</b>
+              <b>이진호(binary-h0)</b>
             </a> 
             <br/>
-              학번
+              ****1649
         </td>
     </tr>
     <tr align="center">
