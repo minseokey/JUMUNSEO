@@ -1,13 +1,14 @@
 ## 🔉 프로젝트 소개 
 
-- github pages: 
+- github pages: https://github.com/kookmin-sw/capstone-2024-19/
 
 
 
 
 ##  프로젝트 기능
 
-###  소제목 1
+###  마법사
+- 법적인 분쟁을 도와주는 채팅봇
 
 
 ###  소제목 2
@@ -132,7 +133,6 @@
 |-|-|
 |협업 관리|<img alt="RED" src ="https://img.shields.io/badge/Notion-000000.svg?&style=for-the-badge&logo=Notion&logoColor=white"/> |
 |디자인|<img alt="RED" src ="https://img.shields.io/badge/Figma-F24E1E.svg?&style=for-the-badge&logo=Figma&logoColor=white"/>|
-|Vision AI|<img alt="RED" src ="https://img.shields.io/badge/Kakao I Cloud-FFCD00.svg?&style=for-the-badge&logo=Kakao&logoColor=white"/> |
 <br />
 
 ## 📂 폴더 구조
