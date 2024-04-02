@@ -113,8 +113,8 @@
 
 |역할|종류|
 |-|-|
-|Framework|<img alt="RED" src ="https://img.shields.io/badge/SPRING-6DB33F.svg?&style=for-the-badge&logo=Spring&logoColor=white"/> <img alt="RED" src ="https://img.shields.io/badge/SPRING Boot-6DB33F.svg?&style=for-the-badge&logo=SpringBoot&logoColor=white"/>|
-|Database|<img alt="RED" src ="https://img.shields.io/badge/MariaDB-003545.svg?&style=for-the-badge&logo=MariaDb&logoColor=white"/>|
+|Framework| <img alt="RED" src ="https://img.shields.io/badge/SPRING-6DB33F.svg?&style=for-the-badge&logo=Spring&logoColor=white"/> <img alt="RED" src ="https://img.shields.io/badge/SPRING Boot-6DB33F.svg?&style=for-the-badge&logo=SpringBoot&logoColor=white"/>|
+|Database| <img alt="RED" src ="https://img.shields.io/badge/MariaDB-003545.svg?&style=for-the-badge&logo=MariaDb&logoColor=white"/>|
 |Database Service|<img alt="RED" src ="https://img.shields.io/badge/Amazon Rds-527FFF.svg?&style=for-the-badge&logo=AmazonRds&logoColor=white"/> <img alt="RED" src ="https://img.shields.io/badge/Amazon S3-569A31.svg?&style=for-the-badge&logo=AmazonS3&logoColor=white"/>|
 |Programming Language|<img alt="RED" src ="https://img.shields.io/badge/JAVA-004027.svg?&style=for-the-badge&logo=Jameson&logoColor=white"/>|
 |API|![REST](https://img.shields.io/badge/Rest-4B3263?style=for-the-badge&logo=rest&logoColor=white)                                     
@@ -137,10 +137,14 @@
 
 ├── 📂jumunseo 🗂 앱 프론트엔드 레포지토리(Flutter)
 
-├── 📂backend 🗂 백엔드 레포지토리(Spring Boot)
+├── 📂auth-server 🗂 백엔드-인증 서버(Spring Boot)
+
+├── 📂composite-server 🗂 백엔드-데이터통합 서버(Spring Boot)
+
+├── 📂magician 🗂 백엔드-마법사 서버 (FastAPI)
 
 ├── 📂docs 📚github pages 레포지토리
 
 └── 📜각종 세팅 파일
 
-└── 📕Readme.md
+└── 📕README.md
