@@ -2,15 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:jumunseo/config/routes/app_routes.dart';
 import 'package:jumunseo/config/theme/app_theme.dart';
-
-import 'features/wizard/chat_observer.dart';
+import 'package:jumunseo/shared/blocs.dart';
 
 Future<void> main() async {
   //TODO: 스플래시 스크린
   //TODO: 앱 초기화
   //TODO: asdf
 
-  Bloc.observer = CompositeBlocObserver([ChatObserver()]);
   runApp(const MyApp());
 }
 
@@ -20,11 +18,13 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp.router(
-      title: '주문서',
-      theme: theme(),
-      debugShowCheckedModeBanner: false,
-      routerConfig: appRouter,
+    return BlocWidget(
+      child: MaterialApp.router(
+        title: '주문서',
+        theme: theme(),
+        debugShowCheckedModeBanner: false,
+        routerConfig: appRouter,
+      ),
     );
   }
 }
