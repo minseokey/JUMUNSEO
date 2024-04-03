@@ -7,15 +7,15 @@
 
 ##  프로젝트 기능
 
-###  마법사
+###  🧙‍♂️ 마법사
 - 법적인 분쟁을 도와주는 채팅봇
 
 
-###  딜레마
+###  😟 딜레마
 - 하루마다 갱신되는 주제에 대하여 사용자들이 찬반을 가르고 의견을 나누는 공간
 
 
-### 커뮤니티
+###  🍀 커뮤니티
 - 마법사, 딜레마에서 나온 결과를 토대로 자유롭게 얘기를 나눌 수 있는 커뮤니티
 
 <br />
@@ -113,16 +113,18 @@
 
 |역할|종류|
 |-|-|
-|Framework| <img alt="RED" src ="https://img.shields.io/badge/SPRING-6DB33F.svg?&style=for-the-badge&logo=Spring&logoColor=white"/> <img alt="RED" src ="https://img.shields.io/badge/SPRING Boot-6DB33F.svg?&style=for-the-badge&logo=SpringBoot&logoColor=white"/>|
-|Database| <img alt="RED" src ="https://img.shields.io/badge/MariaDB-003545.svg?&style=for-the-badge&logo=MariaDb&logoColor=white"/>|
-|Database Service|<img alt="RED" src ="https://img.shields.io/badge/Amazon Rds-527FFF.svg?&style=for-the-badge&logo=AmazonRds&logoColor=white"/> <img alt="RED" src ="https://img.shields.io/badge/Amazon S3-569A31.svg?&style=for-the-badge&logo=AmazonS3&logoColor=white"/>|
-|Programming Language|<img alt="RED" src ="https://img.shields.io/badge/JAVA-004027.svg?&style=for-the-badge&logo=Jameson&logoColor=white"/>|
-|API|![REST](https://img.shields.io/badge/Rest-4B3263?style=for-the-badge&logo=rest&logoColor=white)                                     
+|Framework| <img alt="RED" src ="https://img.shields.io/badge/SPRING-6DB33F.svg?&style=for-the-badge&logo=Spring&logoColor=white"/> <img alt="RED" src ="https://img.shields.io/badge/SPRING Boot-6DB33F.svg?&style=for-the-badge&logo=SpringBoot&logoColor=white"/> <img alt="RED" src ="https://img.shields.io/badge/FastAPI-009688.svg?&style=for-the-badge&logo=FastAPI&logoColor=white"/>|
+|Database| <img alt="RED" src ="https://img.shields.io/badge/PostgreSQL-4169E1.svg?&style=for-the-badge&logo=PostgreSQL&logoColor=white"/> <img alt="RED" src ="https://img.shields.io/badge/MongoDB-47A248.svg?&style=for-the-badge&logo=MongoDB&logoColor=white"/> <img alt="RED" src ="https://img.shields.io/badge/Redis-DC382D.svg?&style=for-the-badge&logo=Redis&logoColor=white"/>|
+|Database Service|<img alt="RED" src ="https://img.shields.io/badge/AmazonRds-527FFF.svg?&style=for-the-badge&logo=AmazonRds&logoColor=white"/> <img alt="RED" src ="https://img.shields.io/badge/Amazon S3-569A31.svg?&style=for-the-badge&logo=AmazonS3&logoColor=white"/>|
+|Programming Language|<img alt="RED" src ="https://img.shields.io/badge/JAVA-004027.svg?&style=for-the-badge&logo=Jameson&logoColor=white"/> <img alt="RED" src ="https://img.shields.io/badge/Python-3776AB.svg?&style=for-the-badge&logo=Python&logoColor=white"/> |
+|API|![REST](https://img.shields.io/badge/Rest-4B3263?style=for-the-badge&logo=rest&logoColor=white) ![WebSocket](https://img.shields.io/badge/WebSocket-FE5F50?style=for-the-badge&logo=rest&logoColor=white)                                    
 |Version Control|![Git](https://img.shields.io/badge/git-%23F05033.svg?style=for-the-badge&logo=git&logoColor=white) ![GitHub](https://img.shields.io/badge/github-%23121011.svg?style=for-the-badge&logo=github&logoColor=white) |
-|CI/CD|![GihubAction](https://img.shields.io/badge/GithubAction-181717?style=for-the-badge&logo={githubactions}&logoColor={white}) ![AmazonS3](https://img.shields.io/badge/AmazonS3-FF9900?style=for-the-badge&logo={AmazonS3}&logoColor={white}) ![CodeDeploy](https://img.shields.io/badge/AmazonCodeDeploy-FF9900?style=for-the-badge&logo={AmazonCodeDeploy}&logoColor={white}) |
-<br />
+|MSA| <img alt="RED" src ="https://img.shields.io/badge/kubernetes-326CE5.svg?&style=for-the-badge&logo=kubernetes&logoColor=white"/> <img alt="RED" src ="https://img.shields.io/badge/istio-466BB0.svg?&style=for-the-badge&logo=istio&logoColor=white"/> <img alt="RED" src ="https://img.shields.io/badge/Nginx-009639.svg?&style=for-the-badge&logo=Nginx&logoColor=white"/>|
+|Monitoring|<img alt="RED" src ="https://img.shields.io/badge/grafana-F46800.svg?&style=for-the-badge&logo=grafana&logoColor=white"/> <img alt="RED" src ="https://img.shields.io/badge/prometheus-E6522C.svg?&style=for-the-badge&logo=prometheus&logoColor=white"/>|
+|CI/CD|<img alt="RED" src ="https://img.shields.io/badge/githubactions-2088FF.svg?&style=for-the-badge&logo=githubactions&logoColor=white"/> <img alt="RED" src ="https://img.shields.io/badge/Docker-2496ED.svg?&style=for-the-badge&logo=Docker&logoColor=white"/> <img alt="RED" src ="https://img.shields.io/badge/argo-EF7B4D.svg?&style=for-the-badge&logo=argo&logoColor=white"/>|
+|Messaging|<img alt="RED" src ="https://img.shields.io/badge/apachekafka-231F20.svg?&style=for-the-badge&logo=apachekafka&logoColor=white"/>|
 
-
+<br/>
 
 ### 🖥 Common
 |역할|종류|
