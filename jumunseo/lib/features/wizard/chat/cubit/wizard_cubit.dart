@@ -1,16 +1,8 @@
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
-import 'package:jumunseo/features/wizard/chat/view/category_view.dart';
+import 'package:go_router/go_router.dart';
 import 'package:jumunseo/features/wizard/chat/view/chat_view.dart';
-import 'package:jumunseo/features/wizard/chat/view/fwohView/how_view.dart';
-import 'package:jumunseo/features/wizard/chat/view/fwohView/plus_info_view.dart';
-import 'package:jumunseo/features/wizard/chat/view/fwohView/what_view.dart';
-import 'package:jumunseo/features/wizard/chat/view/fwohView/when_view.dart';
-import 'package:jumunseo/features/wizard/chat/view/fwohView/where_view.dart';
-import 'package:jumunseo/features/wizard/chat/view/fwohView/who_view.dart';
-import 'package:jumunseo/features/wizard/chat/view/fwohView/why_view.dart';
 import 'package:jumunseo/features/wizard/chat/view/fwoh_view.dart';
-import 'package:jumunseo/features/wizard/chat/view/wizard_setting_view.dart';
 import 'package:jumunseo/features/wizard/model/room_model.dart';
 import 'package:logger/logger.dart';
 import 'package:web_socket_channel/io.dart';
@@ -203,34 +195,22 @@ class WizardCubit extends Cubit<WizardState> {
   }
 
   void toWizardSet(BuildContext context) {
-    Navigator.push(
-      context, 
-      MaterialPageRoute(builder: (context)=> const SettingView())
-    );
+    context.push("/wizard/chat_set");
   }
 
   void toCategory(BuildContext context) {
-    Navigator.push(
-      context, 
-       MaterialPageRoute(builder: (context)=> const CategoryView())
-    );
+    context.push("/wizard/category");
   }
 
   void toWhen(BuildContext context) {
-    Navigator.push(
-      context, 
-       MaterialPageRoute(builder: (context)=> const WhenView())
-    );
+    context.push("/wizard/when");
   }
 
   void toWhere(BuildContext context, TextEditingController textEdit) {
     if(textEdit.text.trim() != "") {
       setWhy(textEdit.text);
 
-      Navigator.push(
-        context, 
-        MaterialPageRoute(builder: (context)=> const WhereView())
-      );
+      context.push("/wizard/where");
     }
   }
 
@@ -238,10 +218,7 @@ class WizardCubit extends Cubit<WizardState> {
     if(textEdit.text.trim() != "") {
       setHow(textEdit.text);
 
-      Navigator.push(
-        context, 
-        MaterialPageRoute(builder: (context)=> const WhoView())
-      );
+      context.push("/wizard/who");
     }
   }
 
@@ -249,10 +226,7 @@ class WizardCubit extends Cubit<WizardState> {
     if(textEdit.text.trim() != ""){
       setWhere(textEdit.text);
 
-      Navigator.push(
-        context, 
-        MaterialPageRoute(builder: (context)=> const WhatView())
-      );
+      context.push("/wizard/what");
     }
   }
 
@@ -260,10 +234,7 @@ class WizardCubit extends Cubit<WizardState> {
     if(textEdit.text.trim() != ""){
       setWhat(textEdit.text);
 
-      Navigator.push(
-        context, 
-        MaterialPageRoute(builder: (context)=> const HowView())
-      );
+      context.push("/wizard/how");
     }
   }
 
@@ -271,10 +242,7 @@ class WizardCubit extends Cubit<WizardState> {
     if(textEdit.text.trim() != ""){
       setWhen(textEdit.text);
 
-      Navigator.push(
-        context, 
-        MaterialPageRoute(builder: (context)=> const WhyView())
-      );
+      context.push("/wizard/why");
     }
   }
 
@@ -282,10 +250,7 @@ class WizardCubit extends Cubit<WizardState> {
     if(textEdit.text.trim() != ""){
       setWho(textEdit.text);
 
-      Navigator.push(
-        context, 
-        MaterialPageRoute(builder: (context)=> const PlusInfoView())
-      );
+      context.push("/wizard/plus_info");
     }
   }
 }
