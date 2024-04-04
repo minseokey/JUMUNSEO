@@ -40,10 +40,11 @@ spec:
             - name: http
               containerPort: {{ .Values.service.port }}
               protocol: TCP
-          livenessProbe:
-            {{- toYaml .Values.livenessProbe | nindent 12 }}
-          readinessProbe:
-            {{- toYaml .Values.readinessProbe | nindent 12 }}
+          # Probe 점검하지 않는다, 현재 서버에 probe에 응답하는 api가 없음
+          # livenessProbe:
+          #   {{- toYaml .Values.livenessProbe | nindent 12 }}
+          # readinessProbe:
+          #   {{- toYaml .Values.readinessProbe | nindent 12 }}
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
           {{- with .Values.volumeMounts }}
