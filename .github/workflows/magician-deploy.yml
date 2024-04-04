@@ -16,7 +16,7 @@ env:
 
 jobs:
   test-build-magician:
-    name: Test-Build
+    name: Test-Build-Magician
     runs-on: ubuntu-latest
   
     steps:
