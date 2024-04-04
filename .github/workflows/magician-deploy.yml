@@ -15,7 +15,7 @@ env:
   MAGICIAN_MONGO_USERNAME: root
 
 jobs:
-  test-build:
+  test-build-magician:
     name: Test-Build
     runs-on: ubuntu-latest
   
