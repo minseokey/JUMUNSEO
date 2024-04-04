@@ -21,7 +21,7 @@ env:
 
 jobs:
   test:
-    name: Test
+    name: Test-Magician
     runs-on: ubuntu-latest
     
     steps:
