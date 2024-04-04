@@ -8,7 +8,7 @@ on:
 
 # 환경변수 주입
 env:
-  working-directory: ./auth-server
+  working-directory: ./auth-service
   image-name: auth-server
   AUTH_POSTGRES_HOST: ${{ secrets.AUTH_POSTGRES_HOST }}
   AUTH_POSTGRES_PORT: ${{ secrets.AUTH_POSTGRES_PORT }}
