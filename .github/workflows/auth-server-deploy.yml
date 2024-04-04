@@ -2,9 +2,8 @@ name: Auth-Server Deploy
 
 on:
   pull_request:
-    branches: [ "main" ]
-    paths:
-    - "auth-service/**"
+    branches: main
+    paths: auth-service/**
 
 # 환경변수 주입
 env:
