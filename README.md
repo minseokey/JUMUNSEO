@@ -30,7 +30,7 @@
               <b>유상록(dbtkdfhr)</b>
             </a> 
             <br/>
-              20191630
+              ****1630
         </td>
         <td style="min-width: 150px;">
             <a href="https://github.com/Misun-k">
@@ -39,7 +39,7 @@
               <b>김미선(Misun-k)</b>
             </a> 
             <br/>
-              20181583
+              ****1583
         </td>
         <td style="min-width: 150px;">
             <a href="https://github.com/ggstargame45">
@@ -48,7 +48,7 @@
               <b>조현민(ggstargame45)</b>
             </a> 
             <br/>
-              20191672
+              ****1672
         </td>
         <td style="min-width: 150px;">
           <a href="https://github.com/minseokey">
