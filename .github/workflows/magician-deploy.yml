@@ -5,6 +5,7 @@ on:
     branches: [ "main" ]
     paths:
     - "magician/**"
+    
 env:
   working-directory: ./magician
   image-name: magician-server
