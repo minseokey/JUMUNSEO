@@ -50,6 +50,58 @@ spec:
           {{- with .Values.volumeMounts }}
           volumeMounts:
             {{- toYaml . | nindent 12 }}
+          env:
+            - name: AUTH_REDIS_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: redis-cluster
+                  key: redis-password
+            - name: AUTH_REDIS_HOST
+              valueFrom:
+                configMapKeyRef:
+                  name: redis-cluster
+                  key: redis-host
+                  # value: redis-cluster.redis
+            - name: AUTH_REDIS_PORT
+              valueFrom:
+                configMapKeyRef:
+                  name: redis-cluster
+                  key: redis-port
+            - name: AUTH_POSTGRES_HOST
+              valueFrom:
+                configMapKeyRef:
+                  name: postgresql
+                  key: postgres-host
+            - name: AUTH_POSTGRES_PORT
+              valueFrom:
+                configMapKeyRef:
+                  name: postgresql
+                  key: postgres-port
+            - name: AUTH_POSTGRES_USER
+              valueFrom:
+                configMapKeyRef:
+                  name: postgresql
+                  key: postgres-user
+            - name: AUTH_POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: postgresql
+                  key: postgres-password
+            - name: JWT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: jumunser-auth
+                  key: jwt-secret
+            - name: ACCESS_EXPIRATION
+              valueFrom:
+                configMapKeyRef:
+                  name: jumunser-auth
+                  key: access-expiration
+            - name: REFRESH_EXPIRATION
+              valueFrom:
+                configMapKeyRef:
+                  name: jumunser-auth
+                  key: access-expiration
           {{- end }}
       {{- with .Values.volumes }}
       volumes:
