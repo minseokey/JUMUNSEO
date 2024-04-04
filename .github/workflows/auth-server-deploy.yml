@@ -20,7 +20,7 @@ env:
   REFRESH_EXPIRATION: ${{ secrets.REFRESH_EXPIRATION }}
 
 jobs:
-  test-build:
+  test-build-auth:
     name: Test-Build
     runs-on: ubuntu-latest
     services:
