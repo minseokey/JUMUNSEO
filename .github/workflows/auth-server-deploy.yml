@@ -21,7 +21,7 @@ env:
 
 jobs:
   test-build-auth:
-    name: Test-Build
+    name: Test-Build-Auth
     runs-on: ubuntu-latest
     services:
       redis:
