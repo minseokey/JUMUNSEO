@@ -2,9 +2,8 @@ name: Magician-Server Deploy
 
 on:
   pull_request:
-    branches: [ "main" ]
-    paths:
-    - "magician/**"
+    branches: main
+    paths: magician/**
     
 env:
   working-directory: ./magician
