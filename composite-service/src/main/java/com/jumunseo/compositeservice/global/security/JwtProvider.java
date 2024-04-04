@@ -1,7 +1,6 @@
 package com.jumunseo.compositeservice.global.security;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import io.jsonwebtoken.*;
 import org.springframework.stereotype.Component;
