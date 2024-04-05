@@ -10,6 +10,8 @@
             <br>
             <img src="https://github.com/kookmin-sw/capstone-2024-19/blob/hotfix/update-README/docs/magician_gif.gif">
         </td>
+    </tr>
+    <tr align='center'>
         <td>
             <a>딜레마</a>
             <br>
