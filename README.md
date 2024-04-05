@@ -4,11 +4,16 @@
 
 <br/>
 <table>
-    <tr>
+    <tr align='center'>
         <td>
-            <img src="https://github.com/kookmin-sw/capstone-2024-19/assets/48516380/e88319bd-d811-4eb9-b1a6-975bed00492d">
+            <a>마법사</a>
+            <br>
+            <img src="https://github.com/kookmin-sw/capstone-2024-19/blob/hotfix/update-README/docs/magician_gif.gif">
         </td>
         <td>
+            <a>딜레마</a>
+            <br>
+            <img src="https://github.com/kookmin-sw/capstone-2024-19/blob/hotfix/update-README/docs/dilemma_gif.gif">
         </td>
     </tr>
 </table>
