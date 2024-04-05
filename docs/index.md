@@ -1,6 +1,7 @@
 ## 🔉 프로젝트 소개 
 
 - github pages: <a href=" https://github.com/kookmin-sw/capstone-2024-19"> https://github.com/kookmin-sw/capstone-2024-19 </a>
+- 중간 보고서: <a href="https://docs.google.com/document/d/19_dItr86QYaiE_dQVc6W3ocl0ktKDnzcoQrBuSRfS2Q/edit?usp=sharing"> 중간보고서 링크 </a>
 
 ###  🧙‍♂️ 마법사
 - 법적인 분쟁을 도와주는 채팅봇
