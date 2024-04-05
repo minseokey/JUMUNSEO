@@ -3,7 +3,15 @@
 - github pages: <a href=" https://github.com/kookmin-sw/capstone-2024-19"> https://github.com/kookmin-sw/capstone-2024-19 </a>
 
 <br/>
-
+<table>
+    <tr>
+        <td>
+            <img src="https://github.com/kookmin-sw/capstone-2024-19/assets/48516380/e88319bd-d811-4eb9-b1a6-975bed00492d">
+        </td>
+        <td>
+        </td>
+    </tr>
+</table>
 
 ##  프로젝트 기능
 
