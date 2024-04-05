@@ -20,14 +20,14 @@
         <td>
             <a>마법사</a>
             <br>
-            <img src="https://github.com/kookmin-sw/capstone-2024-19/blob/hotfix/update-README/docs/magician_gif.gif">
+            <img src="https://github.com/kookmin-sw/capstone-2024-19/blob/main/docs/magician_gif.gif">
         </td>
     </tr>
     <tr align='center'>
         <td>
             <a>딜레마</a>
             <br>
-            <img src="https://github.com/kookmin-sw/capstone-2024-19/blob/hotfix/update-README/docs/dilemma_gif.gif">
+            <img src="https://github.com/kookmin-sw/capstone-2024-19/blob/main/docs/dilemma_gif.gif">
         </td>
     </tr>
 </table>
