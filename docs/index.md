@@ -3,7 +3,20 @@
 - github pages: <a href=" https://github.com/kookmin-sw/capstone-2024-19"> https://github.com/kookmin-sw/capstone-2024-19 </a>
 
 <br/>
-
+<table>
+    <tr align='center'>
+        <td>
+            <a>마법사</a>
+            <br>
+            <img src="https://github.com/kookmin-sw/capstone-2024-19/blob/hotfix/update-README/docs/magician_gif.gif">
+        </td>
+        <td>
+            <a>딜레마</a>
+            <br>
+            <img src="https://github.com/kookmin-sw/capstone-2024-19/blob/hotfix/update-README/docs/dilemma_gif.gif">
+        </td>
+    </tr>
+</table>
 
 ##  프로젝트 기능
 
