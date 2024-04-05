@@ -2,26 +2,6 @@
 
 - github pages: <a href=" https://github.com/kookmin-sw/capstone-2024-19"> https://github.com/kookmin-sw/capstone-2024-19 </a>
 
-<br/>
-<table>
-    <tr align='center'>
-        <td>
-            <a>딜레마</a>
-            <br>
-            <img src="https://github.com/kookmin-sw/capstone-2024-19/blob/hotfix/update-README/docs/dilemma_gif.gif">
-        </td>
-    </tr>
-    <tr align='center'>
-        <td>
-            <a>딜레마</a>
-            <br>
-            <img src="https://github.com/kookmin-sw/capstone-2024-19/blob/hotfix/update-README/docs/dilemma_gif.gif">
-        </td>
-    </tr>
-</table>
-
-##  프로젝트 기능
-
 ###  🧙‍♂️ 마법사
 - 법적인 분쟁을 도와주는 채팅봇
 
@@ -33,7 +13,25 @@
 ###  🍀 커뮤니티
 - 마법사, 딜레마에서 나온 결과를 토대로 자유롭게 얘기를 나눌 수 있는 커뮤니티
 
-<br />
+<br/>
+<table>
+    <tr align='center'>
+        <td>
+            <a>마법사</a>
+            <br>
+            <img src="https://github.com/kookmin-sw/capstone-2024-19/blob/hotfix/update-README/docs/magician_gif.gif">
+        </td>
+    </tr>
+    <tr align='center'>
+        <td>
+            <a>딜레마</a>
+            <br>
+            <img src="https://github.com/kookmin-sw/capstone-2024-19/blob/hotfix/update-README/docs/dilemma_gif.gif">
+        </td>
+    </tr>
+</table>
+
+<br/>
 
 ## 👩🏻‍💻 팀원 소개
 <table>
