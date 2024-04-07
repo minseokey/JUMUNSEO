@@ -9,7 +9,6 @@ class DilemaMenu extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.all(20),
       decoration: const BoxDecoration(
         borderRadius: BorderRadius.all(Radius.circular(30.0)),
         color: Color.fromARGB(0xff, 0xea, 0xf0, 0xff),

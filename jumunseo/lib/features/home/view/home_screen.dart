@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:jumunseo/core/logger.dart';
 import 'package:jumunseo/features/home/cubit/home_cubit.dart';
+import 'package:jumunseo/features/home/view/community_menu.dart';
 import 'package:jumunseo/features/home/view/dilema_menu.dart';
 import 'package:jumunseo/features/home/view/wizard_menu.dart';
 // import 'package:reorderable_grid_view/reorderable_grid_view.dart';
@@ -28,32 +29,25 @@ class _HomeScreenState extends State<HomeScreen> {
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 30),
         child: ReorderableListView(
-          padding: const EdgeInsets.symmetric(vertical: 30),
           onReorder: ((oldIndex, newIndex) {
             String tmp = homeWidgets.removeAt(oldIndex);
             homeWidgets.insert(newIndex, tmp);
             setState(() {});
           }),
           children: homeWidgets.map((e) => 
-            GestureDetector(
+            Padding(
               key: Key(e),
-              onTapUp: (details) {
-                if(e == '마법사') {
-                  context.read<HomeCubit>().homeToWizard(context);
-                }
-                else if(e == "게시판") {
-                  context.read<HomeCubit>().homeToCommunity(context);
-                }
-                else if(e == "딜레마") {
-                  context.read<HomeCubit>().homeToDilema(context);
-                }
-              },
-              child: (e == '마법사')? const WizardMenu(): 
-                (e == '딜레마')? const DilemaMenu(): 
-                Container(
-                  decoration: const BoxDecoration(color: Colors.purple),
-                  child: Text(e),
-                ),
+              padding: const EdgeInsets.symmetric(vertical: 15.0),
+              child: (e == '마법사')? 
+                GestureDetector(
+                  onTapUp: (details) => context.read<HomeCubit>().homeToWizard(context),
+                  child: const WizardMenu()
+                ): (e == '딜레마')? 
+                GestureDetector(
+                  onTapUp: (details) => context.read<HomeCubit>().homeToDilema(context),
+                  child: const DilemaMenu()
+                ): 
+                const CommunityMenu(),
             )).toList(),
           ),
       ),
