@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:jumunseo/features/community/community_screen.dart';
-import 'package:jumunseo/features/dilemma/dilemma_screen.dart';
+import 'package:jumunseo/features/dilemma/dilemma.dart';
 import 'package:jumunseo/features/home/home_screen.dart';
 import 'package:jumunseo/features/wizard/wizard_screen.dart';
 
@@ -17,10 +17,18 @@ GoRouter appRouter = GoRouter(
       },
     ),
     GoRoute(
-        path: '/dilemma/:catagory/:id',
+        path: '/dilemma',
         builder: (context, state) {
-          return DilemmaScreen();
-        }),
+          return DilemmaCategoryScreen();
+        },
+        routes: [
+          GoRoute(
+            path: '/:id',
+            builder: (context, state) {
+              return DilemmaChatScreen();
+            },
+          ),
+        ]),
     GoRoute(
         path: '/wizard',
         builder: (context, state) {
