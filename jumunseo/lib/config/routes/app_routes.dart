@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:jumunseo/features/community/community_screen.dart';
 import 'package:jumunseo/features/dilemma/dilemma_screen.dart';
-import 'package:jumunseo/features/home/home_screen.dart';
+import 'package:jumunseo/features/home/view/home_screen.dart';
 import 'package:jumunseo/features/wizard/chat/view/category_view.dart';
 import 'package:jumunseo/features/wizard/chat/view/chat_view.dart';
 import 'package:jumunseo/features/wizard/chat/view/fwohView/how_view.dart';

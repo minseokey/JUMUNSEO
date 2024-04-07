@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:jumunseo/core/logger.dart';
-import 'package:reorderable_grid_view/reorderable_grid_view.dart';
+import 'package:jumunseo/features/home/cubit/home_cubit.dart';
+import 'package:jumunseo/features/home/view/dilema_menu.dart';
+import 'package:jumunseo/features/home/view/wizard_menu.dart';
+// import 'package:reorderable_grid_view/reorderable_grid_view.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -13,7 +16,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  List<String> homeWidgets = ["마법사", "게시판", "딜레마"];
+  List<String> homeWidgets = ["마법사", "딜레마", "게시판"];
 
   @override
   Widget build(BuildContext context) {
@@ -22,42 +25,74 @@ class _HomeScreenState extends State<HomeScreen> {
       appBar: AppBar(
         title: const Text('홈'),
       ),
-      body: Column(
-        children: [
-          Expanded(
-            child: SingleChildScrollView(
-              physics: const AlwaysScrollableScrollPhysics(),
-              child: ReorderableGridView.count(
-                crossAxisCount: 2,
-                childAspectRatio: 1.5,
-                onReorder: ((oldIndex, newIndex) {
-                  String tmp = homeWidgets.removeAt(oldIndex);
-                  homeWidgets.insert(newIndex, tmp);
-                  setState(() {});
-                }),
-                children: homeWidgets.map((widget) => Card(
-                  key: ValueKey(widget),
-                  child: GestureDetector(
-                      onTapUp: (details) {
-                        if(widget == '마법사') {
-                          context.push("/wizard");
-                        }
-                        else if(widget == "게시판") {
-                          context.push("/community");
-                        }
-                        else if(widget == "딜레마") {
-                          context.push("/dilemma/1/1");
-                        }
-                      },
-                      child: Expanded(
-                        child: Container(
-                          decoration: const BoxDecoration(color: Colors.purple),
-                          child: Text(widget),
-                        ),
-                      ),
-                    ),
-                )).toList(),
+      body: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 30),
+        child: ReorderableListView(
+          padding: const EdgeInsets.symmetric(vertical: 30),
+          onReorder: ((oldIndex, newIndex) {
+            String tmp = homeWidgets.removeAt(oldIndex);
+            homeWidgets.insert(newIndex, tmp);
+            setState(() {});
+          }),
+          children: homeWidgets.map((e) => 
+            GestureDetector(
+              key: Key(e),
+              onTapUp: (details) {
+                if(e == '마법사') {
+                  context.read<HomeCubit>().homeToWizard(context);
+                }
+                else if(e == "게시판") {
+                  context.read<HomeCubit>().homeToCommunity(context);
+                }
+                else if(e == "딜레마") {
+                  context.read<HomeCubit>().homeToDilema(context);
+                }
+              },
+              child: (e == '마법사')? const WizardMenu(): 
+                (e == '딜레마')? const DilemaMenu(): 
+                Container(
+                  decoration: const BoxDecoration(color: Colors.purple),
+                  child: Text(e),
                 ),
+            )).toList(),
+          ),
+      ),
+      // Column(
+        // children: [
+        //   Expanded(
+        //     child: SingleChildScrollView(
+        //       physics: const AlwaysScrollableScrollPhysics(),
+        //       child: ReorderableGridView.count(
+        //         crossAxisCount: 2,
+        //         childAspectRatio: 1.5,
+        //         onReorder: ((oldIndex, newIndex) {
+        //           String tmp = homeWidgets.removeAt(oldIndex);
+        //           homeWidgets.insert(newIndex, tmp);
+        //           setState(() {});
+        //         }),
+        //         children: homeWidgets.map((widget) => Card(
+        //           key: ValueKey(widget),
+        //           child: GestureDetector(
+        //               onTapUp: (details) {
+        //                 if(widget == '마법사') {
+        //                   context.push("/wizard");
+        //                 }
+        //                 else if(widget == "게시판") {
+        //                   context.push("/community");
+        //                 }
+        //                 else if(widget == "딜레마") {
+        //                   context.push("/dilemma/1/1");
+        //                 }
+        //               },
+        //               child: Expanded(
+        //                 child: Container(
+        //                   decoration: const BoxDecoration(color: Colors.purple),
+        //                   child: Text(widget),
+        //                 ),
+        //               ),
+        //             ),
+        //         )).toList(),
+        //         ),
               // child: Column(
               //   children: <Widget>[
               //     Padding(
@@ -164,10 +199,10 @@ class _HomeScreenState extends State<HomeScreen> {
               //     ),
               //   ],
               // ),
-            ),
-          ),
-        ],
-      ),
+    //         ),
+    //       ),
+    //     ],
+    //   ),
     );
   }
 }
