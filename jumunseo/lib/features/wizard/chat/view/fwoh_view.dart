@@ -65,7 +65,7 @@ class _FwohViewState extends State<FwohView> {
                             children: [
                               Expanded(
                                 child: GradientButton(
-                                  onButtonPress: () {context.read<WizardCubit>().toChat(context); },
+                                  onButtonPress: () {},//context.read<WizardCubit>().toChat(context, ); },
                                   message: 'Continue',
                                 ),
                               ),

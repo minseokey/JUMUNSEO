@@ -1,6 +1,5 @@
 import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:jumunseo/config/theme/app_color.dart';
 import '../chat.dart';
@@ -14,10 +13,24 @@ class ChatView extends StatefulWidget {
 
 class _ChatViewState extends State<ChatView> {
   @override
-  Widget build(BuildContext context) {
-    //웹소켓 연결
-    // context.read<WizardCubit>().sokectEventSetting(context);
+  void initState(){
+    super.initState();
 
+    //웹소켓 연결
+    context.read<WizardCubit>().sokectEventSetting(context);
+
+    WidgetsBinding.instance
+        .addPostFrameCallback((_) => context.read<WizardCubit>().pushFirstMessage());
+  }
+
+  @override
+  void dispose(){
+    context.read<WizardCubit>().socketDispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.blue.shade50,
       appBar: AppBar(
@@ -27,13 +40,13 @@ class _ChatViewState extends State<ChatView> {
             const Padding(
               padding: EdgeInsets.symmetric(horizontal: 20.0),
               child: Text(
-              "주문서 봇",
-              style: TextStyle(
-                color: ColorStyles.mainColor,
-                fontSize: 20.0,
-                fontWeight: FontWeight.bold,
+                "주문서 봇",
+                style: TextStyle(
+                  color: ColorStyles.mainColor,
+                  fontSize: 20.0,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
-                        ),
             ),]
         ),
         shape: const Border(
@@ -98,8 +111,12 @@ class _ChatViewState extends State<ChatView> {
                             isDense: true,
                             contentPadding: EdgeInsets.symmetric(horizontal: 0, vertical: 0),
                           ),
+                          keyboardType: TextInputType.multiline,
+                          minLines: 1,
+                          maxLines: 7,
                           onSubmitted: (String text){
-                            context.read<WizardCubit>().onButtonPress();
+                            context.read<WizardCubit>().onButtonPress(context.read<WizardCubit>().getChatTextField());
+                            context.read<WizardCubit>().clearChatTextField();
                           },
                         )),
                       GestureDetector(
@@ -109,7 +126,8 @@ class _ChatViewState extends State<ChatView> {
                           height: 24.0,
                         ),
                         onTap: () {
-                          context.read<WizardCubit>().onButtonPress();
+                          context.read<WizardCubit>().onButtonPress(context.read<WizardCubit>().getChatTextField());
+                          context.read<WizardCubit>().clearChatTextField();
                         },
                       ),
                     ],
