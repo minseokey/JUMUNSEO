@@ -23,6 +23,9 @@ public class CommandController {
     private final KafkaService kafkaService;
 
     // User는 카프카 사용 x, 토큰만 필요하거나, 토큰조차 필요 없는 경우가 많아 비효율적일것으로 예상.
+    // 만약 헤더나 PathVariable로 받아야할 경우가 생긴다면, CommandDto에 그냥 String으로 추가.
+    // 만약 바디로 들어온다면 ExternalDto를 만들고, CommandDto에 ExternalDto를 추가.
+
     // Magician
     // Community
     @DeleteMapping("/chat/{room_id}")
