@@ -50,7 +50,7 @@ public class RefreshTokenServiceImpl implements RefreshTokenService{
         }
         // 3. accessToken 업데이트
         Role role = user.getRole();
-        String newAccessToken = jwtTokenProvider.createAccessToken(user.getEmail(), role.toString());
+        String newAccessToken = jwtTokenProvider.createAccessToken(user.getEmail(), String.valueOf(role));
         return JwtTokenDto.builder()
                 .accessToken(newAccessToken)
                 .refreshToken(refreshToken)
