@@ -73,7 +73,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                       color: Colors.transparent,
                                       child: InkWell(
                                         onTap: () {
-                                          context.push('/dilemma/1/1');
+                                          context.push('/dilemma');
                                         },
                                         child: const Column(
                                           mainAxisAlignment:
