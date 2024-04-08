@@ -6,10 +6,16 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collection;
 
 @RequiredArgsConstructor
 public class AuthorizationFilter extends OncePerRequestFilter{
@@ -25,18 +31,23 @@ public class AuthorizationFilter extends OncePerRequestFilter{
             return;
         }
         String accesstoken = header.replace("Bearer ", "");
-        // 토큰 유효성 검사
-        if(!jwtProvider.validateToken(accesstoken)) {
-            throw new RuntimeException("유효하지 않은 토큰입니다.");
-        }
-        // 토큰 만료 검사
-        if(jwtProvider.getExpirationTime(accesstoken).getTime() - System.currentTimeMillis() < 0) {
-            throw new RuntimeException("토큰이 만료되었습니다.");
-        }
-        res.setHeader("email", jwtProvider.getEmailForAccessToken(accesstoken));
-        res.setHeader("role", jwtProvider.getRole(accesstoken));
-        res.setHeader("name", jwtProvider.getName(accesstoken));
 
+        // 토큰 유효성 검사, 토큰이 유효하지 않으면 예외 발생
+        jwtProvider.validateToken(accesstoken);
+
+        req.setAttribute("email", jwtProvider.getEmailForAccessToken(accesstoken));
+        req.setAttribute("role", jwtProvider.getRole(accesstoken));
+        req.setAttribute("name", jwtProvider.getName(accesstoken));
+
+        // @Secured 사용을 위한 Authentication 객체 생성
+        Collection<GrantedAuthority> authorities = new ArrayList<>();
+        authorities.add((GrantedAuthority) () -> jwtProvider.getRole(accesstoken));
+        Authentication authentication = new UsernamePasswordAuthenticationToken(
+                jwtProvider.getEmailForAccessToken(accesstoken),
+                null,
+                authorities
+        );
+        SecurityContextHolder.getContext().setAuthentication(authentication);
         filterChain.doFilter(req, res);
     }
 }

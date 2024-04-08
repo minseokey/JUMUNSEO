@@ -15,6 +15,20 @@ public class JwtProvider {
     @Value("${jwt.secret}")
     private String secretKey;
 
+    // 테스트용 accessToken 만들기.
+    public String createTestAccessToken() {
+        Claims claims = Jwts.claims().setSubject("test");
+        claims.put("role", "USER");
+        claims.put("name", "test");
+
+        return Jwts.builder()
+                .setClaims(claims)
+                .setIssuedAt(new Date())
+                .setExpiration(new Date(System.currentTimeMillis() + 3600000))
+                .signWith(SignatureAlgorithm.HS256, secretKey)
+                .compact();
+    }
+
 
     // 토큰의 서브젝트인 이메일 추출
     public String getEmailForAccessToken(String token) {
@@ -29,10 +43,6 @@ public class JwtProvider {
         catch (ExpiredJwtException e) {
             return e.getClaims();
         }
-    }
-
-    public Date getExpirationTime(String token) {
-        return getClaimes(token).getExpiration();
     }
 
     public String getRole(String token) {

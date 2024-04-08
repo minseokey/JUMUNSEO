@@ -280,3 +280,4 @@ gradle-app.setting
 
 ### application specific ###
 /src/main/resources/application-local.yml
+/composite-local-docker-compose.yml
