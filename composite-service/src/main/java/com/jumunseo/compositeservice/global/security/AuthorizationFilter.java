@@ -1,10 +1,13 @@
 package com.jumunseo.compositeservice.global.security;
 
+import com.jumunseo.compositeservice.global.exception.Result;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -33,21 +36,24 @@ public class AuthorizationFilter extends OncePerRequestFilter{
         String accesstoken = header.replace("Bearer ", "");
 
         // 토큰 유효성 검사, 토큰이 유효하지 않으면 예외 발생
-        jwtProvider.validateToken(accesstoken);
+        try{jwtProvider.validateToken(accesstoken);
+            req.setAttribute("email", jwtProvider.getEmailForAccessToken(accesstoken));
+            req.setAttribute("role", jwtProvider.getRole(accesstoken));
+            req.setAttribute("name", jwtProvider.getName(accesstoken));
 
-        req.setAttribute("email", jwtProvider.getEmailForAccessToken(accesstoken));
-        req.setAttribute("role", jwtProvider.getRole(accesstoken));
-        req.setAttribute("name", jwtProvider.getName(accesstoken));
-
-        // @Secured 사용을 위한 Authentication 객체 생성
-        Collection<GrantedAuthority> authorities = new ArrayList<>();
-        authorities.add((GrantedAuthority) () -> jwtProvider.getRole(accesstoken));
-        Authentication authentication = new UsernamePasswordAuthenticationToken(
-                jwtProvider.getEmailForAccessToken(accesstoken),
-                null,
-                authorities
-        );
-        SecurityContextHolder.getContext().setAuthentication(authentication);
-        filterChain.doFilter(req, res);
+            // @Secured 사용을 위한 Authentication 객체 생성
+            Collection<GrantedAuthority> authorities = new ArrayList<>();
+            authorities.add((GrantedAuthority) () -> jwtProvider.getRole(accesstoken));
+            Authentication authentication = new UsernamePasswordAuthenticationToken(
+                    jwtProvider.getEmailForAccessToken(accesstoken),
+                    null,
+                    authorities
+            );
+            SecurityContextHolder.getContext().setAuthentication(authentication);
+            filterChain.doFilter(req, res);
+        } catch (Exception e) {
+            req.setAttribute("error", e.getMessage());
+            req.getRequestDispatcher("/jwt-error").forward(req, res);
+        }
     }
 }

@@ -6,7 +6,7 @@ import java.util.Map;
 
 @Data
 public class CommandDto {
-    String data; // externam dto 가 파싱되어 들어갈 자리
+    String data; // internal dto 가 파싱되어 들어갈 자리
     String email;
     String role;
     String name;

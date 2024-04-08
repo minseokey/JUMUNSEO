@@ -1,8 +1,10 @@
 package com.jumunseo.compositeservice.global.security;
 
+import com.jumunseo.compositeservice.global.exception.CustomException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import io.jsonwebtoken.*;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
