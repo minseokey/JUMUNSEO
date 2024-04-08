@@ -75,7 +75,6 @@ public class UserServiceImpl implements UserService, UserDetailsService{
         return mapper.toDtoList(users);
     }
 
-    // TODO: 유저 이름 or 이메일이 변경되면, Refresh 토큰, Access 토큰 재발급
     @Override
     public UpdateDto updateUser(String token, Map<String, String> updateInfo) {
         try {
@@ -98,7 +97,7 @@ public class UserServiceImpl implements UserService, UserDetailsService{
         }
 
         // 새로운 토큰 발급
-        String newAccessToken = jwtTokenProvider.createAccessToken(originUser.getEmail(), originUser.getRole().toString());
+        String newAccessToken = jwtTokenProvider.createAccessToken(originUser.getEmail(), String.valueOf(originUser.getRole()));
         String newRefreshToken = jwtTokenProvider.createRefreshToken();
         // 레디스에 저장된 토큰 업데이트
         refreshTokenService.updateRefreshToken(originUser.getEmail(), jwtTokenProvider.getRefreshTokenId(newRefreshToken));

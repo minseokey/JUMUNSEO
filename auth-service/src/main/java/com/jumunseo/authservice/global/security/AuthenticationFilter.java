@@ -57,7 +57,7 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter{
     @Override
     protected void successfulAuthentication(HttpServletRequest req, HttpServletResponse res, FilterChain chain, Authentication auth) throws IOException {
 
-        String role = auth.getAuthorities().toString();
+        String role = auth.getAuthorities().stream().findFirst().get().getAuthority();
         String userEmail = auth.getName();
         String accessToken = jwtTokenProvider.createAccessToken(userEmail, role);
         Date accessTokenExpiredDate = jwtTokenProvider.getExpirationTime(accessToken);
