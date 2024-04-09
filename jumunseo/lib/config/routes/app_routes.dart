@@ -19,6 +19,8 @@ final GlobalKey<NavigatorState> rootNavigatorKey =
     GlobalKey<NavigatorState>(debugLabel: 'root');
 
 GoRouter appRouter = GoRouter(
+  navigatorKey: rootNavigatorKey,
+  initialLocation: '/',
   routes: [
     GoRoute(
       path: '/',
@@ -27,18 +29,19 @@ GoRouter appRouter = GoRouter(
       },
     ),
     GoRoute(
-        path: '/dilemma',
-        builder: (context, state) {
-          return DilemmaCategoryScreen();
-        },
-        routes: [
-          GoRoute(
-            path: '/:id',
-            builder: (context, state) {
-              return DilemmaChatScreen();
-            },
-          ),
-        ]),
+      path: '/dilemma',
+      builder: (context, state) {
+        return DilemmaCategoryScreen();
+      },
+      routes: [
+        GoRoute(
+          path: 'chat/:id',
+          builder: (context, state) {
+            return DilemmaChatScreen();
+          },
+        ),
+      ],
+    ),
     GoRoute(
       path: '/wizard',
       builder: (context, state) {
@@ -46,66 +49,56 @@ GoRouter appRouter = GoRouter(
       },
       routes: [
         GoRoute(
-          path: 'category',
-          builder: (context, state) {
-            return const CategoryView();
-          }
-        ),
+            path: 'category',
+            builder: (context, state) {
+              return const CategoryView();
+            }),
         GoRoute(
-          path: 'chat',
-          builder: (context, state) {
-            return const ChatView();
-          }
-        ),
+            path: 'chat',
+            builder: (context, state) {
+              return const ChatView();
+            }),
         GoRoute(
-          path: 'chat_set',
-          builder: (context, state) {
-            return const SettingView();
-          }
-        ),
+            path: 'chat_set',
+            builder: (context, state) {
+              return const SettingView();
+            }),
         //육하원칙 뷰들
         GoRoute(
-          path: 'when',
-          builder: (context, state) {
-            return const WhenView();
-          }
-        ),
+            path: 'when',
+            builder: (context, state) {
+              return const WhenView();
+            }),
         GoRoute(
-          path: 'who',
-          builder: (context, state) {
-            return const WhoView();
-          }
-        ),
+            path: 'who',
+            builder: (context, state) {
+              return const WhoView();
+            }),
         GoRoute(
-          path: 'where',
-          builder: (context, state) {
-            return const WhereView();
-          }
-        ),
+            path: 'where',
+            builder: (context, state) {
+              return const WhereView();
+            }),
         GoRoute(
-          path: 'how',
-          builder: (context, state) {
-            return const HowView();
-          }
-        ),
+            path: 'how',
+            builder: (context, state) {
+              return const HowView();
+            }),
         GoRoute(
-          path: 'plus_info',
-          builder: (context, state) {
-            return const PlusInfoView();
-          }
-        ),
+            path: 'plus_info',
+            builder: (context, state) {
+              return const PlusInfoView();
+            }),
         GoRoute(
-          path: 'what',
-          builder: (context, state) {
-            return const WhatView();
-          }
-        ),
+            path: 'what',
+            builder: (context, state) {
+              return const WhatView();
+            }),
         GoRoute(
-          path: 'why',
-          builder: (context, state) {
-            return const WhyView();
-          }
-        ),
+            path: 'why',
+            builder: (context, state) {
+              return const WhyView();
+            }),
       ],
     ),
     GoRoute(

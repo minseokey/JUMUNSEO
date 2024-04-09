@@ -28,18 +28,3 @@ class MyApp extends StatelessWidget {
     );
   }
 }
-
-class CompositeBlocObserver extends BlocObserver {
-  final List<BlocObserver> _observers;
-
-  CompositeBlocObserver(this._observers);
-
-  @override
-  void onChange(BlocBase bloc, Change change) {
-    super.onChange(bloc, change);
-
-    for (var observer in _observers) {
-      observer.onChange(bloc, change);
-    }
-  }
-}
