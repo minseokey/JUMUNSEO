@@ -25,4 +25,8 @@ class HomeCubit extends Cubit<HomeState> {
   void homeToCommunity(BuildContext context) {
     context.push("/community");
   }
+
+  void hometoProfile(BuildContext context) {
+    context.push("/profile");
+  }
 }

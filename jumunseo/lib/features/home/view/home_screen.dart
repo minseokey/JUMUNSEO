@@ -1,5 +1,7 @@
+import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:jumunseo/core/blank.dart';
 import 'package:jumunseo/core/logger.dart';
 import 'package:jumunseo/features/home/cubit/home_cubit.dart';
 import 'package:jumunseo/features/home/view/community_menu.dart';
@@ -40,7 +42,21 @@ class _HomeScreenState extends State<HomeScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('홈'),
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children:[
+            const Text('홈'),
+            const Spacer(),
+            GestureDetector(
+              onTapUp: (details) {
+                
+              },
+              child: ExtendedImage.asset('assets/icons/setting.png', width: 40.0, height: 40.0,),
+            ),
+            const Blank(10, 0),
+          ]
+        ),
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 30),
