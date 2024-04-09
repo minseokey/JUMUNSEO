@@ -1,5 +1,7 @@
 from fastapi import FastAPI, WebSocket
 from fastapi.middleware.cors import CORSMiddleware
+from aiokafka import AIOKafkaConsumer
+import json
 import asyncio
 import uvicorn
 import motor.motor_asyncio
@@ -93,6 +95,30 @@ async def save_chat(user_id, room_id, added_prompt, conversation, is_continued):
         await collection.insert_one(chat_data)
 
 
+# 비동기 Kafka Consumer 설정
+@app.on_event("startup")
+async def startup_event():
+    asyncio.create_task(consume_messages())
+
+
+async def consume_messages():
+    consumer = AIOKafkaConsumer(
+        'magician',
+        loop=asyncio.get_event_loop(),
+        bootstrap_servers="localhost:9092",
+        group_id='magician',
+        value_deserializer=lambda x: json.loads(x.decode('utf-8'))
+    )
+    await consumer.start()
+    try:
+        async for raw in consumer:
+            cmd = raw.value['command']
+            if cmd == "DeleteChat":
+                await delete_chat(json.loads(raw.value['data'])['room_id'])
+    finally:
+        await consumer.stop()
+
+
 # READ
 # TODO: CQRS 패턴으로 변경
 # 어떤 사용자가 진행했던 채팅들 리스트 반환
@@ -114,12 +140,12 @@ async def chat_detail(room_id: str):
     chat["_id"] = str(chat["_id"])
     return {"chat": chat}
 
+
 # DELETE
 # 채팅방의 채팅 내용 삭제
-@app.delete("/chat/{room_id}")
 async def delete_chat(room_id: str):
+    # TODO: 어플리케이션 기능은 완성. but 로깅은 어떻게하지?
     await collection.delete_one({"room_id": room_id})
-    return {"message": "Chat deleted successfully"}
 
 
 # FastAPI 서버 실행
