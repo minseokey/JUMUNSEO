@@ -6,7 +6,7 @@ sealed class DilemmaCategoryEvent extends Equatable {
   @override
   List<Object> get props => [];
 }
-
+//pull
 final class DilemmaCategoryInitial extends DilemmaCategoryEvent {}
 
 final class DilemmaCategoryLoaded extends DilemmaCategoryEvent {}

@@ -8,6 +8,7 @@ import 'package:jumunseo/core/logger.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:yoda/yoda.dart';
 
+//pull
 class DilemmaCategoryScreen extends StatefulWidget {
   const DilemmaCategoryScreen({super.key});
 

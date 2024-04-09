@@ -4,6 +4,8 @@ import 'package:equatable/equatable.dart';
 part 'dilemma_category_event.dart';
 part 'dilemma_category_state.dart';
 
+//pull
+
 class DilemmaCategoryBloc
     extends Bloc<DilemmaCategoryEvent, DilemmaCategoryState> {
   DilemmaCategoryBloc() : super(DilemmaCategoryState()) {
