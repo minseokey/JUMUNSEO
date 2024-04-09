@@ -1,6 +1,5 @@
-import 'package:flutter/material.dart';
+import '../home.dart';
 import 'package:go_router/go_router.dart';
-import 'package:jumunseo/features/home/state/home_state.dart';
 import 'package:bloc/bloc.dart';
 
 class HomeCubit extends Cubit<HomeState> {

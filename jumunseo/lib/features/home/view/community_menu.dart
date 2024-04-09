@@ -1,8 +1,7 @@
-import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:jumunseo/core/blank.dart';
 import 'package:jumunseo/features/community/writing_status.dart';
-import 'package:jumunseo/features/home/cubit/home_cubit.dart';
+import '../home.dart';
 
 class CommunityMenu extends StatefulWidget {
   const CommunityMenu({Key? key}) : super(key: key);

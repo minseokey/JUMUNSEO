@@ -1,12 +1,8 @@
 import 'package:extended_image/extended_image.dart';
-import 'package:flutter/material.dart';
+import '../home.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:jumunseo/core/blank.dart';
 import 'package:jumunseo/core/logger.dart';
-import 'package:jumunseo/features/home/cubit/home_cubit.dart';
-import 'package:jumunseo/features/home/view/community_menu.dart';
-import 'package:jumunseo/features/home/view/dilema_menu.dart';
-import 'package:jumunseo/features/home/view/wizard_menu.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});

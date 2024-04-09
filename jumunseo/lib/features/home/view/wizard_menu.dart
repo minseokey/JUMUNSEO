@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import '../home.dart';
 import 'package:jumunseo/config/theme/app_color.dart';
 import 'package:jumunseo/core/blank.dart';
 
