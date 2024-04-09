@@ -59,10 +59,14 @@ class _HomeScreenState extends State<HomeScreen> {
         child: ReorderableListView(
           proxyDecorator: proxyDecorator,
           onReorder: ((oldIndex, newIndex) {
-            String tmp = homeWidgets.removeAt(oldIndex);
-            homeWidgets.insert(newIndex, tmp);
-            context.read<HomeCubit>().putHomeList(homeWidgets);
-            setState(() {});
+            setState(() {
+              if (oldIndex < newIndex) {
+                newIndex -= 1;
+              }
+              final String item = homeWidgets.removeAt(oldIndex);
+              homeWidgets.insert(newIndex, item);
+              context.read<HomeCubit>().putHomeList(homeWidgets);
+            });
           }),
           children: homeWidgets.map((e) => 
             Padding(
