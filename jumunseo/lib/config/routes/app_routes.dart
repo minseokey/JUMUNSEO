@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:jumunseo/features/community/community_screen.dart';
+import 'package:jumunseo/features/community/post/post_screen.dart';
 import 'package:jumunseo/features/dilemma/dilemma_screen.dart';
 import 'package:jumunseo/features/home/home_screen.dart';
 import 'package:jumunseo/features/wizard/chat/view/category_view.dart';
@@ -101,9 +102,18 @@ GoRouter appRouter = GoRouter(
       ],
     ),
     GoRoute(
-        path: '/community',
-        builder: (context, state) {
-          return const CommunityScreen();
-        }),
+      path: '/community',
+      builder: (context, state) {
+        return const CommunityScreen();
+      },
+      routes: [
+        GoRoute(
+            path: 'post',
+            builder: (context, state) {
+              return const PostScreen();
+            }
+        ),
+      ],
+    ),
   ],
 );
