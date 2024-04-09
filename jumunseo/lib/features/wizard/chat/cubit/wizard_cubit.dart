@@ -1,14 +1,8 @@
 import 'package:bloc/bloc.dart';
-import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:jumunseo/core/logger.dart';
-import 'package:jumunseo/features/wizard/chat/view/chat_view.dart';
-import 'package:jumunseo/features/wizard/chat/view/fwoh_view.dart';
-import 'package:jumunseo/features/wizard/model/room_model.dart';
+import '../chat.dart';
 import 'package:web_socket_channel/io.dart';
-import '../state/wizard_state.dart';
-import '../view/my_chat_message.dart';
-import '../view/other_chat_message.dart';
 
 class WizardCubit extends Cubit<WizardState> {
   WizardCubit() : super(WizardState());

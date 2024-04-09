@@ -50,7 +50,7 @@ class _HomeScreenState extends State<HomeScreen> {
             const Spacer(),
             GestureDetector(
               onTapUp: (details) {
-                
+                context.read<HomeCubit>().hometoProfile(context);
               },
               child: ExtendedImage.asset('assets/icons/setting.png', width: 40.0, height: 40.0,),
             ),

@@ -1,7 +1,6 @@
-import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:jumunseo/config/theme/app_color.dart';
-import 'package:jumunseo/features/wizard/chat/chat.dart';
+import '../chat.dart';
 
 class Category extends StatefulWidget {
   final String imageName;
