@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import '../chat.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
 
 class WizardState{
