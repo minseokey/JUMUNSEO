@@ -1,6 +1,6 @@
 name: Composite-Server Test
 
-# back-dev, back 하위 브랜치에 풀리퀘, 푸시가 일어날때 auth-server 하위에 변경이 있다면 실행.
+# back-dev, back 하위 브랜치에 풀리퀘, 푸시가 일어날때 composite-server 하위에 변경이 있다면 실행.
 on:
   pull_request:
     branches: 
@@ -31,10 +31,10 @@ jobs:
         ports:
           - "9092:9092"
         env:
-          KAFKA_ADVERTISED_HOST_NAME: 0.0.0.0
+          KAFKA_ADVERTISED_HOST_NAME: 127.0.0.1
           # 여기다가 토픽 확장하기.
           KAFKA_CREATE_TOPICS: "test:1:1, magician:1:1"
-          KAFKA_ZOOKEEPER_CONNECT: 0.0.0.0:2181
+          KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
 
     steps:
     # 체크아웃
