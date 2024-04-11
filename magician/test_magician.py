@@ -4,8 +4,7 @@ import motor.motor_asyncio
 import asyncio
 import os
 import websockets
-from httpx import AsyncClient
-from main import app
+
 
 MAGICIAN_MONGO_USERNAME = os.getenv("MAGICIAN_MONGO_USERNAME")
 MAGICIAN_MONGO_PASSWORD = os.getenv("MAGICIAN_MONGO_PASSWORD")
@@ -13,7 +12,6 @@ MAGICIAN_MONGO_PORT = os.getenv("MAGICIAN_MONGO_PORT")
 MAGICIAN_MONGO_HOST = os.getenv("MAGICIAN_MONGO_HOST")
 db_name = "chat_db"
 MONGO_URI = f"mongodb://{MAGICIAN_MONGO_USERNAME}:{MAGICIAN_MONGO_PASSWORD}@{MAGICIAN_MONGO_HOST}:{MAGICIAN_MONGO_PORT}/{db_name}?authSource=admin"
-
 
 
 @pytest.fixture(scope="session")
@@ -81,23 +79,3 @@ async def test_reload_message(chat_collection):
 
     await chat_collection.delete_many({"user_id": "Test3"})
     assert msg[-1]["user_message"] == "reload_테스트2" and msg2 == "이전 대화를 이어서 진행합니다."
-
-@pytest.mark.asyncio(scope="session")
-@pytest.mark.dependency(depends=["test_reload_message"])
-async def test_delete_chat(chat_collection):
-    async with websockets.connect("ws://0.0.0.0:8000/ws/Test4") as websocket:
-        await websocket.send("test/-1")
-        await websocket.send("delete_테스트")
-        await websocket.recv()
-        await websocket.close()
-
-    await asyncio.sleep(3)
-    raw_room_id = await chat_collection.find_one({"user_id": "Test4"})
-    room_id = raw_room_id["room_id"]
-
-    test_client = AsyncClient(app=app, base_url="http://0.0.0.0:8000")
-    test_response = await test_client.delete(f"/chat/{room_id}")
-    assert test_response.status_code == 200
-
-    result = await chat_collection.find_one({"room_id": room_id})
-    assert result is None

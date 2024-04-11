@@ -33,7 +33,7 @@ public class TestListener {
     Map<String,Object> map;
 
 
-    @KafkaListener(topics = "test", groupId = "test_consumer")
+    @KafkaListener(topics = "test", groupId = "test")
     public void listen(String message) throws JsonProcessingException {
         // 받은 데이터를 Map으로 변환 -> with 토큰정보 & 데이터
         map = objectMapper.readValue(message, new TypeReference<>() {});
