@@ -137,8 +137,11 @@ async def chat_list(user_id: str):
 @app.get("/chat/{room_id}")
 async def chat_detail(room_id: str):
     chat = await collection.find_one({"room_id": room_id})
-    chat["_id"] = str(chat["_id"])
-    return chat
+    if chat:
+        chat["_id"] = str(chat["_id"])
+        return chat
+    else:
+        return None
 
 
 # DELETE
