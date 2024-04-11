@@ -55,14 +55,14 @@ class _DilemmaChatScreenState extends State<DilemmaChatScreen> {
     try {
       final newItems = await Future.delayed(Duration(seconds: 2), () {
         return List.generate(
-          10,
+          30,
           (index) => DilemmaChatModel(
             userName: 'User ${index + pageKey * 10}',
             message: 'Message ${index + pageKey * 10}',
-            sendTime:
-                DateTime.now().add(Duration(hours: 5 * (index + pageKey * 10))),
+            sendTime: DateTime.now().add(
+                Duration(hours: 5 * (index % 6 < 3 ? 1 : 0 + pageKey * 10))),
             userId: 'userId',
-            isleft: index % 2 == 0,
+            isleft: index % 6 < 3,
             chatType: ChatType.text,
           ),
         );
@@ -97,47 +97,40 @@ class _DilemmaChatScreenState extends State<DilemmaChatScreen> {
               builderDelegate: PagedChildBuilderDelegate<DilemmaChatModel>(
                 itemBuilder: (context, item, index) {
                   final _list = _pagingController.itemList!;
+                  final _upperChat = _list[
+                      index == _list.length - 1 ? _list.length - 1 : index + 1];
+                  final _lowerChat = _list[index == 0 ? 0 : index - 1];
+
+                  List<Widget> _widgetList = [
+                    if (_upperChat.sendTime.day != item.sendTime.day)
+                      Text(_upperChat.sendTime.toString()),
+                  ];
 
                   switch (item.chatType) {
                     case ChatType.text:
-                      final _upperChat = _list[index == _list.length - 1
-                          ? _list.length - 1
-                          : index + 1];
-                      final _lowerChat = _list[index == 0 ? 0 : index - 1];
-                      return DilemmaChatTextListItem(
+                      _widgetList.add(DilemmaChatTextListItem(
                         currentChat: item,
                         upperChat: _upperChat,
                         lowerChat: _lowerChat,
-                      );
+                      ));
+                      break;
                     case ChatType.image:
                       // TODO: Handle this case.
-                      return Row(
-                        children: [],
-                      );
+                      break;
                     case ChatType.warning:
-                    // TODO: Handle this case.
+                      // TODO: Handle this case.
+                      _widgetList
+                          .add(DilemmaChatWarningItem(currentChat: item));
+                      break;
                     case ChatType.notice:
-                    // TODO: Handle this case.
+                      // TODO: Handle this case.
+                      _widgetList.add(DilemmaChatNoticeItem(currentChat: item));
+                      break;
                   }
-                  return Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [],
-                  );
 
-                  // if ((_recentChat ??= item).sendTime.day !=
-                  //     item.sendTime.day) {
-                  //   logger.i('new day : $_recentChat $item');
-                  //   _recentChat = item;
-                  //   return Column(
-                  //     children: [
-                  //       DilemmaChatUserImageItem(imageUrl: item),
-                  //       Text(_recentChat!.sendTime.toString()),
-                  //     ],
-                  //   );
-                  // }
-                  // _recentChat = item;
-                  // return DilemmaChatUserImageItem(imageUrl: item);
+                  return Column(
+                    children: _widgetList,
+                  );
                 },
               ),
             ),
@@ -215,7 +208,7 @@ class _DilemmaChatScreenState extends State<DilemmaChatScreen> {
                               ),
                             ),
                             DropdownButton<String>(
-                              value: 'left',
+                              value: _selectedValue,
                               items: [
                                 DropdownMenuItem(
                                   child: Text('left'),
@@ -236,6 +229,10 @@ class _DilemmaChatScreenState extends State<DilemmaChatScreen> {
                                 DropdownMenuItem(
                                   child: Text('warn'),
                                   value: 'warn',
+                                ),
+                                DropdownMenuItem(
+                                  child: Text('notice'),
+                                  value: 'notice',
                                 ),
                               ],
                               onChanged: (value) {
@@ -281,7 +278,7 @@ class _DilemmaChatScreenState extends State<DilemmaChatScreen> {
                                           message: 'real Message',
                                           sendTime: DateTime.now()
                                               .add(Duration(days: 2)),
-                                          userId: 'userId',
+                                          userId: 'me',
                                           chatType: ChatType.text,
                                           isleft: true),
                                     );
@@ -295,7 +292,7 @@ class _DilemmaChatScreenState extends State<DilemmaChatScreen> {
                                           message: 'real Message',
                                           sendTime: DateTime.now()
                                               .add(Duration(days: 2)),
-                                          userId: 'userId',
+                                          userId: 'me',
                                           chatType: ChatType.text,
                                           isleft: false),
                                     );
@@ -311,6 +308,20 @@ class _DilemmaChatScreenState extends State<DilemmaChatScreen> {
                                               .add(Duration(days: 2)),
                                           userId: 'userId',
                                           chatType: ChatType.warning,
+                                          isleft: false),
+                                    );
+                                    _pagingController.notifyListeners();
+                                    break;
+                                  case 'notice':
+                                    _pagingController.itemList!.insert(
+                                      0,
+                                      DilemmaChatModel(
+                                          userName: 'me',
+                                          message: 'real Message',
+                                          sendTime: DateTime.now()
+                                              .add(Duration(days: 2)),
+                                          userId: 'userId',
+                                          chatType: ChatType.notice,
                                           isleft: false),
                                     );
                                     _pagingController.notifyListeners();
@@ -377,7 +388,9 @@ class DilemmaChatTextListItem extends StatelessWidget {
                     children: [
                       DilemmaChatMessageItem(
                         messageText: currentChat.message!,
-                        backgroundColor: Color.fromARGB(255, 255, 158, 158),
+                        backgroundColor: currentChat.userId == "me"
+                            ? Color.fromARGB(255, 247, 227, 53)
+                            : Color.fromARGB(255, 255, 158, 158),
                       ),
                       if (!(currentChat.userId == lowerChat.userId &&
                               currentChat.sendTime
@@ -427,7 +440,9 @@ class DilemmaChatTextListItem extends StatelessWidget {
                         ),
                       DilemmaChatMessageItem(
                         messageText: currentChat.message!,
-                        backgroundColor: Color.fromARGB(255, 173, 229, 255),
+                        backgroundColor: currentChat.userId == "me"
+                            ? Color.fromARGB(255, 247, 227, 53)
+                            : Color.fromARGB(255, 173, 229, 255),
                       ),
                     ],
                   )
@@ -507,6 +522,34 @@ class DilemmaChatTimeItem extends StatelessWidget {
   Widget build(BuildContext context) {
     logger.i("current locale : ${Localizations.localeOf(context)}");
     return Text(DateFormat.jm('ko').format(sendTime));
+  }
+}
+
+class DilemmaChatWarningItem extends StatelessWidget {
+  const DilemmaChatWarningItem({super.key, required this.currentChat});
+
+  final DilemmaChatModel currentChat;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      color: Colors.red,
+      child: Text('경고 : ${currentChat.message}'),
+    );
+  }
+}
+
+class DilemmaChatNoticeItem extends StatelessWidget {
+  const DilemmaChatNoticeItem({super.key, required this.currentChat});
+
+  final DilemmaChatModel currentChat;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      color: Colors.blue,
+      child: Text('공지 ${currentChat.message}'),
+    );
   }
 }
 
