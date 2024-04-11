@@ -30,12 +30,16 @@ public class TestListener {
     private MockMvc mockMvc;
     @Autowired
     private JwtProvider jwtProvider;
+    private ObjectMapper objectMapper;
+    private Map<String,Object> map;
+    @BeforeEach
+    void setUp() {
+        objectMapper = new ObjectMapper();
+        map = null;
+    }
 
-    ObjectMapper objectMapper = new ObjectMapper();
-    Map<String,Object> map;
 
-
-    @KafkaListener(topics = "test", groupId = "test_consumer")
+    @KafkaListener(topics = "test", groupId = "test")
     public void listen(String message) throws JsonProcessingException {
         // 받은 데이터를 Map으로 변환 -> with 토큰정보 & 데이터
         map = objectMapper.readValue(message, new TypeReference<>() {});
@@ -54,7 +58,6 @@ public class TestListener {
                 .andExpect(jsonPath("message").value(""));
 
         Thread.sleep(2000);
-        System.out.println(map);
         assert map.get("command").equals("do test");
         assert map.get("email").equals("test");
 

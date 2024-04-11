@@ -20,7 +20,7 @@ public class TestKafkaConfig {
     @Primary
     public ConsumerFactory<String, String> consumerFactory() {
         Map<String,Object> prop = new HashMap<>();
-        prop.put(ConsumerConfig.GROUP_ID_CONFIG, "test_consumer");
+        prop.put(ConsumerConfig.GROUP_ID_CONFIG, "test");
         prop.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, "org.apache.kafka.common.serialization.StringDeserializer");
         prop.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, "org.apache.kafka.common.serialization.StringDeserializer");
         prop.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, "0.0.0.0:9092");
