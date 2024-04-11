@@ -128,7 +128,7 @@ async def chat_list(user_id: str):
     async for chat in collection.find({"user_id": user_id}):
         chat["_id"] = str(chat["_id"])
         chats.append(chat)
-    return {"chats": chats}
+    return chats
 
 
 # READ
@@ -138,7 +138,7 @@ async def chat_list(user_id: str):
 async def chat_detail(room_id: str):
     chat = await collection.find_one({"room_id": room_id})
     chat["_id"] = str(chat["_id"])
-    return {"chat": chat}
+    return chat
 
 
 # DELETE
