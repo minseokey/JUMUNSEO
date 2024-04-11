@@ -31,7 +31,7 @@ jobs:
         ports:
           - "9092:9092"
         env:
-          KAFKA_ADVERTISED_HOST_NAME: 127.0.0.1
+          KAFKA_ADVERTISED_HOST_NAME: 0.0.0.0
           # 여기다가 토픽 확장하기.
           KAFKA_CREATE_TOPICS: "test:1:1, magician:1:1"
           KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
