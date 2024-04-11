@@ -1,7 +1,10 @@
 import 'dart:async';
 
+import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
+import 'package:intl/intl.dart';
+import 'package:jumunseo/core/logger.dart';
 import 'package:jumunseo/features/dilemma/chat/model/dilemma_chat_model.dart';
 import 'package:jumunseo/features/wizard/chat/view/room_list_select.dart';
 import 'package:lottie/lottie.dart';
@@ -18,11 +21,14 @@ class DilemmaChatScreen extends StatefulWidget {
 
 class _DilemmaChatScreenState extends State<DilemmaChatScreen> {
   final PagingController<int, DilemmaChatModel> _pagingController =
-      PagingController(firstPageKey: 1);
-  static const _pageSize = 20;
+      PagingController(firstPageKey: 0);
+  static const _pageSize = 10;
 
   RoomStatus _roomStatus = RoomStatus.idle;
   bool _isRightPunch = true;
+  DilemmaChatModel? _recentChat;
+
+  String? _selectedValue;
 
   late final YodaController _yodaController;
   @override
@@ -32,7 +38,9 @@ class _DilemmaChatScreenState extends State<DilemmaChatScreen> {
     _pagingController.addPageRequestListener((pageKey) {
       _fetchPage(pageKey);
     });
-
+    _pagingController.addListener(() {
+      logger.d('listener');
+    });
     _yodaController = YodaController()
       ..addStatusListener((status, context) {
         if (status == AnimationStatus.completed) {
@@ -49,10 +57,12 @@ class _DilemmaChatScreenState extends State<DilemmaChatScreen> {
         return List.generate(
           10,
           (index) => DilemmaChatModel(
-            userName: 'User $index',
-            message: 'Message $index',
-            sendTime: DateTime.now(),
+            userName: 'User ${index + pageKey * 10}',
+            message: 'Message ${index + pageKey * 10}',
+            sendTime:
+                DateTime.now().add(Duration(hours: 5 * (index + pageKey * 10))),
             userId: 'userId',
+            isleft: index % 2 == 0,
             chatType: ChatType.text,
           ),
         );
@@ -72,6 +82,7 @@ class _DilemmaChatScreenState extends State<DilemmaChatScreen> {
 
   @override
   Widget build(BuildContext context) {
+    logger.d('build');
     return Scaffold(
       appBar: AppBar(
         title: const Text('토론방'),
@@ -80,17 +91,55 @@ class _DilemmaChatScreenState extends State<DilemmaChatScreen> {
       body: Column(
         children: [
           Expanded(
-            child: CustomScrollView(
-              slivers: [
-                PagedSliverList<int, DilemmaChatModel>(
-                  pagingController: _pagingController,
-                  builderDelegate: PagedChildBuilderDelegate<DilemmaChatModel>(
-                    itemBuilder: (context, item, index) {
-                      return DilemmaChatListItem(dilemmaChat: item);
-                    },
-                  ),
-                ),
-              ],
+            child: PagedListView<int, DilemmaChatModel>(
+              reverse: true,
+              pagingController: _pagingController,
+              builderDelegate: PagedChildBuilderDelegate<DilemmaChatModel>(
+                itemBuilder: (context, item, index) {
+                  final _list = _pagingController.itemList!;
+
+                  switch (item.chatType) {
+                    case ChatType.text:
+                      final _upperChat = _list[index == _list.length - 1
+                          ? _list.length - 1
+                          : index + 1];
+                      final _lowerChat = _list[index == 0 ? 0 : index - 1];
+                      return DilemmaChatTextListItem(
+                        currentChat: item,
+                        upperChat: _upperChat,
+                        lowerChat: _lowerChat,
+                      );
+                    case ChatType.image:
+                      // TODO: Handle this case.
+                      return Row(
+                        children: [],
+                      );
+                    case ChatType.warning:
+                    // TODO: Handle this case.
+                    case ChatType.notice:
+                    // TODO: Handle this case.
+                  }
+                  return Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [],
+                  );
+
+                  // if ((_recentChat ??= item).sendTime.day !=
+                  //     item.sendTime.day) {
+                  //   logger.i('new day : $_recentChat $item');
+                  //   _recentChat = item;
+                  //   return Column(
+                  //     children: [
+                  //       DilemmaChatUserImageItem(imageUrl: item),
+                  //       Text(_recentChat!.sendTime.toString()),
+                  //     ],
+                  //   );
+                  // }
+                  // _recentChat = item;
+                  // return DilemmaChatUserImageItem(imageUrl: item);
+                },
+              ),
             ),
           ),
           Container(
@@ -117,7 +166,7 @@ class _DilemmaChatScreenState extends State<DilemmaChatScreen> {
                                 onPressed: () {
                                   setState(() {
                                     _isRightPunch = false;
-                                    _roomStatus = RoomStatus.selected;
+                                    _roomStatus = RoomStatus.chatting;
                                   });
                                 },
                                 child: Text('2번 선택')),
@@ -133,7 +182,7 @@ class _DilemmaChatScreenState extends State<DilemmaChatScreen> {
                                 // ElevatedButton(
                                 //     onPressed: () {}, child: Text('1번 선택')),
                                 PunchAnimationWidget(
-                                  isRightPunch: true,
+                                  isRightPunch: _isRightPunch,
                                 ),
                                 Yoda(
                                   yodaEffect: YodaEffect.Explosion,
@@ -165,7 +214,110 @@ class _DilemmaChatScreenState extends State<DilemmaChatScreen> {
                                 ),
                               ),
                             ),
-                            ElevatedButton(onPressed: () {}, child: Text('전송')),
+                            DropdownButton<String>(
+                              value: 'left',
+                              items: [
+                                DropdownMenuItem(
+                                  child: Text('left'),
+                                  value: 'left',
+                                ),
+                                DropdownMenuItem(
+                                  child: Text('right'),
+                                  value: 'right',
+                                ),
+                                DropdownMenuItem(
+                                  child: Text('leftMe'),
+                                  value: 'leftMe',
+                                ),
+                                DropdownMenuItem(
+                                  child: Text('rightMe'),
+                                  value: 'rightMe',
+                                ),
+                                DropdownMenuItem(
+                                  child: Text('warn'),
+                                  value: 'warn',
+                                ),
+                              ],
+                              onChanged: (value) {
+                                _selectedValue = value;
+                                logger.i(value);
+                              },
+                              onTap: () {
+                                logger.i('tap');
+                                switch (_selectedValue) {
+                                  case 'left':
+                                    _pagingController.itemList!.insert(
+                                      0,
+                                      DilemmaChatModel(
+                                          userName: 'real User',
+                                          message: 'real Message',
+                                          sendTime: DateTime.now()
+                                              .add(Duration(days: 2)),
+                                          userId: 'userId',
+                                          chatType: ChatType.text,
+                                          isleft: true),
+                                    );
+                                    _pagingController.notifyListeners();
+                                    break;
+                                  case 'right':
+                                    _pagingController.itemList!.insert(
+                                      0,
+                                      DilemmaChatModel(
+                                          userName: 'real User',
+                                          message: 'real Message',
+                                          sendTime: DateTime.now()
+                                              .add(Duration(days: 2)),
+                                          userId: 'userId',
+                                          chatType: ChatType.text,
+                                          isleft: false),
+                                    );
+                                    _pagingController.notifyListeners();
+                                    break;
+                                  case 'leftMe':
+                                    _pagingController.itemList!.insert(
+                                      0,
+                                      DilemmaChatModel(
+                                          userName: 'me',
+                                          message: 'real Message',
+                                          sendTime: DateTime.now()
+                                              .add(Duration(days: 2)),
+                                          userId: 'userId',
+                                          chatType: ChatType.text,
+                                          isleft: true),
+                                    );
+                                    _pagingController.notifyListeners();
+                                    break;
+                                  case 'rightMe':
+                                    _pagingController.itemList!.insert(
+                                      0,
+                                      DilemmaChatModel(
+                                          userName: 'me',
+                                          message: 'real Message',
+                                          sendTime: DateTime.now()
+                                              .add(Duration(days: 2)),
+                                          userId: 'userId',
+                                          chatType: ChatType.text,
+                                          isleft: false),
+                                    );
+                                    _pagingController.notifyListeners();
+                                    break;
+                                  case 'warn':
+                                    _pagingController.itemList!.insert(
+                                      0,
+                                      DilemmaChatModel(
+                                          userName: 'me',
+                                          message: 'real Message',
+                                          sendTime: DateTime.now()
+                                              .add(Duration(days: 2)),
+                                          userId: 'userId',
+                                          chatType: ChatType.warning,
+                                          isleft: false),
+                                    );
+                                    _pagingController.notifyListeners();
+                                    break;
+                                }
+                              },
+                            )
                           ],
                         ),
                       )
@@ -178,17 +330,183 @@ class _DilemmaChatScreenState extends State<DilemmaChatScreen> {
   }
 }
 
-class DilemmaChatListItem extends StatelessWidget {
-  const DilemmaChatListItem({super.key, required this.dilemmaChat});
+class DilemmaChatTextListItem extends StatelessWidget {
+  const DilemmaChatTextListItem(
+      {super.key,
+      required this.currentChat,
+      required this.upperChat,
+      required this.lowerChat});
 
-  final DilemmaChatModel dilemmaChat;
+  final DilemmaChatModel currentChat;
+  final DilemmaChatModel upperChat;
+  final DilemmaChatModel lowerChat;
+  final bool isMe = false;
 
   @override
   Widget build(BuildContext context) {
-    return ListTile(
-      title: Text(dilemmaChat.userName),
-      subtitle: Text(dilemmaChat.message ?? ''),
+    switch (currentChat.isleft) {
+      case true:
+        //사진 - 이름/메시지 - 시간
+        return Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            (currentChat.userId != upperChat.userId ||
+                    currentChat.isleft != upperChat.isleft)
+                ? DilemmaChatUserImageItem(
+                    imageUrl:
+                        "https://entertainimg.kbsmedia.co.kr/cms/uploads/PERSON_20220706140928_42ea191d42e4cccd6e4b650dd42166a1.jpg",
+                  )
+                : SizedBox(
+                    width: 56,
+                  ),
+            Padding(
+              padding: const EdgeInsets.fromLTRB(4, 4, 0, 0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  if (currentChat.userId != upperChat.userId ||
+                      currentChat.isleft != upperChat.isleft)
+                    Container(
+                        constraints: BoxConstraints(maxWidth: 250),
+                        child: Text(
+                          currentChat.userName,
+                          maxLines: 1,
+                        )),
+                  Row(
+                    children: [
+                      DilemmaChatMessageItem(
+                        messageText: currentChat.message!,
+                        backgroundColor: Color.fromARGB(255, 255, 158, 158),
+                      ),
+                      if (!(currentChat.userId == lowerChat.userId &&
+                              currentChat.sendTime
+                                      .difference(lowerChat.sendTime)
+                                      .inMinutes <
+                                  1) &&
+                          currentChat.isleft != lowerChat.isleft)
+                        DilemmaChatTimeItem(
+                          sendTime: currentChat.sendTime,
+                        )
+                    ],
+                  )
+                ],
+              ),
+            ),
+          ],
+        );
+      case false:
+        // 시간 - 메시지/이름 - 사진
+        return Row(
+          mainAxisAlignment: MainAxisAlignment.end,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Padding(
+              padding: const EdgeInsets.fromLTRB(4, 4, 0, 0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  if (currentChat.userId != upperChat.userId ||
+                      currentChat.isleft != upperChat.isleft)
+                    Container(
+                        constraints: BoxConstraints(maxWidth: 250),
+                        child: Text(
+                          currentChat.userName,
+                          maxLines: 1,
+                        )),
+                  Row(
+                    children: [
+                      if (!(currentChat.userId == lowerChat.userId &&
+                              currentChat.sendTime
+                                      .difference(lowerChat.sendTime)
+                                      .inMinutes <
+                                  1) &&
+                          currentChat.isleft != lowerChat.isleft)
+                        DilemmaChatTimeItem(
+                          sendTime: currentChat.sendTime,
+                        ),
+                      DilemmaChatMessageItem(
+                        messageText: currentChat.message!,
+                        backgroundColor: Color.fromARGB(255, 173, 229, 255),
+                      ),
+                    ],
+                  )
+                ],
+              ),
+            ),
+            (currentChat.userId != upperChat.userId ||
+                    currentChat.isleft != upperChat.isleft)
+                ? DilemmaChatUserImageItem(
+                    imageUrl:
+                        "https://entertainimg.kbsmedia.co.kr/cms/uploads/PERSON_20220706140928_42ea191d42e4cccd6e4b650dd42166a1.jpg",
+                  )
+                : SizedBox(
+                    width: 56,
+                  ),
+          ],
+        );
+    }
+  }
+}
+
+class DilemmaChatUserImageItem extends StatelessWidget {
+  const DilemmaChatUserImageItem({super.key, required this.imageUrl});
+
+  final String imageUrl;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: ExtendedImage.network(
+        imageUrl,
+        fit: BoxFit.cover,
+        height: 40,
+        width: 40,
+        borderRadius: BorderRadius.all(Radius.circular(7)),
+        shape: BoxShape.rectangle,
+      ),
+      // CircleAvatar(
+      //     radius: 17,
+      //     backgroundImage: ExtendedNetworkImageProvider(
+      //       imageUrl,
+      //       cache: true,
+      //     )),
     );
+  }
+}
+
+class DilemmaChatMessageItem extends StatelessWidget {
+  const DilemmaChatMessageItem(
+      {super.key, required this.messageText, required this.backgroundColor});
+
+  final String messageText;
+  final Color backgroundColor;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+        constraints: const BoxConstraints(maxWidth: 250.0),
+        decoration: BoxDecoration(
+          color: backgroundColor,
+          borderRadius: BorderRadius.only(
+              topRight: Radius.circular(16.0),
+              bottomLeft: Radius.circular(16.0),
+              bottomRight: Radius.circular(16.0)),
+        ),
+        child: Padding(padding: EdgeInsets.all(8), child: Text(messageText)));
+  }
+}
+
+class DilemmaChatTimeItem extends StatelessWidget {
+  const DilemmaChatTimeItem({super.key, required this.sendTime});
+
+  final DateTime sendTime;
+
+  @override
+  Widget build(BuildContext context) {
+    logger.i("current locale : ${Localizations.localeOf(context)}");
+    return Text(DateFormat.jm('ko').format(sendTime));
   }
 }
 

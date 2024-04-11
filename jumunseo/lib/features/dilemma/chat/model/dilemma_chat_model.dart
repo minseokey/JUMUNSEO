@@ -3,7 +3,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 part 'dilemma_chat_model.g.dart';
 part 'dilemma_chat_model.freezed.dart';
 
-enum ChatType { text, image }
+enum ChatType { text, image, warning, notice }
 
 @freezed
 class DilemmaChatModel with _$DilemmaChatModel {
@@ -13,6 +13,7 @@ class DilemmaChatModel with _$DilemmaChatModel {
       required String userId,
       required String userName,
       required ChatType chatType,
+      required bool isleft,
       String? message}) = _DilemmaChatModel;
 
   factory DilemmaChatModel.fromJson(Map<String, dynamic> json) =>

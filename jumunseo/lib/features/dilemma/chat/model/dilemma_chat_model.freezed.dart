@@ -25,6 +25,7 @@ mixin _$DilemmaChatModel {
   String get userId => throw _privateConstructorUsedError;
   String get userName => throw _privateConstructorUsedError;
   ChatType get chatType => throw _privateConstructorUsedError;
+  bool get isleft => throw _privateConstructorUsedError;
   String? get message => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -45,6 +46,7 @@ abstract class $DilemmaChatModelCopyWith<$Res> {
       String userId,
       String userName,
       ChatType chatType,
+      bool isleft,
       String? message});
 }
 
@@ -66,6 +68,7 @@ class _$DilemmaChatModelCopyWithImpl<$Res, $Val extends DilemmaChatModel>
     Object? userId = null,
     Object? userName = null,
     Object? chatType = null,
+    Object? isleft = null,
     Object? message = freezed,
   }) {
     return _then(_value.copyWith(
@@ -89,6 +92,10 @@ class _$DilemmaChatModelCopyWithImpl<$Res, $Val extends DilemmaChatModel>
           ? _value.chatType
           : chatType // ignore: cast_nullable_to_non_nullable
               as ChatType,
+      isleft: null == isleft
+          ? _value.isleft
+          : isleft // ignore: cast_nullable_to_non_nullable
+              as bool,
       message: freezed == message
           ? _value.message
           : message // ignore: cast_nullable_to_non_nullable
@@ -111,6 +118,7 @@ abstract class _$$DilemmaChatModelImplCopyWith<$Res>
       String userId,
       String userName,
       ChatType chatType,
+      bool isleft,
       String? message});
 }
 
@@ -130,6 +138,7 @@ class __$$DilemmaChatModelImplCopyWithImpl<$Res>
     Object? userId = null,
     Object? userName = null,
     Object? chatType = null,
+    Object? isleft = null,
     Object? message = freezed,
   }) {
     return _then(_$DilemmaChatModelImpl(
@@ -153,6 +162,10 @@ class __$$DilemmaChatModelImplCopyWithImpl<$Res>
           ? _value.chatType
           : chatType // ignore: cast_nullable_to_non_nullable
               as ChatType,
+      isleft: null == isleft
+          ? _value.isleft
+          : isleft // ignore: cast_nullable_to_non_nullable
+              as bool,
       message: freezed == message
           ? _value.message
           : message // ignore: cast_nullable_to_non_nullable
@@ -170,6 +183,7 @@ class _$DilemmaChatModelImpl implements _DilemmaChatModel {
       required this.userId,
       required this.userName,
       required this.chatType,
+      required this.isleft,
       this.message});
 
   factory _$DilemmaChatModelImpl.fromJson(Map<String, dynamic> json) =>
@@ -186,11 +200,13 @@ class _$DilemmaChatModelImpl implements _DilemmaChatModel {
   @override
   final ChatType chatType;
   @override
+  final bool isleft;
+  @override
   final String? message;
 
   @override
   String toString() {
-    return 'DilemmaChatModel(id: $id, sendTime: $sendTime, userId: $userId, userName: $userName, chatType: $chatType, message: $message)';
+    return 'DilemmaChatModel(id: $id, sendTime: $sendTime, userId: $userId, userName: $userName, chatType: $chatType, isleft: $isleft, message: $message)';
   }
 
   @override
@@ -206,13 +222,14 @@ class _$DilemmaChatModelImpl implements _DilemmaChatModel {
                 other.userName == userName) &&
             (identical(other.chatType, chatType) ||
                 other.chatType == chatType) &&
+            (identical(other.isleft, isleft) || other.isleft == isleft) &&
             (identical(other.message, message) || other.message == message));
   }
 
   @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(
-      runtimeType, id, sendTime, userId, userName, chatType, message);
+      runtimeType, id, sendTime, userId, userName, chatType, isleft, message);
 
   @JsonKey(ignore: true)
   @override
@@ -236,6 +253,7 @@ abstract class _DilemmaChatModel implements DilemmaChatModel {
       required final String userId,
       required final String userName,
       required final ChatType chatType,
+      required final bool isleft,
       final String? message}) = _$DilemmaChatModelImpl;
 
   factory _DilemmaChatModel.fromJson(Map<String, dynamic> json) =
@@ -251,6 +269,8 @@ abstract class _DilemmaChatModel implements DilemmaChatModel {
   String get userName;
   @override
   ChatType get chatType;
+  @override
+  bool get isleft;
   @override
   String? get message;
   @override

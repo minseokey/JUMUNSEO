@@ -8,7 +8,7 @@ part of 'room_model.dart';
 
 _$RoomModelImpl _$$RoomModelImplFromJson(Map<String, dynamic> json) =>
     _$RoomModelImpl(
-      id: json['_id'] as String,
+      id: json['id'] as String,
       start_time: json['start_time'] as String,
       user_id: json['user_id'] as String,
       room_id: json['room_id'] as String,

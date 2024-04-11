@@ -30,8 +30,7 @@ mixin _$ChatModel {
 
 /// @nodoc
 abstract class $ChatModelCopyWith<$Res> {
-  factory $ChatModelCopyWith(
-          ChatModel value, $Res Function(ChatModel) then) =
+  factory $ChatModelCopyWith(ChatModel value, $Res Function(ChatModel) then) =
       _$ChatModelCopyWithImpl<$Res, ChatModel>;
   @useResult
   $Res call({List<RoomModel> chats});
@@ -143,8 +142,7 @@ class _$ChatModelImpl implements _ChatModel {
 }
 
 abstract class _ChatModel implements ChatModel {
-  factory _ChatModel({required final List<RoomModel> chats}) =
-      _$ChatModelImpl;
+  factory _ChatModel({required final List<RoomModel> chats}) = _$ChatModelImpl;
 
   factory _ChatModel.fromJson(Map<String, dynamic> json) =
       _$ChatModelImpl.fromJson;

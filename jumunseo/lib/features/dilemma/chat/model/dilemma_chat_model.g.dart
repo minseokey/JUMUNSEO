@@ -14,6 +14,7 @@ _$DilemmaChatModelImpl _$$DilemmaChatModelImplFromJson(
       userId: json['userId'] as String,
       userName: json['userName'] as String,
       chatType: $enumDecode(_$ChatTypeEnumMap, json['chatType']),
+      isleft: json['isleft'] as bool,
       message: json['message'] as String?,
     );
 
@@ -25,6 +26,7 @@ Map<String, dynamic> _$$DilemmaChatModelImplToJson(
       'userId': instance.userId,
       'userName': instance.userName,
       'chatType': _$ChatTypeEnumMap[instance.chatType]!,
+      'isleft': instance.isleft,
       'message': instance.message,
     };
 
