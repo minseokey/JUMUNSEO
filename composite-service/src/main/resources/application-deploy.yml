@@ -1,6 +1,6 @@
 spring:
   application:
-    name: compositeservice
+    name: composite-service
 
   kafka:
     bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS}
@@ -9,5 +9,5 @@ jwt:
   secret: ${JWT_SECRET}
 
 server:
-  port: 8080
+  port: 8081
 
