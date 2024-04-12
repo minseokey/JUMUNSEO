@@ -1,0 +1,14 @@
+spring:
+  application:
+    name: debate
+
+  datasource:
+    url: jdbc:postgresql://0.0.0.0:5433/debate
+    username: debate
+    password: 1234
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: create
+    show-sql: true

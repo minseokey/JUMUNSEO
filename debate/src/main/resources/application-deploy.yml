@@ -1,0 +1,14 @@
+spring:
+  application:
+    name: debate
+
+  datasource:
+    url: jdbc:postgresql://${DEBATE_POSTGRES_HOST}:${DEBATE_POSTGRES_PORT}/debate
+    username: ${DEBATE_POSTGRES_USER}
+    password: ${DEBATE_POSTGRES_PASSWORD}
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: create
+    show-sql: true
