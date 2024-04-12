@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:jumunseo/features/community/community_screen.dart';
-import 'package:jumunseo/features/community/view/post_screen.dart';
-import 'package:jumunseo/features/dilemma/dilemma_screen.dart';
+import 'package:jumunseo/features/dilemma/dilemma.dart';
 import 'package:jumunseo/features/home/view/home_screen.dart';
 import 'package:jumunseo/features/profile/view/profile_screen.dart';
 import 'package:jumunseo/features/wizard/chat/view/category_view.dart';
@@ -16,6 +15,8 @@ import 'package:jumunseo/features/wizard/chat/view/fwohView/who_view.dart';
 import 'package:jumunseo/features/wizard/chat/view/fwohView/why_view.dart';
 import 'package:jumunseo/features/wizard/chat/view/room_list_view.dart';
 import 'package:jumunseo/features/wizard/chat/view/wizard_setting_view.dart';
+
+import '../../features/community/view/post_screen.dart';
 
 final GlobalKey<NavigatorState> rootNavigatorKey =
     GlobalKey<NavigatorState>(debugLabel: 'root');
@@ -54,10 +55,19 @@ GoRouter appRouter = GoRouter(
       },
     ),
     GoRoute(
-        path: '/dilemma/:catagory/:id',
-        builder: (context, state) {
-          return const DilemmaScreen();
-        }),
+      path: '/dilemma',
+      builder: (context, state) {
+        return DilemmaCategoryScreen();
+      },
+      routes: [
+        GoRoute(
+          path: 'chat/:id',
+          builder: (context, state) {
+            return DilemmaChatScreen();
+          },
+        ),
+      ],
+    ),
     GoRoute(
         path: '/wizard',
         builder: (context, state) {
@@ -74,12 +84,14 @@ GoRouter appRouter = GoRouter(
         path: '/community',
         builder: (context, state) {
           return const CommunityScreen();
-        }),
-    GoRoute(
-        path: 'post',
-        builder: (context, state) {
-          return const PostScreen();
-        }),
+        },
+        routes: [
+          GoRoute(
+              path: 'post',
+              builder: (context, state) {
+                return const PostScreen();
+              })
+        ]),
     GoRoute(
         path: '/profile',
         builder: (context, state) {
