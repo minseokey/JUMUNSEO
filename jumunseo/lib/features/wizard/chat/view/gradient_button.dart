@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import '../chat.dart';
 import 'package:jumunseo/config/theme/app_color.dart';
 
 class GradientButton extends StatelessWidget {

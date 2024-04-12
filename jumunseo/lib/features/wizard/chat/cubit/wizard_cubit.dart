@@ -1,22 +1,14 @@
 import 'package:bloc/bloc.dart';
-import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:jumunseo/features/wizard/chat/view/chat_view.dart';
-import 'package:jumunseo/features/wizard/chat/view/fwoh_view.dart';
-import 'package:jumunseo/features/wizard/model/room_model.dart';
-import 'package:logger/logger.dart';
+import 'package:jumunseo/core/logger.dart';
+import '../chat.dart';
 import 'package:web_socket_channel/io.dart';
-import '../state/wizard_state.dart';
-import '../view/my_chat_message.dart';
-import '../view/other_chat_message.dart';
 
 class WizardCubit extends Cubit<WizardState> {
   WizardCubit() : super(WizardState());
 
   void onButtonPress(String txt){
     if(txt != ""){
-      Logger().d(txt);
-
       state.chats.insert(0, txt);
       state.myChat.insert(0, true);
       state.statusKey.currentState?.insertItem(0);
@@ -25,7 +17,6 @@ class WizardCubit extends Cubit<WizardState> {
   }
 
   void pushPrompt(String txt) {
-    Logger().d(txt);
     state.socket?.sink.add(txt);
   }
 
@@ -58,7 +49,6 @@ class WizardCubit extends Cubit<WizardState> {
   String parsingCategory(RoomModel room) {
     if(room.conversation.isNotEmpty) {
       if(room.conversation[0].user_message.contains('카테고리')){
-        Logger().d(room.conversation[0].user_message);
         String category = room.conversation[0].user_message.split("\n")[0].split(":")[1].replaceAll(",", "");
         return category;
       }
@@ -73,11 +63,11 @@ class WizardCubit extends Cubit<WizardState> {
 
     state.socket = IOWebSocketChannel.connect(Uri.parse('ws://10.0.2.2:8000/ws/${state.userId}'));
 
-    Logger().d('서버 연결 시작');
+    logger.d('서버 연결 시작');
 
     // 메세지 감지
     state.socket?.stream.listen((data) {
-      Logger().d('Received message: $data');
+      logger.d('Received message: $data');
       chatInsert(data);
     });
 

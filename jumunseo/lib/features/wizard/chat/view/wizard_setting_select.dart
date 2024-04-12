@@ -1,9 +1,7 @@
 import 'package:extended_image/extended_image.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:jumunseo/config/theme/app_color.dart';
-import 'package:jumunseo/features/wizard/chat/chat.dart';
+import '../chat.dart';
 
 class WizardSet extends StatefulWidget {
   final String imageName;
