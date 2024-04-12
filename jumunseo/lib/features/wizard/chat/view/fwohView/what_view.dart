@@ -54,9 +54,10 @@ class _WhatViewState extends State<WhatView> {
               children: [
                 Expanded(
                   child: GradientButton(
-                    onButtonPress: () {context.read<WizardCubit>().toHow(context, textEditingController); },
-                    message: 'Continue',
-                  ),
+                    child: TextButton(
+                    onPressed: () {context.read<WizardCubit>().toHow(context, textEditingController); },
+                    child: const Text('Continue', style: TextStyle(color: Colors.white),),
+                  ),),
                 ),
               ]
             ),

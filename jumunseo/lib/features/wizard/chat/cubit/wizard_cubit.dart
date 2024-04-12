@@ -164,13 +164,6 @@ class WizardCubit extends Cubit<WizardState> {
     state.roomId = newId;
   }
 
-  void toFwoh(BuildContext context) {
-    Navigator.push(
-      context, 
-      MaterialPageRoute(builder: (context)=> const FwohView())
-    );
-  }
-
   void toChat(BuildContext context, TextEditingController? textEdit) {
     if(textEdit != null){
       if(textEdit.text.trim() != ""){

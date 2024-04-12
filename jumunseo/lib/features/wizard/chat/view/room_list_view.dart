@@ -84,12 +84,13 @@ class _RoomListViewState extends State<RoomListView> {
               children: [
                 Expanded(
                   child: GradientButton(
-                    onButtonPress: () {
+                    child: TextButton(
+                    onPressed: () {
                       context.read<WizardCubit>().setRoom("-1");
                       context.read<WizardCubit>().toCategory(context); 
                     },
-                    message: '새로 시작하기',
-                  ),
+                    child: const Text('Continue', style: TextStyle(color: Colors.white),),
+                  ),),
                 ),
               ]
             ),

@@ -54,9 +54,10 @@ class _WhereViewState extends State<WhereView> {
               children: [
                 Expanded(
                   child: GradientButton(
-                    onButtonPress: () {context.read<WizardCubit>().toWhat(context, textEditingController); },
-                    message: 'Continue',
-                  ),
+                    child: TextButton(
+                    onPressed: () {context.read<WizardCubit>().toWhat(context, textEditingController); },
+                    child: const Text('Continue', style: TextStyle(color: Colors.white),),
+                  ),),
                 ),
               ]
             ),

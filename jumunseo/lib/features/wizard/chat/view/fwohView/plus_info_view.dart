@@ -57,9 +57,10 @@ class _PlusInfoViewState extends State<PlusInfoView> {
               children: [
                 Expanded(
                   child: GradientButton(
-                    onButtonPress: () {context.read<WizardCubit>().toWizardSet(context); },
-                    message: '주문서 봇 설정하기',
-                  ),
+                    child: TextButton(
+                    onPressed: () {context.read<WizardCubit>().toWizardSet(context); },
+                    child: const Text('주문서 봇 설정하기', style: TextStyle(color: Colors.white),),
+                  ),),
                 ),
               ]
             ),
@@ -70,9 +71,10 @@ class _PlusInfoViewState extends State<PlusInfoView> {
               children: [
                 Expanded(
                   child: GradientButton(
-                    onButtonPress: () {context.read<WizardCubit>().toChat(context, textEditingController); },
-                    message: 'Continue',
-                  ),
+                    child: TextButton(
+                    onPressed: () {context.read<WizardCubit>().toChat(context, textEditingController); },
+                    child: const Text('Continue', style: TextStyle(color: Colors.white),),
+                  ),),
                 ),
               ]
             ),

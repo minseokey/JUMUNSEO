@@ -37,21 +37,27 @@ class _HomeScreenState extends State<HomeScreen> {
 
     return Scaffold(
       appBar: PreferredSize(
-        preferredSize: const Size.fromHeight(70),
+        preferredSize: const Size.fromHeight(80),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             AppBar(
+              shadowColor: Colors.white,
               toolbarHeight: 50,
               title: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 30),
+                padding: const EdgeInsets.symmetric(horizontal: 20),
                 child: Row(
                   children:[
-                    ExtendedImage.asset('assets/icons/logo.png', width: 50, height: 50,),
+                    const Column(
+                      children: [
+                        Text("Welcome back,", style: TextStyle(fontSize: 12, color: Colors.grey),),
+                        Text("Sangrok", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.black),),
+                      ],
+                    ),
                     const Spacer(),
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 10),
-                      child: ExtendedImage.asset('assets/icons/profile.png', width: 50, height: 50,),
+                      child: CircleAvatar(radius: 25.0, backgroundImage: ExtendedImage.asset('assets/icons/profile.png').image,),
                     ),
                     GestureDetector(
                       onTapUp: (details) {

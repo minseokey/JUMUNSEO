@@ -54,9 +54,10 @@ class _WhenViewState extends State<WhenView> {
               children: [
                 Expanded(
                   child: GradientButton(
-                    onButtonPress: () {context.read<WizardCubit>().toWhy(context, textEditingController); },
-                    message: 'Continue',
-                  ),
+                    child: TextButton(
+                    onPressed: () {context.read<WizardCubit>().toWhy(context, textEditingController); },
+                    child: const Text('Continue', style: TextStyle(color: Colors.white),),
+                  ),),
                 ),
               ]
             ),

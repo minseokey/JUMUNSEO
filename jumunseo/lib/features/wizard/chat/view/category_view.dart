@@ -69,9 +69,10 @@ class _CategoryViewState extends State<CategoryView> {
                   children: [
                     Expanded(
                       child: GradientButton(
-                        onButtonPress: () {context.read<WizardCubit>().toWhen(context); },
-                        message: 'Continue',
-                      ),
+                        child: TextButton(
+                        onPressed: () {context.read<WizardCubit>().toWhen(context); },
+                        child: const Text('Continue', style: TextStyle(color: Colors.white),),
+                      ),),
                     ),
                   ]
                 ),

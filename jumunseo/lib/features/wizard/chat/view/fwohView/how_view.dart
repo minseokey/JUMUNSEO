@@ -54,9 +54,10 @@ class _HowViewState extends State<HowView> {
               children: [
                 Expanded(
                   child: GradientButton(
-                    onButtonPress: () {context.read<WizardCubit>().toWho(context, textEditingController); },
-                    message: 'Continue',
-                  ),
+                    child: TextButton(
+                    onPressed: () {context.read<WizardCubit>().toWho(context, textEditingController); },
+                    child: const Text('Continue', style: TextStyle(color: Colors.white),),
+                  ),),
                 ),
               ]
             ),
