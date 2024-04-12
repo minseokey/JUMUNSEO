@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.kafka.annotation.KafkaListener;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
@@ -21,6 +22,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest
 @AutoConfigureMockMvc
+@ActiveProfiles("test")
 @ContextConfiguration(classes = TestKafkaConfig.class)
 public class TestListener {
 
@@ -28,9 +30,13 @@ public class TestListener {
     private MockMvc mockMvc;
     @Autowired
     private JwtProvider jwtProvider;
-
-    ObjectMapper objectMapper = new ObjectMapper();
-    Map<String,Object> map;
+    private ObjectMapper objectMapper;
+    private Map<String,Object> map;
+    @BeforeEach
+    void setUp() {
+        objectMapper = new ObjectMapper();
+        map = null;
+    }
 
 
     @KafkaListener(topics = "test", groupId = "test")
@@ -52,7 +58,6 @@ public class TestListener {
                 .andExpect(jsonPath("message").value(""));
 
         Thread.sleep(2000);
-        System.out.println(map);
         assert map.get("command").equals("do test");
         assert map.get("email").equals("test");
 

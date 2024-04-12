@@ -1,0 +1,12 @@
+spring:
+  application:
+    name: composite-service
+
+  kafka:
+    bootstrap-servers: 0.0.0.0:9092
+
+jwt:
+  secret: "test_JWT_secret"
+
+server:
+  port: 8081
