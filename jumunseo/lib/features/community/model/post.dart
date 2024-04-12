@@ -3,12 +3,12 @@ import 'package:jumunseo/features/community/model/comment.dart';
 
 class Post {
   final String? id;
-  final String? title;
-  final String? contents;
+  String? title;
+  String? contents;
   final DateTime? datetime;
   final String? boardId;
   final String? userId;
-  final List<XFile>? images;
+  List<XFile>? images;
   final List<Comment>? comments;
 
   Post({

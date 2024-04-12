@@ -1,6 +1,6 @@
 class Comment {
   final String? id;
-  final String? contents;
+  String? contents;
   final DateTime? datetime;
   final String? postId;
   final String? userId;
