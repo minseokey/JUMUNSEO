@@ -12,4 +12,8 @@ class CommunityCubit extends Cubit<CommunityState> {
   Post getPost() {
     return state.post;
   }
+
+  List<Post> getPosts() {
+    return state.posts;
+  }
 }
