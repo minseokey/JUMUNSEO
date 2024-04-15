@@ -1,18 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:hive_flutter/adapters.dart';
 import 'package:jumunseo/config/routes/app_routes.dart';
 import 'package:jumunseo/config/theme/app_theme.dart';
 import 'package:jumunseo/shared/blocs.dart';
 
 Future<void> main() async {
-  //TODO: 스플래시 스크린
-  //TODO: 앱 초기화
+  WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
+  FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
+//TODO: 앱 초기화
   //TODO: asdf
-
   await Hive.initFlutter();
   await Hive.openBox("myBox");
-  
+
+  FlutterNativeSplash.remove();
+
   runApp(const MyApp());
 }
 
