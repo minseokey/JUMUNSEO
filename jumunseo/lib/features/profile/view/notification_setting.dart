@@ -1,8 +1,7 @@
-import 'package:flutter/cupertino.dart';
-import 'package:jumunseo/config/theme/app_color.dart';
 import 'package:jumunseo/core/blank.dart';
 import 'package:jumunseo/features/wizard/chat/chat.dart';
 import 'package:jumunseo/shared/gradient_icon.dart';
+import 'package:jumunseo/shared/gradient_switch.dart';
 
 class NotificationSetting extends StatefulWidget {
   const NotificationSetting({super.key});
@@ -15,7 +14,6 @@ class _NotificationSettingState extends State<NotificationSetting> {
 
   List<Widget> iconList = [const GradientIcon(child: Icon(Icons.alarm))];
   List<String> accountList = ["Pop-up notification",];
-  bool _ischecked = false;
 
   @override
   Widget build(BuildContext context) {
@@ -56,14 +54,8 @@ class _NotificationSettingState extends State<NotificationSetting> {
                       ),
                       const Spacer(),
                       Transform.scale(
-                        scale: 0.7,
-                        child: CupertinoSwitch(value: _ischecked, onChanged: (value) {
-                            setState(() {
-                              _ischecked = value;
-                            }
-                          );},
-                          activeColor: ColorStyles.mainColor,
-                        ),
+                        scale: 0.5,
+                        child: const GradientSwitch(),
                       ),
                     ],
                   ),
