@@ -26,6 +26,7 @@ class _CategoryViewState extends State<CategoryView> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
+        centerTitle: true,
         title: const Text(
           "카테고리를 선택해주세요!",
           style: TextStyle(
@@ -69,9 +70,10 @@ class _CategoryViewState extends State<CategoryView> {
                   children: [
                     Expanded(
                       child: GradientButton(
-                        onButtonPress: () {context.read<WizardCubit>().toWhen(context); },
-                        message: 'Continue',
-                      ),
+                        child: TextButton(
+                        onPressed: () {context.read<WizardCubit>().toWhen(context); },
+                        child: const Text('Continue', style: TextStyle(color: Colors.white),),
+                      ),),
                     ),
                   ]
                 ),
