@@ -23,21 +23,19 @@ class _GradientSwitchState extends State<GradientSwitch> {
       onTap: () { 
         widget.onChange(!widget.isSwitchOn);
       }, 
-
-      child: Stack( 
-        alignment: 
-          widget.isSwitchOn ? Alignment.centerRight : Alignment.centerLeft, 
+      child: Stack(
         children: [ 
-          Container(  
+          AnimatedContainer(  
             width: 70, 
-            height: 40, 
+            height: 40,
+            duration: const Duration(milliseconds: 200),
             alignment: Alignment.center,
             decoration: BoxDecoration(
               gradient: LinearGradient( 
               colors: widget.isSwitchOn 
                 ? [ 
-                  ColorStyles.mainColor, 
-                  ColorStyles.secondMainColor, 
+                    ColorStyles.mainColor, 
+                    ColorStyles.secondMainColor, 
                   ] 
                 : [Colors.grey, Colors.grey], 
               ), 
@@ -45,12 +43,16 @@ class _GradientSwitchState extends State<GradientSwitch> {
                 const BorderRadius.all(Radius.circular(40)), 
             ), 
           ), 
-          Container( 
-            height: 40, 
-            width: 40, 
-            decoration: const BoxDecoration( 
-              shape: BoxShape.circle, color: Colors.white
-            ), 
+          AnimatedPositioned(
+            left: widget.isSwitchOn? 30 : 0,
+            duration: const Duration(milliseconds: 200),
+            child: Container( 
+              height: 40, 
+              width: 40, 
+              decoration: const BoxDecoration( 
+                shape: BoxShape.circle, color: Colors.white
+              ), 
+            ),
           ), 
         ], 
       ), 
