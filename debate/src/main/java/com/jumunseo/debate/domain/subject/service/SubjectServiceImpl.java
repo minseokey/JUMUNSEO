@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -16,10 +17,12 @@ public class SubjectServiceImpl implements SubjectService{
 
     // 매일 자정에 주제를 새로고침한다.
     @Scheduled(cron = "0 0 0 * * *")
-    public void refreshSubject(){
+    public void summarySubject(){
 
     }
+
     // 주제를 추가한다.
+    // OpenAI 기반
     @Scheduled(cron = "0 0 0 * * *")
     public void addSubject(){
 
@@ -28,7 +31,7 @@ public class SubjectServiceImpl implements SubjectService{
 
     // 현재 사용가능한 주제를 가져온다.
     public List<SubjectDto> getLiveSubject(){
-        return subjectJPARepository.findByStartTimeAfterAndEndTimeBefore();
+        return subjectJPARepository.findByStartTimeAfterAndEndTimeBefore(LocalDateTime.now(), LocalDateTime.now().plusDays(1));
     }
 
 }

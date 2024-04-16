@@ -7,7 +7,6 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
 
@@ -31,7 +30,7 @@ public class Subject {
     public Subject(Long id, String contents, LocalDateTime startDate){
         this.id = id;
         this.contents = contents;
-        this.startTime = startDate;
+        this.startTime = LocalDateTime.now();
         this.endTime = startDate.plusDays(1);
     }
 }
