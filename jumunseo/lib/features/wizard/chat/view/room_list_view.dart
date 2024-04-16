@@ -1,14 +1,8 @@
 import 'package:dio/dio.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:jumunseo/config/theme/app_color.dart';
-import 'package:jumunseo/features/wizard/chat/view/gradient_button.dart';
-import 'package:jumunseo/features/wizard/chat/view/room_list_select.dart';
-import 'package:jumunseo/features/wizard/data/repository/wizard_repository.dart';
-import 'package:jumunseo/features/wizard/model/chat_model.dart';
-import 'package:logger/logger.dart';
-
-import '../cubit/wizard_cubit.dart';
+import 'package:jumunseo/core/logger.dart';
+import '../chat.dart';
 
 class RoomListView extends StatefulWidget{
   const RoomListView({super.key});
@@ -32,6 +26,7 @@ class _RoomListViewState extends State<RoomListView> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
+        centerTitle: true,
         title: const Text(
             "마 법 사",
             style: TextStyle(
@@ -72,7 +67,7 @@ class _RoomListViewState extends State<RoomListView> {
                     children: List.generate(chats.chats.length, (index) {
                       return GestureDetector(
                         onTapUp: (details) {
-                          Logger().d("선택");
+                          logger.d("선택");
                           context.read<WizardCubit>().setRoom(chats.chats[index].room_id);
                           context.read<WizardCubit>().toChat(context, null); 
                         },
@@ -90,12 +85,13 @@ class _RoomListViewState extends State<RoomListView> {
               children: [
                 Expanded(
                   child: GradientButton(
-                    onButtonPress: () {
+                    child: TextButton(
+                    onPressed: () {
                       context.read<WizardCubit>().setRoom("-1");
                       context.read<WizardCubit>().toCategory(context); 
                     },
-                    message: '새로 시작하기',
-                  ),
+                    child: const Text('Continue', style: TextStyle(color: Colors.white),),
+                  ),),
                 ),
               ]
             ),

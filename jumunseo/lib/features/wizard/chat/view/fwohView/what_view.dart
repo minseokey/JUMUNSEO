@@ -1,9 +1,6 @@
-import 'package:flutter/material.dart';
+import '../../chat.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:jumunseo/config/theme/app_color.dart';
-import 'package:jumunseo/features/wizard/chat/view/gradient_button.dart';
-
-import '../../cubit/wizard_cubit.dart';
 
 class WhatView extends StatefulWidget{
   const WhatView({super.key});
@@ -20,6 +17,7 @@ class _WhatViewState extends State<WhatView> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
+        centerTitle: true,
         title: const Text(
             "내용을 자세하게 적어주세요.",
             style: TextStyle(
@@ -57,9 +55,10 @@ class _WhatViewState extends State<WhatView> {
               children: [
                 Expanded(
                   child: GradientButton(
-                    onButtonPress: () {context.read<WizardCubit>().toHow(context, textEditingController); },
-                    message: 'Continue',
-                  ),
+                    child: TextButton(
+                    onPressed: () {context.read<WizardCubit>().toHow(context, textEditingController); },
+                    child: const Text('Continue', style: TextStyle(color: Colors.white),),
+                  ),),
                 ),
               ]
             ),

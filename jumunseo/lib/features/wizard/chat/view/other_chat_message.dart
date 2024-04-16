@@ -1,5 +1,5 @@
 import 'package:extended_image/extended_image.dart';
-import 'package:flutter/material.dart';
+import '../chat.dart';
 
 class OtherChatMsg extends StatelessWidget {
   final String userName;

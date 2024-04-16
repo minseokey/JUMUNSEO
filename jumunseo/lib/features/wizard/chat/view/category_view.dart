@@ -2,10 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:jumunseo/config/theme/app_color.dart';
 import 'package:jumunseo/core/blank.dart';
-import 'package:jumunseo/features/wizard/chat/view/category_select.dart';
-import 'package:jumunseo/features/wizard/chat/view/gradient_button.dart';
-
-import '../cubit/wizard_cubit.dart';
+import '../chat.dart';
 
 class CategoryView extends StatefulWidget{
   const CategoryView({super.key});
@@ -29,6 +26,7 @@ class _CategoryViewState extends State<CategoryView> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
+        centerTitle: true,
         title: const Text(
           "카테고리를 선택해주세요!",
           style: TextStyle(
@@ -72,9 +70,10 @@ class _CategoryViewState extends State<CategoryView> {
                   children: [
                     Expanded(
                       child: GradientButton(
-                        onButtonPress: () {context.read<WizardCubit>().toWhen(context); },
-                        message: 'Continue',
-                      ),
+                        child: TextButton(
+                        onPressed: () {context.read<WizardCubit>().toWhen(context); },
+                        child: const Text('Continue', style: TextStyle(color: Colors.white),),
+                      ),),
                     ),
                   ]
                 ),
