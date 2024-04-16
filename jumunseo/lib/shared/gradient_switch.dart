@@ -3,26 +3,30 @@ import 'package:jumunseo/config/theme/app_color.dart';
 
 // You can also use stateful builder instead of stateful widget 
 class GradientSwitch extends StatefulWidget { 
-  const GradientSwitch({Key? key}) : super(key: key); 
+  final bool isSwitchOn;
+  final ValueChanged<bool> onChange;
+
+  const GradientSwitch({
+    Key? key,
+    required this.isSwitchOn,
+    required this.onChange,
+  }) : super(key: key); 
 
   @override 
   State<GradientSwitch> createState() => _GradientSwitchState(); 
 } 
 
-class _GradientSwitchState extends State<GradientSwitch> { 
-  bool isSwitchOn = false; 
+class _GradientSwitchState extends State<GradientSwitch> {
   @override 
   Widget build(BuildContext context) { 
     return GestureDetector( 
       onTap: () { 
-        setState(() { 
-          isSwitchOn = !isSwitchOn; 
-        }); 
+        widget.onChange(!widget.isSwitchOn);
       }, 
 
       child: Stack( 
         alignment: 
-          isSwitchOn ? Alignment.centerRight : Alignment.centerLeft, 
+          widget.isSwitchOn ? Alignment.centerRight : Alignment.centerLeft, 
         children: [ 
           Container(  
             width: 70, 
@@ -30,7 +34,7 @@ class _GradientSwitchState extends State<GradientSwitch> {
             alignment: Alignment.center,
             decoration: BoxDecoration(
               gradient: LinearGradient( 
-              colors: isSwitchOn 
+              colors: widget.isSwitchOn 
                 ? [ 
                   ColorStyles.mainColor, 
                   ColorStyles.secondMainColor, 

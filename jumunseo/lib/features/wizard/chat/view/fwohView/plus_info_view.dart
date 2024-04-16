@@ -17,6 +17,7 @@ class _PlusInfoViewState extends State<PlusInfoView> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
+        centerTitle: true,
         title: const Text(
             "내용을 자세하게 적어주세요.",
             style: TextStyle(

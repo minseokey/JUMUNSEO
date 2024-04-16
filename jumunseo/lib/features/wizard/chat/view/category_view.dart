@@ -26,6 +26,7 @@ class _CategoryViewState extends State<CategoryView> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
+        centerTitle: true,
         title: const Text(
           "카테고리를 선택해주세요!",
           style: TextStyle(

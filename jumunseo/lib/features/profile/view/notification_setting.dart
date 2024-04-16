@@ -15,6 +15,8 @@ class _NotificationSettingState extends State<NotificationSetting> {
   List<Widget> iconList = [const GradientIcon(child: Icon(Icons.alarm))];
   List<String> accountList = ["Pop-up notification",];
 
+  bool isSwitchOn = false;
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -55,7 +57,9 @@ class _NotificationSettingState extends State<NotificationSetting> {
                       const Spacer(),
                       Transform.scale(
                         scale: 0.5,
-                        child: const GradientSwitch(),
+                        child: GradientSwitch(isSwitchOn: isSwitchOn, onChange: (changeValue) {
+                          setState(() => isSwitchOn = changeValue);
+                        },),
                       ),
                     ],
                   ),

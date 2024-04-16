@@ -26,6 +26,7 @@ class _RoomListViewState extends State<RoomListView> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
+        centerTitle: true,
         title: const Text(
             "마 법 사",
             style: TextStyle(
