@@ -3,7 +3,6 @@ package com.jumunseo.debate.domain.subject.service;
 import com.jumunseo.debate.domain.opinion.dto.OpinionSimpleDto;
 import com.jumunseo.debate.domain.opinion.entity.MessageSide;
 import com.jumunseo.debate.domain.opinion.repository.OpinionJPARepository;
-import com.jumunseo.debate.domain.opinion.service.OpinionServiceImpl;
 import com.jumunseo.debate.domain.subject.dto.SubjectCollectDto;
 import com.jumunseo.debate.domain.subject.dto.SubjectDto;
 import com.jumunseo.debate.domain.subject.entity.Subject;
@@ -120,7 +119,8 @@ public class SubjectServiceImpl implements SubjectService{
     }
 
     // 의견을 요약한다.
-    private String summaryOpinions(List<OpinionSimpleDto> opinions, String sub){
+    @Override
+    public String summaryOpinions(List<OpinionSimpleDto> opinions, String sub){
         List<String> req = new ArrayList<>();
         req.add("이 주제에 대한 의견을 요약해주세요, 이 의견들에 대한 주제는 " + sub + "입니다." +
                 "또한 이 의견과 관계 없는 대화 내용은 필터링 해주시고, 주된 의견들에 대해 약 5개 정도 요약해주세요.");
@@ -134,6 +134,7 @@ public class SubjectServiceImpl implements SubjectService{
         return openAIService.sendRequest(req, ".md 형태로 정리해 주세요");
     }
 
+    @Override
     public List<OpinionSimpleDto> getOpinionSideSummary(Subject subject, MessageSide side){
         return opinionRepository.findBySubjectAndSide(subject, side).stream().map(mapper::toSimpleOption).toList();
     }

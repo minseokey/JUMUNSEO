@@ -1,6 +1,9 @@
 package com.jumunseo.debate.domain.subject.service;
 
+import com.jumunseo.debate.domain.opinion.dto.OpinionSimpleDto;
+import com.jumunseo.debate.domain.opinion.entity.MessageSide;
 import com.jumunseo.debate.domain.subject.dto.SubjectDto;
+import com.jumunseo.debate.domain.subject.entity.Subject;
 
 import java.util.List;
 
@@ -17,4 +20,9 @@ public interface SubjectService {
 
     // 해당 주제가 유효한가? (채팅방이 열려있는가?)
     boolean isValidSubject(Long subjectId);
+
+    // 의견을 요약한다.
+    String summaryOpinions(List<OpinionSimpleDto> opinions, String sub);
+
+    List<OpinionSimpleDto> getOpinionSideSummary(Subject subject, MessageSide side);
 }
