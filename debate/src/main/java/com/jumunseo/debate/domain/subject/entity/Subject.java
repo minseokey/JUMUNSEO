@@ -8,6 +8,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
@@ -27,10 +28,9 @@ public class Subject {
     private LocalDateTime endTime;
 
     @Builder
-    public Subject(Long id, String contents, LocalDateTime startDate){
-        this.id = id;
+    public Subject(String contents){
         this.contents = contents;
         this.startTime = LocalDateTime.now();
-        this.endTime = startDate.plusDays(1);
+        this.endTime = startTime.plusDays(2);
     }
 }
