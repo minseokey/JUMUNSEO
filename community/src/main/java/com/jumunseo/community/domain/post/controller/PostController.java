@@ -11,9 +11,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.jumunseo.community.domain.post.service.PostService;
+
+import lombok.RequiredArgsConstructor;
+
 @RestController
 @RequestMapping("/community/posts")
+@RequiredArgsConstructor
 public class PostController {
+
+    private final PostService postService;
+
     @GetMapping("/{id}")
     public ResponseEntity getPostUseID(@PathVariable Long id) {
         // TODO: id 값 검증, 데이터 검증, 서비스 호출,
