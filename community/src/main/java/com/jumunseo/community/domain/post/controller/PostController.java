@@ -17,7 +17,6 @@ public class PostController {
     @GetMapping("/{id}")
     public ResponseEntity getPostUseID(@PathVariable Long id) {
         // TODO: id 값 검증, 데이터 검증, 서비스 호출,
-
         return null;
     }
 
