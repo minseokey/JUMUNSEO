@@ -1,7 +1,6 @@
 package com.jumunseo.debate.global.open_ai;
 
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jumunseo.debate.global.dto.openai.ChatRequest;
 import com.jumunseo.debate.global.dto.openai.ChatResponse;
 import com.jumunseo.debate.global.exception.NoResponseException;
@@ -12,9 +11,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
-import com.jumunseo.debate.global.exception.CustomException;
 
 import java.util.List;
 

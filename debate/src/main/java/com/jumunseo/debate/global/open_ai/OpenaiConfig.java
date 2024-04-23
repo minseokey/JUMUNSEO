@@ -1,6 +1,5 @@
 package com.jumunseo.debate.global.open_ai;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import io.netty.channel.ChannelOption;
 import io.netty.handler.timeout.ReadTimeoutHandler;
 import io.netty.handler.timeout.WriteTimeoutHandler;
@@ -39,10 +38,5 @@ public class OpenaiConfig {
                 .defaultHeader("Authorization", "Bearer " + API_KEY)
                 .clientConnector(new ReactorClientHttpConnector(httpClient))
                 .build();
-    }
-
-    @Bean
-    public ObjectMapper objectMapper() {
-        return new ObjectMapper();
     }
 }

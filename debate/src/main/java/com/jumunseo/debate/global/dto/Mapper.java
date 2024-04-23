@@ -3,6 +3,7 @@ package com.jumunseo.debate.global.dto;
 import com.jumunseo.debate.domain.opinion.dto.OpinionDto;
 import com.jumunseo.debate.domain.opinion.dto.OpinionSimpleDto;
 import com.jumunseo.debate.domain.opinion.entity.Opinion;
+import com.jumunseo.debate.domain.subject.dto.SubjectCollectDto;
 import com.jumunseo.debate.domain.subject.dto.SubjectDto;
 import com.jumunseo.debate.domain.subject.entity.Subject;
 import com.jumunseo.debate.domain.subject.exception.NotExistSubjectException;
@@ -40,6 +41,7 @@ public class Mapper {
     public SubjectDto toDto(Subject subject){
         return SubjectDto.builder()
                 .contents(subject.getContents())
+                .Id(subject.getId())
                 .startTime(subject.getStartTime())
                 .endTime(subject.getEndTime())
                 .build();
@@ -67,6 +69,11 @@ public class Mapper {
                 .subjectId(opinion.getSubject().getId())
                 .userId(opinion.getUserId())
                 .userName(opinion.getUserName())
+                .build();
+    }
+    public SubjectCollectDto toCollectDto(Subject subject){
+        return SubjectCollectDto.builder()
+                .contents(subject.getContents())
                 .build();
     }
 

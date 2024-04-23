@@ -16,7 +16,7 @@ public class ChatRequest {
     private final String model = "gpt-4-turbo";
     private List<Message> messages;
     private final double temperature = 0.7;
-    private final int max_tokens = 1000;
+    private final int max_tokens = 10000;
     private final int top_p = 1;
 
     @Builder

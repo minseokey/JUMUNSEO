@@ -30,7 +30,7 @@ public class RedisSubService implements MessageListener {
             OpinionDto received = objectMapper.readValue(publishMessage, OpinionDto.class);
             // Opinion의 타입이 TALK인 경우 /sub/talk/{subjectId}로 메시지 전송
             if (received.getType().equals(MessageType.TALK)){
-                messagingTemplate.convertAndSend("/sub/test/" + received.getSubjectId(), received);
+                messagingTemplate.convertAndSend("/sub/chat/" + received.getSubjectId(), received);
             }
         }
         catch (Exception e){

@@ -2,6 +2,7 @@ package com.jumunseo.debate.domain.subject.service;
 
 import com.jumunseo.debate.domain.opinion.dto.OpinionSimpleDto;
 import com.jumunseo.debate.domain.opinion.entity.MessageSide;
+import com.jumunseo.debate.domain.opinion.entity.Opinion;
 import com.jumunseo.debate.domain.opinion.repository.OpinionJPARepository;
 import com.jumunseo.debate.domain.subject.dto.SubjectCollectDto;
 import com.jumunseo.debate.domain.subject.dto.SubjectDto;
@@ -11,6 +12,7 @@ import com.jumunseo.debate.domain.subject.exception.NotExistSubjectException;
 import com.jumunseo.debate.domain.subject.repository.SubjectJPARepository;
 import com.jumunseo.debate.domain.subject.repository.SubjectSummartJPARepository;
 import com.jumunseo.debate.global.dto.Mapper;
+import com.jumunseo.debate.global.lock.LockService;
 import com.jumunseo.debate.global.open_ai.OpenAIService;
 import com.jumunseo.debate.global.stomp.RedisChannelService;
 import lombok.RequiredArgsConstructor;
@@ -32,14 +34,21 @@ public class SubjectServiceImpl implements SubjectService{
     private final SubjectSummartJPARepository subjectSummartJPARepository;
     private final OpinionJPARepository opinionRepository;
     private final Mapper mapper;
+    private final LockService lockService;
 
     // 매일 정오에 주제를 새로고침한다.
-    @Scheduled(cron = "0 0 12 * * *")
+    //@Scheduled(cron = "0 0 12 * * *")
+    // 여러 서버중 하나만 실행 해야한다 -> 레디스 분산락 적용.
+
+    // test용, 매 10초마다 실행
+    @Scheduled(cron = "*/10 * * * * *")
     public void summarySubject(){
+        System.out.println("summarySubject");
         // 시간이 지난 주제에 대해 요약을 하고, 해당 주제를 레디스 토픽에서 삭제한다.
 
         // 1. 시간이 막 지난 주제를 가져온다.
-        Subject subject = subjectRepository.findTopByEndTimeBefore(LocalDateTime.now());
+        Subject subject = subjectRepository.findTopByEndTimeBefore(LocalDateTime.now())
+                .orElseThrow(() -> new NotExistSubjectException("요약할 주제가 없습니다."));
         subjectRepository.delete(subject);
 
         // 2. 해당 주제를 레디스 토픽에서 삭제한다.
@@ -68,8 +77,11 @@ public class SubjectServiceImpl implements SubjectService{
 
     // 주제를 추가한다.
     // OpenAI 기반
-    @Scheduled(cron = "0 0 12 * * *")
+//    @Scheduled(cron = "0 0 12 * * *")
+    // test용, 매 10초마다 실행
+    @Scheduled(cron = "*/10 * * * * *")
     public void addSubject(){
+        System.out.println("addSubject");
         // OpenAI에 보낼 요청문 빌드.
         List<String> req = new ArrayList<>();
         req.add("사람들이 법적으로 곤란해 할만한 주제를 만들어주세요," +
@@ -79,7 +91,8 @@ public class SubjectServiceImpl implements SubjectService{
                 " 또한 \"\"주제\": \" 이런 형식 없이 오로지 주제만 입력해 주세요"+
                 " 아래 입력되는 문장들인 이미 사용된 주제들 입니다. 이 주제와 중복되지 않고 참신한 주제로 만들어주세요");
 
-        List<SubjectCollectDto> history = subjectRepository.findTop100ByStartTime(LocalDateTime.now());
+        List<SubjectCollectDto> history = subjectRepository.findTop100ByStartTime(LocalDateTime.now())
+                .stream().map(mapper::toCollectDto).toList();
         StringBuilder tempword = new StringBuilder();
         for (SubjectCollectDto subject : history) {
             tempword.append(subject.getContents());
@@ -105,8 +118,8 @@ public class SubjectServiceImpl implements SubjectService{
     @Override
     public boolean isValidSubject(Long subjectId) {
         // 주제의 시간 유효성 확인
-        SubjectDto subjectDto = subjectRepository.findSubjectDtoById(subjectId).orElseThrow(
-                () -> new NotExistSubjectException("주제가 존재하지 않습니다."));
+        SubjectDto subjectDto = mapper.toDto(subjectRepository.findSubjectDtoById(subjectId).orElseThrow(
+                () -> new NotExistSubjectException("주제가 존재하지 않습니다.")));
 
         return subjectDto.getStartTime().isBefore(LocalDateTime.now()) && subjectDto.getEndTime().isAfter(LocalDateTime.now());
     }
@@ -115,7 +128,8 @@ public class SubjectServiceImpl implements SubjectService{
     // 현재 사용가능한 주제를 가져온다.
     @Override
     public List<SubjectDto> getLiveSubject(){
-        return subjectRepository.findByStartTimeAndEndTime(LocalDateTime.now());
+        return subjectRepository.findByStartTimeAndEndTime(LocalDateTime.now())
+                .stream().map(mapper::toDto).toList();
     }
 
     // 의견을 요약한다.
