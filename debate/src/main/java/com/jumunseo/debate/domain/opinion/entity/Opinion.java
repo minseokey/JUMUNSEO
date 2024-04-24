@@ -31,15 +31,13 @@ public class Opinion {
     private Subject subject;
 
     private Long userId;
-    private String userName;
 
     @Builder
-    public Opinion(String content, MessageType type, Subject subject, Long userId, String userName, MessageSide side){
+    public Opinion(String content, MessageType type, Subject subject, Long userId, MessageSide side){
         this.content = content;
         this.type = type;
         this.subject = subject;
         this.userId = userId;
-        this.userName = userName;
         this.side = side;
     }
 }

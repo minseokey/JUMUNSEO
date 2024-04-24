@@ -17,6 +17,7 @@ import com.jumunseo.debate.global.stomp.RedisChannelService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
@@ -39,13 +40,14 @@ public class SubjectServiceImpl implements SubjectService{
     // 매일 정오에 주제를 새로고침한다.
     // 여러 서버중 하나만 실행 해야한다 -> 레디스 분산락 적용.
     @Scheduled(cron = "0 0 12 * * *")
+    @Transactional
     @Override
     public void summarySubject(){
         if(lockService.acquireLock("summary_subject")){
             try {
                 // 시간이 지난 주제에 대해 요약을 하고, 해당 주제를 레디스 토픽에서 삭제한다.
                 // 1. 시간이 막 지난 주제를 가져온다.
-                Subject subject = subjectRepository.findTopByEndTimeBefore(LocalDateTime.now())
+                Subject subject = subjectRepository.findTop1ByEndTimeBefore(LocalDateTime.now())
                         .orElseThrow(() -> new NotExistSubjectException("요약할 주제가 없습니다."));
 
                 // 2. 해당 주제를 레디스 토픽에서 삭제한다.
@@ -82,6 +84,7 @@ public class SubjectServiceImpl implements SubjectService{
 
     // 주제를 추가한다.
     @Scheduled(cron = "0 0 12 * * *")
+    @Transactional
     @Override
     public void addSubject(){
         if(lockService.acquireLock("add_subject")) {
@@ -96,8 +99,7 @@ public class SubjectServiceImpl implements SubjectService{
                         " 아래 입력되는 문장들인 이미 사용된 주제들 입니다. 이 주제와 중복되지 않고 참신한 주제로 만들어주세요");
 
                 StringBuilder tempword = new StringBuilder();
-                List<SubjectCollectDto> history = subjectRepository.findTop100ByStartTime(LocalDateTime.now())
-                        .stream().map(mapper::toCollectDto).toList();
+                List<SubjectCollectDto> history = subjectRepository.findTop30ByStartTimeOrderByStartTimeDesc(LocalDateTime.now());
                 for (SubjectCollectDto subject : history) {
                     tempword.append(subject.getContents());
                 }
@@ -113,6 +115,7 @@ public class SubjectServiceImpl implements SubjectService{
                 Subject subject = Subject.builder()
                         .contents(sub)
                         .term(Duration.ofDays(2))
+//                        .term(Duration.ofSeconds(5L))
                         .build();
 
                 subjectRepository.save(subject);
@@ -140,9 +143,9 @@ public class SubjectServiceImpl implements SubjectService{
 
     // 현재 사용가능한 주제를 가져온다.
     @Override
+    @Transactional
     public List<SubjectDto> getLiveSubject(){
-        return subjectRepository.findByStartTimeAndEndTime(LocalDateTime.now())
-                .stream().map(mapper::toDto).toList();
+        return subjectRepository.findByStartTimeAndEndTime(LocalDateTime.now());
     }
 
     // 의견을 요약한다.
@@ -164,6 +167,6 @@ public class SubjectServiceImpl implements SubjectService{
 
     @Override
     public List<OpinionSimpleDto> getOpinionSideSummary(Subject subject, MessageSide side){
-        return opinionRepository.findBySubjectAndSide(subject, side).stream().map(mapper::toSimpleOption).toList();
+        return opinionRepository.findBySubjectAndSide(subject, side);
     }
 }

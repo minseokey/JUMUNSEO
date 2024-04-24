@@ -24,7 +24,7 @@ public class Mapper {
                 .subject(subjectRepository.findById(opinionRequestDto.getSubjectId())
                         .orElseThrow(() -> new NotExistSubjectException("주제가 존재하지 않습니다.")))
                 .userId(opinionRequestDto.getUserId())
-                .userName(opinionRequestDto.getUserName())
+                .side(opinionRequestDto.getSide())
                 .build();
     }
 
@@ -34,16 +34,6 @@ public class Mapper {
                 .type(opinion.getType())
                 .subjectId(opinion.getSubject().getId())
                 .userId(opinion.getUserId())
-                .userName(opinion.getUserName())
-                .build();
-    }
-
-    public SubjectDto toDto(Subject subject){
-        return SubjectDto.builder()
-                .contents(subject.getContents())
-                .Id(subject.getId())
-                .startTime(subject.getStartTime())
-                .endTime(subject.getEndTime())
                 .build();
     }
 
@@ -53,27 +43,12 @@ public class Mapper {
                 .build();
     }
 
-    public OpinionSimpleDto toSimpleOption (Opinion opinion){
-        return OpinionSimpleDto.builder()
-                .content(opinion.getContent())
-                .side(opinion.getSide())
-                .subjectId(opinion.getSubject().getId())
-                .build();
-    }
-
-    public OpinionDto toOptionDto (Opinion opinion){
-        return OpinionDto.builder()
-                .content(opinion.getContent())
-                .type(opinion.getType())
-                .side(opinion.getSide())
-                .subjectId(opinion.getSubject().getId())
-                .userId(opinion.getUserId())
-                .userName(opinion.getUserName())
-                .build();
-    }
-    public SubjectCollectDto toCollectDto(Subject subject){
-        return SubjectCollectDto.builder()
+    public SubjectDto toDto(Subject subject){
+        return SubjectDto.builder()
                 .contents(subject.getContents())
+                .Id(subject.getId())
+                .startTime(subject.getStartTime())
+                .endTime(subject.getEndTime())
                 .build();
     }
 
