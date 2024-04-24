@@ -18,6 +18,7 @@ public class Opinion {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Lob
     private String content;
 
     private MessageType type;
@@ -33,11 +34,12 @@ public class Opinion {
     private String userName;
 
     @Builder
-    public Opinion(String content, MessageType type, Subject subject, Long userId, String userName){
+    public Opinion(String content, MessageType type, Subject subject, Long userId, String userName, MessageSide side){
         this.content = content;
         this.type = type;
         this.subject = subject;
         this.userId = userId;
         this.userName = userName;
+        this.side = side;
     }
 }

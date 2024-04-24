@@ -1,6 +1,8 @@
 package com.jumunseo.debate.global.open_ai;
 
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jumunseo.debate.global.dto.openai.ChatRequest;
 import com.jumunseo.debate.global.dto.openai.ChatResponse;
 import com.jumunseo.debate.global.exception.NoResponseException;
@@ -21,7 +23,6 @@ public class OpenAIService {
 
     @Value("${openai.api.url}")
     private String API_URL;
-
     private final WebClient webClient;
 
     // GPT에 요청을 보내는 메소드, message에 요청할 문장을 넣으면 GPT-3에서 응답한 결과를 반환

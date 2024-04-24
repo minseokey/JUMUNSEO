@@ -9,21 +9,21 @@ import java.util.concurrent.TimeUnit;
 @Component
 @RequiredArgsConstructor
 public class LockService {
-    private static final String LOCK_KEY = "SubjectLock";
+
     private final RedisTemplate<String, Object> redisTemplate;
 
-    private boolean acquireLock() {
-        Boolean access = redisTemplate.opsForValue().setIfAbsent(LOCK_KEY, "locked");
+    public boolean acquireLock(String lock_key) {
+        Boolean access = redisTemplate.opsForValue().setIfAbsent(lock_key, "locked");
         if (access != null && access) {
             // 10시간 동안 유효
-            redisTemplate.expire(LOCK_KEY, 10, TimeUnit.HOURS);
+            redisTemplate.expire(lock_key, 10, TimeUnit.HOURS);
             return true;
         }
         return false;
     }
 
-    private void releaseLock() {
-        redisTemplate.delete(LOCK_KEY);
+    public void releaseLock(String lock_key) {
+        redisTemplate.delete(lock_key);
     }
 
 }

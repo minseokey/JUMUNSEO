@@ -19,14 +19,21 @@ public class SubjectSummary {
     @JoinColumn(name = "subject_id")
     private Subject subject;
 
+    @Lob
     private String leftOpinions;
 
+    @Lob
     private String rightOpinions;
 
+    private int countLeft;
+    private int countRight;
+
     @Builder
-    public SubjectSummary(Subject subject, String leftOpinions, String rightOpinions) {
+    public SubjectSummary(Subject subject, String leftOpinions, String rightOpinions, int countLeft, int countRight) {
         this.subject = subject;
         this.leftOpinions = leftOpinions;
         this.rightOpinions = rightOpinions;
+        this.countLeft = countLeft;
+        this.countRight = countRight;
     }
 }

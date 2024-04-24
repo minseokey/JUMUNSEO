@@ -19,8 +19,6 @@ public class OpinionServiceImpl implements OpinionService{
     private final SubjectService subjectService;
     private final Mapper mapper;
     private final RedisTemplate<String, Object> redisTemplate;
-
-    // 테스트용
     private final RedisChannelService redisChannelService;
 
 

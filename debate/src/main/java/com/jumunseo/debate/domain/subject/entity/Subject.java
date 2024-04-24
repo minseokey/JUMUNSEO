@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
+import java.time.Duration;
 
 @Entity
 @Getter
@@ -20,15 +21,16 @@ public class Subject {
     private Long id;
 
     // 12시에 한번씩 업로드 되는 주제 + Cron 사용
+    @Lob
     private String contents;
 
     private LocalDateTime startTime;
     private LocalDateTime endTime;
 
     @Builder
-    public Subject(String contents){
+    public Subject(String contents, Duration term){
         this.contents = contents;
         this.startTime = LocalDateTime.now();
-        this.endTime = startTime.plusDays(2);
+        this.endTime = startTime.plus(term);
     }
 }
