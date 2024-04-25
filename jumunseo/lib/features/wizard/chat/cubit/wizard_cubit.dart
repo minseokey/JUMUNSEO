@@ -171,10 +171,7 @@ class WizardCubit extends Cubit<WizardState> {
       }
     }
 
-    Navigator.push(
-        context, 
-        MaterialPageRoute(builder: (context)=> const ChatView())
-      );
+    context.push('/wizard/chat');
   }
 
   void toWizardSet(BuildContext context) {

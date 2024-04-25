@@ -1,4 +1,6 @@
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:jumunseo/core/blank.dart';
+import 'package:jumunseo/features/profile/cubit/profile_cubit.dart';
 import 'package:jumunseo/features/wizard/chat/chat.dart';
 import 'package:jumunseo/shared/gradient_icon.dart';
 
@@ -11,9 +13,8 @@ class OtherSetting extends StatefulWidget {
 
 class _OtherSettingState extends State<OtherSetting> {
 
-  List<Widget> iconList = [const GradientIcon(child: Icon(Icons.privacy_tip_outlined)), 
-                        const GradientIcon(child: Icon(Icons.settings_outlined))];
-  List<String> accountList = ["Privacy Policy", "Settings",];
+  List<Widget> iconList = [const GradientIcon(child: Icon(Icons.settings_outlined))];
+  List<String> accountList = ["Settings",];
 
   @override
   Widget build(BuildContext context) {
@@ -45,16 +46,23 @@ class _OtherSettingState extends State<OtherSetting> {
               children: List.generate(iconList.length, (index) {
                 return Padding(
                   padding: const EdgeInsets.symmetric(vertical: 5),
-                  child: Row(
-                    children: [
-                      iconList[index],
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 10),
-                        child: Text(accountList[index], style: const TextStyle(color: Colors.grey, fontSize: 12),),
-                      ),
-                      const Spacer(),
-                      const Icon(Icons.arrow_forward_ios, size: 18,),
-                    ],
+                  child: GestureDetector(
+                    onTap: () {
+                      if(accountList[index] == 'Settings') {
+                        context.read<ProfileCubit>().toSettingView(context);
+                      }
+                    },
+                    child: Row(
+                      children: [
+                        iconList[index],
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 10),
+                          child: Text(accountList[index], style: const TextStyle(color: Colors.grey, fontSize: 12),),
+                        ),
+                        const Spacer(),
+                        const Icon(Icons.arrow_forward_ios, size: 18,),
+                      ],
+                    ),
                   ),
                 );
               }),

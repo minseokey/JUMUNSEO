@@ -4,6 +4,7 @@ import 'package:jumunseo/features/community/community_screen.dart';
 import 'package:jumunseo/features/dilemma/dilemma_screen.dart';
 import 'package:jumunseo/features/home/view/home_screen.dart';
 import 'package:jumunseo/features/profile/view/profile_screen.dart';
+import 'package:jumunseo/features/profile/view/settings_view.dart';
 import 'package:jumunseo/features/wizard/chat/view/category_view.dart';
 import 'package:jumunseo/features/wizard/chat/view/chat_view.dart';
 import 'package:jumunseo/features/wizard/chat/view/fwohView/how_view.dart';
@@ -58,9 +59,17 @@ GoRouter appRouter = GoRouter(
         }),
 
     GoRoute(
-        path: '/profile',
-        builder: (context, state) {
-          return const ProfileScreen();
-        }),
+      path: '/profile',
+      builder: (context, state) {
+        return const ProfileScreen();
+      },
+      routes: [
+        GoRoute(
+          path: 'settings',
+          builder: (context, state) {
+            return const SettingsView();
+          }),
+      ]
+    ),
   ],
 );
