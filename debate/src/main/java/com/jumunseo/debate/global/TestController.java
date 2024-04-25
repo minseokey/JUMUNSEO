@@ -28,7 +28,6 @@ public class TestController {
     private final OpinionJPARepository opinionRepository;
     private final SubjectServiceImpl subjectService;
     private final SubjectJPARepository subjectRepository;
-    private final OpenAIService aiService;
     private final SubjectSummaryJPARepository subjectSummaryRepository;
 
     @MessageMapping("/test/{channel}")

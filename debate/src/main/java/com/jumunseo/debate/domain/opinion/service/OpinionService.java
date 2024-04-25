@@ -2,7 +2,6 @@ package com.jumunseo.debate.domain.opinion.service;
 
 import com.jumunseo.debate.domain.opinion.dto.OpinionDto;
 import com.jumunseo.debate.domain.opinion.dto.OpinionResponseDto;
-import com.jumunseo.debate.domain.opinion.entity.Opinion;
 
 import java.util.List;
 

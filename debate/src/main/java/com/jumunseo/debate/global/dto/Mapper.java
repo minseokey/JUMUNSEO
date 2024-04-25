@@ -1,9 +1,7 @@
 package com.jumunseo.debate.global.dto;
 
 import com.jumunseo.debate.domain.opinion.dto.OpinionDto;
-import com.jumunseo.debate.domain.opinion.dto.OpinionSimpleDto;
 import com.jumunseo.debate.domain.opinion.entity.Opinion;
-import com.jumunseo.debate.domain.subject.dto.SubjectCollectDto;
 import com.jumunseo.debate.domain.subject.dto.SubjectDto;
 import com.jumunseo.debate.domain.subject.entity.Subject;
 import com.jumunseo.debate.domain.subject.exception.NotExistSubjectException;

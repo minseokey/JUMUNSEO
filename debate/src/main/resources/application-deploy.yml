@@ -12,3 +12,16 @@ spring:
     hibernate:
       ddl-auto: create
     show-sql: true
+
+  data:
+    redis:
+      port: ${DEBATE_REDIS_PORT}
+      host: ${DEBATE_REDIS_PORT}
+
+server:
+  port: 8082
+
+openai:
+  api:
+    key: ${OPENAI_KEY}
+    url: https://api.openai.com/v1/chat/completions

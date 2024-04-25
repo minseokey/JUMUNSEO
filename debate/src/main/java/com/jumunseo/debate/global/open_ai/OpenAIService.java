@@ -1,8 +1,5 @@
 package com.jumunseo.debate.global.open_ai;
 
-
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jumunseo.debate.global.dto.openai.ChatRequest;
 import com.jumunseo.debate.global.dto.openai.ChatResponse;
 import com.jumunseo.debate.global.exception.NoResponseException;
