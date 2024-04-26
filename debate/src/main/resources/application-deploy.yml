@@ -16,7 +16,7 @@ spring:
   data:
     redis:
       port: ${DEBATE_REDIS_PORT}
-      host: ${DEBATE_REDIS_PORT}
+      host: ${DEBATE_REDIS_HOST}
 
 server:
   port: 8082

@@ -2,20 +2,22 @@ version: "3"
 
 services:
   postgres:
-    container_name: postgres_debate
+    container_name: postgres-debate
     hostname: postgres
     image: postgres:latest
     ports:
-      - "5433:5433"
+      - "5432:5432"
     restart: always
     environment:
       POSTGRES_DB: debate
       POSTGRES_USER: debate
       POSTGRES_PASSWORD: 1234
-      PGPORT: 5433
+      PGPORT: 5432
       TZ: "Asia/Seoul"
     volumes:
       - ./postgres-data:/var/lib/postgresql/data
+    networks:
+      - debate
 
   redis:
     container_name: redis-debate
@@ -26,3 +28,30 @@ services:
     restart: always
     environment:
       TZ: "Asia/Seoul"
+    networks:
+      - debate
+
+  debate-service:
+    container_name: debate-service
+    build: .
+    ports:
+      - "8082:8082"
+    restart: always
+    environment:
+      TZ: "Asia/Seoul"
+      DEBATE_POSTGRES_HOST: postgres
+      DEBATE_POSTGRES_PORT: 5432
+      DEBATE_POSTGRES_USER: debate
+      DEBATE_POSTGRES_PASSWORD: 1234
+      DEBATE_REDIS_PORT: 6379
+      DEBATE_REDIS_HOST: redis
+      OPENAI_KEY: ""
+    depends_on:
+      - postgres
+      - redis
+    networks:
+      - debate
+
+networks:
+  debate:
+    driver: bridge

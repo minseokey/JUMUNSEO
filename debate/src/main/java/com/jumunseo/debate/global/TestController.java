@@ -12,7 +12,6 @@ import com.jumunseo.debate.domain.subject.repository.SubjectJPARepository;
 import com.jumunseo.debate.domain.subject.repository.SubjectSummaryJPARepository;
 import com.jumunseo.debate.domain.subject.service.SubjectServiceImpl;
 import com.jumunseo.debate.global.dto.Result;
-import com.jumunseo.debate.global.open_ai.OpenAIService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
