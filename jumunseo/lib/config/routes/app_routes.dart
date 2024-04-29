@@ -101,5 +101,10 @@ GoRouter appRouter = GoRouter(
           }),
       ]
     ),
+    GoRoute(
+        path: '/login',
+        builder: (context, state) {
+          return const LoginScreen();
+        }),
   ],
 );

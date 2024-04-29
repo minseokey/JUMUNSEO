@@ -58,7 +58,6 @@ dependencies:
   hive_flutter: ^1.1.0
   flutter_native_splash: ^2.3.7
   flutter_markdown: ^0.6.19
-  flutter_native_splash: ^2.3.7
   equatable: ^2.0.5
 
 flutter_native_splash:
