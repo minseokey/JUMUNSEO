@@ -35,7 +35,7 @@ public class PostController {
             postService.successTest();
             return ResponseEntity.ok().body(Result.successResult(null));
         } catch (Exception e) {
-            log.error("test error", e);
+            log.error("test error", e.getMessage());
             return ResponseEntity.badRequest().body(null);
         }
     }
@@ -48,7 +48,7 @@ public class PostController {
             postService.errorTest();
             return ResponseEntity.ok().body(Result.successResult(null));
         } catch (Exception e) {
-            log.error("test error", e);
+            log.error("test error", e.getMessage());
             return ResponseEntity.badRequest().body(null);
         }
     }
@@ -63,7 +63,7 @@ public class PostController {
             PostDto post = postService.getPostUseID(id);
             return ResponseEntity.ok().body(Result.successResult(post));
         } catch (Exception e) {
-            log.error("getPostUseID error", e);
+            log.error("getPostUseID error", e.getMessage());
             return ResponseEntity.badRequest().body(null);
         }
     }

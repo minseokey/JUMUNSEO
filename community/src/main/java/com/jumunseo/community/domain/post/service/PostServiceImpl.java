@@ -20,9 +20,8 @@ public class PostServiceImpl implements PostService {
     public PostDto getPostUseID(Long id) {
 
         Post post = postRepository.findById(id).orElse(null);
-        if (post == null) {
-            return null;
-        }
+        if (post == null)
+            throw new IllegalArgumentException("Post not found");
 
         return PostDto.builder()
                 .id(post.getId())
