@@ -1,14 +1,14 @@
 package com.jumunseo.community.domain.post.service;
 
-import com.jumunseo.community.domain.post.entity.Post;
+import com.jumunseo.community.domain.post.dto.PostDto;
 
 public interface PostService {
 
-    Post getPostUseID(Long id);
+    PostDto getPostUseID(Long id);
 
-    Post createPost(Post entity);
+    PostDto createPost(PostDto entity);
 
-    Post updatePost(Long id, Post entity);
+    PostDto updatePost(Long id, PostDto entity);
 
     void deletePost(Long id);
 

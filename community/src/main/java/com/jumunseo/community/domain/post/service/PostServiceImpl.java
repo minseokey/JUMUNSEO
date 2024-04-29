@@ -2,6 +2,7 @@ package com.jumunseo.community.domain.post.service;
 
 import org.springframework.stereotype.Service;
 
+import com.jumunseo.community.domain.post.dto.PostDto;
 import com.jumunseo.community.domain.post.entity.Post;
 import com.jumunseo.community.domain.post.repository.PostRepository;
 
@@ -16,19 +17,30 @@ public class PostServiceImpl implements PostService {
     private final PostRepository postRepository;
 
     @Override
-    public Post getPostUseID(Long id) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getPostUseID'");
+    public PostDto getPostUseID(Long id) {
+
+        Post post = postRepository.findById(id).orElse(null);
+        if (post == null) {
+            return null;
+        }
+
+        return PostDto.builder()
+                .id(post.getId())
+                .userId(post.getUserId())
+                .createdAt(post.getCreatedAt())
+                .title(post.getTitle())
+                .content(post.getContent())
+                .build();
     }
 
     @Override
-    public Post createPost(Post entity) {
+    public PostDto createPost(PostDto entity) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'createPost'");
     }
 
     @Override
-    public Post updatePost(Long id, Post entity) {
+    public PostDto updatePost(Long id, PostDto entity) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'updatePost'");
     }

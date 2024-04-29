@@ -35,6 +35,8 @@ public class PostgreSQLConfig implements ApplicationRunner {
             log.info("DriverVersion = " + connection.getMetaData().getDriverVersion());
             log.info("JDBC MajorVersion = " + connection.getMetaData().getJDBCMajorVersion());
             Statement statement = connection.createStatement();
+            log.info("Statement = " + statement);
+
         }
         jdbcTemplate.execute("CREATE TABLE IF NOT EXISTS community (id SERIAL, title VARCHAR(255), content TEXT)");
     }

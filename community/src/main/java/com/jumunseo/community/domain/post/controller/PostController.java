@@ -27,12 +27,25 @@ public class PostController {
 
     private final PostService postService;
 
-    @GetMapping("/test")
-    public ResponseEntity<Result<?>> test() {
+    @GetMapping("/success")
+    public ResponseEntity<Result<?>> successTest() {
         log.info("[GET] test");
 
         try {
-            postService.test();
+            postService.successTest();
+            return ResponseEntity.ok().body(Result.successResult(null));
+        } catch (Exception e) {
+            log.error("test error", e);
+            return ResponseEntity.badRequest().body(null);
+        }
+    }
+
+    @GetMapping("/error")
+    public ResponseEntity<Result<?>> errorTest() {
+        log.info("[GET] test");
+
+        try {
+            postService.errorTest();
             return ResponseEntity.ok().body(Result.successResult(null));
         } catch (Exception e) {
             log.error("test error", e);
@@ -43,11 +56,16 @@ public class PostController {
     @GetMapping("/{id}")
     public ResponseEntity<Result<?>> getPostUseID(@PathVariable Long id) {
         // TODO: id 값 검증, 데이터 검증, 서비스 호출,
+
         log.info("[GET] ID: {}", id);
 
-        // postService.getPostUseID(id);
-
-        return null;
+        try {
+            PostDto post = postService.getPostUseID(id);
+            return ResponseEntity.ok().body(Result.successResult(post));
+        } catch (Exception e) {
+            log.error("getPostUseID error", e);
+            return ResponseEntity.badRequest().body(null);
+        }
     }
 
     @PostMapping
