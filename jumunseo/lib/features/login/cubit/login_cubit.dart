@@ -48,8 +48,17 @@ class LoginCubit extends Cubit<LoginState> {
     context.push('/auth/signUp');
   }
 
+  void goToSignIn(BuildContext context) {
+    LoginStatus.signining = true;
+    context.push('/auth/signIn');
+  }
+
   void disposeJoin() {
     LoginStatus.joining = false;
+  }
+
+  void disposeSignIn() {
+    LoginStatus.signining = false;
   }
   
   // void loginWithCredentials() async {

@@ -39,8 +39,9 @@ class AuthScreen extends StatelessWidget {
                       Expanded(
                         child: ElevatedButton(
                           onPressed: (){
-                            context.read<LoginCubit>().login();
-                            context.read<LoginCubit>().goToHome(context);
+                            context.read<LoginCubit>().goToSignIn(context);
+                            // context.read<LoginCubit>().login();
+                            // context.read<LoginCubit>().goToHome(context);
                           },
                           child: const Text('주문서 계정으로 로그인하기'),
                         ),

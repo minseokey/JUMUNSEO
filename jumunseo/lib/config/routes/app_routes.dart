@@ -5,6 +5,7 @@ import 'package:jumunseo/features/community/community_screen.dart';
 import 'package:jumunseo/features/dilemma/dilemma_screen.dart';
 import 'package:jumunseo/features/home/view/home_screen.dart';
 import 'package:jumunseo/features/login/login.dart';
+import 'package:jumunseo/features/login/view/sign_in_view.dart';
 import 'package:jumunseo/features/login/view/sign_up_view.dart';
 import 'package:jumunseo/features/profile/view/privacy_policy.dart';
 import 'package:jumunseo/features/profile/view/terms_of_use_view.dart';
@@ -114,6 +115,11 @@ GoRouter appRouter = GoRouter(
             builder: (context, state) {
               return const SignUpView();
             }),
+          GoRoute(
+            path: 'signIn',
+            builder: (context, state) {
+              return const SignInView();
+            }),
         ]
       ),
   ],
@@ -124,6 +130,10 @@ GoRouter appRouter = GoRouter(
     else {
       if(LoginStatus.isGeust) {
         return null;
+      }
+
+      if(LoginStatus.signining) {
+        return '/auth/signIn';
       }
 
       if(LoginStatus.joining) {
