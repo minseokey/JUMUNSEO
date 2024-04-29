@@ -38,44 +38,50 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(80),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            AppBar(
-              shadowColor: Colors.white,
-              toolbarHeight: 50,
-              title: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20),
-                child: Row(
-                  children:[
-                    const Column(
-                      children: [
-                        Text("Welcome back,", style: TextStyle(fontSize: 12, color: Colors.grey),),
-                        Text("Sangrok", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.black),),
-                      ],
+        child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+          AppBar(
+            shadowColor: Colors.white,
+            toolbarHeight: 50,
+            title: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              child: Row(children: [
+                const Column(
+                  children: [
+                    Text(
+                      "Welcome back,",
+                      style: TextStyle(fontSize: 12, color: Colors.grey),
                     ),
-                    const Spacer(),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 10),
-                      child: CircleAvatar(radius: 25.0, backgroundImage: ExtendedImage.asset('assets/icons/profile.png').image,),
+                    Text(
+                      "Sangrok",
+                      style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black),
                     ),
-                    GestureDetector(
-                      onTapUp: (details) {
-                        context.read<HomeCubit>().hometoProfile(context);
-                      },
-                      child: const Icon(Icons.settings),
-                    ),
-                  ]
+                  ],
                 ),
-              ),
+                const Spacer(),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 10),
+                  child: CircleAvatar(
+                    radius: 25.0,
+                    backgroundImage:
+                        ExtendedImage.asset('assets/icons/profile.png').image,
+                  ),
+                ),
+                GestureDetector(
+                  onTapUp: (details) {
+                    context.read<HomeCubit>().hometoProfile(context);
+                  },
+                  child: const Icon(Icons.settings),
+                ),
+              ]),
             ),
-          ]
-        ),
+          ),
+        ]),
       ),
       body: RefreshIndicator(
-        onRefresh: () async {
-          
-        },
+        onRefresh: () async {},
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 30),
           child: ReorderableListView(
@@ -90,22 +96,26 @@ class _HomeScreenState extends State<HomeScreen> {
                 context.read<HomeCubit>().putHomeList(homeWidgets);
               });
             }),
-            children: homeWidgets.map((e) => 
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 15.0),
-                key: Key(e),
-                child:(e == '마법사')? 
-                  GestureDetector(
-                    onTapUp: (details) => context.read<HomeCubit>().homeToWizard(context),
-                    child: const WizardMenu()
-                  ): (e == '딜레마')? 
-                  GestureDetector(
-                    onTapUp: (details) => context.read<HomeCubit>().homeToDilema(context),
-                    child: const DilemaMenu()
-                  ): 
-                  const CommunityMenu(),
-                )).toList(),
-            ),
+            children: homeWidgets
+                .map((e) => Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 15.0),
+                      key: Key(e),
+                      child: (e == '마법사')
+                          ? GestureDetector(
+                              onTapUp: (details) => context
+                                  .read<HomeCubit>()
+                                  .homeToWizard(context),
+                              child: const WizardMenu())
+                          : (e == '딜레마')
+                              ? GestureDetector(
+                                  onTapUp: (details) => context
+                                      .read<HomeCubit>()
+                                      .homeToDilema(context),
+                                  child: const DilemaMenu())
+                              : const CommunityMenu(),
+                    ))
+                .toList(),
+          ),
         ),
       ),
     );

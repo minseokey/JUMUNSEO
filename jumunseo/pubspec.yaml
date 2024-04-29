@@ -58,6 +58,8 @@ dependencies:
   hive_flutter: ^1.1.0
   flutter_native_splash: ^2.3.7
   flutter_markdown: ^0.6.19
+  flutter_native_splash: ^2.3.7
+  equatable: ^2.0.5
 
 flutter_native_splash:
   color: "#000000"
@@ -97,7 +99,6 @@ flutter:
   assets:
     - assets/images/
     - assets/images/categories/
-    - assets/fonts/
     - assets/icons/
 
   # To add assets to your application, add an assets section, like this:
