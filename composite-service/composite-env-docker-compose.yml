@@ -1,26 +1,26 @@
 version: '3'
 
 services:
-  zookeeper:
-    image: wurstmeister/zookeeper
-    container_name: zookeeper
-    ports:
-      - "2181:2181"
-
-  kafka:
-    image: wurstmeister/kafka
-    container_name: kafka
-    ports:
-      - "9092:9092"
-    environment:
-      KAFKA_ADVERTISED_HOST_NAME: 127.0.0.1
-      # 여기다가 토픽 확장하기.
-      KAFKA_CREATE_TOPICS: "test:1:1, magician:1:1"
-      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
-    volumes:
-      - /var/run/docker.sock
-    depends_on:
-      - zookeeper
+#  zookeeper:
+#    image: wurstmeister/zookeeper
+#    container_name: zookeeper
+#    ports:
+#      - "2181:2181"
+#
+#  kafka:
+#    image: wurstmeister/kafka
+#    container_name: kafka
+#    ports:
+#      - "9092:9092"
+#    environment:
+#      KAFKA_ADVERTISED_HOST_NAME: 127.0.0.1
+#      # 여기다가 토픽 확장하기.
+#      KAFKA_CREATE_TOPICS: "test:1:1, magician:1:1"
+#      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+#    volumes:
+#      - /var/run/docker.sock
+#    depends_on:
+#      - zookeeper
 
   composite-service:
     container_name: composite-service
@@ -33,4 +33,22 @@ services:
       KAFKA_BOOTSTRAP_SERVERS: kafka:9092
       JWT_SECRET: "test_JWT_secret"
     depends_on:
-      - kafka
+      - redis-composite
+    networks:
+      - composite
+
+  redis:
+    container_name: redis-composite
+    hostname: redis-composite
+    image: redis:latest
+    ports:
+      - "6379:6379"
+    restart: always
+    environment:
+      TZ: "Asia/Seoul"
+    networks:
+      - composite
+
+networks:
+  composite:
+    driver: composite

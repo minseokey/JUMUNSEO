@@ -3,7 +3,7 @@ package com.jumunseo.compositeservice.command.controller;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jumunseo.compositeservice.command.dto.CommandDto;
-import com.jumunseo.compositeservice.command.service.KafkaService;
+import com.jumunseo.compositeservice.command.service.RedisService;
 import com.jumunseo.compositeservice.global.exception.Result;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
@@ -20,7 +20,7 @@ import java.util.Map;
 @Controller
 public class MagicianCommandController {
 
-    private final KafkaService kafkaService;
+    private final RedisService redisService;
 
     @DeleteMapping("/{room_id}")
     @Secured("USER")
@@ -33,8 +33,8 @@ public class MagicianCommandController {
         String requestStr = objectMapper.writeValueAsString(Map.of("room_id", room_id));
 
         // 각각의 메시지를 나눠서 다른 토픽으로 보내기
-        CommandDto sending_data = kafkaService.setMessage(request, data, requestStr, "DeleteChat");
-        kafkaService.send("magician", sending_data);
+        CommandDto sending_data = redisService.setMessage(request, data, requestStr, "DeleteChat");
+        redisService.send("magician", sending_data);
         return ResponseEntity.ok(Result.successResult(null));
     }
 }
