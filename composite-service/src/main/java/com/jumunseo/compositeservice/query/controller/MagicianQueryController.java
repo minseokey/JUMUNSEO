@@ -1,11 +1,11 @@
 package com.jumunseo.compositeservice.query.controller;
 
-import com.jumunseo.compositeservice.global.exception.CustomException;
 import com.jumunseo.compositeservice.global.exception.Result;
+import com.jumunseo.compositeservice.global.exception.WebClient4xxException;
+import com.jumunseo.compositeservice.global.exception.WebClient5xxException;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.json.simple.JSONObject;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -38,13 +38,11 @@ public class MagicianQueryController {
                 .retrieve()
                 // 4-- 에러 -> 요청 오류
                 .onStatus(HttpStatusCode::is4xxClientError, res -> Mono.error(
-                        new CustomException(HttpStatus.valueOf(res.statusCode().value()),
-                                res.bodyToMono(String.class).toString())
+                        new WebClient4xxException(res.bodyToMono(String.class).toString())
                 ))
                 // 5-- 에러 -> 시스템 오류
                 .onStatus(HttpStatusCode::is5xxServerError, res -> Mono.error(
-                        new CustomException(HttpStatus.valueOf(res.statusCode().value()),
-                                res.bodyToMono(String.class).toString())
+                        new WebClient5xxException(res.bodyToMono(String.class).toString())
                 ))
                 .bodyToFlux(JSONObject.class);
 
@@ -64,13 +62,11 @@ public class MagicianQueryController {
                 .retrieve()
                 // 4-- 에러 -> 요청 오류
                 .onStatus(HttpStatusCode::is4xxClientError, res -> Mono.error(
-                        new CustomException(HttpStatus.valueOf(res.statusCode().value()),
-                                res.bodyToMono(String.class).toString())
+                        new WebClient4xxException(res.bodyToMono(String.class).toString())
                 ))
                 // 5-- 에러 -> 시스템 오류
                 .onStatus(HttpStatusCode::is5xxServerError, res -> Mono.error(
-                        new CustomException(HttpStatus.valueOf(res.statusCode().value()),
-                                res.bodyToMono(String.class).toString())
+                        new WebClient5xxException(res.bodyToMono(String.class).toString())
                 ))
                 .bodyToMono(JSONObject.class);
 
