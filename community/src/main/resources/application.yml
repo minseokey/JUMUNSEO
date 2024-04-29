@@ -1,3 +1,15 @@
 spring:
   application:
     name: community
+  jpa:
+    database: postgresql
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+  datasource:
+    hikari:
+      maximumPoolSize: 4
+    url: jdbc:postgresql://localhost:5432/community
+    username: test
+    password: test
+    driverClassName: org.postgresql.Driver
