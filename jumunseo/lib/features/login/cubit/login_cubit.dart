@@ -21,15 +21,33 @@ class LoginCubit extends Cubit<LoginState> {
     emit(state.copyWith(isLogin: LoginStatus.isLogin));
   }
 
+  void guestLogin() {
+    LoginStatus.isGeust = true;
+  }
+
   void askToLogin(BuildContext context) {
     //show dialog if you want to login
     showDialog(context: context, builder: (context) => loginAskDialog(context));
+  }
+
+  void goToHome(BuildContext context) {
+    context.go('/');
   }
 
   void goTologin(BuildContext context) {
     context.pop();
     context.push('/login');
   }
+
+  void goToJoin(BuildContext context) {
+    LoginStatus.joining = true;
+    context.push('/login/join');
+  }
+
+  void disposeJoin() {
+    LoginStatus.joining = false;
+  }
+  
   // void loginWithCredentials() async {
   //   emit(state.copyWith(status: FormStatus.loading));
   //   try {

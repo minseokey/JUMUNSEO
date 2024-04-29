@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:jumunseo/core/login_status.dart';
 import 'package:jumunseo/features/community/community_screen.dart';
 import 'package:jumunseo/features/dilemma/dilemma_screen.dart';
 import 'package:jumunseo/features/home/view/home_screen.dart';
 import 'package:jumunseo/features/login/login.dart';
+import 'package:jumunseo/features/login/view/join_view.dart';
 import 'package:jumunseo/features/profile/view/privacy_policy.dart';
 import 'package:jumunseo/features/profile/view/terms_of_use_view.dart';
 import 'package:jumunseo/features/profile/view/profile_screen.dart';
@@ -105,6 +107,31 @@ GoRouter appRouter = GoRouter(
         path: '/login',
         builder: (context, state) {
           return const LoginScreen();
-        }),
+        },
+        routes: [
+          GoRoute(
+            path: 'join',
+            builder: (context, state) {
+              return const JoinView();
+            }),
+        ]
+      ),
   ],
+  redirect: (context, state) {
+    if(LoginStatus.isLogin) {
+      return null;
+    }
+    else {
+      if(LoginStatus.isGeust) {
+        return null;
+      }
+
+      if(LoginStatus.joining) {
+        return '/login/join';
+      }
+      else {
+        return '/login';
+      }
+    }
+  },
 );
