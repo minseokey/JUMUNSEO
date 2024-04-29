@@ -33,13 +33,24 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public PostDto createPost(PostDto entity) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'createPost'");
+    public PostDto createPost(PostDto postDto) {
+
+        log.info("[Service] createPost");
+
+        Post post = Post.builder()
+                .userId(postDto.getUserId())
+                .createdAt(postDto.getCreatedAt())
+                .title(postDto.getTitle())
+                .content(postDto.getContent())
+                .build();
+
+        postRepository.save(post);
+
+        return null;
     }
 
     @Override
-    public PostDto updatePost(Long id, PostDto entity) {
+    public PostDto updatePost(Long id, PostDto postDto) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'updatePost'");
     }

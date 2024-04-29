@@ -1,5 +1,6 @@
 package com.jumunseo.community.domain.post.controller;
 
+import org.springframework.http.HttpEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -69,10 +70,18 @@ public class PostController {
     }
 
     @PostMapping
-    public ResponseEntity<Result<?>> createPost(@ModelAttribute String entity) {
+    public ResponseEntity<Result<?>> createPost(HttpEntity<PostDto> post) {
         // TODO: 게시글 생성 DTO 생성, 데이터 검증, 에러처리, 서비스 호출
 
-        log.info("[POST] entity: {}", entity);
+        log.info("[POST] post: {}", post);
+
+        try {
+            postService.createPost(post.getBody());
+            // return ResponseEntity.ok().body(Result.successResult(post));
+        } catch (Exception e) {
+            log.error("createPost error", e.getMessage());
+            return ResponseEntity.badRequest().body(null);
+        }
 
         return null;
     }

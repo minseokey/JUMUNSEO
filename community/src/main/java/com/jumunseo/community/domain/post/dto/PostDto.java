@@ -3,9 +3,11 @@ package com.jumunseo.community.domain.post.dto;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @Getter
 @NoArgsConstructor
+@ToString
 public class PostDto {
     private Long id;
     private Long userId;
