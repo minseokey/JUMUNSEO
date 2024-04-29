@@ -5,7 +5,7 @@ import 'package:jumunseo/features/community/community_screen.dart';
 import 'package:jumunseo/features/dilemma/dilemma_screen.dart';
 import 'package:jumunseo/features/home/view/home_screen.dart';
 import 'package:jumunseo/features/login/login.dart';
-import 'package:jumunseo/features/login/view/join_view.dart';
+import 'package:jumunseo/features/login/view/sign_up_view.dart';
 import 'package:jumunseo/features/profile/view/privacy_policy.dart';
 import 'package:jumunseo/features/profile/view/terms_of_use_view.dart';
 import 'package:jumunseo/features/profile/view/profile_screen.dart';
@@ -104,15 +104,15 @@ GoRouter appRouter = GoRouter(
       ]
     ),
     GoRoute(
-        path: '/login',
+        path: '/auth',
         builder: (context, state) {
-          return const LoginScreen();
+          return const AuthScreen();
         },
         routes: [
           GoRoute(
-            path: 'join',
+            path: 'signUp',
             builder: (context, state) {
-              return const JoinView();
+              return const SignUpView();
             }),
         ]
       ),
@@ -127,10 +127,10 @@ GoRouter appRouter = GoRouter(
       }
 
       if(LoginStatus.joining) {
-        return '/login/join';
+        return '/auth/signUp';
       }
       else {
-        return '/login';
+        return '/auth';
       }
     }
   },

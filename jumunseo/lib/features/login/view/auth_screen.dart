@@ -3,8 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:jumunseo/config/theme/app_color.dart';
 import 'package:jumunseo/features/login/cubit/login_cubit.dart';
 
-class LoginScreen extends StatelessWidget {
-  const LoginScreen({super.key});
+class AuthScreen extends StatelessWidget {
+  const AuthScreen({super.key});
 
   @override
   Widget build(BuildContext context) {

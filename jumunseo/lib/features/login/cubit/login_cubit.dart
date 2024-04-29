@@ -16,6 +16,10 @@ class LoginCubit extends Cubit<LoginState> {
     return state.isLogin;
   }
 
+  void signUp(BuildContext context) {
+    context.pop();
+  }
+
   void login() {
     LoginStatus.isLogin = true;
     emit(state.copyWith(isLogin: LoginStatus.isLogin));
@@ -36,12 +40,12 @@ class LoginCubit extends Cubit<LoginState> {
 
   void goTologin(BuildContext context) {
     context.pop();
-    context.push('/login');
+    context.push('/auth');
   }
 
   void goToJoin(BuildContext context) {
     LoginStatus.joining = true;
-    context.push('/login/join');
+    context.push('/auth/signUp');
   }
 
   void disposeJoin() {
