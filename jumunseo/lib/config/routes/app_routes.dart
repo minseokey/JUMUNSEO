@@ -77,14 +77,14 @@ GoRouter appRouter = GoRouter(
       builder: (context, state) {
         return const CommunityHomeScreen();
       },
-      routes: [
-        GoRoute(
-            path: '/:id',
-            builder: (context, state) {
-              return const CommunityDetailScreen();
-            }),
-      ],
     ),
+    GoRoute(
+        path: '/community/:postId',
+        builder: (context, state) {
+          return CommunityDetailScreen(
+            postId: state.pathParameters['postId'] ?? "",
+          );
+        }),
     GoRoute(
         path: '/profile',
         builder: (context, state) {
