@@ -3,6 +3,8 @@ import 'package:go_router/go_router.dart';
 import 'package:jumunseo/features/community/community_screen.dart';
 import 'package:jumunseo/features/dilemma/dilemma_screen.dart';
 import 'package:jumunseo/features/home/view/home_screen.dart';
+import 'package:jumunseo/features/profile/view/privacy_policy.dart';
+import 'package:jumunseo/features/profile/view/terms_of_use_view.dart';
 import 'package:jumunseo/features/profile/view/profile_screen.dart';
 import 'package:jumunseo/features/profile/view/settings_view.dart';
 import 'package:jumunseo/features/wizard/chat/view/category_view.dart';
@@ -68,6 +70,16 @@ GoRouter appRouter = GoRouter(
           path: 'settings',
           builder: (context, state) {
             return const SettingsView();
+          }),
+        GoRoute(
+          path: 'termsOfUse',
+          builder: (context, state) {
+            return const TermsOfUseView();
+          }),
+        GoRoute(
+          path: 'privacyPolicy',
+          builder: (context, state) {
+            return const PrivacyPolicyView();
           }),
       ]
     ),

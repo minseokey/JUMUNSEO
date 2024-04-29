@@ -9,4 +9,12 @@ class ProfileCubit extends Cubit<ProfileState> {
   void toSettingView(BuildContext context) {
     context.push('/profile/settings');
   }
+
+  void toTermsOfUse(BuildContext context) {
+    context.push('/profile/termsOfUse');
+  }
+
+  void toPrivacyPolicy(BuildContext context) {
+    context.push('/profile/privacyPolicy');
+  }
 }

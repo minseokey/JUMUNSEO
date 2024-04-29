@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:jumunseo/features/profile/cubit/profile_cubit.dart';
 
 class SettingsView extends StatefulWidget {
   const SettingsView({super.key});
@@ -10,8 +12,8 @@ class SettingsView extends StatefulWidget {
 }
 
 class _SettingsViewState extends State<SettingsView> {
-  List<String> settingList = ["Version:1.0.2","이용 약관", "로그아웃", "탈퇴하기"];
-  List<Color> colorList = [Colors.black, Colors.black, Colors.red, Colors.red];
+  List<String> settingList = ["Version:1.0.2","사용자 이용약관", "개인정보 처리방침", "로그아웃", "탈퇴하기"];
+  List<Color> colorList = [Colors.black, Colors.black, Colors.black, Colors.red, Colors.red];
 
   @override
   Widget build(BuildContext context) {
@@ -26,12 +28,17 @@ class _SettingsViewState extends State<SettingsView> {
         child: ListView.separated(itemBuilder: (context, index) {
           return GestureDetector(
             onTap: () {
-              
+              if(settingList[index] == '사용자 이용약관'){
+                context.read<ProfileCubit>().toTermsOfUse(context);
+              }
+              else if(settingList[index] == '개인정보 처리방침') {
+                context.read<ProfileCubit>().toPrivacyPolicy(context);
+              }
             },
             child: Text(settingList[index], style: TextStyle(color: colorList[index], fontSize: 16),),
           );
         }, itemCount: settingList.length, 
-        separatorBuilder: (BuildContext context, int index) { 
+        separatorBuilder: (BuildContext context, int index) {
           return const Divider(
             height: 10.0,
             color: Colors.grey,
