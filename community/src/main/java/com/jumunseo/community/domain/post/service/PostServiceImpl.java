@@ -6,7 +6,9 @@ import com.jumunseo.community.domain.post.entity.Post;
 import com.jumunseo.community.domain.post.repository.PostRepository;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class PostServiceImpl implements PostService {
@@ -37,4 +39,15 @@ public class PostServiceImpl implements PostService {
         throw new UnsupportedOperationException("Unimplemented method 'deletePost'");
     }
 
+    @Override
+    public void successTest() {
+
+        log.info("[Service] successTest");
+    }
+
+    @Override
+    public void errorTest() {
+        log.info("[Service] errorTest");
+        throw new UnsupportedOperationException("Unimplemented method 'errorTest'");
+    }
 }
