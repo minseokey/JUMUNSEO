@@ -61,8 +61,7 @@ public class PostController {
         log.info("[GET] ID: {}", id);
 
         try {
-            PostDto post = postService.getPostUseID(id);
-            return ResponseEntity.ok().body(Result.successResult(post));
+            return ResponseEntity.ok().body(Result.successResult(postService.getPostUseID(id)));
         } catch (Exception e) {
             log.error("getPostUseID error", e.getMessage());
             return ResponseEntity.badRequest().body(null);
@@ -76,23 +75,26 @@ public class PostController {
         log.info("[POST] post: {}", post);
 
         try {
-            postService.createPost(post.getBody());
-            // return ResponseEntity.ok().body(Result.successResult(post));
+            return ResponseEntity.ok().body(Result.successResult(postService.createPost(post.getBody())));
         } catch (Exception e) {
             log.error("createPost error", e.getMessage());
             return ResponseEntity.badRequest().body(null);
         }
-
-        return null;
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Result<?>> updatePost(@PathVariable String id, @ModelAttribute String entity) {
+    public ResponseEntity<Result<?>> updatePost(@PathVariable String id, HttpEntity<PostDto> post) {
         // TODO: id 값 검증, 데이터 검증, 에러처리, 서비스 호출
 
-        log.info("[PUT] ID: {}, entity: {}", id, entity);
+        log.info("[PUT] ID: {}, entity: {}", id, post);
 
-        return null;
+        try {
+            return ResponseEntity.ok()
+                    .body(Result.successResult(postService.updatePost(Long.parseLong(id), post.getBody())));
+        } catch (Exception e) {
+            log.error("updatePost error", e.getMessage());
+            return ResponseEntity.badRequest().body(null);
+        }
     }
 
     @DeleteMapping("/{id}")
@@ -101,6 +103,12 @@ public class PostController {
 
         log.info("[DELETE] ID: {}", id);
 
-        return null;
+        try {
+            postService.deletePost(Long.parseLong(id));
+            return ResponseEntity.ok().body(Result.successResult(null));
+        } catch (Exception e) {
+            log.error("deletePost error", e.getMessage());
+            return ResponseEntity.badRequest().body(null);
+        }
     }
 }

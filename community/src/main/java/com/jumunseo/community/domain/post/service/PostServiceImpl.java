@@ -46,19 +46,45 @@ public class PostServiceImpl implements PostService {
 
         postRepository.save(post);
 
-        return null;
+        return PostDto.builder()
+                .id(post.getId())
+                .userId(post.getUserId())
+                .createdAt(post.getCreatedAt())
+                .title(post.getTitle())
+                .content(post.getContent())
+                .build();
     }
 
     @Override
     public PostDto updatePost(Long id, PostDto postDto) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'updatePost'");
+
+        Post post = postRepository.findById(id).orElse(null);
+        if (post == null)
+            throw new IllegalArgumentException("Post not found");
+
+        Post updatedPost = Post.builder()
+                .id(post.getId())
+                .userId(postDto.getUserId())
+                .createdAt(postDto.getCreatedAt())
+                .title(postDto.getTitle())
+                .content(postDto.getContent())
+                .build();
+
+        postRepository.save(updatedPost);
+
+        return PostDto.builder()
+                .id(updatedPost.getId())
+                .userId(updatedPost.getUserId())
+                .createdAt(updatedPost.getCreatedAt())
+                .title(updatedPost.getTitle())
+                .content(updatedPost.getContent())
+                .build();
     }
 
     @Override
     public void deletePost(Long id) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'deletePost'");
+
+        postRepository.deleteById(id);
     }
 
     @Override
