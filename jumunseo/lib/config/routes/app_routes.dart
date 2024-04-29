@@ -5,6 +5,7 @@ import 'package:jumunseo/features/community/community.dart';
 
 import 'package:jumunseo/features/dilemma/dilemma_screen.dart';
 import 'package:jumunseo/features/home/view/home_screen.dart';
+import 'package:jumunseo/features/login/login.dart';
 import 'package:jumunseo/features/profile/view/profile_screen.dart';
 import 'package:jumunseo/features/wizard/chat/view/category_view.dart';
 import 'package:jumunseo/features/wizard/chat/view/chat_view.dart';
@@ -88,6 +89,11 @@ GoRouter appRouter = GoRouter(
         path: '/profile',
         builder: (context, state) {
           return const ProfileScreen();
+        }),
+    GoRoute(
+        path: '/login',
+        builder: (context, state) {
+          return const LoginScreen();
         }),
   ],
 );
