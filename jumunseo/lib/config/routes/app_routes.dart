@@ -75,7 +75,7 @@ GoRouter appRouter = GoRouter(
     GoRoute(
       path: '/community',
       builder: (context, state) {
-        return const CommunityScreen();
+        return const CommunityHomeScreen();
       },
       routes: [
         GoRoute(
