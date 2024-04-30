@@ -190,132 +190,138 @@ class CommunityHomeScreen extends StatelessWidget {
       _fetchPage(pageKey);
     });
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Community Home Screen'),
-      ),
-      body: RefreshIndicator(
-        onRefresh: () {
-          return Future.sync(() {
-            communityPageController.refresh();
-          });
-        },
-        child: CustomScrollView(
-          slivers: [
-            SliverList(
-                delegate: SliverChildListDelegate([
-              SizedBox(
-                width: maxWidth,
-                height: 220,
-                child: Swiper(
-                  pagination: SwiperCustomPagination(builder:
-                      (BuildContext context, SwiperPluginConfig config) {
-                    return Align(
-                      alignment: Alignment.topRight,
-                      child: Container(
-                          margin: const EdgeInsets.only(top: 16, right: 16),
+        appBar: AppBar(
+          title: const Text('Community Home Screen'),
+        ),
+        body: RefreshIndicator(
+          onRefresh: () {
+            return Future.sync(() {
+              communityPageController.refresh();
+            });
+          },
+          child: CustomScrollView(
+            slivers: [
+              SliverList(
+                  delegate: SliverChildListDelegate([
+                SizedBox(
+                  width: maxWidth,
+                  height: 220,
+                  child: Swiper(
+                    pagination: SwiperCustomPagination(builder:
+                        (BuildContext context, SwiperPluginConfig config) {
+                      return Align(
+                        alignment: Alignment.topRight,
+                        child: Container(
+                            margin: const EdgeInsets.only(top: 16, right: 16),
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(10),
+                              child: Container(
+                                color: Colors.black.withOpacity(0.5),
+                                height: 22,
+                                width: 41,
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text("${config.activeIndex + 1}/3",
+                                        textAlign: TextAlign.center,
+                                        style: const TextStyle(
+                                            color: Colors.white,
+                                            fontWeight: FontWeight.w500,
+                                            fontSize: 12)),
+                                  ],
+                                ),
+                              ),
+                            )),
+                      );
+                    }),
+                    scrollDirection: Axis.horizontal,
+                    itemCount:
+                        3, // Assume banners is a list of your banner data.
+                    itemBuilder: (context, index) {
+                      return GestureDetector(
+                        onTap: () {},
+                        child: Padding(
+                          padding: const EdgeInsets.all(0.0),
                           child: ClipRRect(
-                            borderRadius: BorderRadius.circular(10),
-                            child: Container(
-                              color: Colors.black.withOpacity(0.5),
-                              height: 22,
-                              width: 41,
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
+                            child: SizedBox(
+                              width: maxWidth,
+                              height: 220,
+                              child: Column(
                                 children: [
-                                  Text("${config.activeIndex + 1}/3",
-                                      textAlign: TextAlign.center,
-                                      style: const TextStyle(
-                                          color: Colors.white,
-                                          fontWeight: FontWeight.w500,
-                                          fontSize: 12)),
+                                  Expanded(
+                                    child: Container(
+                                      color: Colors.blueGrey,
+                                      child: Text(
+                                        '오늘의 상식 $index',
+                                        style: const TextStyle(
+                                            color: Colors.white, fontSize: 24),
+                                      ),
+                                    ),
+                                  ),
                                 ],
                               ),
                             ),
-                          )),
-                    );
-                  }),
-                  scrollDirection: Axis.horizontal,
-                  itemCount: 3, // Assume banners is a list of your banner data.
-                  itemBuilder: (context, index) {
-                    return GestureDetector(
-                      onTap: () {},
-                      child: Padding(
-                        padding: const EdgeInsets.all(0.0),
-                        child: ClipRRect(
-                          child: SizedBox(
-                            width: maxWidth,
-                            height: 220,
-                            child: Column(
-                              children: [
-                                Expanded(
-                                  child: Container(
-                                    color: Colors.blueGrey,
-                                    child: Text(
-                                      '오늘의 상식 $index',
-                                      style: const TextStyle(
-                                          color: Colors.white, fontSize: 24),
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
                           ),
                         ),
-                      ),
-                    );
-                  },
+                      );
+                    },
+                  ),
+                ),
+              ])),
+              SliverList(
+                delegate: SliverChildListDelegate(
+                  [
+                    Column(
+                      children: [
+                        Text('자유게시판'),
+                        CommunityListItem(item: testItem),
+                        CommunityListItem(item: testItem),
+                        CommunityListItem(item: testItem),
+                      ],
+                    ),
+                  ],
                 ),
               ),
-            ])),
-            SliverList(
-              delegate: SliverChildListDelegate(
-                [
-                  Column(
-                    children: [
-                      Text('자유게시판'),
-                      CommunityListItem(item: testItem),
-                      CommunityListItem(item: testItem),
-                      CommunityListItem(item: testItem),
-                    ],
-                  ),
-                ],
+              SliverList(
+                delegate: SliverChildListDelegate(
+                  [
+                    Column(
+                      children: [
+                        Text('토론글'),
+                        Text('토론글들'),
+                      ],
+                    ),
+                  ],
+                ),
               ),
-            ),
-            SliverList(
-              delegate: SliverChildListDelegate(
-                [
-                  Column(
-                    children: [
-                      Text('토론글'),
-                      Text('토론글들'),
-                    ],
-                  ),
-                ],
+              SliverList(
+                delegate: SliverChildListDelegate(
+                  [
+                    Column(
+                      children: [
+                        Text('상담글'),
+                        Text('상담글들'),
+                      ],
+                    ),
+                  ],
+                ),
               ),
-            ),
-            SliverList(
-              delegate: SliverChildListDelegate(
-                [
-                  Column(
-                    children: [
-                      Text('상담글'),
-                      Text('상담글들'),
-                    ],
-                  ),
-                ],
-              ),
-            ),
-            PagedSliverList(
-                pagingController: communityPageController,
-                builderDelegate:
-                    PagedChildBuilderDelegate<CommunityDetailModel>(
-                  itemBuilder: (context, item, index) {
-                    return CommunityListItem(item: item);
-                  },
-                )),
-          ],
+              PagedSliverList(
+                  pagingController: communityPageController,
+                  builderDelegate:
+                      PagedChildBuilderDelegate<CommunityDetailModel>(
+                    itemBuilder: (context, item, index) {
+                      return CommunityListItem(item: item);
+                    },
+                  )),
+            ],
+          ),
         ),
-      ),
-    );
+        floatingActionButton: FloatingActionButton(
+          onPressed: () {
+            context.push('/community/post/write');
+          },
+          child: const Icon(Icons.add),
+        ));
   }
 }

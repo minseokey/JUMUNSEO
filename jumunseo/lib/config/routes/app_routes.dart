@@ -86,6 +86,16 @@ GoRouter appRouter = GoRouter(
           );
         }),
     GoRoute(
+        path: '/community/post/write',
+        builder: (context, state) {
+          return CommunityPostFrame(kind: PostType.write);
+        }),
+    // GoRoute(path: '/community/post/edit/:postId', builder: (context, state) {
+    //   return CommunityPostScreen(
+    //     postId: state.pathParameters['postId'] ?? "",
+    //   );
+    // }),
+    GoRoute(
         path: '/profile',
         builder: (context, state) {
           return const ProfileScreen();
