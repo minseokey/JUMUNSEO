@@ -31,4 +31,8 @@ public class User {
 
     @Enumerated(STRING)
     private Role role;
+
+    // 로그인 타입 추가
+
+    // 프로필 이미지 주소 추가.
 }
