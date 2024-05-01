@@ -15,6 +15,6 @@ public class OpinionResponseDto {
     private String content;
     private MessageType type;
     private MessageSide side;
-    private Long userId;
+    private String userEmail;
     private Long id;
 }

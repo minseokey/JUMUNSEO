@@ -21,5 +21,4 @@ public class OpinionCommandController {
     public void handleMessage(@DestinationVariable String channel , @RequestBody OpinionDto opinionDto) {
         opinionService.sendMessage(channel,opinionDto);
     }
-
 }

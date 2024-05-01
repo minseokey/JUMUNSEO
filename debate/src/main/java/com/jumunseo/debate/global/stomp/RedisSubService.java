@@ -24,7 +24,6 @@ public class RedisSubService implements MessageListener {
     @Override
     public void onMessage(Message message, byte[] pattern) {
         try{
-            System.out.println("hello");
             // 받은 메시지를 String으로 변환
             String publishMessage = redisTemplate.getStringSerializer().deserialize(message.getBody());
             // 받은 메시지를 Opinion 객체로 변환

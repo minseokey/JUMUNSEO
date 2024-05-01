@@ -23,8 +23,8 @@ public class OpinionQueryController {
     }
 
     // 해당 주제에 찬성 혹은 반대 투표 기록(이 사용자가 이전에 어떤 선택을 했는지 리턴)
-    @GetMapping("/side/{subjectId}/{userId}")
-    public ResponseEntity<Result<?>> getSide(@PathVariable Long subjectId, @PathVariable Long userId) {
-        return ResponseEntity.ok().body(Result.successResult(opinionService.getSide(subjectId, userId)));
+    @GetMapping("/side/{subjectId}/{userEmail}")
+    public ResponseEntity<Result<?>> getSide(@PathVariable Long subjectId, @PathVariable String userEmail) {
+        return ResponseEntity.ok().body(Result.successResult(opinionService.getSide(subjectId, userEmail)));
     }
 }

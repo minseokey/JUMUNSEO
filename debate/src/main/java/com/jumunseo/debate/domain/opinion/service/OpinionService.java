@@ -12,5 +12,5 @@ public interface OpinionService {
 
     List<OpinionResponseDto> getOpinionByLast(Long subjectId, Long last);
 
-    String getSide(Long subjectId, Long userId);
+    String getSide(Long subjectId, String userEmail);
 }

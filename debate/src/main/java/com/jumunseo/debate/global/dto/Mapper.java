@@ -21,7 +21,7 @@ public class Mapper {
                 .type(opinionRequestDto.getType())
                 .subject(subjectRepository.findById(opinionRequestDto.getSubjectId())
                         .orElseThrow(() -> new NotExistSubjectException("주제가 존재하지 않습니다.")))
-                .userId(opinionRequestDto.getUserId())
+                .userEmail(opinionRequestDto.getUserEmail())
                 .side(opinionRequestDto.getSide())
                 .build();
     }
@@ -31,7 +31,7 @@ public class Mapper {
                 .content(opinion.getContent())
                 .type(opinion.getType())
                 .subjectId(opinion.getSubject().getId())
-                .userId(opinion.getUserId())
+                .userEmail(opinion.getUserEmail())
                 .build();
     }
 

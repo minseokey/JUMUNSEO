@@ -30,14 +30,15 @@ public class Opinion {
     @ManyToOne(fetch = FetchType.LAZY)
     private Subject subject;
 
-    private Long userId;
+    // User와 매핑
+    private String userEmail;
 
     @Builder
-    public Opinion(String content, MessageType type, Subject subject, Long userId, MessageSide side){
+    public Opinion(String content, MessageType type, Subject subject, String userEmail, MessageSide side){
         this.content = content;
         this.type = type;
         this.subject = subject;
-        this.userId = userId;
+        this.userEmail = userEmail;
         this.side = side;
     }
 }

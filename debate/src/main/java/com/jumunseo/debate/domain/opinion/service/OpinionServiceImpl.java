@@ -36,9 +36,7 @@ public class OpinionServiceImpl implements OpinionService{
         }
         // 2. opinion을 저장한다.
         opinionRepository.save(mapper.toEntity(opinionDto));
-        // 3. 레디스 채널 등록
-        redisChannelService.registerChannel(channel);
-        // 4. opinion을 채팅방에 전달한다(레디스에 올린다).
+        // 3. opinion을 채팅방에 전달한다(레디스에 올린다).
         redisTemplate.convertAndSend(channel, opinionDto);
     }
 
@@ -56,9 +54,9 @@ public class OpinionServiceImpl implements OpinionService{
     }
 
     @Override
-    public String getSide(Long subjectId, Long userId) {
+    public String getSide(Long subjectId, String userEmail) {
         try {
-            Opinion opinion = opinionRepository.findTop1BySubjectIdAndUserIdOrderById(subjectId, userId).orElseThrow();
+            Opinion opinion = opinionRepository.findTop1BySubjectIdAndUserEmailOrderById(subjectId, userEmail).orElseThrow();
             return opinion.getSide().toString();
         } catch (Exception e) {
             return "-1";
