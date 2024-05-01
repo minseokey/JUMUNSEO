@@ -18,14 +18,22 @@ class DilemmaCategoryScreen extends StatefulWidget {
 
 class _DilemmaCategoryScreenState extends State<DilemmaCategoryScreen> {
   late final YodaController _controller;
+  late Timer _timer;
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     _controller = YodaController()..addStatusListener((status, context) {});
-    Timer.periodic(Duration(seconds: 2), (timer) {
+    _timer = Timer.periodic(Duration(seconds: 2), (timer) {
       _controller.start();
     });
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    _timer.cancel();
   }
 
   @override

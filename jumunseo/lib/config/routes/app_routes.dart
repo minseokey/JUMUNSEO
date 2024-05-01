@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:jumunseo/features/community/community_screen.dart';
+import 'package:jumunseo/features/dilemma/category/bloc/dilemma_category_bloc.dart';
 import 'package:jumunseo/features/dilemma/dilemma.dart';
 import 'package:jumunseo/features/home/view/home_screen.dart';
 import 'package:jumunseo/features/profile/view/profile_screen.dart';
+import 'package:jumunseo/features/wizard/chat/cubit/wizard_cubit.dart';
 import 'package:jumunseo/features/wizard/chat/view/category_view.dart';
 import 'package:jumunseo/features/wizard/chat/view/chat_view.dart';
 import 'package:jumunseo/features/wizard/chat/view/fwohView/how_view.dart';
@@ -57,13 +60,25 @@ GoRouter appRouter = GoRouter(
     GoRoute(
       path: '/dilemma',
       builder: (context, state) {
-        return DilemmaCategoryScreen();
+        return BlocProvider<DilemmaCategoryBloc>(
+          create: (context) {
+            return DilemmaCategoryBloc();
+          },
+          child: DilemmaCategoryScreen(),
+        );
       },
       routes: [
         GoRoute(
           path: 'chat/:id',
           builder: (context, state) {
-            return DilemmaChatScreen();
+            return BlocProvider<DilemmaCategoryBloc>(
+              create: (context) {
+                return DilemmaCategoryBloc();
+              },
+              child: DilemmaChatScreen(
+                  //id: state.params['id']!,
+                  ),
+            );
           },
         ),
       ],

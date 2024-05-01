@@ -85,8 +85,14 @@ class _DilemmaChatScreenState extends State<DilemmaChatScreen> {
     logger.d('build');
     return Scaffold(
       appBar: AppBar(
-        title: const Text('토론방'),
+        title: Text('토론방'),
         elevation: 20,
+        actions: [
+          IconButton(
+            onPressed: () {},
+            icon: const Icon(Icons.list),
+          ),
+        ],
       ),
       body: Column(
         children: [

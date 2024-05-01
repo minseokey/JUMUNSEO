@@ -17,14 +17,22 @@ class BlocWidget extends StatelessWidget {
         BlocProvider<WizardCubit>(
           create: (BuildContext context) => WizardCubit(),
         ),
-        BlocProvider<DilemmaCategoryBloc>(
-          create: (context) {
-            return DilemmaCategoryBloc();
-          },
-        ),
         BlocProvider<HomeCubit>(
           create: (BuildContext context) => HomeCubit(),
         ),
+        BlocListener(listener: (context, state) {
+          if (state is DilemmaCategoryState) {
+            if (state.status == DilemmaCategoryStatus.loading) {
+              showDialog(
+                context: context,
+                builder: (BuildContext context) {
+                  return const CircularProgressIndicator();
+                },
+              );
+              context.read<DilemmaCategoryBloc>().add(DilemmaCategoryLoaded());
+            }
+          }
+        }),
       ],
       child: child,
     );
