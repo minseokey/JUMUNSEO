@@ -56,7 +56,7 @@ public class PostController {
 
     @GetMapping("/{id}")
     public ResponseEntity<Result<?>> getPostUseID(@PathVariable Long id) {
-        // TODO: id 값 검증, 데이터 검증, 서비스 호출,
+        // TODO: id 값 검증, 데이터 검증,
 
         log.info("[GET] ID: {}", id);
 
@@ -64,7 +64,7 @@ public class PostController {
             return ResponseEntity.ok().body(Result.successResult(postService.getPostUseID(id)));
         } catch (Exception e) {
             log.error("getPostUseID error", e.getMessage());
-            return ResponseEntity.badRequest().body(null);
+            return ResponseEntity.badRequest().body(Result.failResult("Post not found"));
         }
     }
 
