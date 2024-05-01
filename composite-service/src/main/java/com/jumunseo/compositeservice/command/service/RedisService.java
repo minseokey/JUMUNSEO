@@ -17,7 +17,6 @@ public class RedisService implements MessageQueueAbstractService{
     public CommandDto setMessage(HttpServletRequest request, CommandDto data, String body, String command){
         data.setEmail(request.getAttribute("email").toString());
         data.setRole(request.getAttribute("role").toString());
-        data.setName(request.getAttribute("name").toString());
         data.setCommand(command);
         data.setData(body);
         return data;

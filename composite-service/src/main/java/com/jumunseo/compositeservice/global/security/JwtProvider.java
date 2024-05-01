@@ -19,7 +19,6 @@ public class JwtProvider {
     public String createTestAccessToken() {
         Claims claims = Jwts.claims().setSubject("test");
         claims.put("role", "USER");
-        claims.put("name", "test");
 
         return Jwts.builder()
                 .setClaims(claims)
@@ -49,9 +48,6 @@ public class JwtProvider {
         return getClaimes(token).get("role").toString();
     }
 
-    public String getName(String token) {
-        return getClaimes(token).get("name").toString();
-    }
 
     public boolean validateToken(String token) {
         try {

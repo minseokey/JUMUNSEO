@@ -6,14 +6,10 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
@@ -39,7 +35,6 @@ public class AuthorizationFilter extends OncePerRequestFilter{
         try{jwtProvider.validateToken(accesstoken);
             req.setAttribute("email", jwtProvider.getEmailForAccessToken(accesstoken));
             req.setAttribute("role", jwtProvider.getRole(accesstoken));
-            req.setAttribute("name", jwtProvider.getName(accesstoken));
 
             // @Secured 사용을 위한 Authentication 객체 생성
             Collection<GrantedAuthority> authorities = new ArrayList<>();
