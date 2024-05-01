@@ -1,7 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:jumunseo/config/theme/app_color.dart';
-import 'package:jumunseo/core/logger.dart';
 import '../chat.dart';
 
 class RoomListView extends StatefulWidget{
@@ -67,7 +66,6 @@ class _RoomListViewState extends State<RoomListView> {
                     children: List.generate(chats.chats.length, (index) {
                       return GestureDetector(
                         onTapUp: (details) {
-                          logger.d("선택");
                           context.read<WizardCubit>().setRoom(chats.chats[index].room_id);
                           context.read<WizardCubit>().toChat(context, null); 
                         },

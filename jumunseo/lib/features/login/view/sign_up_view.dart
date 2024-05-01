@@ -3,15 +3,26 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:jumunseo/config/theme/app_color.dart';
 import 'package:jumunseo/features/login/cubit/login_cubit.dart';
 
-class SignUpView extends StatelessWidget {
+class SignUpView extends StatefulWidget {
   const SignUpView({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    TextEditingController emailController = TextEditingController();
-    TextEditingController passwordController = TextEditingController();
-    TextEditingController rePasswordController = TextEditingController();
+  State<SignUpView> createState() => _SignUpViewState();
+}
 
+class _SignUpViewState extends State<SignUpView> {
+  TextEditingController nameController = TextEditingController();
+  TextEditingController emailController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
+  TextEditingController rePasswordController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return WillPopScope(
       child: Scaffold(
         appBar: AppBar(
@@ -27,6 +38,30 @@ class SignUpView extends StatelessWidget {
                 children: [
                   Padding(
                     padding: const EdgeInsets.only(top: 20),
+                    child: TextField(
+                      controller: nameController,
+                      decoration: const InputDecoration(
+                        labelText: '닉네임',
+                        hintText: "닉네임을 입력해 주세요.",
+                        labelStyle: TextStyle(color: Colors.grey),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                          borderSide: BorderSide(width: 1, color: ColorStyles.mainColor),
+                        ),
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                          borderSide: BorderSide(width: 1, color: ColorStyles.mainColor),
+                        ),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                        ),
+                        contentPadding: EdgeInsets.symmetric(horizontal: 15, vertical: 0),
+                      ),
+                      keyboardType: TextInputType.name,
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 10),
                     child: TextField(
                       controller: emailController,
                       decoration: const InputDecoration(
@@ -97,7 +132,13 @@ class SignUpView extends StatelessWidget {
                     padding: const EdgeInsets.only(top: 20),
                     child: ElevatedButton(
                       onPressed: () {
-                        context.read<LoginCubit>().signUp(context);
+                        context.read<LoginCubit>().signUp(
+                          context, 
+                          nameController.text, 
+                          emailController.text, 
+                          passwordController.text, 
+                          rePasswordController.text
+                        );
                       },
                       child: const Text('회원가입'),
                     ),

@@ -20,7 +20,7 @@ _$RoomModelImpl _$$RoomModelImplFromJson(Map<String, dynamic> json) =>
 
 Map<String, dynamic> _$$RoomModelImplToJson(_$RoomModelImpl instance) =>
     <String, dynamic>{
-      'id': instance.id,
+      '_id': instance.id,
       'start_time': instance.start_time,
       'user_id': instance.user_id,
       'room_id': instance.room_id,
