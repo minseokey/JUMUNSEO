@@ -26,16 +26,13 @@ jobs:
         ports:
           - "2181:2181"
     
-      kafka:
-        image: wurstmeister/kafka
+      redis:
+        image: redis:latest
         ports:
-          - "9092:9092"
+          - "6379:6379"
         env:
-          KAFKA_ADVERTISED_HOST_NAME: 127.0.0.1
-          # 여기다가 토픽 확장하기.
-          KAFKA_CREATE_TOPICS: "test:1:1, magician:1:1"
-          KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
-
+          TZ: "Asia/Seoul"
+        
     steps:
     # 체크아웃
     - name: Checkout Source
