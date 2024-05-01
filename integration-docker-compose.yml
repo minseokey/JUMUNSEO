@@ -16,6 +16,7 @@ services:
       - auth
       - composite
       - debate
+      - magician
 
   # magician
   mongo-magician:
@@ -47,8 +48,11 @@ services:
       MAGICIAN_MONGO_PASSWORD: 1234
       MAGICIAN_MONGO_PORT: 27017
       MAGICIAN_MONGO_HOST: mongo-magician
+      MAGICIAN_REDIS_PORT: 6379
+      MAGICIAN_REDIS_HOST: redis
     networks:
       - magician
+      - composite
 
  # auth
   postgres-auth:
@@ -64,7 +68,7 @@ services:
       POSTGRES_PASSWORD: 1234
       TZ: "Asia/Seoul"
     volumes:
-      - ./postgres-data:/var/lib/postgresql/data
+      - ./auth-service/postgres-data:/var/lib/postgresql/data
     networks:
       - auth
 
@@ -90,6 +94,7 @@ services:
       - postgres-auth
     networks:
       - auth
+      - composite
 
   # composite
   application-composite:
@@ -101,6 +106,9 @@ services:
     environment:
       TZ: "Asia/Seoul"
       JWT_SECRET: "test_JWT_secret"
+      COMPOSITE_REDIS_PORT: 6379
+      COMPOSITE_REDIS_HOST: redis
+
     depends_on:
       - redis
     networks:
@@ -109,23 +117,22 @@ services:
   # debate
   postgres-debate:
     container_name: postgres-debate
-    hostname: postgres
+    hostname: postgres-debate
     image: postgres:latest
     ports:
-      - "5432:5432"
+      - "5433:5433"
     restart: always
     environment:
       POSTGRES_DB: debate
       POSTGRES_USER: debate
       POSTGRES_PASSWORD: 1234
-      PGPORT: 5432
       TZ: "Asia/Seoul"
     volumes:
-      - ./postgres-data:/var/lib/postgresql/data
+      - ./debate/postgres-data:/var/lib/postgresql/data
     networks:
       - debate
 
-  debate-service:
+  application-debate:
     container_name: debate-service
     build: debate/.
     ports:
@@ -134,7 +141,7 @@ services:
     environment:
       TZ: "Asia/Seoul"
       DEBATE_POSTGRES_HOST: postgres-debate
-      DEBATE_POSTGRES_PORT: 5432
+      DEBATE_POSTGRES_PORT: 5433
       DEBATE_POSTGRES_USER: debate
       DEBATE_POSTGRES_PASSWORD: 1234
       DEBATE_REDIS_PORT: 6379
@@ -145,6 +152,7 @@ services:
       - redis
     networks:
       - debate
+      - composite
 
 networks:
   magician:
@@ -152,7 +160,7 @@ networks:
   auth:
     driver: bridge
   composite:
-    driver: composite
+    driver: bridge
   debate:
     driver: bridge
 
