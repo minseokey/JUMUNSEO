@@ -1,19 +1,28 @@
 package com.jumunseo.community.domain.post.controller;
 
+import java.util.List;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+
+import org.springframework.http.HttpStatus;
+import org.apache.tomcat.util.file.ConfigurationSource.Resource;
 import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.method.annotation.StreamingResponseBody;
 
 import com.jumunseo.community.domain.post.dto.PostDto;
-import com.jumunseo.community.domain.post.entity.Post;
 import com.jumunseo.community.domain.post.service.PostService;
 import com.jumunseo.community.global.dto.Result;
 
@@ -68,18 +77,18 @@ public class PostController {
         }
     }
 
+    @GetMapping("/{id}/images")
+    public ResponseEntity<StreamingResponseBody> getPostImage(@PathVariable Long id,
+            @RequestParam(value = "name", required = true) String imgName) throws IOException {
+
+        return postService.getPostImage(id, imgName);
+    }
+
     @PostMapping
-    public ResponseEntity<Result<?>> createPost(HttpEntity<PostDto> post) {
+    public ResponseEntity<Result<?>> createPost(@RequestPart PostDto post, @RequestPart List<MultipartFile> images) {
         // TODO: 게시글 생성 DTO 생성, 데이터 검증, 에러처리, 서비스 호출
 
-        log.info("[POST] post: {}", post);
-
-        try {
-            return ResponseEntity.ok().body(Result.successResult(postService.createPost(post.getBody())));
-        } catch (Exception e) {
-            log.error("createPost error", e.getMessage());
-            return ResponseEntity.badRequest().body(null);
-        }
+        return ResponseEntity.ok().body(Result.successResult(postService.createPost(post, images)));
     }
 
     @PutMapping("/{id}")
