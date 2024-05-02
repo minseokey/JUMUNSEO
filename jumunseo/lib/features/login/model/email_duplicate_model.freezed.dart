@@ -22,7 +22,7 @@ EmailDuplicateModel _$EmailDuplicateModelFromJson(Map<String, dynamic> json) {
 mixin _$EmailDuplicateModel {
   String get code => throw _privateConstructorUsedError;
   String get message => throw _privateConstructorUsedError;
-  Bool get data => throw _privateConstructorUsedError;
+  bool get data => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -36,7 +36,7 @@ abstract class $EmailDuplicateModelCopyWith<$Res> {
           EmailDuplicateModel value, $Res Function(EmailDuplicateModel) then) =
       _$EmailDuplicateModelCopyWithImpl<$Res, EmailDuplicateModel>;
   @useResult
-  $Res call({String code, String message, Bool data});
+  $Res call({String code, String message, bool data});
 }
 
 /// @nodoc
@@ -68,7 +68,7 @@ class _$EmailDuplicateModelCopyWithImpl<$Res, $Val extends EmailDuplicateModel>
       data: null == data
           ? _value.data
           : data // ignore: cast_nullable_to_non_nullable
-              as Bool,
+              as bool,
     ) as $Val);
   }
 }
@@ -81,7 +81,7 @@ abstract class _$$EmailDuplicateModelImplCopyWith<$Res>
       __$$EmailDuplicateModelImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String code, String message, Bool data});
+  $Res call({String code, String message, bool data});
 }
 
 /// @nodoc
@@ -111,7 +111,7 @@ class __$$EmailDuplicateModelImplCopyWithImpl<$Res>
       data: null == data
           ? _value.data
           : data // ignore: cast_nullable_to_non_nullable
-              as Bool,
+              as bool,
     ));
   }
 }
@@ -130,7 +130,7 @@ class _$EmailDuplicateModelImpl implements _EmailDuplicateModel {
   @override
   final String message;
   @override
-  final Bool data;
+  final bool data;
 
   @override
   String toString() {
@@ -170,7 +170,7 @@ abstract class _EmailDuplicateModel implements EmailDuplicateModel {
   factory _EmailDuplicateModel(
       {required final String code,
       required final String message,
-      required final Bool data}) = _$EmailDuplicateModelImpl;
+      required final bool data}) = _$EmailDuplicateModelImpl;
 
   factory _EmailDuplicateModel.fromJson(Map<String, dynamic> json) =
       _$EmailDuplicateModelImpl.fromJson;
@@ -180,7 +180,7 @@ abstract class _EmailDuplicateModel implements EmailDuplicateModel {
   @override
   String get message;
   @override
-  Bool get data;
+  bool get data;
   @override
   @JsonKey(ignore: true)
   _$$EmailDuplicateModelImplCopyWith<_$EmailDuplicateModelImpl> get copyWith =>

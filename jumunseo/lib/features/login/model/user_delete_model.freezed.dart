@@ -22,7 +22,7 @@ UserDeleteModel _$UserDeleteModelFromJson(Map<String, dynamic> json) {
 mixin _$UserDeleteModel {
   String get code => throw _privateConstructorUsedError;
   String get message => throw _privateConstructorUsedError;
-  Bool? get data => throw _privateConstructorUsedError;
+  bool? get data => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -36,7 +36,7 @@ abstract class $UserDeleteModelCopyWith<$Res> {
           UserDeleteModel value, $Res Function(UserDeleteModel) then) =
       _$UserDeleteModelCopyWithImpl<$Res, UserDeleteModel>;
   @useResult
-  $Res call({String code, String message, Bool? data});
+  $Res call({String code, String message, bool? data});
 }
 
 /// @nodoc
@@ -68,7 +68,7 @@ class _$UserDeleteModelCopyWithImpl<$Res, $Val extends UserDeleteModel>
       data: freezed == data
           ? _value.data
           : data // ignore: cast_nullable_to_non_nullable
-              as Bool?,
+              as bool?,
     ) as $Val);
   }
 }
@@ -81,7 +81,7 @@ abstract class _$$UserDeleteModelImplCopyWith<$Res>
       __$$UserDeleteModelImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String code, String message, Bool? data});
+  $Res call({String code, String message, bool? data});
 }
 
 /// @nodoc
@@ -111,7 +111,7 @@ class __$$UserDeleteModelImplCopyWithImpl<$Res>
       data: freezed == data
           ? _value.data
           : data // ignore: cast_nullable_to_non_nullable
-              as Bool?,
+              as bool?,
     ));
   }
 }
@@ -130,7 +130,7 @@ class _$UserDeleteModelImpl implements _UserDeleteModel {
   @override
   final String message;
   @override
-  final Bool? data;
+  final bool? data;
 
   @override
   String toString() {
@@ -170,7 +170,7 @@ abstract class _UserDeleteModel implements UserDeleteModel {
   factory _UserDeleteModel(
       {required final String code,
       required final String message,
-      required final Bool? data}) = _$UserDeleteModelImpl;
+      required final bool? data}) = _$UserDeleteModelImpl;
 
   factory _UserDeleteModel.fromJson(Map<String, dynamic> json) =
       _$UserDeleteModelImpl.fromJson;
@@ -180,7 +180,7 @@ abstract class _UserDeleteModel implements UserDeleteModel {
   @override
   String get message;
   @override
-  Bool? get data;
+  bool? get data;
   @override
   @JsonKey(ignore: true)
   _$$UserDeleteModelImplCopyWith<_$UserDeleteModelImpl> get copyWith =>

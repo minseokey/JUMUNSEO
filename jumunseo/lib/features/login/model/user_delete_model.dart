@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'user_delete_model.g.dart';
@@ -10,7 +8,7 @@ class UserDeleteModel with _$UserDeleteModel{
   factory UserDeleteModel(
       {required String code,
       required String message,
-      required Bool? data}) = _UserDeleteModel;
+      required bool? data}) = _UserDeleteModel;
 
   factory UserDeleteModel.fromJson(Map<String, dynamic> json) =>
     _$UserDeleteModelFromJson(json);

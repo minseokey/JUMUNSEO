@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'logout_model.g.dart';
@@ -10,7 +8,7 @@ class LogoutModel with _$LogoutModel{
   factory LogoutModel(
       {required String code,
       required String message,
-      required Bool? data}) = _LogoutModel;
+      required bool? data}) = _LogoutModel;
 
   factory LogoutModel.fromJson(Map<String, dynamic> json) =>
     _$LogoutModelFromJson(json);

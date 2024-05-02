@@ -20,7 +20,7 @@ TokenModel _$TokenModelFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$TokenModel {
-  Int64 get expiredTime => throw _privateConstructorUsedError;
+  int get expiredTime => throw _privateConstructorUsedError;
   String get accessToken => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -35,7 +35,7 @@ abstract class $TokenModelCopyWith<$Res> {
           TokenModel value, $Res Function(TokenModel) then) =
       _$TokenModelCopyWithImpl<$Res, TokenModel>;
   @useResult
-  $Res call({Int64 expiredTime, String accessToken});
+  $Res call({int expiredTime, String accessToken});
 }
 
 /// @nodoc
@@ -58,7 +58,7 @@ class _$TokenModelCopyWithImpl<$Res, $Val extends TokenModel>
       expiredTime: null == expiredTime
           ? _value.expiredTime
           : expiredTime // ignore: cast_nullable_to_non_nullable
-              as Int64,
+              as int,
       accessToken: null == accessToken
           ? _value.accessToken
           : accessToken // ignore: cast_nullable_to_non_nullable
@@ -75,7 +75,7 @@ abstract class _$$TokenModelImplCopyWith<$Res>
       __$$TokenModelImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({Int64 expiredTime, String accessToken});
+  $Res call({int expiredTime, String accessToken});
 }
 
 /// @nodoc
@@ -96,7 +96,7 @@ class __$$TokenModelImplCopyWithImpl<$Res>
       expiredTime: null == expiredTime
           ? _value.expiredTime
           : expiredTime // ignore: cast_nullable_to_non_nullable
-              as Int64,
+              as int,
       accessToken: null == accessToken
           ? _value.accessToken
           : accessToken // ignore: cast_nullable_to_non_nullable
@@ -114,7 +114,7 @@ class _$TokenModelImpl implements _TokenModel {
       _$$TokenModelImplFromJson(json);
 
   @override
-  final Int64 expiredTime;
+  final int expiredTime;
   @override
   final String accessToken;
 
@@ -154,14 +154,14 @@ class _$TokenModelImpl implements _TokenModel {
 
 abstract class _TokenModel implements TokenModel {
   factory _TokenModel(
-      {required final Int64 expiredTime,
+      {required final int expiredTime,
       required final String accessToken}) = _$TokenModelImpl;
 
   factory _TokenModel.fromJson(Map<String, dynamic> json) =
       _$TokenModelImpl.fromJson;
 
   @override
-  Int64 get expiredTime;
+  int get expiredTime;
   @override
   String get accessToken;
   @override
