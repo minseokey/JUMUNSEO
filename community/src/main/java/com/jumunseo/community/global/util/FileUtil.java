@@ -1,8 +1,15 @@
 package com.jumunseo.community.global.util;
 
 import java.util.UUID;
+import java.io.File;
+import java.nio.file.Files;
 
+import org.apache.tomcat.util.file.ConfigurationSource.Resource;
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.core.io.InputStreamResource;
+import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Component;
+import org.springframework.util.FileCopyUtils;
 
 @Component
 public class FileUtil {
@@ -10,7 +17,7 @@ public class FileUtil {
     private final String[] videoTypes = { "mp4", "avi", "mov", "wmv" };
     private final String[] audioTypes = { "mp3", "wav", "flac", "ogg" };
     private final String[] documentTypes = { "pdf", "doc", "docx", "ppt", "pptx", "xls", "xlsx" };
-    private String path = System.getenv("PWD");
+    private String path = System.getenv("PWD") + "/src/main/resources/static/images/";
 
     public boolean isImage(String type) {
         for (String imageType : imageTypes) {
@@ -67,6 +74,15 @@ public class FileUtil {
 
     public String getPath() {
         return path;
+    }
+
+    public byte[] getFile(String url) {
+
+        try {
+            return FileCopyUtils.copyToByteArray(new File(getFilePath(url)));
+        } catch (Exception e) {
+            return null;
+        }
     }
 
     public void setPath(String path) {
