@@ -6,11 +6,11 @@ import java.util.List;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.Builder;
@@ -26,9 +26,9 @@ public class Post {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Enumerated(value = EnumType.STRING)
     @Column(name = "category_id", nullable = false)
-    @Enumerated
-    private CategoryType categoryId;
+    private CategoryType categoryType;
 
     @Column(name = "user_id", length = 50, nullable = false)
     private String userId;
@@ -55,10 +55,10 @@ public class Post {
     private List<Image> images;
 
     @Builder
-    public Post(Long id, CategoryType categoryId, String userId, Date createdAt, Date updatedAt, Date deletedAt,
+    public Post(Long id, CategoryType categoryType, String userId, Date createdAt, Date updatedAt, Date deletedAt,
             Long viewCount, String title, String content, List<Image> images) {
         this.id = id;
-        this.categoryId = categoryId;
+        this.categoryType = categoryType;
         this.userId = userId;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
