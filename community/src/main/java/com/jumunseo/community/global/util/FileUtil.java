@@ -2,6 +2,9 @@ package com.jumunseo.community.global.util;
 
 import java.util.UUID;
 
+import org.springframework.stereotype.Component;
+
+@Component
 public class FileUtil {
     private final String[] imageTypes = { "jpg", "jpeg", "png", "gif" };
     private final String[] videoTypes = { "mp4", "avi", "mov", "wmv" };
