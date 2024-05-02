@@ -12,6 +12,7 @@ import com.jumunseo.community.domain.post.entity.Image;
 import com.jumunseo.community.domain.post.entity.Post;
 import com.jumunseo.community.domain.post.repository.ImageRepository;
 import com.jumunseo.community.domain.post.repository.PostRepository;
+import com.jumunseo.community.global.util.FileUtil;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -23,6 +24,8 @@ public class PostServiceImpl implements PostService {
 
     private final PostRepository postRepository;
     private final ImageRepository imageRepository;
+
+    private final FileUtil fileUtil;
 
     @Override
     public PostDto getPostUseID(Long id) {
@@ -41,36 +44,7 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public PostDto createPost(PostDto postDto, List<MultipartFile> images) {
-        String pwd = System.getenv("PWD");
-        String path = pwd + "/src/main/resources/static/images/";
-
-        log.info("[Service] createPost\n{}", postDto.toString());
-
-        for (MultipartFile image : images) {
-            String fileName = image.getOriginalFilename();
-            if (fileName == null)
-                continue;
-            String[] split = fileName.split("\\.");
-            String ext = split[split.length - 1];
-            String[] allowedExt = { "jpg", "jpeg", "png", "gif" };
-            boolean isAllowed = false;
-            for (String s : allowedExt) {
-                if (s.equals(ext)) {
-                    isAllowed = true;
-                    break;
-                }
-            }
-            if (!isAllowed)
-                continue;
-            String uuid = UUID.randomUUID().toString();
-            String saveFileName = uuid + "." + ext;
-            try {
-                image.transferTo(new File(path + saveFileName));
-            } catch (Exception e) {
-                log.error("[Service] createPost {}", e.getMessage());
-            }
-        }
+    public PostDto createPost(PostDto postDto, List<MultipartFile> imageFiles) {
 
         Post post = Post.builder()
                 .categoryType(postDto.getCategoryType())
@@ -83,14 +57,35 @@ public class PostServiceImpl implements PostService {
                 .content(postDto.getContent())
                 .images(null)
                 .build();
-
-        Image image = Image.builder()
-                .post(post)
-                .url(path)
-                .build();
-
         postRepository.save(post);
-        imageRepository.save(image);
+
+        fileUtil.setPath(fileUtil.getPath() + "/src/main/resources/static/images/");
+
+        log.info("[Service] createPost\n{}", postDto.toString());
+
+        for (MultipartFile imageFile : imageFiles) {
+            String fileName = imageFile.getOriginalFilename();
+            if (fileName == null)
+                continue;
+
+            String fileType = fileUtil.getFileType(fileName);
+            if (!fileUtil.isImage(fileType))
+                continue;
+
+            String saveFileName = fileUtil.getRandomFileName(fileName);
+            try {
+                imageFile.transferTo(new File(fileUtil.getFilePath(saveFileName)));
+            } catch (Exception e) {
+                log.error("[Service] createPost {}", e.getMessage());
+            }
+
+            Image image = Image.builder()
+                    .post(post)
+                    .url(fileUtil.getFilePath(saveFileName))
+                    .build();
+
+            imageRepository.save(image);
+        }
 
         return postDto;
 
