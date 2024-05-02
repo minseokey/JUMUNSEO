@@ -16,3 +16,7 @@ spring:
     username: test
     password: test
     driverClassName: org.postgresql.Driver
+  servlet:
+    multipart: # 이미지 업로드 제한
+      maxFileSize: 10MB
+      maxRequestSize: 10MB
