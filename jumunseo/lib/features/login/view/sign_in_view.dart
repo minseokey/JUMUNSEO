@@ -10,6 +10,7 @@ class SignInView extends StatelessWidget {
   Widget build(BuildContext context) {
     TextEditingController emailController = TextEditingController();
     TextEditingController passwordController = TextEditingController();
+    ValueNotifier<bool> loading = ValueNotifier<bool>(false);
 
     return WillPopScope(
       child: Scaffold(
@@ -17,75 +18,88 @@ class SignInView extends StatelessWidget {
           centerTitle: true,
           title: const Text('로그인'),
         ),
-        body: GestureDetector(
-          onTap: () => FocusScope.of(context).unfocus(),
-          child: SingleChildScrollView(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: Column(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(top: 20),
-                    child: TextField(
-                      controller: emailController,
-                      decoration: const InputDecoration(
-                        labelText: '이메일',
-                        hintText: "이메일을 입력해 주세요.",
-                        labelStyle: TextStyle(color: Colors.grey),
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(10.0)),
-                          borderSide: BorderSide(width: 1, color: ColorStyles.mainColor),
+        body: ValueListenableBuilder<bool>(
+          valueListenable: loading,
+          builder: (BuildContext context, bool value, Widget? child) {
+            if(value) {
+              return const Center(child: CircularProgressIndicator());
+            } 
+            else {
+              return GestureDetector(
+              onTap: () => FocusScope.of(context).unfocus(),
+              child: SingleChildScrollView(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  child: Column(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(top: 20),
+                        child: TextField(
+                          controller: emailController,
+                          decoration: const InputDecoration(
+                            labelText: '이메일',
+                            hintText: "이메일을 입력해 주세요.",
+                            labelStyle: TextStyle(color: Colors.grey),
+                            focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                              borderSide: BorderSide(width: 1, color: ColorStyles.mainColor),
+                            ),
+                            enabledBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                              borderSide: BorderSide(width: 1, color: ColorStyles.mainColor),
+                            ),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                            ),
+                            contentPadding: EdgeInsets.symmetric(horizontal: 15, vertical: 0),
+                          ),
+                          keyboardType: TextInputType.emailAddress,
                         ),
-                        enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(10.0)),
-                          borderSide: BorderSide(width: 1, color: ColorStyles.mainColor),
-                        ),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(10.0)),
-                        ),
-                        contentPadding: EdgeInsets.symmetric(horizontal: 15, vertical: 0),
                       ),
-                      keyboardType: TextInputType.emailAddress,
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 10),
-                    child: TextField(
-                      controller: passwordController,
-                      decoration: const InputDecoration(
-                        labelText: '비밀번호',
-                        hintText: "비밀번호를 입력해 주세요.",
-                        labelStyle: TextStyle(color: Colors.grey),
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(10.0)),
-                          borderSide: BorderSide(width: 1, color: ColorStyles.mainColor),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 10),
+                        child: TextField(
+                          controller: passwordController,
+                          decoration: const InputDecoration(
+                            labelText: '비밀번호',
+                            hintText: "비밀번호를 입력해 주세요.",
+                            labelStyle: TextStyle(color: Colors.grey),
+                            focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                              borderSide: BorderSide(width: 1, color: ColorStyles.mainColor),
+                            ),
+                            enabledBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                              borderSide: BorderSide(width: 1, color: ColorStyles.mainColor),
+                            ),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                            ),
+                            contentPadding: EdgeInsets.symmetric(horizontal: 15, vertical: 0),
+                          ),
+                          keyboardType: TextInputType.visiblePassword,
                         ),
-                        enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(10.0)),
-                          borderSide: BorderSide(width: 1, color: ColorStyles.mainColor),
-                        ),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(10.0)),
-                        ),
-                        contentPadding: EdgeInsets.symmetric(horizontal: 15, vertical: 0),
                       ),
-                      keyboardType: TextInputType.visiblePassword,
-                    ),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 20),
+                        child: ElevatedButton(
+                          onPressed: () {
+                            context.read<LoginCubit>().login(context, emailController.text, passwordController.text)
+                            .then((value) {
+                              loading.value = !loading.value;
+                            });
+                            loading.value = !loading.value;
+                          },
+                          child: const Text('로그인'),
+                        ),
+                      ),
+                    ],
                   ),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 20),
-                    child: ElevatedButton(
-                      onPressed: () {
-                        context.read<LoginCubit>().login();
-                        context.read<LoginCubit>().goToHome(context);
-                      },
-                      child: const Text('로그인'),
-                    ),
-                  ),
-                ],
+                ),
               ),
-            ),
-          ),
+            );
+            }
+          }
         ),
       ),
       onWillPop: () async {

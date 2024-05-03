@@ -159,7 +159,7 @@ class _AuthRepository implements AuthRepository {
   }
 
   @override
-  Future<SignInResponseModel> getReIssue(SignInModel signin) async {
+  Future<SignInResponseModel> getLogin(SignInModel signin) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
@@ -182,6 +182,34 @@ class _AuthRepository implements AuthRepository {
               baseUrl,
             ))));
     final value = SignInResponseModel.fromJson(_result.data!);
+    return value;
+  }
+
+  @override
+  Future<ReIssueModel> getReIssue(String accessToken) async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{r'Authorization': accessToken};
+    _headers.removeWhere((k, v) => v == null);
+    final Map<String, dynamic>? _data = null;
+    final _result = await _dio
+        .fetch<Map<String, dynamic>>(_setStreamType<ReIssueModel>(Options(
+      method: 'GET',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              '/auth/reissue',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(
+                baseUrl: _combineBaseUrls(
+              _dio.options.baseUrl,
+              baseUrl,
+            ))));
+    final value = ReIssueModel.fromJson(_result.data!);
     return value;
   }
 

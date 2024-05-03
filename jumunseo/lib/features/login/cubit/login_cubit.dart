@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:jumunseo/core/login_status.dart';
 import 'package:jumunseo/features/login/data/repository/auth_repository.dart';
+import 'package:jumunseo/features/login/model/sign_in_model.dart';
 import 'package:jumunseo/features/login/model/sign_up_model.dart';
 import 'package:jumunseo/features/login/view/login_ask_dialog.dart';
 
@@ -13,7 +14,7 @@ part 'login_state.dart';
 class LoginCubit extends Cubit<LoginState> {
   LoginCubit()
       : super(LoginState(
-            email: '', password: '', error: '', isLogin: LoginStatus.isLogin));
+            name: '', accessToken: '', email: '', password: '', error: '', isLogin: LoginStatus.isLogin));
 
   bool checkLogin() {
     return state.isLogin;
@@ -46,9 +47,34 @@ class LoginCubit extends Cubit<LoginState> {
     }
   }
 
-  void login() {
-    LoginStatus.isLogin = true;
-    emit(state.copyWith(isLogin: LoginStatus.isLogin));
+  Future<void> login(BuildContext context, String email, String password) async {
+    final baseOptions = BaseOptions(
+      baseUrl: 'http://10.0.2.2:8080',
+      contentType: Headers.jsonContentType,
+      validateStatus: (int? status) {
+        return status != null;
+      },
+    );
+
+    Dio dio = Dio(baseOptions);
+    dio.interceptors.addAll(
+      [
+        const Interceptor(),
+      ]
+    );
+
+    AuthRepository repo = AuthRepository(dio);
+    SignInModel signin = SignInModel(email: email, password: password);
+    final response = await repo.getLogin(signin);
+
+    if(response.code == 'SUCCESS') {
+      LoginStatus.isLogin = true;
+      emit(state.copyWith(email: email, password: password, accessToken: response.data.accessToken, isLogin: LoginStatus.isLogin));
+      context.go('/');
+    }
+    else {
+
+    }
   }
 
   void guestLogin() {

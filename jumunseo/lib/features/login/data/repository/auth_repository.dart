@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:jumunseo/features/login/model/email_duplicate_model.dart';
 import 'package:jumunseo/features/login/model/logout_model.dart';
+import 'package:jumunseo/features/login/model/reissue_model.dart';
 import 'package:jumunseo/features/login/model/sign_in_model.dart';
 import 'package:jumunseo/features/login/model/sign_in_response_model.dart';
 import 'package:jumunseo/features/login/model/sign_up_model.dart';
@@ -31,5 +32,8 @@ abstract class AuthRepository {
   Future<LogoutModel> logout(@Header('Authorization') String accessToken);
 
   @GET('/login')
-  Future<SignInResponseModel> getReIssue(@Body() SignInModel signin);
+  Future<SignInResponseModel> getLogin(@Body() SignInModel signin);
+
+  @GET('/auth/reissue')
+  Future<ReIssueModel> getReIssue(@Header('Authorization') String accessToken);
 }
