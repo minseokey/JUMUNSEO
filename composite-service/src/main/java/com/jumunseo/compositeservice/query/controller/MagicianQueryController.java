@@ -3,11 +3,14 @@ package com.jumunseo.compositeservice.query.controller;
 import com.jumunseo.compositeservice.global.exception.Result;
 import com.jumunseo.compositeservice.global.exception.WebClient4xxException;
 import com.jumunseo.compositeservice.global.exception.WebClient5xxException;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.json.simple.JSONObject;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -22,13 +25,18 @@ import java.util.List;
 @RequiredArgsConstructor
 @RequestMapping("/query/magician")
 @Controller
+@Tag(name = "Magician Query", description = "마법사 서비스를 위한 쿼리 컨트롤러")
 public class MagicianQueryController {
     private final String MAGICIN_SERVICE_URL = "http://magician:8000";
     private final WebClient webClient;
 
     // Flux
     // 유저 이름에 맞는 채팅방 리스트 가져오기
+    // 로그인 O
+    @Tag(name = "Magician Query")
+    @Operation(summary = "Get Chat List", description = "유저 이름에 맞는 채팅방 리스트를 조회하는 메소드")
     @GetMapping("/list")
+    @Secured("USER")
     public ResponseEntity<Result<?>> get_by_userId(HttpServletRequest req) {
         Flux<JSONObject> flux = webClient.get()
                 .uri(MAGICIN_SERVICE_URL + "/chat/list/" + req.getAttribute("email").toString())
@@ -49,7 +57,11 @@ public class MagicianQueryController {
 
     // Mono
     // 채팅방 아이디에 맞는 채팅방 가져오기
+    // 로그인 필요 O
     @GetMapping("/{room_id}")
+    @Secured("USER")
+    @Tag(name = "Magician Query")
+    @Operation(summary = "Get Chat", description = "채팅방을 조회하는 메소드")
     public ResponseEntity<Result<?>> get_by_roomId(HttpServletRequest req, @PathVariable String room_id) {
         Mono<JSONObject> mono = webClient.get()
                 .uri(MAGICIN_SERVICE_URL + "/chat/" + room_id)

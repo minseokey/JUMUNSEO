@@ -1,6 +1,5 @@
 package com.jumunseo.compositeservice.global.security;
 
-import com.jumunseo.compositeservice.global.exception.Result;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -25,7 +24,16 @@ public class AuthorizationFilter extends OncePerRequestFilter{
 
         String header = req.getHeader("Authorization");
         // 토큰 존재 검사
+        // 만약 토큰이 없거나 이상하면 -> UnSigned 권한을 주고 처리하자.
         if(header == null || !header.startsWith("Bearer")) {
+            Collection<GrantedAuthority> authorities = new ArrayList<>();
+            authorities.add((GrantedAuthority) () -> "UNSIGNED"); // 권한이 없는 사용자
+            Authentication authentication = new UsernamePasswordAuthenticationToken(
+                    "UNSIGNED",
+                    null,
+                    authorities
+            ); // 결론적으로 email은 UNSIGNED, role은 UNSIGNED 인 가짜 Authentication 객체 생성
+            SecurityContextHolder.getContext().setAuthentication(authentication);
             filterChain.doFilter(req, res);
             return;
         }

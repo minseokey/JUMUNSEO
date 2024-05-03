@@ -5,12 +5,10 @@ import com.jumunseo.compositeservice.global.exception.WebClient4xxException;
 import com.jumunseo.compositeservice.global.exception.WebClient5xxException;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.json.simple.JSONObject;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -22,46 +20,21 @@ import reactor.core.publisher.Mono;
 import java.util.List;
 
 @RequiredArgsConstructor
-@RequestMapping("/query/debate")
-@Tag(name = "Debate Query", description = "토론 서비스를 위한 쿼리 컨트롤러")
 @Controller
-public class DebateQueryController {
-    private final String DEBATE_SERVICE_URL = "http://debate-service:8082";
+@RequestMapping("/query/auth")
+@Tag(name = "Auth Query", description = "인증 서비스를 위한 쿼리 컨트롤러")
+public class AuthQueryController {
+    private final String AUTH_SERVICE_URL = "http://auth-service:8080";
     private final WebClient webClient;
-
-    // 해당 주제의 이전 채팅 조회 로그인 필요 X
-    // flux
-    @GetMapping("/{subjectId}/{last}")
-    @Tag(name = "Debate Query")
-    @Operation(summary = "Get Chat", description = "주제의 이전 채팅을 조회하는 메소드")
-    public ResponseEntity<Result<?>> get_by_subject_opinion(HttpServletRequest req, @PathVariable String subjectId, @PathVariable Long last) {
-        Flux<JSONObject> flux = webClient.get()
-                .uri(DEBATE_SERVICE_URL + "/debate/opinion/" + subjectId + "/" + last)
-                .retrieve()
-                // 4-- 에러 -> 요청 오류
-                .onStatus(HttpStatusCode::is4xxClientError, res -> Mono.error(
-                        new WebClient4xxException(res.bodyToMono(String.class).toString())
-                ))
-                // 5-- 에러 -> 시스템 오류
-                .onStatus(HttpStatusCode::is5xxServerError, res -> Mono.error(
-                        new WebClient5xxException(res.bodyToMono(String.class).toString())
-                ))
-                .bodyToFlux(JSONObject.class);
-
-        List<JSONObject> chatlist = flux.collectList().block();
-        return ResponseEntity.ok(Result.successResult(chatlist));
-    }
-
-    // 해당 주제의 지신의(토큰기반) 좌우 투표 기록.
-    // 로그인 필요 O
+    // UserId로 User 정보 가져오기
+    // 토큰 필요? 일단 X
     // mono
-    @GetMapping("/side/{subjectId}")
-    @Secured("USER")
-    @Tag(name = "Debate Query")
-    @Operation(summary = "Get Side History", description = "주제의 지신의 좌우 투표 기록을 조회하는 메소드")
-    public ResponseEntity<Result<?>> get_side_history_from_before(HttpServletRequest req, @PathVariable String subjectId) {
+    @Tag(name = "Auth Query")
+    @GetMapping("/info/{userId}")
+    @Operation(summary = "Get User Info By UserId", description = "유저 정보를 유저 아이디를 통해 가져오는 메소드")
+    public ResponseEntity<Result<?>> get_userInfo_by_userId(@PathVariable Long userId) {
         Mono<JSONObject> mono = webClient.get()
-                .uri(DEBATE_SERVICE_URL + "/debate/opinion/side/" + subjectId + "/" + req.getAttribute("email"))
+                .uri(AUTH_SERVICE_URL + "/info/" + userId)
                 .retrieve()
                 // 4-- 에러 -> 요청 오류
                 .onStatus(HttpStatusCode::is4xxClientError, res -> Mono.error(
@@ -72,19 +45,38 @@ public class DebateQueryController {
                         new WebClient5xxException(res.bodyToMono(String.class).toString())
                 ))
                 .bodyToMono(JSONObject.class);
-
         return ResponseEntity.ok(Result.successResult(mono.block()));
     }
-
-    // 사용 가능한 주제 조회
+    // Email로 User 정보 가져오기
+    // 토큰 필요? 일단 X
+    // mono
+    @Tag(name = "Auth Query")
+    @GetMapping("/info/email/{email}")
+    @Operation(summary = "Get User Info By Email", description = "유저 정보를 이메일을 통해 가져오는 메소드")
+    public ResponseEntity<Result<?>> get_userInfo_by_email(@PathVariable String email) {
+        Mono<JSONObject> mono = webClient.get()
+                .uri(AUTH_SERVICE_URL + "/info/email/" + email)
+                .retrieve()
+                // 4-- 에러 -> 요청 오류
+                .onStatus(HttpStatusCode::is4xxClientError, res -> Mono.error(
+                        new WebClient4xxException(res.bodyToMono(String.class).toString())
+                ))
+                // 5-- 에러 -> 시스템 오류
+                .onStatus(HttpStatusCode::is5xxServerError, res -> Mono.error(
+                        new WebClient5xxException(res.bodyToMono(String.class).toString())
+                ))
+                .bodyToMono(JSONObject.class);
+        return ResponseEntity.ok(Result.successResult(mono.block()));
+    }
+    // UserID들을 이용하여 User 정보들을 가져오기
+    // 토큰 필요? 일단 X
     // flux
-    // 로그인 필요 X
-    @Tag(name = "Debate Query")
-    @Operation(summary = "Get Available Subject", description = "사용 가능한 주제를 조회하는 메소드")
-    @GetMapping("/available")
-    public ResponseEntity<Result<?>> get_available_subject(HttpServletRequest req) {
+    @Tag(name = "Auth Query")
+    @GetMapping("/info/users/{userIds}")
+    @Operation(summary = "Get User Infos By UserIds", description = "유저 정보들을 유저 아이디 리스트를 통해 가져오는 메소드")
+    public ResponseEntity<Result<?>> getUserInfoByUserIds(@PathVariable List<Long> userIds) {
         Flux<JSONObject> flux = webClient.get()
-                .uri(DEBATE_SERVICE_URL + "/debate/subject/available")
+                .uri(AUTH_SERVICE_URL + "/info/users/" + userIds)
                 .retrieve()
                 // 4-- 에러 -> 요청 오류
                 .onStatus(HttpStatusCode::is4xxClientError, res -> Mono.error(
@@ -96,7 +88,7 @@ public class DebateQueryController {
                 ))
                 .bodyToFlux(JSONObject.class);
 
-        List<JSONObject> subjectlist = flux.collectList().block();
-        return ResponseEntity.ok(Result.successResult(subjectlist));
+        List<JSONObject> userlist = flux.collectList().block();
+        return ResponseEntity.ok(Result.successResult(userlist));
     }
 }
