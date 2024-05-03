@@ -1,6 +1,6 @@
 part of 'auth_cubit.dart';
 
-class LoginState extends Equatable {
+class AuthState extends Equatable {
   final String name;
   final String accessToken;
   final String email;
@@ -9,7 +9,7 @@ class LoginState extends Equatable {
 
   final bool isLogin;
 
-  const LoginState({
+  const AuthState({
     required this.name,
     required this.accessToken,
     required this.email,
@@ -18,8 +18,8 @@ class LoginState extends Equatable {
     required this.isLogin,
   });
 
-  factory LoginState.initial() {
-    return const LoginState(
+  factory AuthState.initial() {
+    return const AuthState(
       name: '',
       accessToken: '',
       email: '',
@@ -29,7 +29,7 @@ class LoginState extends Equatable {
     );
   }
 
-  LoginState copyWith({
+  AuthState copyWith({
     String? name,
     String? accessToken,
     String? email,
@@ -37,7 +37,7 @@ class LoginState extends Equatable {
     String? error,
     bool? isLogin,
   }) {
-    return LoginState(
+    return AuthState(
       name: name ?? this.name,
       accessToken: accessToken ?? this.accessToken,
       email: email ?? this.email,

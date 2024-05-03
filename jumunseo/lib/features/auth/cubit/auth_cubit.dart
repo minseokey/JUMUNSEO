@@ -11,9 +11,9 @@ import 'package:jumunseo/features/auth/view/login_ask_dialog.dart';
 
 part 'auth_state.dart';
 
-class AuthCubit extends Cubit<LoginState> {
+class AuthCubit extends Cubit<AuthState> {
   AuthCubit()
-      : super(LoginState(
+      : super(AuthState(
             name: '', accessToken: '', email: '', password: '', error: '', isLogin: LoginStatus.isLogin));
 
   bool checkLogin() {
