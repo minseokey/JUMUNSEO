@@ -1,5 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:jumunseo/features/login/model/info_model.dart';
+import 'package:jumunseo/features/auth/model/info_model.dart';
 
 part 'user_info_response_model.g.dart';
 part 'user_info_response_model.freezed.dart';

@@ -1,5 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:jumunseo/features/login/model/reissue_token_model.dart';
+import 'package:jumunseo/features/auth/model/reissue_token_model.dart';
 
 part 'reissue_model.g.dart';
 part 'reissue_model.freezed.dart';

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:jumunseo/config/theme/app_color.dart';
-import 'package:jumunseo/features/login/cubit/login_cubit.dart';
+import 'package:jumunseo/features/auth/cubit/auth_cubit.dart';
 
 class SignUpView extends StatefulWidget {
   const SignUpView({super.key});
@@ -132,7 +132,7 @@ class _SignUpViewState extends State<SignUpView> {
                     padding: const EdgeInsets.only(top: 20),
                     child: ElevatedButton(
                       onPressed: () {
-                        context.read<LoginCubit>().signUp(
+                        context.read<AuthCubit>().signUp(
                           context, 
                           nameController.text, 
                           emailController.text, 
@@ -150,7 +150,7 @@ class _SignUpViewState extends State<SignUpView> {
         ),
       ),
       onWillPop: () async {
-        context.read<LoginCubit>().disposeJoin();
+        context.read<AuthCubit>().disposeJoin();
         return true;
       },
     );

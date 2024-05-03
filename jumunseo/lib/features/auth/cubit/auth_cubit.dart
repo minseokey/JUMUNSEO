@@ -4,15 +4,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:jumunseo/core/login_status.dart';
-import 'package:jumunseo/features/login/data/repository/auth_repository.dart';
-import 'package:jumunseo/features/login/model/sign_in_model.dart';
-import 'package:jumunseo/features/login/model/sign_up_model.dart';
-import 'package:jumunseo/features/login/view/login_ask_dialog.dart';
+import 'package:jumunseo/features/auth/data/repository/auth_repository.dart';
+import 'package:jumunseo/features/auth/model/sign_in_model.dart';
+import 'package:jumunseo/features/auth/model/sign_up_model.dart';
+import 'package:jumunseo/features/auth/view/login_ask_dialog.dart';
 
-part 'login_state.dart';
+part 'auth_state.dart';
 
-class LoginCubit extends Cubit<LoginState> {
-  LoginCubit()
+class AuthCubit extends Cubit<LoginState> {
+  AuthCubit()
       : super(LoginState(
             name: '', accessToken: '', email: '', password: '', error: '', isLogin: LoginStatus.isLogin));
 

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:jumunseo/config/theme/app_color.dart';
-import 'package:jumunseo/features/login/cubit/login_cubit.dart';
+import 'package:jumunseo/features/auth/cubit/auth_cubit.dart';
 
 class AuthScreen extends StatelessWidget {
   const AuthScreen({super.key});
@@ -39,9 +39,7 @@ class AuthScreen extends StatelessWidget {
                       Expanded(
                         child: ElevatedButton(
                           onPressed: (){
-                            context.read<LoginCubit>().goToSignIn(context);
-                            // context.read<LoginCubit>().login();
-                            // context.read<LoginCubit>().goToHome(context);
+                            context.read<AuthCubit>().goToSignIn(context);
                           },
                           child: const Text('주문서 계정으로 로그인하기'),
                         ),
@@ -53,8 +51,8 @@ class AuthScreen extends StatelessWidget {
                       Expanded(
                         child: ElevatedButton(
                           onPressed: (){
-                            context.read<LoginCubit>().guestLogin();
-                            context.read<LoginCubit>().goToHome(context);
+                            context.read<AuthCubit>().guestLogin();
+                            context.read<AuthCubit>().goToHome(context);
                           },
                           child: const Text('둘러보기'),
                         ),
@@ -69,7 +67,7 @@ class AuthScreen extends StatelessWidget {
                       ),
                       TextButton(
                         onPressed: (){
-                          context.read<LoginCubit>().goToJoin(context);
+                          context.read<AuthCubit>().goToJoin(context);
                         }, 
                         child: const DefaultTextStyle(
                           style: TextStyle(

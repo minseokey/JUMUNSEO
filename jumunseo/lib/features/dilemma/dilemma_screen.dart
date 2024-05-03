@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:jumunseo/features/home/home.dart';
-import 'package:jumunseo/features/login/login.dart';
+import 'package:jumunseo/features/auth/auth.dart';
 
 class DilemmaScreen extends StatefulWidget {
   const DilemmaScreen({super.key});
@@ -15,7 +15,7 @@ class _DilemmaScreenState extends State<DilemmaScreen> {
   Widget build(BuildContext context) {
     final int test = context.select((HomeCubit bloc) => bloc.state.testNum);
     final testIsLogin =
-        context.select((LoginCubit cubit) => cubit.state.isLogin);
+        context.select((AuthCubit cubit) => cubit.state.isLogin);
     return Scaffold(
       appBar: AppBar(
         title: const Text('토론방'),

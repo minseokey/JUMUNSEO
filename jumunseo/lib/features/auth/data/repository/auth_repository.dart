@@ -1,13 +1,13 @@
 import 'package:dio/dio.dart';
-import 'package:jumunseo/features/login/model/email_duplicate_model.dart';
-import 'package:jumunseo/features/login/model/logout_model.dart';
-import 'package:jumunseo/features/login/model/reissue_model.dart';
-import 'package:jumunseo/features/login/model/sign_in_model.dart';
-import 'package:jumunseo/features/login/model/sign_in_response_model.dart';
-import 'package:jumunseo/features/login/model/sign_up_model.dart';
-import 'package:jumunseo/features/login/model/sign_up_respond_model.dart';
-import 'package:jumunseo/features/login/model/user_delete_model.dart';
-import 'package:jumunseo/features/login/model/user_info_response_model.dart';
+import 'package:jumunseo/features/auth/model/email_duplicate_model.dart';
+import 'package:jumunseo/features/auth/model/logout_model.dart';
+import 'package:jumunseo/features/auth/model/reissue_model.dart';
+import 'package:jumunseo/features/auth/model/sign_in_model.dart';
+import 'package:jumunseo/features/auth/model/sign_in_response_model.dart';
+import 'package:jumunseo/features/auth/model/sign_up_model.dart';
+import 'package:jumunseo/features/auth/model/sign_up_respond_model.dart';
+import 'package:jumunseo/features/auth/model/user_delete_model.dart';
+import 'package:jumunseo/features/auth/model/user_info_response_model.dart';
 import 'package:retrofit/retrofit.dart';
 
 part 'auth_repository.g.dart';

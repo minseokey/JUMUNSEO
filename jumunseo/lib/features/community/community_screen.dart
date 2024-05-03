@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:jumunseo/features/home/cubit/home_cubit.dart';
-import 'package:jumunseo/features/login/cubit/login_cubit.dart';
+import 'package:jumunseo/features/auth/cubit/auth_cubit.dart';
 
 class CommunityScreen extends StatefulWidget {
   const CommunityScreen({super.key});
@@ -15,7 +15,7 @@ class _CommunityScreenState extends State<CommunityScreen> {
   Widget build(BuildContext context) {
     final test = context.select((HomeCubit bloc) => bloc.state.testNum);
     final testIsLogin =
-        context.select((LoginCubit cubit) => cubit.state.isLogin);
+        context.select((AuthCubit cubit) => cubit.state.isLogin);
     return Scaffold(
       appBar: AppBar(
         title: const Text('커뮤니티'),

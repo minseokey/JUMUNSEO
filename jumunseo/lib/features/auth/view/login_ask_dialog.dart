@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:jumunseo/features/login/cubit/login_cubit.dart';
+import 'package:jumunseo/features/auth/cubit/auth_cubit.dart';
 
 Dialog loginAskDialog(BuildContext context) {
   return Dialog(
@@ -59,7 +59,7 @@ Dialog loginAskDialog(BuildContext context) {
               ),
               TextButton(
                 onPressed: () {
-                  context.read<LoginCubit>().goTologin(context);
+                  context.read<AuthCubit>().goTologin(context);
                 },
                 child: const Text(
                   '확인',

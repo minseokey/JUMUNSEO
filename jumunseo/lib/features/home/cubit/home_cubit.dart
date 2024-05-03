@@ -1,6 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:jumunseo/core/login_status.dart';
-import 'package:jumunseo/features/login/login.dart';
+import 'package:jumunseo/features/auth/auth.dart';
 
 import '../home.dart';
 import 'package:go_router/go_router.dart';
@@ -37,7 +37,7 @@ class HomeCubit extends Cubit<HomeState> {
     if (LoginStatus.isLogin) {
       emit(state.copyWith(testNum: state.testNum + 1));
     } else {
-      context.read<LoginCubit>().askToLogin(context);
+      context.read<AuthCubit>().askToLogin(context);
     }
   }
 }
