@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:jumunseo/features/auth/auth.dart';
 import 'package:jumunseo/features/profile/cubit/profile_cubit.dart';
 
 class SettingsView extends StatefulWidget {
@@ -33,6 +34,12 @@ class _SettingsViewState extends State<SettingsView> {
               }
               else if(settingList[index] == '개인정보 처리방침') {
                 context.read<ProfileCubit>().toPrivacyPolicy(context);
+              }
+              else if(settingList[index] == '로그아웃') {
+                context.read<AuthCubit>().logoutMethod(context);
+              }
+              else if(settingList[index] == '탈퇴하기') {
+                context.read<AuthCubit>().deleteUserMethod(context);
               }
             },
             child: Text(settingList[index], style: TextStyle(color: colorList[index], fontSize: 16),),

@@ -6,8 +6,8 @@ part 'token_model.freezed.dart';
 @freezed
 class TokenModel with _$TokenModel{
   factory TokenModel(
-      {required int expiredTime,
-      required String accessToken}) = _TokenModel;
+      {required String accessToken,
+      required int expiredTime}) = _TokenModel;
 
   factory TokenModel.fromJson(Map<String, dynamic> json) =>
     _$TokenModelFromJson(json);

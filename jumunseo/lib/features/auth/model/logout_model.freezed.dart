@@ -22,7 +22,7 @@ LogoutModel _$LogoutModelFromJson(Map<String, dynamic> json) {
 mixin _$LogoutModel {
   String get code => throw _privateConstructorUsedError;
   String get message => throw _privateConstructorUsedError;
-  bool? get data => throw _privateConstructorUsedError;
+  LogoutDataTokenModel? get data => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -36,7 +36,9 @@ abstract class $LogoutModelCopyWith<$Res> {
           LogoutModel value, $Res Function(LogoutModel) then) =
       _$LogoutModelCopyWithImpl<$Res, LogoutModel>;
   @useResult
-  $Res call({String code, String message, bool? data});
+  $Res call({String code, String message, LogoutDataTokenModel? data});
+
+  $LogoutDataTokenModelCopyWith<$Res>? get data;
 }
 
 /// @nodoc
@@ -68,8 +70,20 @@ class _$LogoutModelCopyWithImpl<$Res, $Val extends LogoutModel>
       data: freezed == data
           ? _value.data
           : data // ignore: cast_nullable_to_non_nullable
-              as bool?,
+              as LogoutDataTokenModel?,
     ) as $Val);
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $LogoutDataTokenModelCopyWith<$Res>? get data {
+    if (_value.data == null) {
+      return null;
+    }
+
+    return $LogoutDataTokenModelCopyWith<$Res>(_value.data!, (value) {
+      return _then(_value.copyWith(data: value) as $Val);
+    });
   }
 }
 
@@ -81,7 +95,10 @@ abstract class _$$LogoutModelImplCopyWith<$Res>
       __$$LogoutModelImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String code, String message, bool? data});
+  $Res call({String code, String message, LogoutDataTokenModel? data});
+
+  @override
+  $LogoutDataTokenModelCopyWith<$Res>? get data;
 }
 
 /// @nodoc
@@ -111,7 +128,7 @@ class __$$LogoutModelImplCopyWithImpl<$Res>
       data: freezed == data
           ? _value.data
           : data // ignore: cast_nullable_to_non_nullable
-              as bool?,
+              as LogoutDataTokenModel?,
     ));
   }
 }
@@ -130,7 +147,7 @@ class _$LogoutModelImpl implements _LogoutModel {
   @override
   final String message;
   @override
-  final bool? data;
+  final LogoutDataTokenModel? data;
 
   @override
   String toString() {
@@ -169,7 +186,7 @@ abstract class _LogoutModel implements LogoutModel {
   factory _LogoutModel(
       {required final String code,
       required final String message,
-      required final bool? data}) = _$LogoutModelImpl;
+      required final LogoutDataTokenModel? data}) = _$LogoutModelImpl;
 
   factory _LogoutModel.fromJson(Map<String, dynamic> json) =
       _$LogoutModelImpl.fromJson;
@@ -179,7 +196,7 @@ abstract class _LogoutModel implements LogoutModel {
   @override
   String get message;
   @override
-  bool? get data;
+  LogoutDataTokenModel? get data;
   @override
   @JsonKey(ignore: true)
   _$$LogoutModelImplCopyWith<_$LogoutModelImpl> get copyWith =>

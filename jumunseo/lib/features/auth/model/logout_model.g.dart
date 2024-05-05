@@ -10,7 +10,9 @@ _$LogoutModelImpl _$$LogoutModelImplFromJson(Map<String, dynamic> json) =>
     _$LogoutModelImpl(
       code: json['code'] as String,
       message: json['message'] as String,
-      data: json['data'] as bool?,
+      data: json['data'] == null
+          ? null
+          : LogoutDataTokenModel.fromJson(json['data'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$$LogoutModelImplToJson(_$LogoutModelImpl instance) =>
