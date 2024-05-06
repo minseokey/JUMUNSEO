@@ -2,19 +2,20 @@ package com.jumunseo.community.domain.post.controller;
 
 import java.util.List;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
 
-import org.springframework.http.HttpStatus;
-import org.apache.tomcat.util.file.ConfigurationSource.Resource;
+// import org.springframework.boot.autoconfigure.data.web.SpringDataWebProperties.Pageable;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
@@ -22,7 +23,9 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.method.annotation.StreamingResponseBody;
 
+import com.jumunseo.community.domain.post.dto.CommentDto;
 import com.jumunseo.community.domain.post.dto.PostDto;
+import com.jumunseo.community.domain.post.dto.UserDto;
 import com.jumunseo.community.domain.post.service.PostService;
 import com.jumunseo.community.global.dto.Result;
 
@@ -77,6 +80,15 @@ public class PostController {
         }
     }
 
+    @GetMapping
+    public ResponseEntity<Result<?>> getPostList(
+            @PageableDefault(size = 5, sort = "id", direction = Sort.Direction.DESC) Pageable pageable) {
+
+        log.info("[GET] pageable: {}", pageable);
+
+        return ResponseEntity.ok().body(Result.successResult(postService.getPosts(pageable, pageable.getPageSize())));
+    }
+
     @GetMapping("/{id}/images")
     public ResponseEntity<StreamingResponseBody> getPostImage(@PathVariable Long id,
             @RequestParam(value = "name", required = true) String imgName) throws IOException {
@@ -89,6 +101,14 @@ public class PostController {
         // TODO: 게시글 생성 DTO 생성, 데이터 검증, 에러처리, 서비스 호출
 
         return ResponseEntity.ok().body(Result.successResult(postService.createPost(post, images)));
+    }
+
+    @PostMapping("/{id}/comments")
+    public ResponseEntity<Result<?>> createComment(@PathVariable Long id, @RequestBody CommentDto comment) {
+
+        log.info("[POST] ID: {}, content: {}", id, comment);
+
+        return ResponseEntity.ok().body(Result.successResult(postService.createComment(id, comment)));
     }
 
     @PutMapping("/{id}")
@@ -104,6 +124,15 @@ public class PostController {
             log.error("updatePost error", e.getMessage());
             return ResponseEntity.badRequest().body(null);
         }
+    }
+
+    @PutMapping("/{id}/comments")
+    public ResponseEntity<Result<?>> updateComment(@PathVariable Long id, @RequestBody CommentDto comment) {
+        // TODO: 유저 정보를 헤더에서 가져올지, JSON에서 가져올지 결정 필요함
+
+        log.info("[PUT] ID: {}, user: {}, comment: {}", id, comment);
+
+        return ResponseEntity.ok().body(Result.successResult(postService.updateComment(id, comment)));
     }
 
     @DeleteMapping("/{id}")
