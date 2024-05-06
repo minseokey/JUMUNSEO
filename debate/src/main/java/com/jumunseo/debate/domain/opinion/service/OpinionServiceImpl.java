@@ -36,7 +36,9 @@ public class OpinionServiceImpl implements OpinionService{
         }
         // 2. opinion을 저장한다.
         opinionRepository.save(mapper.toEntity(opinionDto));
-        // 3. opinion을 채팅방에 전달한다(레디스에 올린다).
+        // 3. 레디스 채널 등록
+        redisChannelService.registerChannel(channel);
+        // 4. opinion을 채팅방에 전달한다(레디스에 올린다).
         redisTemplate.convertAndSend(channel, opinionDto);
     }
 
