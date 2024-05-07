@@ -2,8 +2,10 @@ spring:
   application:
     name: composite-service
 
-  kafka:
-    bootstrap-servers: 0.0.0.0:9092
+  data:
+    redis:
+      port: 6379
+      host: redis
 
 jwt:
   secret: "test_JWT_secret"

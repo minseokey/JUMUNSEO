@@ -281,4 +281,6 @@ gradle-app.setting
 ### application specific ###
 /src/main/resources/application-local.yml
 
-/src/main/java/com/jumunseo/compositeservice/messaging/
+### database directory ###
+/postgres-data/
+/mongodb/

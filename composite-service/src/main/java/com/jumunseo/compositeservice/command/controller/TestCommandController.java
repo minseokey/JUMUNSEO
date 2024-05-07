@@ -3,7 +3,7 @@ package com.jumunseo.compositeservice.command.controller;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jumunseo.compositeservice.command.dto.CommandDto;
-import com.jumunseo.compositeservice.command.service.KafkaService;
+import com.jumunseo.compositeservice.command.service.RedisService;
 import com.jumunseo.compositeservice.global.exception.Result;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
@@ -20,7 +20,7 @@ import java.util.Map;
 @RequiredArgsConstructor
 @Controller
 public class TestCommandController {
-    private final KafkaService kafkaService;
+    private final RedisService redisService;
 
     @PostMapping("")
     @Secured("USER")
@@ -33,8 +33,8 @@ public class TestCommandController {
         String requestStr = objectMapper.writeValueAsString(body);
 
         // 각각의 메시지를 나눠서 다른 토픽으로 보내기
-        CommandDto sending_data = kafkaService.setMessage(request, data, requestStr, "do test");
-        kafkaService.send("test", sending_data);
+        CommandDto sending_data = redisService.setMessage(request, data, requestStr, "do test");
+        redisService.send("test", sending_data);
         return ResponseEntity.ok(Result.successResult(null));
     }
 }

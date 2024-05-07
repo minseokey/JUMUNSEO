@@ -56,9 +56,9 @@ public class OpinionServiceImpl implements OpinionService{
     }
 
     @Override
-    public String getSide(Long subjectId, Long userId) {
+    public String getSide(Long subjectId, String userEmail) {
         try {
-            Opinion opinion = opinionRepository.findTop1BySubjectIdAndUserIdOrderById(subjectId, userId).orElseThrow();
+            Opinion opinion = opinionRepository.findTop1BySubjectIdAndUserEmailOrderById(subjectId, userEmail).orElseThrow();
             return opinion.getSide().toString();
         } catch (Exception e) {
             return "-1";

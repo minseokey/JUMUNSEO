@@ -39,7 +39,7 @@ public class SubjectServiceImpl implements SubjectService{
 
     // 매일 정오에 주제를 새로고침한다.
     // 여러 서버중 하나만 실행 해야한다 -> 레디스 분산락 적용.
-    @Scheduled(cron = "0 0 12 * * *")
+    @Scheduled(cron = "0 0 1 * * *")
     @Transactional
     @Override
     public void summarySubject(){
@@ -83,7 +83,7 @@ public class SubjectServiceImpl implements SubjectService{
     }
 
     // 주제를 추가한다.
-    @Scheduled(cron = "0 0 12 * * *")
+    @Scheduled(cron = "0 0 1 * * *")
     @Transactional
     @Override
     public void addSubject(){

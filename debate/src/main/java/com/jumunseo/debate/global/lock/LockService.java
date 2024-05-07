@@ -16,7 +16,7 @@ public class LockService {
         Boolean access = redisTemplate.opsForValue().setIfAbsent(lock_key, "locked");
         if (access != null && access) {
             // 10시간 동안 유효
-            redisTemplate.expire(lock_key, 10, TimeUnit.HOURS);
+            redisTemplate.expire(lock_key, 1, TimeUnit.HOURS);
             return true;
         }
         return false;

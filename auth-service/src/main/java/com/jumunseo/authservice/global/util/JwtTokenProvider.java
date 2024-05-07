@@ -23,7 +23,6 @@ public class JwtTokenProvider {
     @Value("${jwt.access_expiration}")
     private long accessTokenExpiration;
 
-    private final UserRepository userRepository;
     private final String JwtPrefix = "Bearer ";
     public String fromHeader(String header) {
         return header.replace(JwtPrefix, "");
@@ -31,7 +30,7 @@ public class JwtTokenProvider {
     public String createAccessToken(String userId, String role) {
         Claims claims = Jwts.claims().setSubject(userId);
         claims.put("role", role);
-        claims.put("name", userRepository.findByEmail(userId).get().getName());
+
 
         return JwtPrefix + Jwts.builder()
                 .setClaims(claims)

@@ -1,8 +1,9 @@
 from fastapi import FastAPI, WebSocket
 from fastapi.middleware.cors import CORSMiddleware
-from aiokafka import AIOKafkaConsumer
+
 import json
 import asyncio
+from redis.asyncio import Redis
 import uvicorn
 import motor.motor_asyncio
 import uuid
@@ -37,6 +38,9 @@ MONGO_URI = f"mongodb://{MAGICIAN_MONGO_USERNAME}:{MAGICIAN_MONGO_PASSWORD}@{MAG
 client = motor.motor_asyncio.AsyncIOMotorClient(MONGO_URI)
 db = client["chat_db"]  # MongoDB 데이터베이스 선택
 collection = db["chats"]  # 채팅 내용을 저장할 컬렉션 선택
+
+# 레디스 클라이언트 생성
+redis = Redis(host=os.getenv("MAGICIAN_REDIS_HOST"), port=int(os.getenv("MAGICIAN_REDIS_PORT")))
 
 
 # INPUT -> USERID
@@ -95,28 +99,28 @@ async def save_chat(user_id, room_id, added_prompt, conversation, is_continued):
         await collection.insert_one(chat_data)
 
 
-# 비동기 Kafka Consumer 설정
 @app.on_event("startup")
 async def startup_event():
-    asyncio.create_task(consume_messages())
+    asyncio.create_task(subscribe())
 
 
-async def consume_messages():
-    consumer = AIOKafkaConsumer(
-        'magician',
-        loop=asyncio.get_event_loop(),
-        bootstrap_servers="localhost:9092",
-        group_id='magician',
-        value_deserializer=lambda x: json.loads(x.decode('utf-8'))
-    )
-    await consumer.start()
-    try:
-        async for raw in consumer:
-            cmd = raw.value['command']
-            if cmd == "DeleteChat":
-                await delete_chat(json.loads(raw.value['data'])['room_id'])
-    finally:
-        await consumer.stop()
+async def subscribe():
+    # Pub/Sub 객체 생성
+    pubsub = redis.pubsub()
+    # 채널 구독
+    await pubsub.subscribe('magician')
+
+    async for message in pubsub.listen():
+        # 메시지 유형 확인
+        if message['type'] == 'message':
+            await process_message(message['data'])
+
+
+async def process_message(message):
+    data = json.loads(message.decode('utf-8'))
+    cmd = data['command']
+    if cmd == "DeleteChat":
+        await delete_chat(json.loads(data['data'])['room_id'])
 
 
 # READ

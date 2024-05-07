@@ -2,8 +2,10 @@ spring:
   application:
     name: composite-service
 
-  kafka:
-    bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS}
+  data:
+    redis:
+      port: ${COMPOSITE_REDIS_PORT}
+      host: ${COMPOSITE_REDIS_HOST}
 
 jwt:
   secret: ${JWT_SECRET}

@@ -38,8 +38,7 @@ public class TestController {
                 .type(MessageType.TALK)
                 .side(MessageSide.LEFT)
                 .subjectId(1L)
-                .userId(1L)
-                .userName(channel)
+                .userEmail("hello")
                 .build();
         opinionService.test(opinionDto);
 
@@ -60,14 +59,14 @@ public class TestController {
         System.out.println("1");
 
         // 2. opinion 생성 좌, 우 3개씩.
-        Opinion opinionDtoL1 = Opinion.builder().content("맞다고 생각한다").type(MessageType.TALK).side(MessageSide.LEFT).subject(sub).userId(1L).build();
-        Opinion opinionDtoL2 = Opinion.builder().content("당연하지. 당연히 그래야한다.").type(MessageType.TALK).side(MessageSide.LEFT).subject(sub).userId(1L).build();
-        Opinion opinionDtoL3 = Opinion.builder().content("아닐수도 있지만 맞다고 생각한다.").type(MessageType.TALK).side(MessageSide.LEFT).subject(sub).userId(1L).build();
+        Opinion opinionDtoL1 = Opinion.builder().content("맞다고 생각한다").type(MessageType.TALK).side(MessageSide.LEFT).subject(sub).userEmail("lms990427").build();
+        Opinion opinionDtoL2 = Opinion.builder().content("당연하지. 당연히 그래야한다.").type(MessageType.TALK).side(MessageSide.LEFT).subject(sub).userEmail("lms990427").build();
+        Opinion opinionDtoL3 = Opinion.builder().content("아닐수도 있지만 맞다고 생각한다.").type(MessageType.TALK).side(MessageSide.LEFT).subject(sub).userEmail("lms990427").build();
 
-        Opinion opinionDtoR1 = Opinion.builder().content("절대 아니다.").type(MessageType.TALK).side(MessageSide.RIGHT).subject(sub).userId(2L).build();
-        Opinion opinionDtoR2 = Opinion.builder().content("이게 왜?").type(MessageType.TALK).side(MessageSide.RIGHT).subject(sub).userId(2L).build();
-        Opinion opinionDtoR3 = Opinion.builder().content("그럴리가 없다").type(MessageType.TALK).side(MessageSide.RIGHT).subject(sub).userId(2L).build();
-        Opinion opinionDtoR4 = Opinion.builder().content("맞을수도 있지만 아니라고 생각한다.").type(MessageType.TALK).side(MessageSide.RIGHT).subject(sub).userId(6L).build();
+        Opinion opinionDtoR1 = Opinion.builder().content("절대 아니다.").type(MessageType.TALK).side(MessageSide.RIGHT).subject(sub).userEmail("lms990427").build();
+        Opinion opinionDtoR2 = Opinion.builder().content("이게 왜?").type(MessageType.TALK).side(MessageSide.RIGHT).subject(sub).userEmail("lms990427").build();
+        Opinion opinionDtoR3 = Opinion.builder().content("그럴리가 없다").type(MessageType.TALK).side(MessageSide.RIGHT).subject(sub).userEmail("lms990427").build();
+        Opinion opinionDtoR4 = Opinion.builder().content("맞을수도 있지만 아니라고 생각한다.").type(MessageType.TALK).side(MessageSide.RIGHT).subject(sub).userEmail("lms990427").build();
 
 
         opinionRepository.save(opinionDtoL1);
