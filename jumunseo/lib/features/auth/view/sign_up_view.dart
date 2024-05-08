@@ -19,6 +19,7 @@ class _SignUpViewState extends State<SignUpView> {
 
   ValueNotifier<int> duplicate = ValueNotifier<int>(0);
   ValueNotifier<bool> passwordOk = ValueNotifier<bool>(true);
+  ValueNotifier<bool> nameOk = ValueNotifier<bool>(true);
 
   @override
   void initState() {
@@ -132,6 +133,19 @@ class _SignUpViewState extends State<SignUpView> {
                       keyboardType: TextInputType.name,
                     ),
                   ),
+                  ValueListenableBuilder(valueListenable: nameOk, builder: (context, value, child) {
+                    if(!value) {
+                      return const Text(
+                        '닉네임을 입력해 주세요.',
+                        style: TextStyle(
+                          color: Colors.red,
+                        ),
+                      );
+                    }
+                    else {
+                      return const Blank(0, 0);
+                    }
+                  },),
                   Padding(
                     padding: const EdgeInsets.symmetric(vertical: 10),
                     child: TextField(
@@ -211,11 +225,20 @@ class _SignUpViewState extends State<SignUpView> {
                                 rePasswordController.text
                               )
                               .then((value) {
-                                if(value) {
+                                if(value == 0) {
                                   passwordOk.value = true;
+                                  nameOk.value = true;
+                                }
+                                else if(value == 1){
+                                  passwordOk.value = true;
+                                  nameOk.value = false;
+                                }
+                                else if(value == 2) {
+                                  passwordOk.value = false;
+                                  nameOk.value = true;
                                 }
                                 else {
-                                  passwordOk.value = false;
+                                  //서버 오류
                                 }
                               });
                             },

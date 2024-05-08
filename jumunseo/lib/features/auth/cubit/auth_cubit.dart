@@ -79,8 +79,8 @@ class AuthCubit extends Cubit<AuthState> {
     return true;
   }
 
-  Future<bool> signUp(BuildContext context, String name, String email, String password, String repassword) async {
-    if(password == repassword) {
+  Future<int> signUp(BuildContext context, String name, String email, String password, String repassword) async {
+    if(password == repassword && name != '') {
       final baseOptions = BaseOptions(
         baseUrl: 'http://10.0.2.2:8080',
         contentType: Headers.jsonContentType,
@@ -102,13 +102,16 @@ class AuthCubit extends Cubit<AuthState> {
 
       if(response.code == 'SUCCESS') {
         context.pop();
-        return true;
+        return 0;
       }
 
-      return false;
+      return -1;
+    }
+    else if(password == repassword){
+      return 1;
     }
     else {
-      return false;
+      return 2;
     }
   }
 
