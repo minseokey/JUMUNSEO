@@ -9,6 +9,7 @@ import 'package:jumunseo/features/auth/model/logout_model.dart';
 import 'package:jumunseo/features/auth/model/sign_in_model.dart';
 import 'package:jumunseo/features/auth/model/sign_up_model.dart';
 import 'package:jumunseo/features/auth/model/user_delete_model.dart';
+import 'package:jumunseo/features/auth/model/user_info_response_model.dart';
 import 'package:jumunseo/features/auth/view/delete_user_ask_dialog.dart';
 import 'package:jumunseo/features/auth/view/login_ask_dialog.dart';
 import 'package:jumunseo/features/auth/view/logout_ask_dialog.dart';
@@ -24,7 +25,61 @@ class AuthCubit extends Cubit<AuthState> {
     return state.isLogin;
   }
 
-  Future<void> signUp(BuildContext context, String name, String email, String password, String repassword) async {
+  String getName() {
+    return state.name;
+  }
+
+  Future<void> getInfo() async {
+    final baseOptions = BaseOptions(
+      baseUrl: 'http://10.0.2.2:8080',
+      contentType: Headers.jsonContentType,
+      validateStatus: (int? status) {
+        return status != null;
+      },
+    );
+
+    Dio dio = Dio(baseOptions);
+    dio.interceptors.addAll(
+      [
+        const Interceptor(),
+      ]
+    );
+
+    AuthRepository repo = AuthRepository(dio);
+    UserInfoResponseModel userInfo = await repo.getUserInfo(state.accessToken);
+
+    if(userInfo.code == 'SUCCESS') {
+      emit(state.copyWith(name: userInfo.data.name));
+    }
+  }
+
+  Future<bool> duplicateEmail(String email) async {
+    final baseOptions = BaseOptions(
+      baseUrl: 'http://10.0.2.2:8080',
+      contentType: Headers.jsonContentType,
+      validateStatus: (int? status) {
+        return status != null;
+      },
+    );
+
+    Dio dio = Dio(baseOptions);
+    dio.interceptors.addAll(
+      [
+        const Interceptor(),
+      ]
+    );
+
+    AuthRepository repo = AuthRepository(dio);
+    final response = await repo.getEmailDuplicate(email);
+
+    if(response.code == 'SUCCESS') {
+      return response.data;
+    }
+
+    return true;
+  }
+
+  Future<bool> signUp(BuildContext context, String name, String email, String password, String repassword) async {
     if(password == repassword) {
       final baseOptions = BaseOptions(
         baseUrl: 'http://10.0.2.2:8080',
@@ -47,7 +102,13 @@ class AuthCubit extends Cubit<AuthState> {
 
       if(response.code == 'SUCCESS') {
         context.pop();
+        return true;
       }
+
+      return false;
+    }
+    else {
+      return false;
     }
   }
 

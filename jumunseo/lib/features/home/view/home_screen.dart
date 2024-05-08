@@ -1,4 +1,5 @@
 import 'package:extended_image/extended_image.dart';
+import 'package:jumunseo/features/auth/auth.dart';
 import '../home.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:jumunseo/core/logger.dart';
@@ -15,6 +16,8 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   late List<String> homeWidgets;
 
+  ValueNotifier<bool> loading = ValueNotifier<bool>(false);
+
   Widget proxyDecorator(Widget child, int index, Animation<double> animation) {
     return AnimatedBuilder(
       animation: animation,
@@ -30,10 +33,20 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   @override
+  void initState(){
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     logger.d('HomeScreen build');
 
     homeWidgets = context.read<HomeCubit>().getHomeList();
+
+    context.read<AuthCubit>().getInfo()
+    .then((value) {
+      loading.value = !loading.value;
+    });
 
     return Scaffold(
       appBar: PreferredSize(
@@ -45,18 +58,23 @@ class _HomeScreenState extends State<HomeScreen> {
             title: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
               child: Row(children: [
-                const Column(
+                Column(
                   children: [
-                    Text(
+                    const Text(
                       "Welcome back,",
                       style: TextStyle(fontSize: 12, color: Colors.grey),
                     ),
-                    Text(
-                      "Sangrok",
-                      style: TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.black),
+                    ValueListenableBuilder<bool>(
+                      valueListenable: loading,
+                      builder: (context, value, child) {
+                        return Text(
+                          context.read<AuthCubit>().getName(),
+                          style: const TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.black),
+                        );
+                      },
                     ),
                   ],
                 ),

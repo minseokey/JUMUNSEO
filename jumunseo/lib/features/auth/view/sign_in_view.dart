@@ -88,7 +88,6 @@ class SignInView extends StatelessWidget {
                             .then((value) {
                               loading.value = !loading.value;
                             });
-                            loading.value = !loading.value;
                           },
                           child: const Text('로그인'),
                         ),

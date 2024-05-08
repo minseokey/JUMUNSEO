@@ -1,4 +1,6 @@
 import 'package:extended_image/extended_image.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:jumunseo/features/auth/cubit/auth_cubit.dart';
 import 'package:jumunseo/features/profile/view/account_setting.dart';
 import 'package:jumunseo/features/profile/view/notification_setting.dart';
 import 'package:jumunseo/features/profile/view/other_setting.dart';
@@ -49,14 +51,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   CircleAvatar(backgroundImage: ExtendedImage.asset('assets/icons/profile.png').image,),
-                  const Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 15),
-                    child: Column(
-                      children: [
-                        Text("Sangrok", style: TextStyle(color: Colors.black, fontSize: 14),),
-                        Text("내 설명", style: TextStyle(color: Colors.grey, fontSize: 12),)
-                      ],
-                    ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 15),
+                    child: Text(context.read<AuthCubit>().getName(), style: const TextStyle(color: Colors.black, fontSize: 14),),
                   ),
                   const Spacer(),
                   SizedBox(width: 80, height: 30, child: GradientButton(
