@@ -19,4 +19,7 @@ public interface UserService {
     void deleteUser(String token);
     void deleteUserByEmail(String email);
     boolean duplicateEmailCheck(String email);
+    void addBlockList(String token, String blockUserId);
+    void deleteBlockList(String token, String blockUserId);
+    List<String> getBlockList(String token);
 }

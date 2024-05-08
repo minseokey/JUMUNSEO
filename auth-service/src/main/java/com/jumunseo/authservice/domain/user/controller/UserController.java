@@ -99,4 +99,32 @@ public class UserController {
     public ResponseEntity<Result<?>> checkDuplicateEmail(@PathVariable String email) {
         return ResponseEntity.ok(Result.successResult(userService.duplicateEmailCheck(email)));
     }
+
+    // 차단목록 추가
+    @PostMapping("/block/{blockUserEmail}")
+    @Tag(name = "User")
+    @Operation(summary = "차단목록 추가", description = "차단목록에 추가합니다.")
+    public ResponseEntity<Result<?>> addBlockList(@RequestHeader("Authorization") String authorizationHeader,
+                                                  @PathVariable String blockUserEmail) {
+        userService.addBlockList(authorizationHeader, blockUserEmail);
+        return ResponseEntity.ok(Result.successResult(userService.getBlockList(authorizationHeader)));
+    }
+
+    // 차단목록 삭제
+    @DeleteMapping("/block/{blockUserEmail}")
+    @Tag(name = "User")
+    @Operation(summary = "차단목록 삭제", description = "차단목록에서 삭제합니다.")
+    public ResponseEntity<Result<?>> deleteBlockList(@RequestHeader("Authorization") String authorizationHeader,
+                                                     @PathVariable String blockUserEmail) {
+        userService.deleteBlockList(authorizationHeader, blockUserEmail);
+        return ResponseEntity.ok(Result.successResult(userService.getBlockList(authorizationHeader)));
+    }
+
+    // 차단목록 가져오기
+    @GetMapping("/block")
+    @Tag(name = "User")
+    @Operation(summary = "차단목록 가져오기", description = "차단목록을 가져옵니다.")
+    public ResponseEntity<Result<?>> getBlockList(@RequestHeader("Authorization") String authorizationHeader) {
+        return ResponseEntity.ok(Result.successResult(userService.getBlockList(authorizationHeader)));
+    }
 }

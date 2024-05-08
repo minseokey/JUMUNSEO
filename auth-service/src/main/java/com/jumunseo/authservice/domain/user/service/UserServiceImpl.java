@@ -6,9 +6,11 @@ import com.jumunseo.authservice.domain.user.dto.Mapper;
 import com.jumunseo.authservice.domain.user.dto.SignupDto;
 import com.jumunseo.authservice.domain.user.dto.UpdateDto;
 import com.jumunseo.authservice.domain.user.dto.UserDto;
+import com.jumunseo.authservice.domain.user.entity.BlockUser;
 import com.jumunseo.authservice.domain.user.entity.User;
 import com.jumunseo.authservice.domain.user.exception.DuplicateEmailException;
 import com.jumunseo.authservice.domain.user.exception.NotExistUserException;
+import com.jumunseo.authservice.domain.user.repository.BlockUserRepository;
 import com.jumunseo.authservice.domain.user.repository.UserRepository;
 import com.jumunseo.authservice.global.util.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
@@ -26,22 +28,23 @@ import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
-public class UserServiceImpl implements UserService, UserDetailsService{
+public class UserServiceImpl implements UserService, UserDetailsService {
 
     private final UserRepository userRepository;
     private final Mapper mapper;
     private final JwtTokenProvider jwtTokenProvider;
     private final PasswordEncoder passwordEncoder;
     private final RefreshTokenService refreshTokenService;
+    private final BlockUserRepository blockUserRepository;
 
     @Override
-    public UserDto findUserById(Long Id) throws NotExistUserException{
+    public UserDto findUserById(Long Id) throws NotExistUserException {
         return mapper.toDto(userRepository.findById(Id).orElseThrow(
                 () -> new NotExistUserException("User not found")));
     }
 
     @Override
-    public UserDto findUserByEmail(String email) throws NotExistUserException{
+    public UserDto findUserByEmail(String email) throws NotExistUserException {
         return mapper.toDto(userRepository.findByEmail(email).orElseThrow(
                 () -> new NotExistUserException("User not found")));
     }
@@ -49,7 +52,7 @@ public class UserServiceImpl implements UserService, UserDetailsService{
 
     @Override
     public void saveUser(SignupDto signupDto) throws DuplicateEmailException {
-        if(userRepository.findByEmail(signupDto.getEmail()).isPresent()) {
+        if (userRepository.findByEmail(signupDto.getEmail()).isPresent()) {
             throw new DuplicateEmailException("Email already exists");
         }
         userRepository.save(mapper.toEntity(signupDto));
@@ -69,7 +72,7 @@ public class UserServiceImpl implements UserService, UserDetailsService{
     @Override
     public List<UserDto> findUsersByIds(List<Long> userIds) {
         List<User> users = new ArrayList<>();
-        for(Long userId : userIds) {
+        for (Long userId : userIds) {
             users.add(userRepository.findById(userId).orElseThrow(
                     () -> new NotExistUserException("User not found")));
         }
@@ -87,13 +90,13 @@ public class UserServiceImpl implements UserService, UserDetailsService{
                 () -> new NotExistUserException("User not found"));
 
         // 더티체킹 활용
-        if(updateInfo.containsKey("email")) {
+        if (updateInfo.containsKey("email")) {
             originUser.setEmail(updateInfo.get("email"));
         }
-        if(updateInfo.containsKey("password")) {
+        if (updateInfo.containsKey("password")) {
             originUser.setPassword(passwordEncoder.encode(updateInfo.get("password")));
         }
-        if(updateInfo.containsKey("name")) {
+        if (updateInfo.containsKey("name")) {
             originUser.setName(updateInfo.get("name"));
         }
 
@@ -145,8 +148,63 @@ public class UserServiceImpl implements UserService, UserDetailsService{
                 .authorities(authority)
                 .build();
     }
+
     @Override
     public boolean duplicateEmailCheck(String email) {
         return userRepository.findByEmail(email).isPresent();
     }
+
+
+    @Override
+    public void addBlockList(String token, String blockUserId) {
+        // 자신은 차단 불가.
+        if (jwtTokenProvider.getEmailForAccessToken(token).equals(blockUserId)) {
+            throw new NotExistUserException("자신은 차단할 수 없습니다.");
+        }
+        User user = userRepository.findByEmail(jwtTokenProvider.getEmailForAccessToken(token)).orElseThrow(
+                () -> new NotExistUserException("사용자가 없습니다."));
+        User target = userRepository.findByEmail(blockUserId).orElseThrow(
+                () -> new NotExistUserException("대상 사용자가 없습니다."));
+
+        // 존재하는지 확인
+        if (!blockUserRepository.existsByBaseAndTarget(user, target)) {
+            throw new NotExistUserException("이미 차단한 사용자입니다.");
+        }
+        BlockUser blockUser = BlockUser.builder()
+                .base(user)
+                .target(target)
+                .build();
+        blockUserRepository.save(blockUser);
+    }
+
+    @Override
+    public void deleteBlockList(String token, String blockUserId) {
+        // 자신은 차단 불가.
+        if (jwtTokenProvider.getEmailForAccessToken(token).equals(blockUserId)) {
+            throw new NotExistUserException("자신은 차단 헤제할 수 없습니다.");
+        }
+        User user = userRepository.findByEmail(jwtTokenProvider.getEmailForAccessToken(token)).orElseThrow(
+                () -> new NotExistUserException("사용자가 없습니다."));
+        User target = userRepository.findByEmail(blockUserId).orElseThrow(
+                () -> new NotExistUserException("대상 사용자가 없습니다."));
+
+        // 존재하는지 확인
+        if (!blockUserRepository.existsByBaseAndTarget(user, target)) {
+            throw new NotExistUserException("차단한 사용자가 아닙니다.");
+        }
+        blockUserRepository.deleteByBaseAndTarget(user, target);
+    }
+
+    @Override
+    public List<String> getBlockList(String token) {
+        User user = userRepository.findByEmail(jwtTokenProvider.getEmailForAccessToken(token)).orElseThrow(
+                () -> new NotExistUserException("사용자가 없습니다."));
+        List<BlockUser> blockUsers = blockUserRepository.findByBase(user);
+        List<String> emails = new ArrayList<>();
+        for (BlockUser blockUser : blockUsers) {
+            emails.add(blockUser.getTarget().getEmail());
+        }
+        return emails;
+    }
 }
+
