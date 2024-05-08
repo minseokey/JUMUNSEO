@@ -17,7 +17,7 @@ import lombok.ToString;
 public class PostDto {
 
     private Long id;
-    private CategoryType categoryId;
+    private CategoryType categoryType;
     private String userId;
     private Date createdAt;
     private Date updatedAt;
@@ -28,10 +28,10 @@ public class PostDto {
     private List<Image> images;
 
     @Builder
-    public PostDto(Long id, CategoryType categoryId, String userId, Date createdAt, Date updatedAt, Date deletedAt,
+    public PostDto(Long id, CategoryType categoryType, String userId, Date createdAt, Date updatedAt, Date deletedAt,
             Long viewCount, String title, String content, List<Image> images) {
         this.id = id;
-        this.categoryId = categoryId;
+        this.categoryType = categoryType;
         this.userId = userId;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;

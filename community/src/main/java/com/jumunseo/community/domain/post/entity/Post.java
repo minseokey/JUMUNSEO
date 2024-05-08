@@ -8,6 +8,7 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -51,12 +52,9 @@ public class Post {
     @Column(name = "content", length = 2000)
     private String content;
 
-    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL)
-    private List<Image> images;
-
     @Builder
     public Post(Long id, CategoryType categoryType, String userId, Date createdAt, Date updatedAt, Date deletedAt,
-            Long viewCount, String title, String content, List<Image> images) {
+            Long viewCount, String title, String content) {
         this.id = id;
         this.categoryType = categoryType;
         this.userId = userId;
@@ -66,6 +64,5 @@ public class Post {
         this.viewCount = viewCount;
         this.title = title;
         this.content = content;
-        this.images = images;
     }
 }

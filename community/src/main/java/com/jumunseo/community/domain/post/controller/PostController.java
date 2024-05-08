@@ -5,7 +5,6 @@ import java.io.IOException;
 
 // import org.springframework.boot.autoconfigure.data.web.SpringDataWebProperties.Pageable;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Slice;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpEntity;
@@ -111,6 +110,22 @@ public class PostController {
         return ResponseEntity.ok().body(Result.successResult(postService.createComment(id, comment)));
     }
 
+    @PostMapping("/{id}/good")
+    public ResponseEntity<Result<?>> createGoodRecommend(@PathVariable Long id, @RequestBody UserDto user) {
+
+        log.info("[POST] ID: {}, user: {}", id, user);
+
+        return ResponseEntity.ok().body(Result.successResult(postService.createGoodRecommend(id, user)));
+    }
+
+    @PostMapping("/{id}/bad")
+    public ResponseEntity<Result<?>> createBadRecommend(@PathVariable Long id, @RequestBody UserDto user) {
+
+        log.info("[POST] ID: {}, user: {}", id, user);
+
+        return ResponseEntity.ok().body(Result.successResult(postService.createBadRecommend(id, user)));
+    }
+
     @PutMapping("/{id}")
     public ResponseEntity<Result<?>> updatePost(@PathVariable String id, HttpEntity<PostDto> post) {
         // TODO: id 값 검증, 데이터 검증, 에러처리, 서비스 호출
@@ -141,12 +156,32 @@ public class PostController {
 
         log.info("[DELETE] ID: {}", id);
 
-        try {
-            postService.deletePost(Long.parseLong(id));
-            return ResponseEntity.ok().body(Result.successResult(null));
-        } catch (Exception e) {
-            log.error("deletePost error", e.getMessage());
-            return ResponseEntity.badRequest().body(null);
-        }
+        postService.deletePost(Long.parseLong(id));
+        return ResponseEntity.ok().body(Result.successResult(null));
+    }
+
+    @DeleteMapping("/{id}/comments")
+    public ResponseEntity<Result<?>> deleteComment(@PathVariable Long id, @RequestBody CommentDto comment) {
+
+        log.info("[DELETE] ID: {}, comment: {}", id, comment);
+
+        postService.deleteComment(id);
+        return ResponseEntity.ok().body(Result.successResult(null));
+    }
+
+    @DeleteMapping("/{id}/good")
+    public ResponseEntity<Result<?>> deleteGoodRecommend(@PathVariable Long id, @RequestBody UserDto user) {
+
+        log.info("[DELETE] ID: {}, user: {}", id, user);
+
+        return ResponseEntity.ok().body(Result.successResult(null));
+    }
+
+    @DeleteMapping("/{id}/bad")
+    public ResponseEntity<Result<?>> deleteBadRecommend(@PathVariable Long id, @RequestBody UserDto user) {
+
+        log.info("[DELETE] ID: {}, user: {}", id, user);
+
+        return ResponseEntity.ok().body(Result.successResult(null));
     }
 }
