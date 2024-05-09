@@ -27,7 +27,7 @@ spring:
                 client-secret: ${GOOGLE_CLIENT_SECRET}
                 scope:
                 - email
-                - name
+                - profile
 #            apple:
 #                client-id: ${APPLE_CLIENT_ID}
 #                client-secret: ${APPLE_CLIENT_SECRET}
