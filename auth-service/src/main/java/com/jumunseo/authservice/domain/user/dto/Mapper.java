@@ -1,5 +1,6 @@
 package com.jumunseo.authservice.domain.user.dto;
 
+import com.jumunseo.authservice.domain.user.entity.LoginType;
 import com.jumunseo.authservice.domain.user.entity.Role;
 import com.jumunseo.authservice.domain.user.entity.User;
 import lombok.RequiredArgsConstructor;
@@ -25,9 +26,10 @@ public class Mapper {
     }
 
     // 회원가입 시에 사용자 정보를 User 객체로 만들어서 반환한다.
-    public User toEntity(SignupDto signupDto) {
+    public User toEntity(SignupDto signupDto, LoginType loginType) {
         return User.builder()
                 .email(signupDto.getEmail())
+                .loginType(loginType)
                 .password(passwordEncoder.encode(signupDto.getPassword()))
                 .name(signupDto.getName())
                 .role(Role.USER)

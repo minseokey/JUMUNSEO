@@ -15,8 +15,8 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
 @Table(name = "auth_user")
+@Builder
 @DynamicUpdate
 public class User {
 
@@ -34,9 +34,9 @@ public class User {
     @Enumerated(STRING)
     private Role role;
 
-//    // 로그인 타입 추가
-//    @Enumerated(STRING)
-//    private LoginType loginType;
+    // 로그인 타입 추가
+    @Enumerated(STRING)
+    private LoginType loginType;
 //    // 프로필 이미지 주소 추가.
 //
 //    private String profileImageUrl;
@@ -44,5 +44,6 @@ public class User {
     // 차단목록 추가
     @OneToMany(mappedBy = "base")
     private List<BlockUser> blockList;
+
 
 }

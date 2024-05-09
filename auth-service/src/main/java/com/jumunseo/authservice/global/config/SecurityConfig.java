@@ -4,6 +4,7 @@ import com.jumunseo.authservice.domain.jwt.service.RefreshTokenService;
 import com.jumunseo.authservice.global.security.AuthenticationFilter;
 import com.jumunseo.authservice.global.util.CookieProvider;
 import com.jumunseo.authservice.global.util.JwtTokenProvider;
+import com.jumunseo.authservice.global.util.Oauth2Service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -30,6 +31,7 @@ public class SecurityConfig {
     private final RefreshTokenService refreshTokenService;
     private final CookieProvider cookieProvider;
     private final PasswordEncoder bCryptPasswordEncoder;
+    private final Oauth2Service oauth2Service;
 
     @Bean
     SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -52,6 +54,11 @@ public class SecurityConfig {
                 .logout((logout) ->
                         logout.logoutUrl("/logout")
                                 .deleteCookies("refreshToken"))
+                .oauth2Login(ol ->
+                        ol.userInfoEndpoint(userInfoEndpoint -> userInfoEndpoint
+                                        .userService(oauth2Service))
+                                .failureHandler(oauth2Service::oauth2FailureHandler)
+                                .successHandler(oauth2Service::oauth2SuccessHandler))
             // 1.4. Cors 필터
                 .addFilter(corsConfig.corsFilter())
             // 1.5. Jwt 필터

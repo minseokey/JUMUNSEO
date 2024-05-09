@@ -7,6 +7,7 @@ import com.jumunseo.authservice.domain.user.dto.SignupDto;
 import com.jumunseo.authservice.domain.user.dto.UpdateDto;
 import com.jumunseo.authservice.domain.user.dto.UserDto;
 import com.jumunseo.authservice.domain.user.entity.BlockUser;
+import com.jumunseo.authservice.domain.user.entity.LoginType;
 import com.jumunseo.authservice.domain.user.entity.User;
 import com.jumunseo.authservice.domain.user.exception.DuplicateEmailException;
 import com.jumunseo.authservice.domain.user.exception.NotExistUserException;
@@ -23,6 +24,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
@@ -55,7 +57,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         if (userRepository.findByEmail(signupDto.getEmail()).isPresent()) {
             throw new DuplicateEmailException("Email already exists");
         }
-        userRepository.save(mapper.toEntity(signupDto));
+        userRepository.save(mapper.toEntity(signupDto, LoginType.LOCAL));
     }
 
     @Override
@@ -140,12 +142,13 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         User user = userRepository.findByEmail(username).orElseThrow(
                 () -> new NotExistUserException("User not found"));
 
-        SimpleGrantedAuthority authority = new SimpleGrantedAuthority(user.getRole().toString());
+        Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();
+        authorities.add(new SimpleGrantedAuthority(user.getRole().toString()));
 
         return org.springframework.security.core.userdetails.User.builder()
                 .username(user.getEmail())
                 .password(user.getPassword())
-                .authorities(authority)
+                .authorities(authorities)
                 .build();
     }
 
