@@ -22,6 +22,7 @@ public class Mapper {
                 .email(user.getEmail())
                 .role(user.getRole())
                 .name(user.getName())
+                .profileImageUrl(user.getProfileImageUrl())
                 .build();
     }
 

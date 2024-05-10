@@ -13,6 +13,7 @@ import com.jumunseo.authservice.domain.user.exception.DuplicateEmailException;
 import com.jumunseo.authservice.domain.user.exception.NotExistUserException;
 import com.jumunseo.authservice.domain.user.repository.BlockUserRepository;
 import com.jumunseo.authservice.domain.user.repository.UserRepository;
+import com.jumunseo.authservice.global.photo.S3Uploader;
 import com.jumunseo.authservice.global.util.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -22,6 +23,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -38,6 +40,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     private final PasswordEncoder passwordEncoder;
     private final RefreshTokenService refreshTokenService;
     private final BlockUserRepository blockUserRepository;
+    private final S3Uploader s3Uploader;
 
     @Override
     public UserDto findUserById(Long Id) throws NotExistUserException {
@@ -208,6 +211,27 @@ public class UserServiceImpl implements UserService, UserDetailsService {
             emails.add(blockUser.getTarget().getEmail());
         }
         return emails;
+    }
+
+    @Override
+    @Transactional
+    public String updateProfileImage(String token, MultipartFile file) {
+        User user = userRepository.findByEmail(jwtTokenProvider.getEmailForAccessToken(token)).orElseThrow(
+                () -> new NotExistUserException("사용자가 없습니다."));
+
+        // 기존 이미지 삭제, 없으면 pass
+        if(user.getProfileImageUrl() != null) {
+            s3Uploader.delete(user.getProfileImageUrl());
+        }
+
+        // 새로운 이미지 업로드, 없으면 pass
+        if (file == null) {
+            user.setProfileImageUrl(null);
+            return "기본사진";
+        }
+        String url = s3Uploader.upload("profile", file);
+        user.setProfileImageUrl(url);
+        return url;
     }
 }
 

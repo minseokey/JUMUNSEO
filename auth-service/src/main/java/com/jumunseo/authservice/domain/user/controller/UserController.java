@@ -17,6 +17,7 @@ import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import jakarta.validation.Valid;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.Map;
@@ -127,4 +128,16 @@ public class UserController {
     public ResponseEntity<Result<?>> getBlockList(@RequestHeader("Authorization") String authorizationHeader) {
         return ResponseEntity.ok(Result.successResult(userService.getBlockList(authorizationHeader)));
     }
+
+    // 프로필 이미지 교체
+    // 만약 새로운 이미지 없이 요청이 들어온거라면 기본이미지로 교체 -> 삭제.
+    @PostMapping("/profile")
+    @Tag(name = "User")
+    @Operation(summary = "프로필 이미지 교체", description = "프로필 이미지를 교체합니다, 만약 이미지가 없다면 기본 이미지로 교체합니다.")
+    public ResponseEntity<Result<?>> changeProfileImage(@RequestHeader("Authorization") String authorizationHeader,
+                                                        @RequestPart(required = false) MultipartFile file) {
+        String url = userService.updateProfileImage(authorizationHeader, file);
+        return ResponseEntity.ok(Result.successResult(url));
+    }
+
 }

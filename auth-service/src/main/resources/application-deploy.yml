@@ -34,6 +34,17 @@ spring:
 #                scope:
 #                - email
 #                - name
+cloud:
+  aws:
+    region:
+      static: ap-northeast-2
+    credentials:
+      accessKey: ${AWS_ACCESS_KEY}
+      secretKey: ${AWS_SECRET_KEY}
+    s3:
+      bucket: ${AWS_S3_BUCKET}
+    stack:
+      auto: false
 
 jwt:
   secret: ${JWT_SECRET}
