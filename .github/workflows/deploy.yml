@@ -83,6 +83,12 @@ jobs:
       JWT_SECRET: ${{ secrets.JWT_SECRET }}
       ACCESS_EXPIRATION: ${{ secrets.ACCESS_EXPIRATION }}
       REFRESH_EXPIRATION: ${{ secrets.REFRESH_EXPIRATION }}
+      GOOGLE_CLIENT_ID: ${{ secrets.GOOGLE_CLIENT_ID }}
+      GOOGLE_CLIENT_SECRET: ${{ secrets.GOOGLE_CLIENT_SECRET }}
+      AWS_ACCESS_KEY: ${{ secrets.AWS_ACCESS_KEY }}
+      AWS_SECRET_KEY: ${{ secrets.AWS_SECRET_KEY }}
+      AWS_S3_BUCKET: ${{ secrets.AWS_S3_BUCKET }}
+      
     services:
       redis:
         image: redis:latest
