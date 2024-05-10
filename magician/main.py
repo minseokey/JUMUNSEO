@@ -130,7 +130,8 @@ async def process_message(message):
 async def chat_list(user_id: str):
     chats = []
     async for chat in collection.find({"user_id": user_id}):
-        chat["_id"] = str(chat["_id"])
+        chat["id"] = str(chat["_id"])
+        chat.pop("_id")
         chats.append(chat)
     return chats
 
@@ -143,6 +144,7 @@ async def chat_detail(room_id: str):
     chat = await collection.find_one({"room_id": room_id})
     if chat:
         chat["_id"] = str(chat["_id"])
+        chat.pop("_id")
         return chat
     else:
         return None
