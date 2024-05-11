@@ -115,7 +115,10 @@ class SignInView extends StatelessWidget {
                           onPressed: () {
                             context.read<AuthCubit>().login(context, emailController.text, passwordController.text)
                             .then((value) {
-                              loading.value = !loading.value;
+                              if(value) {
+                                loading.value = true;
+                              }
+                              
                               signInSuccess.value = value;
                             });
                           },

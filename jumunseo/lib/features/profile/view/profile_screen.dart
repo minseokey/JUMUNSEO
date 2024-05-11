@@ -51,13 +51,30 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  GestureDetector(
-                    onTap: () {
-                      
+                  ValueListenableBuilder<String>(
+                    valueListenable: LoginStatus.imageUrl,
+                    builder: (context, value, child) {
+                      if(value == '' || value == '기본사진'){
+                        return GestureDetector(
+                          onTap: () {
+                            context.read<ProfileCubit>().profilechangeMethod(context);
+                          },
+                          child: CircleAvatar(
+                            backgroundImage: ExtendedImage.asset('assets/icons/profile.png').image,
+                          ),
+                        );
+                      }
+                      else {
+                        return GestureDetector(
+                          onTap: () {
+                            context.read<ProfileCubit>().profilechangeMethod(context);
+                          },
+                          child: CircleAvatar(
+                            backgroundImage: ExtendedImage.network(value).image,
+                          ),
+                        );
+                      }
                     },
-                    child: CircleAvatar(
-                      backgroundImage: ExtendedImage.asset('assets/icons/profile.png').image,
-                    ),
                   ),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 15),

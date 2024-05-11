@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:cookie_jar/cookie_jar.dart';
 import 'package:dio/dio.dart';
 import 'package:dio_cookie_manager/dio_cookie_manager.dart';
@@ -5,9 +7,11 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:jumunseo/core/logger.dart';
 import 'package:jumunseo/core/login_status.dart';
 import 'package:jumunseo/features/auth/data/repository/auth_repository.dart';
+import 'package:jumunseo/features/auth/model/image_response_model.dart';
 import 'package:jumunseo/features/auth/model/logout_model.dart';
 import 'package:jumunseo/features/auth/model/profile_edit_model.dart';
 import 'package:jumunseo/features/auth/model/sign_in_model.dart';
@@ -62,8 +66,63 @@ class AuthCubit extends Cubit<AuthState> {
 
     if(userInfo.code == 'SUCCESS') {
       LoginStatus.name.value = userInfo.data.name;
-      LoginStatus.imageUrl = userInfo.data.profileImageUrl ?? '';
-      emit(state.copyWith(profileImageUrl: LoginStatus.imageUrl, name: LoginStatus.name.value));
+      LoginStatus.imageUrl.value = userInfo.data.profileImageUrl ?? '';
+      emit(state.copyWith(profileImageUrl: LoginStatus.imageUrl.value, name: LoginStatus.name.value));
+    }
+  }
+
+  Future<void> postImage() async {
+    logger.d("이미지 클릭");
+    final baseOptions = BaseOptions(
+      baseUrl: 'http://10.0.2.2:8080',
+      validateStatus: (int? status) {
+        return status != null;
+      },
+    );
+
+    Dio dio = Dio(baseOptions);
+    dio.options.headers["Content-Type"] = "image/jpeg";
+    dio.interceptors.addAll(
+      [
+        const Interceptor(),
+      ]
+    );
+
+    final XFile? file = await ImagePicker().pickImage(source: ImageSource.gallery);
+    
+    if (file != null) {
+      AuthRepository repo = AuthRepository(dio);
+      ImageResponseModel userInfo = await repo.uploadImage(state.accessToken, File(file.path));
+
+      if(userInfo.code == 'SUCCESS') {
+        LoginStatus.imageUrl.value = userInfo.data ?? '';
+        emit(state.copyWith(profileImageUrl: LoginStatus.imageUrl.value));
+      }
+    }
+  }
+
+  Future<void> deleteImage() async {
+    final baseOptions = BaseOptions(
+      baseUrl: 'http://10.0.2.2:8080',
+      validateStatus: (int? status) {
+        return status != null;
+      },
+    );
+
+    Dio dio = Dio(baseOptions);
+    dio.options.headers["Content-Type"] = "image/jpeg";
+    dio.interceptors.addAll(
+      [
+        const Interceptor(),
+      ]
+    );
+
+    AuthRepository repo = AuthRepository(dio);
+    ImageResponseModel userInfo = await repo.deleteImage(state.accessToken);
+
+    if(userInfo.code == 'SUCCESS') {
+      LoginStatus.imageUrl.value = userInfo.data ?? '';
+      emit(state.copyWith(profileImageUrl: LoginStatus.imageUrl.value));
     }
   }
 

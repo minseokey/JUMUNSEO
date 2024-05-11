@@ -1,5 +1,8 @@
+import 'dart:io';
+
 import 'package:dio/dio.dart';
 import 'package:jumunseo/features/auth/model/email_duplicate_model.dart';
+import 'package:jumunseo/features/auth/model/image_response_model.dart';
 import 'package:jumunseo/features/auth/model/logout_model.dart';
 import 'package:jumunseo/features/auth/model/profile_edit_model.dart';
 import 'package:jumunseo/features/auth/model/reissue_model.dart';
@@ -41,4 +44,11 @@ abstract class AuthRepository {
 
   @PUT('/user/update')
   Future<UserEditResponseModel> profileEdit(@Header('Authorization') String accessToken, @Body() ProfileEditModel model);
+
+  @POST("/user/profile")
+  @MultiPart()
+  Future<ImageResponseModel> uploadImage(@Header('Authorization') String accessToken, @Part() File file);
+
+  @POST("/user/profile")
+  Future<ImageResponseModel> deleteImage(@Header('Authorization') String accessToken);
 }
