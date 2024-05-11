@@ -1,7 +1,9 @@
 package com.jumunseo.authservice.global.config;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jumunseo.authservice.domain.jwt.service.RefreshTokenService;
 import com.jumunseo.authservice.global.security.AuthenticationFilter;
+import com.jumunseo.authservice.global.security.ExceptionHandlerFilter;
 import com.jumunseo.authservice.global.util.CookieProvider;
 import com.jumunseo.authservice.global.util.JwtTokenProvider;
 import com.jumunseo.authservice.global.util.Oauth2Service;
@@ -32,16 +34,19 @@ public class SecurityConfig {
     private final CookieProvider cookieProvider;
     private final PasswordEncoder bCryptPasswordEncoder;
     private final Oauth2Service oauth2Service;
+    private final ObjectMapper objectMapper;
 
     @Bean
     SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         // 0. 전처리
         AuthenticationFilter authenticationFilter
-                = new AuthenticationFilter(authenticationManager(),jwtProvider,refreshTokenService,cookieProvider,bCryptPasswordEncoder);
+                = new AuthenticationFilter(authenticationManager(),jwtProvider,refreshTokenService,cookieProvider);
         authenticationFilter.setFilterProcessesUrl("/login");
 
         // 1. 필터체인 생성
         http
+            // 0.0 에러 핸들 필터 추가
+                .addFilterBefore(new ExceptionHandlerFilter(objectMapper), AuthenticationFilter.class)
             // 1.0. csrf 필터 비활성화
                 .csrf(AbstractHttpConfigurer::disable)
             // 1.1. 인가 설정

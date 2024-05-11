@@ -45,20 +45,20 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     @Override
     public UserDto findUserById(Long Id) throws NotExistUserException {
         return mapper.toDto(userRepository.findById(Id).orElseThrow(
-                () -> new NotExistUserException("User not found")));
+                () -> new NotExistUserException("사용자를 찾을 수 없습니다.")));
     }
 
     @Override
     public UserDto findUserByEmail(String email) throws NotExistUserException {
         return mapper.toDto(userRepository.findByEmail(email).orElseThrow(
-                () -> new NotExistUserException("User not found")));
+                () -> new NotExistUserException("사용자를 찾을 수 없습니다.")));
     }
 
 
     @Override
     public void saveUser(SignupDto signupDto) throws DuplicateEmailException {
         if (userRepository.findByEmail(signupDto.getEmail()).isPresent()) {
-            throw new DuplicateEmailException("Email already exists");
+            throw new DuplicateEmailException("이미 존재하는 이메일입니다.");
         }
         userRepository.save(mapper.toEntity(signupDto, LoginType.LOCAL));
     }
@@ -68,10 +68,10 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         try {
             jwtTokenProvider.validateToken(token);
         } catch (Exception e) {
-            throw new AccessTokenNotValidException("not valid token");
+            throw new AccessTokenNotValidException("토큰이 유효하지 않습니다.");
         }
         return mapper.toDto(userRepository.findByEmail(jwtTokenProvider.getEmailForAccessToken(token)).orElseThrow(
-                () -> new NotExistUserException("User not found")));
+                () -> new NotExistUserException("사용자를 찾을 수 없습니다.")));
     }
 
     @Override
@@ -79,7 +79,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         List<User> users = new ArrayList<>();
         for (Long userId : userIds) {
             users.add(userRepository.findById(userId).orElseThrow(
-                    () -> new NotExistUserException("User not found")));
+                    () -> new NotExistUserException("사용자를 찾을 수 없습니다.")));
         }
         return mapper.toDtoList(users);
     }
@@ -89,10 +89,10 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         try {
             jwtTokenProvider.validateToken(token);
         } catch (Exception e) {
-            throw new AccessTokenNotValidException("not valid token");
+            throw new AccessTokenNotValidException("토큰이 유효하지 않습니다.");
         }
         User originUser = userRepository.findByEmail(jwtTokenProvider.getEmailForAccessToken(token)).orElseThrow(
-                () -> new NotExistUserException("User not found"));
+                () -> new NotExistUserException("사용자를 찾을 수 없습니다."));
 
         // 더티체킹 활용
         if (updateInfo.containsKey("email")) {
@@ -126,7 +126,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         try {
             jwtTokenProvider.validateToken(token);
         } catch (Exception e) {
-            throw new AccessTokenNotValidException("not valid token");
+            throw new AccessTokenNotValidException("토큰이 유효하지 않습니다.");
         }
         userRepository.deleteByEmail(jwtTokenProvider.getEmailForAccessToken(token));
     }
@@ -143,7 +143,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = userRepository.findByEmail(username).orElseThrow(
-                () -> new NotExistUserException("User not found"));
+                () -> new NotExistUserException("사용자를 찾을 수 없습니다."));
 
         Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();
         authorities.add(new SimpleGrantedAuthority(user.getRole().toString()));
