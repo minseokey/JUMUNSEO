@@ -9,6 +9,8 @@ class AuthState extends Equatable {
 
   final bool isLogin;
 
+  final CookieJar cookJar;
+
   const AuthState({
     required this.name,
     required this.accessToken,
@@ -16,16 +18,18 @@ class AuthState extends Equatable {
     required this.password,
     required this.error,
     required this.isLogin,
+    required this.cookJar,
   });
 
   factory AuthState.initial() {
-    return const AuthState(
+    return AuthState(
       name: '',
       accessToken: '',
       email: '',
       password: '',
       error: '',
       isLogin: false,
+      cookJar: CookieJar(),
     );
   }
 
@@ -44,6 +48,7 @@ class AuthState extends Equatable {
       password: password ?? this.password,
       error: error ?? this.error,
       isLogin: isLogin ?? this.isLogin,
+      cookJar: cookJar,
     );
   }
 

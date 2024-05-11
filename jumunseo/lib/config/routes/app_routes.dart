@@ -8,6 +8,7 @@ import 'package:jumunseo/features/auth/auth.dart';
 import 'package:jumunseo/features/auth/view/sign_in_view.dart';
 import 'package:jumunseo/features/auth/view/sign_up_view.dart';
 import 'package:jumunseo/features/profile/view/privacy_policy.dart';
+import 'package:jumunseo/features/profile/view/profile_edit_screen.dart';
 import 'package:jumunseo/features/profile/view/terms_of_use_view.dart';
 import 'package:jumunseo/features/profile/view/profile_screen.dart';
 import 'package:jumunseo/features/profile/view/settings_view.dart';
@@ -101,6 +102,11 @@ GoRouter appRouter = GoRouter(
           path: 'privacyPolicy',
           builder: (context, state) {
             return const PrivacyPolicyView();
+          }),
+        GoRoute(
+          path: 'edit',
+          builder: (context, state) {
+            return const ProfileEditScreen();
           }),
       ]
     ),

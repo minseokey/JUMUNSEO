@@ -1,12 +1,17 @@
+import 'package:cookie_jar/cookie_jar.dart';
 import 'package:dio/dio.dart';
+import 'package:dio_cookie_manager/dio_cookie_manager.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:jumunseo/core/logger.dart';
 import 'package:jumunseo/core/login_status.dart';
 import 'package:jumunseo/features/auth/data/repository/auth_repository.dart';
 import 'package:jumunseo/features/auth/model/logout_model.dart';
+import 'package:jumunseo/features/auth/model/profile_edit_model.dart';
 import 'package:jumunseo/features/auth/model/sign_in_model.dart';
+import 'package:jumunseo/features/auth/model/sign_in_response_model.dart';
 import 'package:jumunseo/features/auth/model/sign_up_model.dart';
 import 'package:jumunseo/features/auth/model/user_delete_model.dart';
 import 'package:jumunseo/features/auth/model/user_info_response_model.dart';
@@ -19,7 +24,7 @@ part 'auth_state.dart';
 class AuthCubit extends Cubit<AuthState> {
   AuthCubit()
       : super(AuthState(
-            name: '', accessToken: '', email: '', password: '', error: '', isLogin: LoginStatus.isLogin));
+            name: '', accessToken: '', email: '', password: '', error: '', isLogin: LoginStatus.isLogin, cookJar: CookieJar()));
 
   bool checkLogin() {
     return state.isLogin;
@@ -79,6 +84,45 @@ class AuthCubit extends Cubit<AuthState> {
     return true;
   }
 
+  Future<int> editProfile(BuildContext context, String name, String password, String repassword) async {
+    if(password == repassword && name != '') {
+      final baseOptions = BaseOptions(
+        baseUrl: 'http://10.0.2.2:8080',
+        contentType: Headers.jsonContentType,
+        validateStatus: (int? status) {
+          return status != null;
+        },
+      );
+
+      Dio dio = Dio(baseOptions);
+
+      dio.interceptors.addAll(
+        [
+          const Interceptor(),
+          CookieManager(state.cookJar),
+        ]
+      );
+
+      AuthRepository repo = AuthRepository(dio);
+      ProfileEditModel editModel = ProfileEditModel(password: password, name: name);
+      final response = await repo.profileEdit(state.accessToken, editModel);
+
+      if(response.code == 'SUCCESS') {
+        emit(state.copyWith(accessToken: response.data.accessToken, password: password, name: name));
+        context.pop();
+        return 0;
+      }
+
+      return -1;
+    }
+    else if(password == repassword){
+      return 1;
+    }
+    else {
+      return 2;
+    }
+  }
+
   Future<int> signUp(BuildContext context, String name, String email, String password, String repassword) async {
     if(password == repassword && name != '') {
       final baseOptions = BaseOptions(
@@ -115,7 +159,7 @@ class AuthCubit extends Cubit<AuthState> {
     }
   }
 
-  Future<void> login(BuildContext context, String email, String password) async {
+  Future<bool> login(BuildContext context, String email, String password) async {
     final baseOptions = BaseOptions(
         baseUrl: 'http://10.0.2.2:8080',
         contentType: Headers.jsonContentType,
@@ -125,22 +169,35 @@ class AuthCubit extends Cubit<AuthState> {
       );
 
       Dio dio = Dio(baseOptions);
+
       dio.interceptors.addAll(
         [
           const Interceptor(),
+          CookieManager(state.cookJar),
         ]
       );
 
-    AuthRepository repo = AuthRepository(dio);
-    SignInModel signin = SignInModel(email: email, password: password);
-    final response = await repo.getLogin(signin);
+    late SignInResponseModel response;
+
+    try{
+      AuthRepository repo = AuthRepository(dio);
+      SignInModel signin = SignInModel(email: email, password: password);
+      response = await repo.getLogin(signin);
+    }
+    on Exception catch (_, ex) {
+      logger.d(ex);
+      return false;
+    }
 
     if(response.code == 'SUCCESS') {
       LoginStatus.signining = false;
       LoginStatus.isLogin = true;
       emit(state.copyWith(email: email, password: password, accessToken: response.data.accessToken, isLogin: LoginStatus.isLogin));
       context.go('/');
+      return true;
     }
+
+    return false;
   }
 
   void logoutMethod(BuildContext context) {
@@ -165,6 +222,7 @@ class AuthCubit extends Cubit<AuthState> {
       dio.interceptors.addAll(
         [
           const Interceptor(),
+          CookieManager(state.cookJar),
         ]
       );
 
@@ -198,6 +256,7 @@ class AuthCubit extends Cubit<AuthState> {
       dio.interceptors.addAll(
         [
           const Interceptor(),
+          CookieManager(state.cookJar),
         ]
       );
 

@@ -17,4 +17,8 @@ class ProfileCubit extends Cubit<ProfileState> {
   void toPrivacyPolicy(BuildContext context) {
     context.push('/profile/privacyPolicy');
   }
+
+  void toEditProfile(BuildContext context) {
+    context.push('/profile/edit');
+  }
 }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:jumunseo/config/theme/app_color.dart';
+import 'package:jumunseo/core/blank.dart';
 import 'package:jumunseo/features/auth/cubit/auth_cubit.dart';
 
 class SignInView extends StatelessWidget {
@@ -10,7 +11,9 @@ class SignInView extends StatelessWidget {
   Widget build(BuildContext context) {
     TextEditingController emailController = TextEditingController();
     TextEditingController passwordController = TextEditingController();
+
     ValueNotifier<bool> loading = ValueNotifier<bool>(false);
+    ValueNotifier<bool> signInSuccess = ValueNotifier<bool>(true);
 
     return WillPopScope(
       child: Scaffold(
@@ -56,10 +59,24 @@ class SignInView extends StatelessWidget {
                           keyboardType: TextInputType.emailAddress,
                         ),
                       ),
+                      ValueListenableBuilder(valueListenable: signInSuccess, builder: (context, value, child) {
+                        if(!value) {
+                          return const Text(
+                            '닉네임을 확인해 주세요',
+                            style: TextStyle(
+                              color: Colors.red,
+                            ),
+                          );
+                        }
+                        else {
+                          return const Blank(0, 0);
+                        }
+                      },),
                       Padding(
                         padding: const EdgeInsets.symmetric(vertical: 10),
                         child: TextField(
                           controller: passwordController,
+                          obscureText: true,
                           decoration: const InputDecoration(
                             labelText: '비밀번호',
                             hintText: "비밀번호를 입력해 주세요.",
@@ -77,9 +94,21 @@ class SignInView extends StatelessWidget {
                             ),
                             contentPadding: EdgeInsets.symmetric(horizontal: 15, vertical: 0),
                           ),
-                          keyboardType: TextInputType.visiblePassword,
                         ),
                       ),
+                      ValueListenableBuilder(valueListenable: signInSuccess, builder: (context, value, child) {
+                        if(!value) {
+                          return const Text(
+                            '비밀번호를 확인해 주세요',
+                            style: TextStyle(
+                              color: Colors.red,
+                            ),
+                          );
+                        }
+                        else {
+                          return const Blank(0, 0);
+                        }
+                      },),
                       Padding(
                         padding: const EdgeInsets.only(top: 20),
                         child: ElevatedButton(
@@ -87,6 +116,7 @@ class SignInView extends StatelessWidget {
                             context.read<AuthCubit>().login(context, emailController.text, passwordController.text)
                             .then((value) {
                               loading.value = !loading.value;
+                              signInSuccess.value = value;
                             });
                           },
                           child: const Text('로그인'),

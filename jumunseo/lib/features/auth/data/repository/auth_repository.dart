@@ -1,12 +1,14 @@
 import 'package:dio/dio.dart';
 import 'package:jumunseo/features/auth/model/email_duplicate_model.dart';
 import 'package:jumunseo/features/auth/model/logout_model.dart';
+import 'package:jumunseo/features/auth/model/profile_edit_model.dart';
 import 'package:jumunseo/features/auth/model/reissue_model.dart';
 import 'package:jumunseo/features/auth/model/sign_in_model.dart';
 import 'package:jumunseo/features/auth/model/sign_in_response_model.dart';
 import 'package:jumunseo/features/auth/model/sign_up_model.dart';
 import 'package:jumunseo/features/auth/model/sign_up_respond_model.dart';
 import 'package:jumunseo/features/auth/model/user_delete_model.dart';
+import 'package:jumunseo/features/auth/model/user_edit_response_model.dart';
 import 'package:jumunseo/features/auth/model/user_info_response_model.dart';
 import 'package:retrofit/retrofit.dart';
 
@@ -36,4 +38,7 @@ abstract class AuthRepository {
 
   @GET('/auth/reissue')
   Future<ReIssueModel> getReIssue(@Header('Authorization') String accessToken);
+
+  @PUT('/user/update')
+  Future<UserEditResponseModel> profileEdit(@Header('Authorization') String accessToken, @Body() ProfileEditModel model);
 }

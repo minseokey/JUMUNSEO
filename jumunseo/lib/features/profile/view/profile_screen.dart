@@ -1,6 +1,7 @@
 import 'package:extended_image/extended_image.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:jumunseo/features/auth/cubit/auth_cubit.dart';
+import 'package:jumunseo/features/profile/cubit/profile_cubit.dart';
 import 'package:jumunseo/features/profile/view/account_setting.dart';
 import 'package:jumunseo/features/profile/view/notification_setting.dart';
 import 'package:jumunseo/features/profile/view/other_setting.dart';
@@ -59,7 +60,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   SizedBox(width: 80, height: 30, child: GradientButton(
                     child: TextButton(
                       child : const Text('Edit', style: TextStyle(color: Colors.white, fontSize: 12),),
-                      onPressed: () {},
+                      onPressed: () {
+                        context.read<ProfileCubit>().toEditProfile(context);
+                      },
                     )
                   )),
                 ],
