@@ -61,6 +61,9 @@ dependencies:
   equatable: ^2.0.5
   dio_cookie_manager: ^3.1.1
   cookie_jar: ^4.0.8
+  flutter_svg: ^2.0.10+1
+  card_swiper: ^3.0.1
+  
 
 flutter_native_splash:
   color: "#000000"

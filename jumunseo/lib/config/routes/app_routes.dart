@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:jumunseo/core/login_status.dart';
 import 'package:jumunseo/features/community/community_screen.dart';
+
+import 'package:jumunseo/features/community/community.dart';
+
 import 'package:jumunseo/features/dilemma/dilemma_screen.dart';
 import 'package:jumunseo/features/home/view/home_screen.dart';
 import 'package:jumunseo/features/auth/auth.dart';
@@ -78,11 +81,33 @@ GoRouter appRouter = GoRouter(
               });
         }))),
     GoRoute(
-        path: '/community',
+      path: '/community',
+      builder: (context, state) {
+        return const CommunityHomeScreen();
+      },
+    ),
+    GoRoute(
+        path: '/community/:postId',
         builder: (context, state) {
-          return const CommunityScreen();
+          return CommunityDetailScreen(
+            postId: state.pathParameters['postId'] ?? "",
+          );
         }),
     GoRoute(
+        path: '/community/post/write',
+        builder: (context, state) {
+          return CommunityPostFrame(kind: PostType.write);
+        }),
+    // GoRoute(path: '/community/post/edit/:postId', builder: (context, state) {
+    //   return CommunityPostScreen(
+    //     postId: state.pathParameters['postId'] ?? "",
+    //   );
+    // }),
+    GoRoute(
+        path: '/profile',
+        builder: (context, state) {
+          return const ProfileScreen();
+        }),
       path: '/profile',
       builder: (context, state) {
         return const ProfileScreen();
