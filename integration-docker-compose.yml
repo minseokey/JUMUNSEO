@@ -89,6 +89,11 @@ services:
       JWT_SECRET: "test_JWT_secret"
       ACCESS_EXPIRATION: 3600000
       REFRESH_EXPIRATION: 86400000
+      GOOGLE_CLIENT_ID: ""
+      GOOGLE_CLIENT_SECRET: ""
+      AWS_ACCESS_KEY: ""
+      AWS_SECRET_KEY: ""
+      AWS_S3_BUCKET: ""
     depends_on:
       - redis
       - postgres-auth
