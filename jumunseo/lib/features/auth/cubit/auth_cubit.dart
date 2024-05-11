@@ -45,6 +45,10 @@ class AuthCubit extends Cubit<AuthState> {
     return state.name;
   }
 
+  String getAcessToken() {
+    return state.accessToken;
+  }
+
   Future<void> getInfo() async {
     final baseOptions = BaseOptions(
       baseUrl: 'http://10.0.2.2:8080',

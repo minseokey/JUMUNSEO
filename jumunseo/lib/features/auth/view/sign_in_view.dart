@@ -62,7 +62,7 @@ class SignInView extends StatelessWidget {
                       ValueListenableBuilder(valueListenable: signInSuccess, builder: (context, value, child) {
                         if(!value) {
                           return const Text(
-                            '닉네임을 확인해 주세요',
+                            '이메일을 확인해 주세요',
                             style: TextStyle(
                               color: Colors.red,
                             ),

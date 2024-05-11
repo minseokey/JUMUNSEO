@@ -21,10 +21,11 @@ class _WizardRepository implements WizardRepository {
   String? baseUrl;
 
   @override
-  Future<ChatModel> getRooms(String userId) async {
+  Future<ChatModel> getRooms(String accessToken) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
-    final _headers = <String, dynamic>{};
+    final _headers = <String, dynamic>{r'Authorization': accessToken};
+    _headers.removeWhere((k, v) => v == null);
     final Map<String, dynamic>? _data = null;
     final _result = await _dio
         .fetch<Map<String, dynamic>>(_setStreamType<ChatModel>(Options(
@@ -34,7 +35,7 @@ class _WizardRepository implements WizardRepository {
     )
             .compose(
               _dio.options,
-              '/chat/list/${userId}',
+              '/chat/list',
               queryParameters: queryParameters,
               data: _data,
             )
