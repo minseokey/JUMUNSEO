@@ -22,7 +22,7 @@ SignInResponseModel _$SignInResponseModelFromJson(Map<String, dynamic> json) {
 mixin _$SignInResponseModel {
   String get code => throw _privateConstructorUsedError;
   String get message => throw _privateConstructorUsedError;
-  TokenModel get data => throw _privateConstructorUsedError;
+  TokenModel? get data => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -36,9 +36,9 @@ abstract class $SignInResponseModelCopyWith<$Res> {
           SignInResponseModel value, $Res Function(SignInResponseModel) then) =
       _$SignInResponseModelCopyWithImpl<$Res, SignInResponseModel>;
   @useResult
-  $Res call({String code, String message, TokenModel data});
+  $Res call({String code, String message, TokenModel? data});
 
-  $TokenModelCopyWith<$Res> get data;
+  $TokenModelCopyWith<$Res>? get data;
 }
 
 /// @nodoc
@@ -56,7 +56,7 @@ class _$SignInResponseModelCopyWithImpl<$Res, $Val extends SignInResponseModel>
   $Res call({
     Object? code = null,
     Object? message = null,
-    Object? data = null,
+    Object? data = freezed,
   }) {
     return _then(_value.copyWith(
       code: null == code
@@ -67,17 +67,21 @@ class _$SignInResponseModelCopyWithImpl<$Res, $Val extends SignInResponseModel>
           ? _value.message
           : message // ignore: cast_nullable_to_non_nullable
               as String,
-      data: null == data
+      data: freezed == data
           ? _value.data
           : data // ignore: cast_nullable_to_non_nullable
-              as TokenModel,
+              as TokenModel?,
     ) as $Val);
   }
 
   @override
   @pragma('vm:prefer-inline')
-  $TokenModelCopyWith<$Res> get data {
-    return $TokenModelCopyWith<$Res>(_value.data, (value) {
+  $TokenModelCopyWith<$Res>? get data {
+    if (_value.data == null) {
+      return null;
+    }
+
+    return $TokenModelCopyWith<$Res>(_value.data!, (value) {
       return _then(_value.copyWith(data: value) as $Val);
     });
   }
@@ -91,10 +95,10 @@ abstract class _$$SignInResponseModelImplCopyWith<$Res>
       __$$SignInResponseModelImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String code, String message, TokenModel data});
+  $Res call({String code, String message, TokenModel? data});
 
   @override
-  $TokenModelCopyWith<$Res> get data;
+  $TokenModelCopyWith<$Res>? get data;
 }
 
 /// @nodoc
@@ -110,7 +114,7 @@ class __$$SignInResponseModelImplCopyWithImpl<$Res>
   $Res call({
     Object? code = null,
     Object? message = null,
-    Object? data = null,
+    Object? data = freezed,
   }) {
     return _then(_$SignInResponseModelImpl(
       code: null == code
@@ -121,10 +125,10 @@ class __$$SignInResponseModelImplCopyWithImpl<$Res>
           ? _value.message
           : message // ignore: cast_nullable_to_non_nullable
               as String,
-      data: null == data
+      data: freezed == data
           ? _value.data
           : data // ignore: cast_nullable_to_non_nullable
-              as TokenModel,
+              as TokenModel?,
     ));
   }
 }
@@ -143,7 +147,7 @@ class _$SignInResponseModelImpl implements _SignInResponseModel {
   @override
   final String message;
   @override
-  final TokenModel data;
+  final TokenModel? data;
 
   @override
   String toString() {
@@ -183,7 +187,7 @@ abstract class _SignInResponseModel implements SignInResponseModel {
   factory _SignInResponseModel(
       {required final String code,
       required final String message,
-      required final TokenModel data}) = _$SignInResponseModelImpl;
+      required final TokenModel? data}) = _$SignInResponseModelImpl;
 
   factory _SignInResponseModel.fromJson(Map<String, dynamic> json) =
       _$SignInResponseModelImpl.fromJson;
@@ -193,7 +197,7 @@ abstract class _SignInResponseModel implements SignInResponseModel {
   @override
   String get message;
   @override
-  TokenModel get data;
+  TokenModel? get data;
   @override
   @JsonKey(ignore: true)
   _$$SignInResponseModelImplCopyWith<_$SignInResponseModelImpl> get copyWith =>

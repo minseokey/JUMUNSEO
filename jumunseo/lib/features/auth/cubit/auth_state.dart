@@ -6,6 +6,7 @@ class AuthState extends Equatable {
   final String email;
   final String password;
   final String error;
+  final String profileImageUrl;
 
   final bool isLogin;
 
@@ -19,6 +20,7 @@ class AuthState extends Equatable {
     required this.error,
     required this.isLogin,
     required this.cookJar,
+    required this.profileImageUrl,
   });
 
   factory AuthState.initial() {
@@ -30,6 +32,7 @@ class AuthState extends Equatable {
       error: '',
       isLogin: false,
       cookJar: CookieJar(),
+      profileImageUrl: '',
     );
   }
 
@@ -40,6 +43,7 @@ class AuthState extends Equatable {
     String? password,
     String? error,
     bool? isLogin,
+    String? profileImageUrl,
   }) {
     return AuthState(
       name: name ?? this.name,
@@ -49,9 +53,10 @@ class AuthState extends Equatable {
       error: error ?? this.error,
       isLogin: isLogin ?? this.isLogin,
       cookJar: cookJar,
+      profileImageUrl: profileImageUrl ?? this.profileImageUrl,
     );
   }
 
   @override
-  List<Object> get props => [name, accessToken, email, password, error, isLogin];
+  List<Object> get props => [name, accessToken, email, password, error, isLogin, cookJar, profileImageUrl];
 }

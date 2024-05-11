@@ -11,7 +11,9 @@ _$SignInResponseModelImpl _$$SignInResponseModelImplFromJson(
     _$SignInResponseModelImpl(
       code: json['code'] as String,
       message: json['message'] as String,
-      data: TokenModel.fromJson(json['data'] as Map<String, dynamic>),
+      data: json['data'] == null
+          ? null
+          : TokenModel.fromJson(json['data'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$$SignInResponseModelImplToJson(

@@ -23,6 +23,7 @@ mixin _$InfoModel {
   String get email => throw _privateConstructorUsedError;
   String get role => throw _privateConstructorUsedError;
   String get name => throw _privateConstructorUsedError;
+  String? get profileImageUrl => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -35,7 +36,7 @@ abstract class $InfoModelCopyWith<$Res> {
   factory $InfoModelCopyWith(InfoModel value, $Res Function(InfoModel) then) =
       _$InfoModelCopyWithImpl<$Res, InfoModel>;
   @useResult
-  $Res call({String email, String role, String name});
+  $Res call({String email, String role, String name, String? profileImageUrl});
 }
 
 /// @nodoc
@@ -54,6 +55,7 @@ class _$InfoModelCopyWithImpl<$Res, $Val extends InfoModel>
     Object? email = null,
     Object? role = null,
     Object? name = null,
+    Object? profileImageUrl = freezed,
   }) {
     return _then(_value.copyWith(
       email: null == email
@@ -68,6 +70,10 @@ class _$InfoModelCopyWithImpl<$Res, $Val extends InfoModel>
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
               as String,
+      profileImageUrl: freezed == profileImageUrl
+          ? _value.profileImageUrl
+          : profileImageUrl // ignore: cast_nullable_to_non_nullable
+              as String?,
     ) as $Val);
   }
 }
@@ -80,7 +86,7 @@ abstract class _$$InfoModelImplCopyWith<$Res>
       __$$InfoModelImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String email, String role, String name});
+  $Res call({String email, String role, String name, String? profileImageUrl});
 }
 
 /// @nodoc
@@ -97,6 +103,7 @@ class __$$InfoModelImplCopyWithImpl<$Res>
     Object? email = null,
     Object? role = null,
     Object? name = null,
+    Object? profileImageUrl = freezed,
   }) {
     return _then(_$InfoModelImpl(
       email: null == email
@@ -111,6 +118,10 @@ class __$$InfoModelImplCopyWithImpl<$Res>
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
               as String,
+      profileImageUrl: freezed == profileImageUrl
+          ? _value.profileImageUrl
+          : profileImageUrl // ignore: cast_nullable_to_non_nullable
+              as String?,
     ));
   }
 }
@@ -119,7 +130,10 @@ class __$$InfoModelImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$InfoModelImpl implements _InfoModel {
   _$InfoModelImpl(
-      {required this.email, required this.role, required this.name});
+      {required this.email,
+      required this.role,
+      required this.name,
+      required this.profileImageUrl});
 
   factory _$InfoModelImpl.fromJson(Map<String, dynamic> json) =>
       _$$InfoModelImplFromJson(json);
@@ -130,10 +144,12 @@ class _$InfoModelImpl implements _InfoModel {
   final String role;
   @override
   final String name;
+  @override
+  final String? profileImageUrl;
 
   @override
   String toString() {
-    return 'InfoModel(email: $email, role: $role, name: $name)';
+    return 'InfoModel(email: $email, role: $role, name: $name, profileImageUrl: $profileImageUrl)';
   }
 
   @override
@@ -143,12 +159,15 @@ class _$InfoModelImpl implements _InfoModel {
             other is _$InfoModelImpl &&
             (identical(other.email, email) || other.email == email) &&
             (identical(other.role, role) || other.role == role) &&
-            (identical(other.name, name) || other.name == name));
+            (identical(other.name, name) || other.name == name) &&
+            (identical(other.profileImageUrl, profileImageUrl) ||
+                other.profileImageUrl == profileImageUrl));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, email, role, name);
+  int get hashCode =>
+      Object.hash(runtimeType, email, role, name, profileImageUrl);
 
   @JsonKey(ignore: true)
   @override
@@ -168,7 +187,8 @@ abstract class _InfoModel implements InfoModel {
   factory _InfoModel(
       {required final String email,
       required final String role,
-      required final String name}) = _$InfoModelImpl;
+      required final String name,
+      required final String? profileImageUrl}) = _$InfoModelImpl;
 
   factory _InfoModel.fromJson(Map<String, dynamic> json) =
       _$InfoModelImpl.fromJson;
@@ -179,6 +199,8 @@ abstract class _InfoModel implements InfoModel {
   String get role;
   @override
   String get name;
+  @override
+  String? get profileImageUrl;
   @override
   @JsonKey(ignore: true)
   _$$InfoModelImplCopyWith<_$InfoModelImpl> get copyWith =>

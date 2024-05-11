@@ -11,6 +11,7 @@ _$InfoModelImpl _$$InfoModelImplFromJson(Map<String, dynamic> json) =>
       email: json['email'] as String,
       role: json['role'] as String,
       name: json['name'] as String,
+      profileImageUrl: json['profileImageUrl'] as String?,
     );
 
 Map<String, dynamic> _$$InfoModelImplToJson(_$InfoModelImpl instance) =>
@@ -18,4 +19,5 @@ Map<String, dynamic> _$$InfoModelImplToJson(_$InfoModelImpl instance) =>
       'email': instance.email,
       'role': instance.role,
       'name': instance.name,
+      'profileImageUrl': instance.profileImageUrl,
     };

@@ -8,7 +8,8 @@ class InfoModel with _$InfoModel{
   factory InfoModel(
       {required String email,
       required String role,
-      required String name}) = _InfoModel;
+      required String name,
+      required String? profileImageUrl}) = _InfoModel;
 
   factory InfoModel.fromJson(Map<String, dynamic> json) =>
     _$InfoModelFromJson(json);

@@ -1,4 +1,5 @@
 import 'package:extended_image/extended_image.dart';
+import 'package:jumunseo/core/login_status.dart';
 import 'package:jumunseo/features/auth/auth.dart';
 import '../home.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -67,13 +68,23 @@ class _HomeScreenState extends State<HomeScreen> {
                     ValueListenableBuilder<bool>(
                       valueListenable: loading,
                       builder: (context, value, child) {
-                        return Text(
-                          context.read<AuthCubit>().getName(),
-                          style: const TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.black),
-                        );
+                        if(value){
+                          return ValueListenableBuilder<String>(
+                            valueListenable: LoginStatus.name,
+                            builder: (context, value, child) {
+                              return Text(
+                                value,
+                                style: const TextStyle(
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.black),
+                              );
+                            },
+                          );
+                        }
+                        else {
+                          return const CircularProgressIndicator();
+                        }
                       },
                     ),
                   ],

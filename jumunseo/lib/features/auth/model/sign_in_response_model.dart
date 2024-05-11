@@ -9,7 +9,7 @@ class SignInResponseModel with _$SignInResponseModel{
   factory SignInResponseModel(
       {required String code,
       required String message,
-      required TokenModel data}) = _SignInResponseModel;
+      required TokenModel? data}) = _SignInResponseModel;
 
   factory SignInResponseModel.fromJson(Map<String, dynamic> json) =>
     _$SignInResponseModelFromJson(json);

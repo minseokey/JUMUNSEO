@@ -1,6 +1,6 @@
 import 'package:extended_image/extended_image.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:jumunseo/features/auth/cubit/auth_cubit.dart';
+import 'package:jumunseo/core/login_status.dart';
 import 'package:jumunseo/features/profile/cubit/profile_cubit.dart';
 import 'package:jumunseo/features/profile/view/account_setting.dart';
 import 'package:jumunseo/features/profile/view/notification_setting.dart';
@@ -51,10 +51,28 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  CircleAvatar(backgroundImage: ExtendedImage.asset('assets/icons/profile.png').image,),
+                  GestureDetector(
+                    onTap: () {
+                      
+                    },
+                    child: CircleAvatar(
+                      backgroundImage: ExtendedImage.asset('assets/icons/profile.png').image,
+                    ),
+                  ),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 15),
-                    child: Text(context.read<AuthCubit>().getName(), style: const TextStyle(color: Colors.black, fontSize: 14),),
+                    child: ValueListenableBuilder<String>(
+                      valueListenable: LoginStatus.name,
+                      builder: (context, value, child) {
+                        return Text(
+                          value,
+                          style: const TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.black),
+                        );
+                      }
+                    ),
                   ),
                   const Spacer(),
                   SizedBox(width: 80, height: 30, child: GradientButton(

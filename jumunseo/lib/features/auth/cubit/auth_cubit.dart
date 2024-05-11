@@ -24,7 +24,14 @@ part 'auth_state.dart';
 class AuthCubit extends Cubit<AuthState> {
   AuthCubit()
       : super(AuthState(
-            name: '', accessToken: '', email: '', password: '', error: '', isLogin: LoginStatus.isLogin, cookJar: CookieJar()));
+            name: '', 
+            accessToken: '', 
+            email: '', 
+            password: '', 
+            error: '', 
+            isLogin: LoginStatus.isLogin, 
+            cookJar: CookieJar(),
+            profileImageUrl: '',));
 
   bool checkLogin() {
     return state.isLogin;
@@ -54,7 +61,9 @@ class AuthCubit extends Cubit<AuthState> {
     UserInfoResponseModel userInfo = await repo.getUserInfo(state.accessToken);
 
     if(userInfo.code == 'SUCCESS') {
-      emit(state.copyWith(name: userInfo.data.name));
+      LoginStatus.name.value = userInfo.data.name;
+      LoginStatus.imageUrl = userInfo.data.profileImageUrl ?? '';
+      emit(state.copyWith(profileImageUrl: LoginStatus.imageUrl, name: LoginStatus.name.value));
     }
   }
 
@@ -108,7 +117,9 @@ class AuthCubit extends Cubit<AuthState> {
       final response = await repo.profileEdit(state.accessToken, editModel);
 
       if(response.code == 'SUCCESS') {
-        emit(state.copyWith(accessToken: response.data.accessToken, password: password, name: name));
+        logger.d(response.data.accessToken);
+        LoginStatus.name.value = response.data.name;
+        emit(state.copyWith(accessToken: response.data.accessToken, password: password, name: LoginStatus.name.value));
         context.pop();
         return 0;
       }
@@ -192,7 +203,7 @@ class AuthCubit extends Cubit<AuthState> {
     if(response.code == 'SUCCESS') {
       LoginStatus.signining = false;
       LoginStatus.isLogin = true;
-      emit(state.copyWith(email: email, password: password, accessToken: response.data.accessToken, isLogin: LoginStatus.isLogin));
+      emit(state.copyWith(email: email, password: password, accessToken: response.data?.accessToken, isLogin: LoginStatus.isLogin));
       context.go('/');
       return true;
     }
