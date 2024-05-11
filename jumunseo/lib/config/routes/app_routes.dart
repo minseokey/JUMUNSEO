@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:jumunseo/core/login_status.dart';
-import 'package:jumunseo/features/community/community_screen.dart';
 
 import 'package:jumunseo/features/community/community.dart';
 
@@ -104,10 +103,6 @@ GoRouter appRouter = GoRouter(
     //   );
     // }),
     GoRoute(
-        path: '/profile',
-        builder: (context, state) {
-          return const ProfileScreen();
-        }),
       path: '/profile',
       builder: (context, state) {
         return const ProfileScreen();
