@@ -18,6 +18,8 @@ jobs:
       MAGICIAN_MONGO_PASSWORD: 1234
       MAGICIAN_MONGO_PORT: 27017
       MAGICIAN_MONGO_USERNAME: root
+      MAGICIAN_REDIS_PORT: 6379
+      MAGICIAN_REDIS_HOST: redis
   
     steps:
       # 체크아웃
