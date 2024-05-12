@@ -54,11 +54,6 @@ jobs:
       - name: Test with pytest
         run: pytest
         working-directory: ${{ env.working-directory }}
-      
-      # docker image 빌드
-      - name: Build docker image
-        run: docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.image-name }} .
-        working-directory: ${{ env.working-directory }}
         
       # docker hub 로그인
       - name: Login docker hub
@@ -66,10 +61,21 @@ jobs:
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
-  
-      # docker hub 퍼블리시
-      - name: Publish to docker hub
-        run: docker push ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.image-name }}
+
+      # 빌드 매트릭스 생성
+      - name: docker build matrix
+        run: docker buildx create --name multi_arch_builder --platform linux/arm64,linux/amd64,linux/amd64/v2,linux/riscv64,linux/ppc64le,linux/s390x,linux/386,linux/mips64le,linux/mips64,linux/arm/v7,linux/arm/v6 --use
+        working-directory: ${{ env.working-directory }}
+         
+      # 빌드 에이전트 설정, 빌드 수행 준비
+      - name: docker agent config
+        run: docker buildx inspect --bootstrap
+        working-directory: ${{ env.working-directory }}
+    
+      # 빌드 및 푸시
+      - name: docker build and push
+        run: docker buildx build -t ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.image-name }} --platform=linux/arm64,linux/amd64 --push -f Dockerfile .
+        working-directory: ${{ env.working-directory }}
 
   test-build-auth:
     name: Test-Build-Auth
@@ -137,12 +143,7 @@ jobs:
     - name: Build with gradle
       run: ./gradlew clean build
       working-directory: ${{ env.working-directory }}
-      
-    # docker image 빌드
-    - name: Build docker image
-      run: docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/${{env.image-name}} .
-      working-directory: ${{ env.working-directory }}
-      
+
     # docker hub 로그인
     - name: Login docker hub
       uses: docker/login-action@v2
@@ -150,9 +151,20 @@ jobs:
         username: ${{ secrets.DOCKERHUB_USERNAME }}
         password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-    # docker hub 퍼블리시
-    - name: Publish to docker hub
-      run: docker push ${{ secrets.DOCKERHUB_USERNAME }}/${{env.image-name}}
+    # 빌드 매트릭스 생성
+    - name: docker build matrix
+      run: docker buildx create --name multi_arch_builder --platform linux/arm64,linux/amd64,linux/amd64/v2,linux/riscv64,linux/ppc64le,linux/s390x,linux/386,linux/mips64le,linux/mips64,linux/arm/v7,linux/arm/v6 --use
+      working-directory: ${{ env.working-directory }}
+       
+    # 빌드 에이전트 설정, 빌드 수행 준비
+    - name: docker agent config
+      run: docker buildx inspect --bootstrap
+      working-directory: ${{ env.working-directory }}
+  
+    # 빌드 및 푸시
+    - name: docker build and push
+      run: docker buildx build -t ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.image-name }} --platform=linux/arm64,linux/amd64 --push -f Dockerfile .
+      working-directory: ${{ env.working-directory }}
       
   test-build-composite:
     name: Test-Build-Composite
@@ -202,11 +214,6 @@ jobs:
       run: ./gradlew clean build
       working-directory: ${{ env.working-directory }}
       
-    # docker image 빌드
-    - name: Build docker image
-      run: docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/${{env.image-name}} .
-      working-directory: ${{ env.working-directory }}
-      
     # docker hub 로그인
     - name: Login docker hub
       uses: docker/login-action@v2
@@ -214,9 +221,20 @@ jobs:
         username: ${{ secrets.DOCKERHUB_USERNAME }}
         password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-    # docker hub 퍼블리시
-    - name: Publish to docker hub
-      run: docker push ${{ secrets.DOCKERHUB_USERNAME }}/${{env.image-name}}
+    # 빌드 매트릭스 생성
+    - name: docker build matrix
+      run: docker buildx create --name multi_arch_builder --platform linux/arm64,linux/amd64,linux/amd64/v2,linux/riscv64,linux/ppc64le,linux/s390x,linux/386,linux/mips64le,linux/mips64,linux/arm/v7,linux/arm/v6 --use
+      working-directory: ${{ env.working-directory }}
+       
+    # 빌드 에이전트 설정, 빌드 수행 준비
+    - name: docker agent config
+      run: docker buildx inspect --bootstrap
+      working-directory: ${{ env.working-directory }}
+  
+    # 빌드 및 푸시
+    - name: docker build and push
+      run: docker buildx build -t ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.image-name }} --platform=linux/arm64,linux/amd64 --push -f Dockerfile .
+      working-directory: ${{ env.working-directory }}
 
   test-build-debate:
     name: Test-Build-Debate
@@ -279,11 +297,6 @@ jobs:
       run: ./gradlew clean build
       working-directory: ${{ env.working-directory }}
       
-    # docker image 빌드
-    - name: Build docker image
-      run: docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/${{env.image-name}} .
-      working-directory: ${{ env.working-directory }}
-      
     # docker hub 로그인
     - name: Login docker hub
       uses: docker/login-action@v2
@@ -291,7 +304,18 @@ jobs:
         username: ${{ secrets.DOCKERHUB_USERNAME }}
         password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-    # docker hub 퍼블리시
-    - name: Publish to docker hub
-      run: docker push ${{ secrets.DOCKERHUB_USERNAME }}/${{env.image-name}}
-      
+    # 빌드 매트릭스 생성
+    - name: docker build matrix
+      run: docker buildx create --name multi_arch_builder --platform linux/arm64,linux/amd64,linux/amd64/v2,linux/riscv64,linux/ppc64le,linux/s390x,linux/386,linux/mips64le,linux/mips64,linux/arm/v7,linux/arm/v6 --use
+      working-directory: ${{ env.working-directory }}
+       
+    # 빌드 에이전트 설정, 빌드 수행 준비
+    - name: docker agent config
+      run: docker buildx inspect --bootstrap
+      working-directory: ${{ env.working-directory }}
+  
+    # 빌드 및 푸시
+    - name: docker build and push
+      run: docker buildx build -t ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.image-name }} --platform=linux/arm64,linux/amd64 --push -f Dockerfile .
+      working-directory: ${{ env.working-directory }}
+

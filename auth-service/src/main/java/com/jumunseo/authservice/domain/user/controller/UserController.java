@@ -65,7 +65,6 @@ public class UserController {
     @Operation(summary = "토큰으로 유저 정보 수정", description = "토큰을 이용하여 유저 정보를 수정합니다.")
     @PutMapping("/update")
     public ResponseEntity<Result<?>> updateUserInfo(@RequestHeader("Authorization") String authorizationHeader,
-                                                    @CookieValue("refreshToken") String refreshToken,
                                                     @RequestBody Map<String,String> updateInfo) {
 
         UpdateDto updateDto = userService.updateUser(authorizationHeader, updateInfo);

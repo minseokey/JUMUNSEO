@@ -85,6 +85,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     @Override
+    @Transactional
     public UpdateDto updateUser(String token, Map<String, String> updateInfo) {
         try {
             jwtTokenProvider.validateToken(token);
@@ -162,6 +163,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
 
     @Override
+    @Transactional
     public void addBlockList(String token, String blockUserId) {
         // 자신은 차단 불가.
         if (jwtTokenProvider.getEmailForAccessToken(token).equals(blockUserId)) {
@@ -184,6 +186,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     @Override
+    @Transactional
     public void deleteBlockList(String token, String blockUserId) {
         // 자신은 차단 불가.
         if (jwtTokenProvider.getEmailForAccessToken(token).equals(blockUserId)) {
