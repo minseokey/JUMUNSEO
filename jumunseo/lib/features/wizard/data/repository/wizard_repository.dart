@@ -8,6 +8,6 @@ part 'wizard_repository.g.dart';
 abstract class WizardRepository {
   factory WizardRepository(Dio dio, {String baseUrl}) = _WizardRepository;
 
-  @GET('/chat/list/{userID}')
-  Future<ChatModel> getRooms(@Path() String userID);
+  @GET('/chat/list/{userId}')
+  Future<ChatModel> getRooms(@Path() String userId);
 }

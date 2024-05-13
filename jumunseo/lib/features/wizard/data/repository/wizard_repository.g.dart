@@ -21,7 +21,7 @@ class _WizardRepository implements WizardRepository {
   String? baseUrl;
 
   @override
-  Future<ChatModel> getRooms(String userID) async {
+  Future<ChatModel> getRooms(String userId) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
@@ -34,7 +34,7 @@ class _WizardRepository implements WizardRepository {
     )
             .compose(
               _dio.options,
-              '/chat/list/${userID}',
+              '/chat/list/${userId}',
               queryParameters: queryParameters,
               data: _data,
             )

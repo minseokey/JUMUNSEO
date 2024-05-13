@@ -57,6 +57,11 @@ class WizardCubit extends Cubit<WizardState> {
     return "";
   }
 
+  void toHome(BuildContext context) {
+    context.pop();
+    context.go('/');
+  }
+
   void sokectEventSetting(BuildContext context){
     state.myChat.clear();
     state.chats.clear();
