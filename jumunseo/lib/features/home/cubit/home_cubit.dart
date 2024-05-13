@@ -14,7 +14,7 @@ class HomeCubit extends Cubit<HomeState> {
   }
 
   void homeToDilema(BuildContext context) {
-    context.push("/dilemma/chat/1");
+    context.push("/dilemma");
   }
 
   void homeToWizard(BuildContext context) {
