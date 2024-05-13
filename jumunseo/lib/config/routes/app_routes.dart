@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:jumunseo/core/login_status.dart';
 
 import 'package:jumunseo/features/community/community.dart';
+import 'package:jumunseo/features/community/home/view/community_my_write.dart';
 
 import 'package:jumunseo/features/dilemma/dilemma_screen.dart';
 import 'package:jumunseo/features/home/view/home_screen.dart';
@@ -83,6 +84,12 @@ GoRouter appRouter = GoRouter(
       path: '/community',
       builder: (context, state) {
         return const CommunityHomeScreen();
+      },
+    ),
+    GoRoute(
+      path: '/community/myWrite',
+      builder: (context, state) {
+        return const CommunityMyWrite();
       },
     ),
     GoRoute(

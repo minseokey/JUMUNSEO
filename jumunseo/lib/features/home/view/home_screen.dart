@@ -1,5 +1,6 @@
 import 'package:extended_image/extended_image.dart';
 import 'package:jumunseo/core/login_status.dart';
+import 'package:jumunseo/core/notification.dart';
 import 'package:jumunseo/features/auth/auth.dart';
 import '../home.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -35,6 +36,17 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   void initState(){
+    if(LoginStatus.isLogin) {
+      FlutterLocalNotification.init();
+      
+      Future.delayed(
+        const Duration(seconds: 3),
+        FlutterLocalNotification.requestNotificationPermission()
+      );
+
+      // FlutterLocalNotification.showNotification();
+    }
+
     super.initState();
   }
 
@@ -44,9 +56,11 @@ class _HomeScreenState extends State<HomeScreen> {
 
     homeWidgets = context.read<HomeCubit>().getHomeList();
 
+    loading.value = false;
+
     context.read<AuthCubit>().getInfo()
     .then((value) {
-      loading.value = !loading.value;
+      loading.value = true;
     });
 
     return Scaffold(

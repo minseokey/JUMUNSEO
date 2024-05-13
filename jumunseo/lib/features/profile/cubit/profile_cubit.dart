@@ -26,4 +26,8 @@ class ProfileCubit extends Cubit<ProfileState> {
   void profilechangeMethod(BuildContext context) {
     showDialog(context: context, builder: (context) => imageChangeChooseDialog(context));
   }
+
+  void toMyWritting(BuildContext context) {
+    context.push('/community/myWrite');
+  }
 }
