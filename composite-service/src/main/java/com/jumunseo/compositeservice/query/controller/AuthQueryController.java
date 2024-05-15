@@ -34,7 +34,7 @@ public class AuthQueryController {
     @Operation(summary = "Get User Info By UserId", description = "유저 정보를 유저 아이디를 통해 가져오는 메소드")
     public ResponseEntity<Result<?>> get_userInfo_by_userId(@PathVariable Long userId) {
         Mono<JSONObject> mono = webClient.get()
-                .uri(AUTH_SERVICE_URL + "/info/" + userId)
+                .uri(AUTH_SERVICE_URL + "/user/info/" + userId)
                 .retrieve()
                 // 4-- 에러 -> 요청 오류
                 .onStatus(HttpStatusCode::is4xxClientError, res -> Mono.error(
@@ -55,7 +55,7 @@ public class AuthQueryController {
     @Operation(summary = "Get User Info By Email", description = "유저 정보를 이메일을 통해 가져오는 메소드")
     public ResponseEntity<Result<?>> get_userInfo_by_email(@PathVariable String email) {
         Mono<JSONObject> mono = webClient.get()
-                .uri(AUTH_SERVICE_URL + "/info/email/" + email)
+                .uri(AUTH_SERVICE_URL + "/user/info/email/" + email)
                 .retrieve()
                 // 4-- 에러 -> 요청 오류
                 .onStatus(HttpStatusCode::is4xxClientError, res -> Mono.error(
@@ -76,7 +76,7 @@ public class AuthQueryController {
     @Operation(summary = "Get User Infos By UserIds", description = "유저 정보들을 유저 아이디 리스트를 통해 가져오는 메소드")
     public ResponseEntity<Result<?>> getUserInfoByUserIds(@PathVariable List<Long> userIds) {
         Flux<JSONObject> flux = webClient.get()
-                .uri(AUTH_SERVICE_URL + "/info/users/" + userIds)
+                .uri(AUTH_SERVICE_URL + "/user/info/users/" + userIds)
                 .retrieve()
                 // 4-- 에러 -> 요청 오류
                 .onStatus(HttpStatusCode::is4xxClientError, res -> Mono.error(
