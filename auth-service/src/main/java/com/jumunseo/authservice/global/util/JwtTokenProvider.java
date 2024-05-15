@@ -3,6 +3,7 @@ package com.jumunseo.authservice.global.util;
 import com.jumunseo.authservice.domain.user.entity.Role;
 import com.jumunseo.authservice.domain.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import io.jsonwebtoken.*;
@@ -13,6 +14,7 @@ import java.util.UUID;
 
 @Component
 @RequiredArgsConstructor
+@Slf4j
 public class JwtTokenProvider {
 
     // OS 환경변수
@@ -30,7 +32,7 @@ public class JwtTokenProvider {
     public String createAccessToken(String userId, String role) {
         Claims claims = Jwts.claims().setSubject(userId);
         claims.put("role", role);
-
+        log.info("현재시간" + System.currentTimeMillis());
 
         return JwtPrefix + Jwts.builder()
                 .setClaims(claims)
