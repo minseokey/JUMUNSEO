@@ -24,7 +24,7 @@ import java.util.List;
 @RequestMapping("/query/auth")
 @Tag(name = "Auth Query", description = "인증 서비스를 위한 쿼리 컨트롤러")
 public class AuthQueryController {
-    private final String AUTH_SERVICE_URL = "http://auth-service:8080";
+    private final String AUTH_SERVICE_URL = "http://auth-server.auth";
     private final WebClient webClient;
     // UserId로 User 정보 가져오기
     // 토큰 필요? 일단 X
