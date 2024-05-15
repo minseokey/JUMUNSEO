@@ -32,12 +32,12 @@ public class JwtTokenProvider {
     public String createAccessToken(String userId, String role) {
         Claims claims = Jwts.claims().setSubject(userId);
         claims.put("role", role);
-        log.info("현재시간" + System.currentTimeMillis());
+        log.info("현재시간" + System.currentTimeMillis() + (9 * 60 * 60 * 1000));
 
         return JwtPrefix + Jwts.builder()
                 .setClaims(claims)
                 .setIssuedAt(new Date())
-                .setExpiration(new Date(System.currentTimeMillis() + accessTokenExpiration))
+                .setExpiration(new Date(System.currentTimeMillis() + accessTokenExpiration + (9 * 60 * 60 * 1000)))
                 .signWith(SignatureAlgorithm.HS256, secretKey)
                 .compact();
     }
