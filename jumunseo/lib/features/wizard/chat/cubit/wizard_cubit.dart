@@ -66,7 +66,7 @@ class WizardCubit extends Cubit<WizardState> {
     state.myChat.clear();
     state.chats.clear();
 
-    state.socket = IOWebSocketChannel.connect(Uri.parse('ws://10.0.2.2:8000/ws/${state.userId}'));
+    state.socket = IOWebSocketChannel.connect(Uri.parse('ws://jumunseo.com/ws/${state.userId}'));
 
     logger.d('서버 연결 시작');
 

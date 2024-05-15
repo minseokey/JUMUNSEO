@@ -13,7 +13,7 @@ class _WizardRepository implements WizardRepository {
     this._dio, {
     this.baseUrl,
   }) {
-    baseUrl ??= 'http://10.0.2.2:8000';
+    baseUrl ??= 'http://jumunseo.com';
   }
 
   final Dio _dio;

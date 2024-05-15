@@ -17,7 +17,7 @@ import 'package:retrofit/retrofit.dart';
 
 part 'auth_repository.g.dart';
 
-@RestApi(baseUrl: 'http://10.0.2.2:8080')
+@RestApi(baseUrl: 'http://jumunseo.com')
 abstract class AuthRepository {
   factory AuthRepository(Dio dio, {String baseUrl}) = _AuthRepository;
  
