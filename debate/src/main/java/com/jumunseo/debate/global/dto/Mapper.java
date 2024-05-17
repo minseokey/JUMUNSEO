@@ -21,25 +21,26 @@ public class Mapper {
                 .type(opinionRequestDto.getType())
                 .subject(subjectRepository.findById(opinionRequestDto.getSubjectId())
                         .orElseThrow(() -> new NotExistSubjectException("주제가 존재하지 않습니다.")))
+                .time(opinionRequestDto.getTime())
                 .userEmail(opinionRequestDto.getUserEmail())
                 .side(opinionRequestDto.getSide())
                 .build();
     }
-
-    public OpinionDto toDto(Opinion opinion){
-        return OpinionDto.builder()
-                .content(opinion.getContent())
-                .type(opinion.getType())
-                .subjectId(opinion.getSubject().getId())
-                .userEmail(opinion.getUserEmail())
-                .build();
-    }
-
-    public Subject toEntity(SubjectDto subjectDto){
-        return Subject.builder()
-                .contents(subjectDto.getContents())
-                .build();
-    }
+//
+//    public OpinionDto toDto(Opinion opinion){
+//        return OpinionDto.builder()
+//                .content(opinion.getContent())
+//                .type(opinion.getType())
+//                .subjectId(opinion.getSubject().getId())
+//                .userEmail(opinion.getUserEmail())
+//                .build();
+//    }
+//
+//    public Subject toEntity(SubjectDto subjectDto){
+//        return Subject.builder()
+//                .contents(subjectDto.getContents())
+//                .build();
+//    }
 
     public SubjectDto toDto(Subject subject){
         return SubjectDto.builder()

@@ -19,6 +19,8 @@ import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 
+import java.time.LocalDateTime;
+
 @Controller
 @RequiredArgsConstructor
 public class TestController {
@@ -59,14 +61,14 @@ public class TestController {
         System.out.println("1");
 
         // 2. opinion 생성 좌, 우 3개씩.
-        Opinion opinionDtoL1 = Opinion.builder().content("맞다고 생각한다").type(MessageType.TALK).side(MessageSide.LEFT).subject(sub).userEmail("lms990427").build();
-        Opinion opinionDtoL2 = Opinion.builder().content("당연하지. 당연히 그래야한다.").type(MessageType.TALK).side(MessageSide.LEFT).subject(sub).userEmail("lms990427").build();
-        Opinion opinionDtoL3 = Opinion.builder().content("아닐수도 있지만 맞다고 생각한다.").type(MessageType.TALK).side(MessageSide.LEFT).subject(sub).userEmail("lms990427").build();
+        Opinion opinionDtoL1 = Opinion.builder().content("맞다고 생각한다").type(MessageType.TALK).side(MessageSide.LEFT).subject(sub).userEmail("lms990427").time(LocalDateTime.now()).build();
+        Opinion opinionDtoL2 = Opinion.builder().content("당연하지. 당연히 그래야한다.").type(MessageType.TALK).side(MessageSide.LEFT).subject(sub).userEmail("lms990427").time(LocalDateTime.now()).build();
+        Opinion opinionDtoL3 = Opinion.builder().content("아닐수도 있지만 맞다고 생각한다.").type(MessageType.TALK).side(MessageSide.LEFT).subject(sub).userEmail("lms990427").time(LocalDateTime.now()).build();
 
-        Opinion opinionDtoR1 = Opinion.builder().content("절대 아니다.").type(MessageType.TALK).side(MessageSide.RIGHT).subject(sub).userEmail("lms990427").build();
-        Opinion opinionDtoR2 = Opinion.builder().content("이게 왜?").type(MessageType.TALK).side(MessageSide.RIGHT).subject(sub).userEmail("lms990427").build();
-        Opinion opinionDtoR3 = Opinion.builder().content("그럴리가 없다").type(MessageType.TALK).side(MessageSide.RIGHT).subject(sub).userEmail("lms990427").build();
-        Opinion opinionDtoR4 = Opinion.builder().content("맞을수도 있지만 아니라고 생각한다.").type(MessageType.TALK).side(MessageSide.RIGHT).subject(sub).userEmail("lms990427").build();
+        Opinion opinionDtoR1 = Opinion.builder().content("절대 아니다.").type(MessageType.TALK).side(MessageSide.RIGHT).subject(sub).userEmail("lms990427").time(LocalDateTime.now()).build();
+        Opinion opinionDtoR2 = Opinion.builder().content("이게 왜?").type(MessageType.TALK).side(MessageSide.RIGHT).subject(sub).userEmail("lms990427").time(LocalDateTime.now()).build();
+        Opinion opinionDtoR3 = Opinion.builder().content("그럴리가 없다").type(MessageType.TALK).side(MessageSide.RIGHT).subject(sub).userEmail("lms990427").time(LocalDateTime.now()).build();
+        Opinion opinionDtoR4 = Opinion.builder().content("맞을수도 있지만 아니라고 생각한다.").type(MessageType.TALK).side(MessageSide.RIGHT).subject(sub).userEmail("lms990427").time(LocalDateTime.now()).build();
 
 
         opinionRepository.save(opinionDtoL1);
