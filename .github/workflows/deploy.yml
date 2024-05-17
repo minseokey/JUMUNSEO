@@ -189,6 +189,11 @@ jobs:
       TZ: "Asia/Seoul"
       COMPOSITE_REDIS_PORT: 6379
       COMPOSITE_REDIS_HOST: redis
+      ADDRESS_AUTH: "http://auth-service:8080"
+      ADDRESS_DEBATE: "http://debate-service:8082"
+      ADDRESS_MAGICIAN: "http://magician:8000"
+      ADDRESS_COMMUNITY: "http://community-service:8083"
+
 
     
     services:
