@@ -75,13 +75,15 @@ class _SignUpViewState extends State<SignUpView> {
                         ),
                         ElevatedButton(
                           onPressed: () {
-                            context.read<AuthCubit>().duplicateEmail(emailController.text)
+                            context.read<AuthCubit>().duplicateEmail(emailController.text, context)
                             .then((value) {
-                              if(value) {
-                                duplicate.value = 1;
-                              }
-                              else {
-                                duplicate.value = 2;
+                              if(value != null){
+                                if(value) {
+                                  duplicate.value = 1;
+                                }
+                                else {
+                                  duplicate.value = 2;
+                                }
                               }
                             });
                           },

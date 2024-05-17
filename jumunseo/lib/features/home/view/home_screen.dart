@@ -58,10 +58,12 @@ class _HomeScreenState extends State<HomeScreen> {
 
     loading.value = false;
 
-    context.read<AuthCubit>().getInfo()
-    .then((value) {
-      loading.value = true;
-    });
+    if(!LoginStatus.isGeust){
+      context.read<AuthCubit>().getInfo(context)
+      .then((value) {
+        loading.value = true;
+      });
+    }
 
     return Scaffold(
       appBar: PreferredSize(
@@ -79,7 +81,13 @@ class _HomeScreenState extends State<HomeScreen> {
                       "Welcome back,",
                       style: TextStyle(fontSize: 12, color: Colors.grey),
                     ),
-                    ValueListenableBuilder<bool>(
+                    LoginStatus.isGeust? const Text(
+                      'Guest',
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black),
+                    ):ValueListenableBuilder<bool>(
                       valueListenable: loading,
                       builder: (context, value, child) {
                         if(value){
@@ -106,7 +114,11 @@ class _HomeScreenState extends State<HomeScreen> {
                 const Spacer(),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 10),
-                  child: ValueListenableBuilder<String>(
+                  child: LoginStatus.isGeust? CircleAvatar(
+                    radius: 25.0,
+                    backgroundImage:
+                        ExtendedImage.asset('assets/icons/profile.png').image,
+                  ):ValueListenableBuilder<String>(
                     valueListenable: LoginStatus.imageUrl,
                     builder: (context, value, child) {
                       if(value == '' || value == '기본사진'){
@@ -158,9 +170,18 @@ class _HomeScreenState extends State<HomeScreen> {
                       key: Key(e),
                       child: (e == '마법사')
                           ? GestureDetector(
-                              onTapUp: (details) => context
-                                  .read<HomeCubit>()
-                                  .homeToWizard(context),
+                              onTapUp: (details){
+                                if(LoginStatus.isGeust) {
+                                  context
+                                    .read<HomeCubit>()
+                                    .guestDialog(context);
+                                }
+                                else {
+                                  context
+                                    .read<HomeCubit>()
+                                    .homeToWizard(context);
+                                }
+                              },
                               child: const WizardMenu())
                           : (e == '딜레마')
                               ? GestureDetector(

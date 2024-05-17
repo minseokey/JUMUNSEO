@@ -1,6 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:jumunseo/core/login_status.dart';
 import 'package:jumunseo/features/auth/auth.dart';
+import 'package:jumunseo/features/home/view/guest_login_dialog.dart';
 
 import '../home.dart';
 import 'package:go_router/go_router.dart';
@@ -39,5 +40,9 @@ class HomeCubit extends Cubit<HomeState> {
     } else {
       context.read<AuthCubit>().askToLogin(context);
     }
+  }
+
+  void guestDialog(BuildContext context) {
+    showDialog(context: context, builder: (context) => guestLoginDialog(context));
   }
 }

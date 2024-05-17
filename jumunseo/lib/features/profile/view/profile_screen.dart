@@ -51,7 +51,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  ValueListenableBuilder<String>(
+                  LoginStatus.isGeust? CircleAvatar(
+                    backgroundImage: ExtendedImage.asset('assets/icons/profile.png').image,
+                  ):ValueListenableBuilder<String>(
                     valueListenable: LoginStatus.imageUrl,
                     builder: (context, value, child) {
                       if(value == '' || value == '기본사진'){
@@ -78,7 +80,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   ),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 15),
-                    child: ValueListenableBuilder<String>(
+                    child: LoginStatus.isGeust? const Text(
+                      'Guest',
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black),
+                    ):ValueListenableBuilder<String>(
                       valueListenable: LoginStatus.name,
                       builder: (context, value, child) {
                         return Text(
@@ -96,7 +104,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     child: TextButton(
                       child : const Text('Edit', style: TextStyle(color: Colors.white, fontSize: 12),),
                       onPressed: () {
-                        context.read<ProfileCubit>().toEditProfile(context);
+                        if(!LoginStatus.isGeust) {
+                          context.read<ProfileCubit>().toEditProfile(context);
+                        }
                       },
                     )
                   )),

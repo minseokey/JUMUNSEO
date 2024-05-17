@@ -1,8 +1,12 @@
 import 'package:bloc/bloc.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:jumunseo/core/logger.dart';
+import 'package:jumunseo/features/auth/auth.dart';
+import 'package:jumunseo/features/auth/view/not_network_dialog.dart';
 import '../chat.dart';
 import 'package:web_socket_channel/io.dart';
+import 'package:connectivity_plus/connectivity_plus.dart';
 
 class WizardCubit extends Cubit<WizardState> {
   WizardCubit() : super(WizardState());
@@ -62,11 +66,24 @@ class WizardCubit extends Cubit<WizardState> {
     context.go('/');
   }
 
+  Future<bool> internetAccessOk(BuildContext context) async {
+    var connectivityResult = await (Connectivity().checkConnectivity());
+
+    if(connectivityResult != ConnectivityResult.mobile && connectivityResult != ConnectivityResult.wifi) {
+      showDialog(context: context, builder: (context) => notNetworkDialog(context));
+      context.go('/');
+      return false;
+    }
+
+    return true;
+  }
+
   void sokectEventSetting(BuildContext context){
     state.myChat.clear();
     state.chats.clear();
 
-    state.socket = IOWebSocketChannel.connect(Uri.parse('ws://jumunseo.com/ws/${state.userId}'));
+    Map<String, dynamic> header = {'Authorization':context.read<AuthCubit>().getAcessToken()};
+    state.socket = IOWebSocketChannel.connect(Uri.parse('ws://jumunseo.com/ws'), headers:header);
 
     logger.d('서버 연결 시작');
 

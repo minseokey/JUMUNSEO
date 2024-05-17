@@ -22,6 +22,8 @@ import 'package:jumunseo/features/auth/model/user_info_response_model.dart';
 import 'package:jumunseo/features/auth/view/delete_user_ask_dialog.dart';
 import 'package:jumunseo/features/auth/view/login_ask_dialog.dart';
 import 'package:jumunseo/features/auth/view/logout_ask_dialog.dart';
+import 'package:connectivity_plus/connectivity_plus.dart';
+import 'package:jumunseo/features/auth/view/not_network_dialog.dart';
 
 part 'auth_state.dart';
 
@@ -49,9 +51,16 @@ class AuthCubit extends Cubit<AuthState> {
     return state.accessToken;
   }
 
-  Future<void> getInfo() async {
+  Future<void> getInfo(BuildContext context) async {
+    var connectivityResult = await (Connectivity().checkConnectivity());
+
+    if(connectivityResult != ConnectivityResult.mobile && connectivityResult != ConnectivityResult.wifi) {
+      showDialog(context: context, builder: (context) => notNetworkDialog(context));
+      return;
+    }
+
     final baseOptions = BaseOptions(
-      baseUrl: 'http://10.0.2.2:8080',
+      baseUrl: 'http://jumunseo.com',
       contentType: Headers.jsonContentType,
       validateStatus: (int? status) {
         return status != null;
@@ -75,10 +84,17 @@ class AuthCubit extends Cubit<AuthState> {
     }
   }
 
-  Future<void> postImage() async {
+  Future<void> postImage(BuildContext context) async {
+    var connectivityResult = await (Connectivity().checkConnectivity());
+
+    if(connectivityResult != ConnectivityResult.mobile && connectivityResult != ConnectivityResult.wifi) {
+      showDialog(context: context, builder: (context) => notNetworkDialog(context));
+      return;
+    }
+
     logger.d("이미지 클릭");
     final baseOptions = BaseOptions(
-      baseUrl: 'http://10.0.2.2:8080',
+      baseUrl: 'http://jumunseo.com',
       validateStatus: (int? status) {
         return status != null;
       },
@@ -105,9 +121,16 @@ class AuthCubit extends Cubit<AuthState> {
     }
   }
 
-  Future<void> deleteImage() async {
+  Future<void> deleteImage(BuildContext context) async {
+    var connectivityResult = await (Connectivity().checkConnectivity());
+
+    if(connectivityResult != ConnectivityResult.mobile && connectivityResult != ConnectivityResult.wifi) {
+      showDialog(context: context, builder: (context) => notNetworkDialog(context));
+      return;
+    }
+
     final baseOptions = BaseOptions(
-      baseUrl: 'http://10.0.2.2:8080',
+      baseUrl: 'http://jumunseo.com',
       validateStatus: (int? status) {
         return status != null;
       },
@@ -130,9 +153,16 @@ class AuthCubit extends Cubit<AuthState> {
     }
   }
 
-  Future<bool> duplicateEmail(String email) async {
+  Future<bool?> duplicateEmail(String email, BuildContext context) async {
+    var connectivityResult = await (Connectivity().checkConnectivity());
+
+    if(connectivityResult != ConnectivityResult.mobile && connectivityResult != ConnectivityResult.wifi) {
+      showDialog(context: context, builder: (context) => notNetworkDialog(context));
+      return null;
+    }
+
     final baseOptions = BaseOptions(
-      baseUrl: 'http://10.0.2.2:8080',
+      baseUrl: 'http://jumunseo.com',
       contentType: Headers.jsonContentType,
       validateStatus: (int? status) {
         return status != null;
@@ -156,10 +186,17 @@ class AuthCubit extends Cubit<AuthState> {
     return true;
   }
 
-  Future<int> editProfile(BuildContext context, String name, String password, String repassword) async {
+  Future<int?> editProfile(BuildContext context, String name, String password, String repassword) async {
+    var connectivityResult = await (Connectivity().checkConnectivity());
+
+    if(connectivityResult != ConnectivityResult.mobile && connectivityResult != ConnectivityResult.wifi) {
+      showDialog(context: context, builder: (context) => notNetworkDialog(context));
+      return null;
+    }
+
     if(password == repassword && name != '') {
       final baseOptions = BaseOptions(
-        baseUrl: 'http://10.0.2.2:8080',
+        baseUrl: 'http://jumunseo.com',
         contentType: Headers.jsonContentType,
         validateStatus: (int? status) {
           return status != null;
@@ -197,10 +234,17 @@ class AuthCubit extends Cubit<AuthState> {
     }
   }
 
-  Future<int> signUp(BuildContext context, String name, String email, String password, String repassword) async {
+  Future<int?> signUp(BuildContext context, String name, String email, String password, String repassword) async {
+    var connectivityResult = await (Connectivity().checkConnectivity());
+
+    if(connectivityResult != ConnectivityResult.mobile && connectivityResult != ConnectivityResult.wifi) {
+      showDialog(context: context, builder: (context) => notNetworkDialog(context));
+      return null;
+    }
+
     if(password == repassword && name != '') {
       final baseOptions = BaseOptions(
-        baseUrl: 'http://10.0.2.2:8080',
+        baseUrl: 'http://jumunseo.com',
         contentType: Headers.jsonContentType,
         validateStatus: (int? status) {
           return status != null;
@@ -233,9 +277,16 @@ class AuthCubit extends Cubit<AuthState> {
     }
   }
 
-  Future<bool> login(BuildContext context, String email, String password) async {
+  Future<bool?> login(BuildContext context, String email, String password) async {
+    var connectivityResult = await (Connectivity().checkConnectivity());
+
+    if(connectivityResult != ConnectivityResult.mobile && connectivityResult != ConnectivityResult.wifi) {
+      showDialog(context: context, builder: (context) => notNetworkDialog(context));
+      return null;
+    }
+
     final baseOptions = BaseOptions(
-        baseUrl: 'http://10.0.2.2:8080',
+        baseUrl: 'http://jumunseo.com',
         contentType: Headers.jsonContentType,
         validateStatus: (int? status) {
           return status != null;
@@ -275,17 +326,36 @@ class AuthCubit extends Cubit<AuthState> {
   }
 
   void logoutMethod(BuildContext context) {
-    showDialog(context: context, builder: (context) => logoutAskDialog(context));
+    if(LoginStatus.isGeust){
+      LoginStatus.isGeust = false;
+      context.go('/auth');
+    }
+    else {
+      showDialog(context: context, builder: (context) => logoutAskDialog(context));
+    }
   }
 
   void deleteUserMethod(BuildContext context) {
-    showDialog(context: context, builder: (context) => deleteUserAskDialog(context));
+    if(LoginStatus.isGeust){
+      LoginStatus.isGeust = false;
+      context.go('/auth');
+    }
+    else {
+      showDialog(context: context, builder: (context) => deleteUserAskDialog(context));
+    }
   }
 
   Future<void> logout(BuildContext context) async {
+    var connectivityResult = await (Connectivity().checkConnectivity());
+
+    if(connectivityResult != ConnectivityResult.mobile && connectivityResult != ConnectivityResult.wifi) {
+      showDialog(context: context, builder: (context) => notNetworkDialog(context));
+      return;
+    }
+
     if(!LoginStatus.isGeust){
       final baseOptions = BaseOptions(
-        baseUrl: 'http://10.0.2.2:8080',
+        baseUrl: 'http://jumunseo.com',
         contentType: Headers.jsonContentType,
         validateStatus: (int? status) {
           return status != null;
@@ -317,9 +387,16 @@ class AuthCubit extends Cubit<AuthState> {
   }
 
   Future<void> deleteUser(BuildContext context) async {
+    var connectivityResult = await (Connectivity().checkConnectivity());
+
+    if(connectivityResult != ConnectivityResult.mobile && connectivityResult != ConnectivityResult.wifi) {
+      showDialog(context: context, builder: (context) => notNetworkDialog(context));
+      return;
+    }
+
     if(!LoginStatus.isGeust){
       final baseOptions = BaseOptions(
-        baseUrl: 'http://10.0.2.2:8080',
+        baseUrl: 'http://jumunseo.com',
         contentType: Headers.jsonContentType,
         validateStatus: (int? status) {
           return status != null;

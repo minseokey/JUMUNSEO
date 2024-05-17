@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:jumunseo/features/auth/cubit/auth_cubit.dart';
 
-Dialog imageChangeChooseDialog(BuildContext context) {
+Dialog notNetworkDialog(BuildContext context) {
   return Dialog(
     shape: RoundedRectangleBorder(
       borderRadius: BorderRadius.circular(16),
@@ -27,30 +25,30 @@ Dialog imageChangeChooseDialog(BuildContext context) {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
-          TextButton(
-            onPressed: () { 
-              context.read<AuthCubit>().deleteImage(context);
-              context.pop();
-            },
-            child: const Text(
-              '기본 사진',
-              style: TextStyle(
-                fontSize: 16,
-              ),
+          const Text(
+            '인터넷 연결을 확인해 주세요.',
+            style: TextStyle(
+              fontSize: 24,
+              fontWeight: FontWeight.w700,
             ),
           ),
           const SizedBox(height: 24),
-          TextButton(
-            onPressed: () {
-              context.read<AuthCubit>().postImage(context);
-              context.pop();
-            },
-            child: const Text(
-              '사진 선택',
-              style: TextStyle(
-                fontSize: 16,
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              TextButton(
+                onPressed: () {
+                  context.pop();
+                },
+                child: const Text(
+                  '확인',
+                  style: TextStyle(
+                    fontSize: 16,
+                    color: Colors.black,
+                  ),
+                ),
               ),
-            ),
+            ],
           ),
         ],
       ),
