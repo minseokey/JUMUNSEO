@@ -8,6 +8,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.json.simple.JSONObject;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
@@ -26,7 +27,9 @@ import java.util.List;
 @Tag(name = "Debate Query", description = "토론 서비스를 위한 쿼리 컨트롤러")
 @Controller
 public class DebateQueryController {
-    private final String DEBATE_SERVICE_URL = "http://debate-service:8082";
+
+    @Value("${address.debate}")
+    private String DEBATE_SERVICE_URL;
     private final WebClient webClient;
 
     // 해당 주제의 이전 채팅 조회 로그인 필요 X

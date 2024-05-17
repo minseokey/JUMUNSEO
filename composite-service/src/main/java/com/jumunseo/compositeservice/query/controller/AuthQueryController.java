@@ -7,6 +7,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.json.simple.JSONObject;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -24,7 +25,8 @@ import java.util.List;
 @RequestMapping("/query/auth")
 @Tag(name = "Auth Query", description = "인증 서비스를 위한 쿼리 컨트롤러")
 public class AuthQueryController {
-    private final String AUTH_SERVICE_URL = "http://auth-server.auth:8080";
+    @Value("${address.auth}")
+    private String AUTH_SERVICE_URL;
     private final WebClient webClient;
     // UserId로 User 정보 가져오기
     // 토큰 필요? 일단 X
