@@ -74,11 +74,14 @@ async def websocket_endpoint(websocket: WebSocket, user_id: str):
             is_continued = False
             room_id = str(uuid.uuid4())
 
+        msg_history = []
         # 대화 시작
         while True:
             data = await websocket.receive_text()
             # 응답 생성 with added_prompt
-            msg = await gpt.gpt_talk(data, added_prompt)
+            msg = await gpt.gpt_talk(" ".join(msg_history), data, added_prompt)
+            # 문맥 유지
+            msg_history .append(msg)
             await websocket.send_text(msg)
             conversation.append({"user_message": data, "bot_response": msg})
 
