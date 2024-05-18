@@ -8,6 +8,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.json.simple.JSONObject;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
@@ -27,7 +28,9 @@ import java.util.List;
 @Controller
 @Tag(name = "Magician Query", description = "마법사 서비스를 위한 쿼리 컨트롤러")
 public class MagicianQueryController {
-    private final String MAGICIN_SERVICE_URL = "http://magician:8000";
+
+    @Value("${address.magician}")
+    private String MAGICIN_SERVICE_URL;
     private final WebClient webClient;
 
     // Flux

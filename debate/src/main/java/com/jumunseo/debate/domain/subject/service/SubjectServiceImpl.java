@@ -114,8 +114,8 @@ public class SubjectServiceImpl implements SubjectService{
                 // 해당 주제를 DB에 추가.
                 Subject subject = Subject.builder()
                         .contents(sub)
-                        .term(Duration.ofDays(2))
-//                        .term(Duration.ofSeconds(5L))
+//                        .term(Duration.ofDays(2))
+                        .term(Duration.ofSeconds(5L))
                         .build();
 
                 subjectRepository.save(subject);

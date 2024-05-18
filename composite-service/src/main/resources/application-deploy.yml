@@ -10,6 +10,13 @@ spring:
 jwt:
   secret: ${JWT_SECRET}
 
+# at K8s
+address:
+  auth: ${ADDRESS_AUTH}
+  debate: ${ADDRESS_DEBATE}
+  magician: ${ADDRESS_MAGICIAN}
+  community: ${ADDRESS_COMMUNITY}
+
 server:
   port: 8081
 
