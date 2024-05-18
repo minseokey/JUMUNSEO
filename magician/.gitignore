@@ -341,3 +341,6 @@ pyrightconfig.json
 
 # End of https://www.toptal.com/developers/gitignore/api/visualstudiocode,pycharm,python,macos
 /mongodb/
+/finetune/01.민사/
+/finetune/02.형사/
+/finetune/03.행정/
