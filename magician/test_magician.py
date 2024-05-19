@@ -26,7 +26,7 @@ def chat_collection():
 @pytest.mark.asyncio(scope="session")
 @pytest.mark.dependency()
 async def test_gpt(chat_collection):
-    async with websockets.connect("ws://0.0.0.0:8000/ws/Test1") as websocket:
+    async with websockets.connect("ws://0.0.0.0:8000/magician/ws/Test1") as websocket:
         # userid -> 1 로 테스트 진행.
         await websocket.send("test/-1")
         await websocket.send("테스트중이야, 안녕이라고 딱 두글자만 문장부호 없이 대답해줘")
@@ -42,7 +42,7 @@ async def test_gpt(chat_collection):
 @pytest.mark.dependency(depends=["test_gpt"])
 # 대화종료후 메시지를 잘 저장하는지
 async def test_end_of_message(chat_collection):
-    async with websockets.connect("ws://0.0.0.0:8000/ws/Test2") as websocket:
+    async with websockets.connect("ws://0.0.0.0:8000/magician/ws/Test2") as websocket:
         await websocket.send("test/-1")
         await websocket.send("all_저장테스트")
         await websocket.recv()
@@ -60,7 +60,7 @@ async def test_end_of_message(chat_collection):
 @pytest.mark.asyncio(scope="session")
 @pytest.mark.dependency(depends=["test_end_of_message"])
 async def test_reload_message(chat_collection):
-    async with websockets.connect("ws://0.0.0.0:8000/ws/Test3") as websocket:
+    async with websockets.connect("ws://0.0.0.0:8000/magician/ws/Test3") as websocket:
         await websocket.send("test/-1")
         await websocket.send("reload_테스트")
         await websocket.recv()
@@ -72,7 +72,7 @@ async def test_reload_message(chat_collection):
     raw_room_id = await chat_collection.find_one({"user_id": "Test3"})
     room_id = raw_room_id["room_id"]
 
-    async with websockets.connect("ws://0.0.0.0:8000/ws/Test3") as websocket:
+    async with websockets.connect("ws://0.0.0.0:8000/magician/ws/Test3") as websocket:
         await websocket.send(f"test/{room_id}")
         msg = json.loads(await websocket.recv())
         msg2 = await websocket.recv()
