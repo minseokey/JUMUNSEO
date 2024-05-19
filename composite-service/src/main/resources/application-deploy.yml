@@ -17,6 +17,18 @@ address:
   magician: ${ADDRESS_MAGICIAN}
   community: ${ADDRESS_COMMUNITY}
 
+cloud:
+  aws:
+    region:
+      static: ap-northeast-2
+    credentials:
+      accessKey: ${AWS_ACCESS_KEY}
+      secretKey: ${AWS_SECRET_KEY}
+    s3:
+      bucket: ${AWS_S3_BUCKET}
+    stack:
+      auto: false
+
 server:
   port: 8081
 
