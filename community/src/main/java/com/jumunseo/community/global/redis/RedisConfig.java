@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.data.redis.RedisProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -21,18 +22,17 @@ public class RedisConfig {
 
     public final RedisProperties redisProperties;
     public final ObjectMapper objectMapper;
-    public final RedisSubService subscriber;
 
     @Bean
-    public RedisMessageListenerContainer redisMessageListenerContainer() {
+    public RedisMessageListenerContainer redisMessageListenerContainer(@Lazy RedisSubService subscriber) {
         RedisMessageListenerContainer container = new RedisMessageListenerContainer();
         container.setConnectionFactory(redisConnectionFactory());
-        container.addMessageListener(listenerAdapter(), topic());
+        container.addMessageListener(listenerAdapter(subscriber),topic());
         return container;
     }
 
     @Bean
-    public MessageListenerAdapter listenerAdapter() {
+    public MessageListenerAdapter listenerAdapter(RedisSubService subscriber) {
         return new MessageListenerAdapter(subscriber, "onMessage");
     }
 
