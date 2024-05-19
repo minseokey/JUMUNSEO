@@ -50,6 +50,10 @@ public class Board {
     @OneToMany(mappedBy = "board")
     private List<Image> imageUrl = new ArrayList<>();
 
+    // 카테고리에 따라 마법사, 요약의 데이터를 가진다.
+    // 이걸 통해 마법사, 요약을 불러올 수 있다. (디테일 호출시만)
+    private Long dataId;
+
     @Builder
     public Board(CATEGORY category, String userId,  String title, String content, List<Image> imageUrl) {
         this.category = category;

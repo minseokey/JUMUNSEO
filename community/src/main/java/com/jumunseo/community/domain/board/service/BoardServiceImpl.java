@@ -17,6 +17,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,9 +34,17 @@ public class BoardServiceImpl implements BoardService {
     @Override
     @Transactional
     public void registerBoard(BoardRequestDto boardDTO) {
-        Board board = boardRepository.save(mapper.requestToEntity(boardDTO));
-        List<String> imageUrls = boardDTO.getImageUrl();
+        Board board = mapper.requestToEntity(boardDTO);
 
+        if(boardDTO.getCategory() == CATEGORY.SUMMARY || boardDTO.getCategory() == CATEGORY.MAGICIAN){
+            board.setDataId(boardDTO.getDataId());
+        }
+        else {
+            board.setDataId(-1L);
+        }
+
+        boardRepository.save(board);
+        List<String> imageUrls = boardDTO.getImageUrl();
         for(String imageUrl : imageUrls) {
             imageRepository.save(Image.builder().path(imageUrl).board(board).build());
         }
@@ -65,6 +74,8 @@ public class BoardServiceImpl implements BoardService {
                 imageRepository.save(Image.builder().path(imageUrl).board(board).build());
             }
         }
+        // 업데이트 시간 설정
+        board.setUpdatedAt(LocalDateTime.now());
     }
 
     @Override

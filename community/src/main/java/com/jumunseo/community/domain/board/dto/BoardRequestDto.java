@@ -12,4 +12,5 @@ public class BoardRequestDto {
     String title;
     String content;
     List<String> imageUrl;
+    Long dataId;
 }

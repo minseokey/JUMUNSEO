@@ -24,10 +24,11 @@ public class BoardResponseDto {
     Long commentCount;
     LocalDateTime createdAt;
     LocalDateTime updatedAt;
+    Long dataId;
     boolean my_Like;
 
     @Builder
-    private BoardResponseDto(Long id,CATEGORY category, String userId, String title, String content, List<String> imageUrl, Long viewCount, Long likeCount, Long commentCount, LocalDateTime createdAt, LocalDateTime updatedAt) {
+    private BoardResponseDto(Long id,CATEGORY category, String userId, String title, String content, List<String> imageUrl, Long viewCount, Long likeCount, Long commentCount, LocalDateTime createdAt, LocalDateTime updatedAt, Long dataId) {
         this.id = id;
         this.category = category;
         this.userId = userId;
@@ -39,5 +40,6 @@ public class BoardResponseDto {
         this.commentCount = commentCount;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
+        this.dataId = dataId;
     }
 }
