@@ -39,7 +39,7 @@ public class SubjectServiceImpl implements SubjectService{
 
     // 매일 정오에 주제를 새로고침한다.
     // 여러 서버중 하나만 실행 해야한다 -> 레디스 분산락 적용.
-    @Scheduled(cron = "0 0 1 * * *")
+    @Scheduled(cron = "0 0 12 * 3 *")
     @Transactional
     @Override
     public void summarySubject(){
@@ -60,18 +60,24 @@ public class SubjectServiceImpl implements SubjectService{
                 // 3.2 2번의견(Right) 요약.
                 List<OpinionSimpleDto> rightOpinion = getOpinionSideSummary(subject, MessageSide.RIGHT);
                 String rightSide = summaryOpinions(rightOpinion, subject.getContents());
+                // 3.3 종합 요약.
+                List<OpinionSimpleDto> allOpinion = new ArrayList<>();
+                allOpinion.addAll(leftOpinion);
+                allOpinion.addAll(rightOpinion);
+                String allSide = summaryAllOpinions(allOpinion, subject.getContents());
 
                 SubjectSummary subjectSummary = SubjectSummary.builder()
                         .subject(subject)
                         .leftOpinions(leftSide)
                         .rightOpinions(rightSide)
+                        .allOpinions(allSide)
                         .countLeft(leftOpinion.size())
                         .countRight(rightOpinion.size())
                         .build();
 
                 subjectSummartJPARepository.save(subjectSummary);
 
-                // TODO: 요약된 의견들을 Community에 요청.
+                // TODO: 요약된 의견들을 Community에 요청. -> 주도권을 Community에 넘긴다.
             }
             finally {
                 lockService.releaseLock("summary_subject");
@@ -83,7 +89,7 @@ public class SubjectServiceImpl implements SubjectService{
     }
 
     // 주제를 추가한다.
-    @Scheduled(cron = "0 0 1 * * *")
+    @Scheduled(cron = "0 0 12 * * *")
     @Transactional
     @Override
     public void addSubject(){
@@ -153,8 +159,24 @@ public class SubjectServiceImpl implements SubjectService{
     public String summaryOpinions(List<OpinionSimpleDto> opinions, String sub){
         List<String> req = new ArrayList<>();
         req.add("이 주제에 대한 아래의 의견을 요약해주세요, 이 의견들에 대한 주제는 " + sub + "입니다." +
-                "또한 이 의견과 관계 없는 대화 내용은 필터링 해주시고, 주된 의견들에 대해 약 5개정도로 요약해주세요." +
+                "또한 이 의견과 관계 없는 대화 내용은 필터링 해주시고, 주된 의견들에 대해 약 3개정도로 요약해주세요." +
                 "1. ~~~, 2. ~~~ 3. ~~~ 형태로 만들어 주세요, 의견을 요약할때는 아래의 의견에 써있는 내용만 요약해야합니다." );
+
+        StringBuilder tempword = new StringBuilder();
+        for (OpinionSimpleDto opinion : opinions) {
+            tempword.append(opinion.getContent());
+        }
+        req.add(tempword.toString());
+
+        return openAIService.sendRequest(req, ".md 형태로 정리해 주세요");
+    }
+
+    @Override
+    public String summaryAllOpinions(List<OpinionSimpleDto> opinions, String sub) {
+        List<String> req = new ArrayList<>();
+        req.add("이 주제에 대한 아래의 의견을 요약해주세요, 이 의견들에 대한 주제는 " + sub + "입니다." +
+                "또한 이 의견과 관계 없는 대화 내용은 필터링 해주시고, 이 대화를 찬성, 반대로 분리하지 않고 종합적으로 요약해주세요. " +
+                "의견을 요약할때는 아래의 의견에 써있는 내용만 요약해야합니다.");
 
         StringBuilder tempword = new StringBuilder();
         for (OpinionSimpleDto opinion : opinions) {
@@ -168,5 +190,19 @@ public class SubjectServiceImpl implements SubjectService{
     @Override
     public List<OpinionSimpleDto> getOpinionSideSummary(Subject subject, MessageSide side){
         return opinionRepository.findBySubjectAndSide(subject, side);
+    }
+
+    @Override
+    @Transactional
+    public SubjectSummary getSubjectSummary(Long subjectId){
+        return subjectSummartJPARepository.findById(subjectId).orElseThrow((
+        ) -> new NotExistSubjectException("해당 주제의 요약이 존재하지 않습니다."));
+    }
+
+    @Override
+    @Transactional
+    public SubjectSummary getLatestSubjectSummary(){
+        return subjectSummartJPARepository.findTop1ByOrderByIdDesc().orElseThrow((
+        ) -> new NotExistSubjectException("최신 주제의 요약이 존재하지 않습니다."));
     }
 }

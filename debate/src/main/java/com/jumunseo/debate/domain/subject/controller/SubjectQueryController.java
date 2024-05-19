@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
@@ -18,5 +19,17 @@ public class SubjectQueryController {
     @GetMapping("/available")
     public ResponseEntity<Result<?>> getAvailableSubjectList() {
         return ResponseEntity.ok().body(Result.successResult(subjectService.getLiveSubject()));
+    }
+
+    // 요약본 호출
+    @GetMapping("/summary/{id}")
+    public ResponseEntity<Result<?>> getSummary(@PathVariable Long id) {
+        return ResponseEntity.ok().body(Result.successResult(subjectService.getSubjectSummary(id)));
+    }
+
+    // 최신 요약본 호출
+    @GetMapping("/summary/latest")
+    public ResponseEntity<Result<?>> getLatestSummary() {
+        return ResponseEntity.ok().body(Result.successResult(subjectService.getLatestSubjectSummary()));
     }
 }

@@ -4,6 +4,7 @@ import com.jumunseo.debate.domain.opinion.dto.OpinionSimpleDto;
 import com.jumunseo.debate.domain.opinion.entity.MessageSide;
 import com.jumunseo.debate.domain.subject.dto.SubjectDto;
 import com.jumunseo.debate.domain.subject.entity.Subject;
+import com.jumunseo.debate.domain.subject.entity.SubjectSummary;
 
 import java.util.List;
 
@@ -24,5 +25,11 @@ public interface SubjectService {
     // 의견을 요약한다.
     String summaryOpinions(List<OpinionSimpleDto> opinions, String sub);
 
+    String summaryAllOpinions(List<OpinionSimpleDto> opinions, String sub);
+
     List<OpinionSimpleDto> getOpinionSideSummary(Subject subject, MessageSide side);
+
+    SubjectSummary getSubjectSummary(Long subjectId);
+
+    SubjectSummary getLatestSubjectSummary();
 }
