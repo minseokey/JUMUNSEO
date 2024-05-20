@@ -201,8 +201,9 @@ public class SubjectServiceImpl implements SubjectService{
 
     @Override
     @Transactional
-    public SubjectSummary getLatestSubjectSummary(){
-        return subjectSummartJPARepository.findTop1ByOrderByIdDesc().orElseThrow((
+    public Long getLatestSubjectSummary(){
+        SubjectSummary subjectSummary = subjectSummartJPARepository.findTop1ByOrderByIdDesc().orElseThrow((
         ) -> new NotExistSubjectException("최신 주제의 요약이 존재하지 않습니다."));
+        return subjectSummary.getId();
     }
 }
