@@ -1,2 +1,2 @@
-export 'chat/view/dilemma_chat_screen.dart';
-export 'category/view/dilemma_category_screen.dart';
+export 'chat/dilemma_chat.dart';
+export 'home/dilemma_home.dart';

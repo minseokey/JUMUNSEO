@@ -1,4 +1,4 @@
-part of 'dilemma_chat_bloc.dart';
+part of 'dilemma_chat_cubit.dart';
 
 enum DilemmaChatStatus { initial, loading, loaded, error }
 

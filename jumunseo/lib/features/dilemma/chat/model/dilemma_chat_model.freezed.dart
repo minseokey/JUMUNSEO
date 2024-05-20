@@ -20,13 +20,11 @@ DilemmaChatModel _$DilemmaChatModelFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$DilemmaChatModel {
-  String? get id => throw _privateConstructorUsedError;
-  DateTime get sendTime => throw _privateConstructorUsedError;
-  String get userId => throw _privateConstructorUsedError;
-  String get userName => throw _privateConstructorUsedError;
-  ChatType get chatType => throw _privateConstructorUsedError;
-  bool get isleft => throw _privateConstructorUsedError;
-  String? get message => throw _privateConstructorUsedError;
+  int? get id => throw _privateConstructorUsedError;
+  String get type => throw _privateConstructorUsedError;
+  String get side => throw _privateConstructorUsedError;
+  String get userEmail => throw _privateConstructorUsedError;
+  String get content => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -41,13 +39,7 @@ abstract class $DilemmaChatModelCopyWith<$Res> {
       _$DilemmaChatModelCopyWithImpl<$Res, DilemmaChatModel>;
   @useResult
   $Res call(
-      {String? id,
-      DateTime sendTime,
-      String userId,
-      String userName,
-      ChatType chatType,
-      bool isleft,
-      String? message});
+      {int? id, String type, String side, String userEmail, String content});
 }
 
 /// @nodoc
@@ -64,42 +56,32 @@ class _$DilemmaChatModelCopyWithImpl<$Res, $Val extends DilemmaChatModel>
   @override
   $Res call({
     Object? id = freezed,
-    Object? sendTime = null,
-    Object? userId = null,
-    Object? userName = null,
-    Object? chatType = null,
-    Object? isleft = null,
-    Object? message = freezed,
+    Object? type = null,
+    Object? side = null,
+    Object? userEmail = null,
+    Object? content = null,
   }) {
     return _then(_value.copyWith(
       id: freezed == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
-              as String?,
-      sendTime: null == sendTime
-          ? _value.sendTime
-          : sendTime // ignore: cast_nullable_to_non_nullable
-              as DateTime,
-      userId: null == userId
-          ? _value.userId
-          : userId // ignore: cast_nullable_to_non_nullable
+              as int?,
+      type: null == type
+          ? _value.type
+          : type // ignore: cast_nullable_to_non_nullable
               as String,
-      userName: null == userName
-          ? _value.userName
-          : userName // ignore: cast_nullable_to_non_nullable
+      side: null == side
+          ? _value.side
+          : side // ignore: cast_nullable_to_non_nullable
               as String,
-      chatType: null == chatType
-          ? _value.chatType
-          : chatType // ignore: cast_nullable_to_non_nullable
-              as ChatType,
-      isleft: null == isleft
-          ? _value.isleft
-          : isleft // ignore: cast_nullable_to_non_nullable
-              as bool,
-      message: freezed == message
-          ? _value.message
-          : message // ignore: cast_nullable_to_non_nullable
-              as String?,
+      userEmail: null == userEmail
+          ? _value.userEmail
+          : userEmail // ignore: cast_nullable_to_non_nullable
+              as String,
+      content: null == content
+          ? _value.content
+          : content // ignore: cast_nullable_to_non_nullable
+              as String,
     ) as $Val);
   }
 }
@@ -113,13 +95,7 @@ abstract class _$$DilemmaChatModelImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {String? id,
-      DateTime sendTime,
-      String userId,
-      String userName,
-      ChatType chatType,
-      bool isleft,
-      String? message});
+      {int? id, String type, String side, String userEmail, String content});
 }
 
 /// @nodoc
@@ -134,42 +110,32 @@ class __$$DilemmaChatModelImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? id = freezed,
-    Object? sendTime = null,
-    Object? userId = null,
-    Object? userName = null,
-    Object? chatType = null,
-    Object? isleft = null,
-    Object? message = freezed,
+    Object? type = null,
+    Object? side = null,
+    Object? userEmail = null,
+    Object? content = null,
   }) {
     return _then(_$DilemmaChatModelImpl(
       id: freezed == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
-              as String?,
-      sendTime: null == sendTime
-          ? _value.sendTime
-          : sendTime // ignore: cast_nullable_to_non_nullable
-              as DateTime,
-      userId: null == userId
-          ? _value.userId
-          : userId // ignore: cast_nullable_to_non_nullable
+              as int?,
+      type: null == type
+          ? _value.type
+          : type // ignore: cast_nullable_to_non_nullable
               as String,
-      userName: null == userName
-          ? _value.userName
-          : userName // ignore: cast_nullable_to_non_nullable
+      side: null == side
+          ? _value.side
+          : side // ignore: cast_nullable_to_non_nullable
               as String,
-      chatType: null == chatType
-          ? _value.chatType
-          : chatType // ignore: cast_nullable_to_non_nullable
-              as ChatType,
-      isleft: null == isleft
-          ? _value.isleft
-          : isleft // ignore: cast_nullable_to_non_nullable
-              as bool,
-      message: freezed == message
-          ? _value.message
-          : message // ignore: cast_nullable_to_non_nullable
-              as String?,
+      userEmail: null == userEmail
+          ? _value.userEmail
+          : userEmail // ignore: cast_nullable_to_non_nullable
+              as String,
+      content: null == content
+          ? _value.content
+          : content // ignore: cast_nullable_to_non_nullable
+              as String,
     ));
   }
 }
@@ -179,34 +145,28 @@ class __$$DilemmaChatModelImplCopyWithImpl<$Res>
 class _$DilemmaChatModelImpl implements _DilemmaChatModel {
   _$DilemmaChatModelImpl(
       {this.id,
-      required this.sendTime,
-      required this.userId,
-      required this.userName,
-      required this.chatType,
-      required this.isleft,
-      this.message});
+      required this.type,
+      required this.side,
+      required this.userEmail,
+      required this.content});
 
   factory _$DilemmaChatModelImpl.fromJson(Map<String, dynamic> json) =>
       _$$DilemmaChatModelImplFromJson(json);
 
   @override
-  final String? id;
+  final int? id;
   @override
-  final DateTime sendTime;
+  final String type;
   @override
-  final String userId;
+  final String side;
   @override
-  final String userName;
+  final String userEmail;
   @override
-  final ChatType chatType;
-  @override
-  final bool isleft;
-  @override
-  final String? message;
+  final String content;
 
   @override
   String toString() {
-    return 'DilemmaChatModel(id: $id, sendTime: $sendTime, userId: $userId, userName: $userName, chatType: $chatType, isleft: $isleft, message: $message)';
+    return 'DilemmaChatModel(id: $id, type: $type, side: $side, userEmail: $userEmail, content: $content)';
   }
 
   @override
@@ -215,21 +175,17 @@ class _$DilemmaChatModelImpl implements _DilemmaChatModel {
         (other.runtimeType == runtimeType &&
             other is _$DilemmaChatModelImpl &&
             (identical(other.id, id) || other.id == id) &&
-            (identical(other.sendTime, sendTime) ||
-                other.sendTime == sendTime) &&
-            (identical(other.userId, userId) || other.userId == userId) &&
-            (identical(other.userName, userName) ||
-                other.userName == userName) &&
-            (identical(other.chatType, chatType) ||
-                other.chatType == chatType) &&
-            (identical(other.isleft, isleft) || other.isleft == isleft) &&
-            (identical(other.message, message) || other.message == message));
+            (identical(other.type, type) || other.type == type) &&
+            (identical(other.side, side) || other.side == side) &&
+            (identical(other.userEmail, userEmail) ||
+                other.userEmail == userEmail) &&
+            (identical(other.content, content) || other.content == content));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(
-      runtimeType, id, sendTime, userId, userName, chatType, isleft, message);
+  int get hashCode =>
+      Object.hash(runtimeType, id, type, side, userEmail, content);
 
   @JsonKey(ignore: true)
   @override
@@ -248,31 +204,25 @@ class _$DilemmaChatModelImpl implements _DilemmaChatModel {
 
 abstract class _DilemmaChatModel implements DilemmaChatModel {
   factory _DilemmaChatModel(
-      {final String? id,
-      required final DateTime sendTime,
-      required final String userId,
-      required final String userName,
-      required final ChatType chatType,
-      required final bool isleft,
-      final String? message}) = _$DilemmaChatModelImpl;
+      {final int? id,
+      required final String type,
+      required final String side,
+      required final String userEmail,
+      required final String content}) = _$DilemmaChatModelImpl;
 
   factory _DilemmaChatModel.fromJson(Map<String, dynamic> json) =
       _$DilemmaChatModelImpl.fromJson;
 
   @override
-  String? get id;
+  int? get id;
   @override
-  DateTime get sendTime;
+  String get type;
   @override
-  String get userId;
+  String get side;
   @override
-  String get userName;
+  String get userEmail;
   @override
-  ChatType get chatType;
-  @override
-  bool get isleft;
-  @override
-  String? get message;
+  String get content;
   @override
   @JsonKey(ignore: true)
   _$$DilemmaChatModelImplCopyWith<_$DilemmaChatModelImpl> get copyWith =>

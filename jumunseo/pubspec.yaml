@@ -63,6 +63,9 @@ dependencies:
   hive: ^2.2.3
   hive_flutter: ^1.1.0
   flutter_native_splash: ^2.3.7
+  flutter_svg: ^2.0.10+1
+  card_swiper: ^3.0.1
+  
 
 flutter_native_splash:
   color: "#000000"
@@ -102,7 +105,6 @@ flutter:
   assets:
     - assets/images/
     - assets/images/categories/
-    - assets/fonts/
     - assets/icons/
     - assets/animations/
 

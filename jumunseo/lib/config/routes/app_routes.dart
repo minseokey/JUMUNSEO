@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:jumunseo/features/community/community_screen.dart';
-import 'package:jumunseo/features/dilemma/category/bloc/dilemma_category_bloc.dart';
+
+import 'package:jumunseo/features/community/community.dart';
+
 import 'package:jumunseo/features/dilemma/dilemma.dart';
 import 'package:jumunseo/features/home/view/home_screen.dart';
+import 'package:jumunseo/features/login/login.dart';
 import 'package:jumunseo/features/profile/view/profile_screen.dart';
 import 'package:jumunseo/features/wizard/chat/cubit/wizard_cubit.dart';
 import 'package:jumunseo/features/wizard/chat/view/category_view.dart';
@@ -58,31 +60,25 @@ GoRouter appRouter = GoRouter(
       },
     ),
     GoRoute(
-      path: '/dilemma',
-      builder: (context, state) {
-        return BlocProvider<DilemmaCategoryBloc>(
-          create: (context) {
-            return DilemmaCategoryBloc();
-          },
-          child: DilemmaCategoryScreen(),
-        );
-      },
-      routes: [
-        GoRoute(
-          path: 'chat/:id',
-          builder: (context, state) {
-            return BlocProvider<DilemmaCategoryBloc>(
-              create: (context) {
-                return DilemmaCategoryBloc();
-              },
-              child: DilemmaChatScreen(
-                  //id: state.params['id']!,
-                  ),
-            );
-          },
-        ),
-      ],
-    ),
+        path: '/dilemma',
+        builder: (context, state) {
+          return BlocProvider(
+            create: (context) => DilemmaHomeCubit(
+              repository: Repository(),
+            )..fetchList(),
+            child: const DilemmaHomeScreen(),
+          );
+        }),
+    GoRoute(
+        path: '/dilemma/chat/:id',
+        builder: (context, state) {
+          return BlocProvider(
+            create: (context) => DilemmaChatCubit(),
+            child: DilemmaChatScreen(
+              roomId: state.pathParameters['id'] ?? "",
+            ),
+          );
+        }),
     GoRoute(
         path: '/wizard',
         builder: (context, state) {
@@ -96,14 +92,46 @@ GoRouter appRouter = GoRouter(
               });
         }))),
     GoRoute(
-        path: '/community',
+      path: '/community',
+      builder: (context, state) {
+        return BlocProvider(
+          create: (context) => CommunityHomeCubit(),
+          child: const CommunityHomeScreen(),
+        );
+      },
+    ),
+    GoRoute(
+        path: '/community/:postId',
         builder: (context, state) {
-          return const CommunityScreen();
+          return BlocProvider(
+            create: (context) => CommunityPostCubit(),
+            child: CommunityDetailScreen(
+              postId: state.pathParameters['postId'] ?? "",
+            ),
+          );
         }),
+    GoRoute(
+        path: '/community/post/write',
+        builder: (context, state) {
+          return BlocProvider(
+            create: (context) => CommunityPostCubit(),
+            child: CommunityPostFrame(kind: PostType.write),
+          );
+        }),
+    // GoRoute(path: '/community/post/edit/:postId', builder: (context, state) {
+    //   return CommunityPostScreen(
+    //     postId: state.pathParameters['postId'] ?? "",
+    //   );
+    // }),
     GoRoute(
         path: '/profile',
         builder: (context, state) {
           return const ProfileScreen();
+        }),
+    GoRoute(
+        path: '/login',
+        builder: (context, state) {
+          return const LoginScreen();
         }),
   ],
 );
