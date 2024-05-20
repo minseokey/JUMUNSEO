@@ -8,7 +8,7 @@ spring:
     show-sql: true
 
   datasource:
-    url: jdbc:postgresql://${COMMUNITY_POSTGRES_HOST}:${COMMUNITY_POSTGRES_PORT}/debate
+    url: jdbc:postgresql://${COMMUNITY_POSTGRES_HOST}:${COMMUNITY_POSTGRES_PORT}/community
     username: ${COMMUNITY_POSTGRES_USER}
     password: ${COMMUNITY_POSTGRES_PASSWORD}
     driver-class-name: org.postgresql.Driver
@@ -16,8 +16,8 @@ spring:
 
   data:
     redis:
-      port: ${AUTH_REDIS_PORT}
-      host: ${AUTH_REDIS_HOST}
+      port: ${COMMUNITY_REDIS_PORT}
+      host: ${COMMUNITY_REDIS_HOST}
 
 cloud:
   aws:

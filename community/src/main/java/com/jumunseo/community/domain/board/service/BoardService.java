@@ -3,11 +3,9 @@ package com.jumunseo.community.domain.board.service;
 import com.jumunseo.community.domain.board.dto.BoardListResponseDto;
 import com.jumunseo.community.domain.board.dto.BoardRequestDto;
 import com.jumunseo.community.domain.board.dto.BoardResponseDto;
-import com.jumunseo.community.domain.board.entity.CATEGORY;
-import com.jumunseo.community.domain.post.entity.CategoryType;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Map;
 
 public interface BoardService {
 
@@ -15,15 +13,15 @@ public interface BoardService {
     void registerBoard(BoardRequestDto board);
     // 2. 게시글 수정
 
-    void modifyBoard(BoardRequestDto boardDTO, Long boardId);
+    void modifyBoard(Map<String,Object>update, String email);
 
     // 3. 게시글 삭제
-    void removeBoard(Long boardId);
+    void removeBoard(Long boardId, String email);
 
     // 4. 게시글 조회
     BoardResponseDto getBoard(Long boardId, String userId);
 
-    List<BoardListResponseDto> getBoardListByLatestAndCategory (Long index, CATEGORY category);
+    List<BoardListResponseDto> getBoardListByLatestAndCategory (Long index, String category);
 
     List<BoardListResponseDto> getBoardListByLatest(Long index);
 

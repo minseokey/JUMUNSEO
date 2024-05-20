@@ -15,7 +15,7 @@ public class CommentCommandController {
         commentService.createComment(commentRequestDto);
     }
     // 삭제
-    public void deleteComment(Long commentId) {
-        commentService.deleteComment(commentId);
+    public void deleteComment(Long commentId, String email) {
+        commentService.deleteComment(commentId, email);
     }
 }

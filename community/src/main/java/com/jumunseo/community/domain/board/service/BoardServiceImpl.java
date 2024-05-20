@@ -5,7 +5,6 @@ import com.jumunseo.community.domain.board.dto.BoardMapper;
 import com.jumunseo.community.domain.board.dto.BoardRequestDto;
 import com.jumunseo.community.domain.board.dto.BoardResponseDto;
 import com.jumunseo.community.domain.board.entity.Board;
-import com.jumunseo.community.domain.board.entity.CATEGORY;
 import com.jumunseo.community.domain.board.entity.Image;
 import com.jumunseo.community.domain.board.entity.LikeBoard;
 import com.jumunseo.community.domain.board.exceptions.NoBoardException;
@@ -20,6 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
@@ -34,16 +34,18 @@ public class BoardServiceImpl implements BoardService {
     @Override
     @Transactional
     public void registerBoard(BoardRequestDto boardDTO) {
-        Board board = mapper.requestToEntity(boardDTO);
 
-        if(boardDTO.getCategory() == CATEGORY.SUMMARY || boardDTO.getCategory() == CATEGORY.MAGICIAN){
+        Board board = mapper.requestToEntity(boardDTO);
+        if(boardDTO.getCategory().equals("SUMMARY") || boardDTO.getCategory().equals("MAGICIAN")){
             board.setDataId(boardDTO.getDataId());
         }
         else {
-            board.setDataId(-1L);
+            board.setDataId("-1");
         }
 
         boardRepository.save(board);
+        System.out.println(board.getCategory());
+        System.out.println(board.getDataId());
         List<String> imageUrls = boardDTO.getImageUrl();
         for(String imageUrl : imageUrls) {
             imageRepository.save(Image.builder().path(imageUrl).board(board).build());
@@ -52,24 +54,26 @@ public class BoardServiceImpl implements BoardService {
 
     @Override
     @Transactional
-    public void modifyBoard(BoardRequestDto boardDTO, Long boardId) {
-        Board board = boardRepository.findById(boardId).orElseThrow((
+    public void modifyBoard(Map<String,Object>update, String email) {
+        Board board = boardRepository.findById(Long.valueOf(update.get("boardId").toString())).orElseThrow((
         ) -> new NoBoardException("해당 게시글이 존재하지 않습니다."));
 
-        if(boardDTO.getCategory() != null)
-            board.setCategory(boardDTO.getCategory());
-        if(boardDTO.getTitle() != null)
-            board.setTitle(boardDTO.getTitle());
-        if(boardDTO.getContent() != null)
-            board.setContent(boardDTO.getContent());
-        if (boardDTO.getImageUrl() != null) {
+        if(!board.getUserId().equals(email)) {
+            throw new IllegalArgumentException("해당 게시글을 수정할 권한이 없습니다.");
+        }
+
+        if(update.get("title") != null)
+            board.setTitle((String) update.get("title"));
+        if(update.get("content") != null)
+            board.setContent((String) update.get("content"));
+        if (update.get("imageUrl") != null) {
             // 기존 이미지 삭제
             for(Image image : board.getImageUrl()) {
                 s3Uploader.delete(image.getPath());
             }
             imageRepository.deleteAll(board.getImageUrl());
             // 새로운 이미지 등록
-            List<String> imageUrls = boardDTO.getImageUrl();
+            List<String> imageUrls = (List<String>) update.get("imageUrl");
             for(String imageUrl : imageUrls) {
                 imageRepository.save(Image.builder().path(imageUrl).board(board).build());
             }
@@ -80,9 +84,13 @@ public class BoardServiceImpl implements BoardService {
 
     @Override
     @Transactional
-    public void removeBoard(Long boardId) {
+    public void removeBoard(Long boardId, String email) {
         Board board = boardRepository.findById(boardId).orElseThrow((
         ) -> new NoBoardException("해당 게시글이 존재하지 않습니다."));
+
+        if(!board.getUserId().equals(email)) {
+            throw new IllegalArgumentException("해당 게시글을 삭제할 권한이 없습니다.");
+        }
         for(Image image : board.getImageUrl()) {
             s3Uploader.delete(image.getPath());
         }
@@ -96,15 +104,20 @@ public class BoardServiceImpl implements BoardService {
         Board board = boardRepository.findById(boardId).orElseThrow((
         ) -> new NoBoardException("해당 게시글이 존재하지 않습니다."));
         board.addViewCount();
-
         BoardResponseDto boardResponseDto = mapper.entityToBoardResponse(board);
         boardResponseDto.setMy_Like(likeRepository.findByBoardAndUserId(board, userId).isPresent());
-        return mapper.entityToBoardResponse(board); // 게시글 조회
+        return boardResponseDto; // 게시글 조회
     }
 
     @Override
-    public List<BoardListResponseDto> getBoardListByLatestAndCategory(Long index, CATEGORY category) {
-        List<Board> boards = boardRepository.findAllByCategoryAndIndex(index, category);
+    public List<BoardListResponseDto> getBoardListByLatestAndCategory(Long index, String category) {
+        List<Board> boards;
+        if(index == -1L){
+            boards = boardRepository.findAllByLatestAndCategory(category);
+        }
+        else {
+            boards = boardRepository.findAllByCategoryAndIndex(index, category);
+        }
         List<BoardListResponseDto> boardResponseDtos = new ArrayList<>();
         for(Board board : boards) {
             boardResponseDtos.add(mapper.entityToBoardListResponse(board));
@@ -115,7 +128,12 @@ public class BoardServiceImpl implements BoardService {
 
     @Override
     public List<BoardListResponseDto> getBoardListByLatest(Long index) {
-        List<Board> boards = boardRepository.findAllByIndex(index);
+        List<Board> boards;
+        if(index == -1L)
+            boards = boardRepository.findAllByLatest();
+        else {
+            boards = boardRepository.findAllByIndex(index);
+        }
         List<BoardListResponseDto> boardResponseDtos = new ArrayList<>();
         for(Board board : boards) {
             boardResponseDtos.add(mapper.entityToBoardListResponse(board));

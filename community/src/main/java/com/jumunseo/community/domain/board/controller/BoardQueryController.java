@@ -1,6 +1,5 @@
 package com.jumunseo.community.domain.board.controller;
 
-import com.jumunseo.community.domain.board.entity.CATEGORY;
 import com.jumunseo.community.domain.board.service.BoardService;
 import com.jumunseo.community.global.dto.Result;
 import lombok.RequiredArgsConstructor;
@@ -24,7 +23,7 @@ public class BoardQueryController {
 
     // 게시글 리스트 조회 with 카테고리
     @GetMapping("/list/{category}/{index}")
-    public ResponseEntity<Result<?>> getBoardListByCategory(@PathVariable Long index, @PathVariable CATEGORY category) {
+    public ResponseEntity<Result<?>> getBoardListByCategory(@PathVariable Long index, @PathVariable String category) {
         return ResponseEntity.ok().body(Result.successResult(boardService
                 .getBoardListByLatestAndCategory(index, category)));
     }

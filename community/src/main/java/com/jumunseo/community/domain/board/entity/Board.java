@@ -1,5 +1,6 @@
 package com.jumunseo.community.domain.board.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
@@ -23,21 +24,21 @@ public class Board {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Enumerated(value = EnumType.STRING)
     @Column(name = "category_id", nullable = false)
-    private CATEGORY category;
+    private String category;
 
     @Column(name = "user_id", length = 50, nullable = false)
     private String userId;
 
     @Column(name = "created_at", nullable = false)
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime createdAt;
 
     @Column(name = "updated_at")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime updatedAt;
 
     @Column(name = "view_count")
-    @ColumnDefault("0")
     private Long viewCount;
 
     @Column(name = "title")
@@ -52,12 +53,13 @@ public class Board {
 
     // 카테고리에 따라 마법사, 요약의 데이터를 가진다.
     // 이걸 통해 마법사, 요약을 불러올 수 있다. (디테일 호출시만)
-    private Long dataId;
+    private String dataId;
 
     @Builder
-    public Board(CATEGORY category, String userId,  String title, String content, List<Image> imageUrl) {
+    public Board(String category, String userId,  String title, String content, List<Image> imageUrl, Long viewCount) {
         this.category = category;
         this.userId = userId;
+        this.viewCount = viewCount;
         this.createdAt = LocalDateTime.now();
         this.updatedAt = LocalDateTime.now(); // 생성시에는 현재시간
         this.title = title;

@@ -25,22 +25,28 @@ public class CommentServiceImpl implements CommentService{
     @Transactional
     public void createComment(CommentRequestDto commentRequestDto) {
         Comment comment = mapper.requestToEntity(commentRequestDto);
-        Comment comment1 = commentRepository.save(comment);
+        Comment savedComment = commentRepository.save(comment);
 
-        if (commentRequestDto.getHeadCommentId() == null) {
-            comment1.setHeadCommentId(comment1.getId()); // 대댓글이 아닌 경우 headCommentId를 자신의 id로 설정
+        if (commentRequestDto.getHeadCommentId() == -1L) {
+            savedComment.setHeadCommentId(savedComment.getId()); // 대댓글이 아닌 경우 headCommentId를 자신의 id로 설정
         }
         else {
-            comment1.setHeadCommentId(commentRequestDto.getHeadCommentId());
+            if (commentRepository.findById(commentRequestDto.getHeadCommentId()).isEmpty()) {
+                throw new IllegalArgumentException("해당 대댓글이 존재하지 않습니다.");
+            }
+            savedComment.setHeadCommentId(commentRequestDto.getHeadCommentId());
         }
     }
 
     @Override
     @Transactional
-    public void deleteComment(Long commentId) {
+    public void deleteComment(Long commentId, String email) {
         Comment comment = commentRepository.findById(commentId).orElseThrow(
                 () -> new IllegalArgumentException("해당 댓글이 존재하지 않습니다.")
         );
+        if (!comment.getUserId().equals(email)) {
+            throw new IllegalArgumentException("해당 댓글을 삭제할 권한이 없습니다.");
+        }
         // 연결된 대댓글 삭제
         commentRepository.deleteAllByHeadCommentId(commentId);
         // 댓글 삭제

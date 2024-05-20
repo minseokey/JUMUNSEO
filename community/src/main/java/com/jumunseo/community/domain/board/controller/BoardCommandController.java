@@ -5,6 +5,8 @@ import com.jumunseo.community.domain.board.service.BoardService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 
+import java.util.Map;
+
 @Controller
 @RequiredArgsConstructor
 public class BoardCommandController {
@@ -16,13 +18,13 @@ public class BoardCommandController {
     }
 
     // 삭제
-    public void deleteBoard(Long boardId){
-        boardService.removeBoard(boardId);
+    public void deleteBoard(Long boardId, String email){
+        boardService.removeBoard(boardId, email);
     }
 
     // 수정
-    public void updateBoard(BoardRequestDto boardRequestDto, Long boardId){
-        boardService.modifyBoard(boardRequestDto, boardId);
+    public void updateBoard(Map<String,Object> update, String email){
+        boardService.modifyBoard(update, email);
     }
 
     // 좋아요(토글)

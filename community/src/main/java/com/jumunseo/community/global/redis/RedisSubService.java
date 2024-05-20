@@ -14,6 +14,8 @@ import org.springframework.data.redis.connection.MessageListener;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
+import java.util.Map;
+
 
 @RequiredArgsConstructor
 @Service
@@ -37,17 +39,20 @@ public class RedisSubService implements MessageListener {
                 boardController.createBoard(boardRequestDto);
 
             } else if (received.getCommand().equals("Board_Delete")) {
-                Long boardId = objectMapper.readValue(received.getData(), Long.class);
-                boardController.deleteBoard(boardId);
+                Map<String,Object> delete = objectMapper.readValue(received.getData(), Map.class);
+                Long boardId = Long.valueOf(delete.get("boardId").toString());
+                String email = received.getEmail();
+                boardController.deleteBoard(boardId, email);
 
             } else if (received.getCommand().equals("Board_Update")) {
-                BoardRequestDto boardRequestDto = objectMapper.readValue(received.getData(), BoardRequestDto.class);
-                Long boardId = objectMapper.readValue(received.getData(), Long.class);
-                boardController.updateBoard(boardRequestDto, boardId);
+                Map<String,Object> update = objectMapper.readValue(received.getData(), Map.class);
+                String email = received.getEmail();
+                boardController.updateBoard(update, email);
 
             } else if (received.getCommand().equals("Board_Like")) {
-                Long boardId = objectMapper.readValue(received.getData(), Long.class);
-                String email = objectMapper.readValue(received.getEmail(), String.class);
+                Map<String,Object> like = objectMapper.readValue(received.getData(), Map.class);
+                Long boardId = Long.valueOf(like.get("boardId").toString());
+                String email = received.getEmail();
                 boardController.toggleLike(boardId, email);
 
             } else if (received.getCommand().equals("Comment_Create")) {
@@ -55,8 +60,10 @@ public class RedisSubService implements MessageListener {
                 commentController.createComment(commentRequestDto);
 
             } else if (received.getCommand().equals("Comment_Delete")) {
-                Long commentId = objectMapper.readValue(received.getData(), Long.class);
-                commentController.deleteComment(commentId);
+                Map<String,Object> c_delete = objectMapper.readValue(received.getData(), Map.class);
+                Long commentId = Long.valueOf(c_delete.get("commentId").toString());
+                String email = received.getEmail();
+                commentController.deleteComment(commentId, email);
 
             } else {
                 throw new CommandDiffException("명령어가 일치하지 않습니다.");

@@ -17,8 +17,6 @@ public class CommentMapper {
     private final CommentRepository commentRepository;
 
     public Comment requestToEntity(CommentRequestDto commentRequestDto) {
-        Comment comment = commentRepository.findById(commentRequestDto.getHeadCommentId()).orElseThrow(
-                () -> new NoCommentException("해당 댓글이 존재하지 않습니다."));
         Board board = boardRepository.findById(commentRequestDto.getBoardId()).orElseThrow(
                 () -> new NoBoardException("해당 게시글이 존재하지 않습니다."));
 
@@ -26,13 +24,13 @@ public class CommentMapper {
                 .userId(commentRequestDto.getUserId())
                 .content(commentRequestDto.getContent())
                 .board(board)
-                .headCommentId(comment.getId())
                 .build();
     }
 
     public CommentResponseDto entityToResponse(Comment comment) {
         return CommentResponseDto.builder()
                 .id(comment.getId())
+                .userId(comment.getUserId())
                 .content(comment.getContent())
                 .headCommentId(comment.getHeadCommentId())
                 .build();

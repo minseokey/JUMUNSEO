@@ -34,6 +34,7 @@ public class BoardMapper {
                 .createdAt(board.getCreatedAt())
                 .updatedAt(board.getUpdatedAt())
                 .id(board.getId())
+                .dataId(board.getDataId())
                 .build();
     }
     public Board requestToEntity(BoardRequestDto boardDTO) {
@@ -42,6 +43,7 @@ public class BoardMapper {
                 .userId(boardDTO.getUserId())
                 .title(boardDTO.getTitle())
                 .content(boardDTO.getContent())
+                .viewCount(0L)
                 .build();
     }
 

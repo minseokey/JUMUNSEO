@@ -51,7 +51,10 @@ public class S3Uploader {
     public void delete(String fileName) {
         try{
             String decodedFileName = URLDecoder.decode(fileName, StandardCharsets.UTF_8);
-            s3Client.deleteObject(bucket, decodedFileName);
+            String[] pathParts = decodedFileName.split("/");
+
+            String key = pathParts[pathParts.length - 2] + "/" + pathParts[pathParts.length - 1];
+            s3Client.deleteObject(bucket, key);
         }
         catch (Exception e){
             throw new S3IOException("S3 파일 삭제에 실패하였습니다.");
