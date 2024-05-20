@@ -20,10 +20,11 @@ public class JwtProvider {
         Claims claims = Jwts.claims().setSubject("test");
         claims.put("role", "USER");
 
+        Date now = new Date();
         return Jwts.builder()
                 .setClaims(claims)
-                .setIssuedAt(new Date())
-                .setExpiration(new Date(System.currentTimeMillis() + 3600000))
+                .setIssuedAt(now)
+                .setExpiration(new Date(now.getTime() + 3600000))
                 .signWith(SignatureAlgorithm.HS256, secretKey)
                 .compact();
     }

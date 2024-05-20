@@ -1,5 +1,6 @@
 package com.jumunseo.compositeservice.query.controller;
 
+import com.jumunseo.compositeservice.global.exception.JsonParsingException;
 import com.jumunseo.compositeservice.global.exception.Result;
 import com.jumunseo.compositeservice.global.exception.WebClient4xxException;
 import com.jumunseo.compositeservice.global.exception.WebClient5xxException;
@@ -21,6 +22,7 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.util.List;
+import java.util.Map;
 
 
 @RequiredArgsConstructor
@@ -80,5 +82,22 @@ public class MagicianQueryController {
                 .bodyToMono(JSONObject.class);
 
         return ResponseEntity.ok(Result.successResult(mono.block()));
+    }
+
+    public JSONObject get_by_roomId_method(HttpServletRequest req, String room_id) {
+        Mono<JSONObject> mono = webClient.get()
+                .uri(MAGICIN_SERVICE_URL + "/chat/" + room_id)
+                .retrieve()
+                // 4-- 에러 -> 요청 오류
+                .onStatus(HttpStatusCode::is4xxClientError, res -> Mono.error(
+                        new WebClient4xxException(res.bodyToMono(String.class).toString())
+                ))
+                // 5-- 에러 -> 시스템 오류
+                .onStatus(HttpStatusCode::is5xxServerError, res -> Mono.error(
+                        new WebClient5xxException(res.bodyToMono(String.class).toString())
+                ))
+                .bodyToMono(JSONObject.class);
+
+        return mono.block();
     }
 }

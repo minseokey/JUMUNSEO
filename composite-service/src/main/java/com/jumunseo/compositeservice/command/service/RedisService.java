@@ -25,4 +25,12 @@ public class RedisService implements MessageQueueAbstractService{
         data.setData(body);
         return data;
     }
+    public CommandDto setMessage(CommandDto data, String body, String command){
+        data.setEmail("ADMIN");
+        data.setRole("ADMIN");
+        data.setCommand(command);
+        data.setData(body);
+        return data;
+    }
+
 }

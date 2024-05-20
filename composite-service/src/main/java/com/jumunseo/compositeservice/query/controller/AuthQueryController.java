@@ -47,7 +47,7 @@ public class AuthQueryController {
                         new WebClient5xxException(res.bodyToMono(String.class).toString())
                 ))
                 .bodyToMono(JSONObject.class);
-        return ResponseEntity.ok(Result.successResult(mono.block()));
+        return ResponseEntity.ok(Result.successResult(mono.block().get("data")));
     }
     // Email로 User 정보 가져오기
     // 토큰 필요? 일단 X
@@ -68,7 +68,7 @@ public class AuthQueryController {
                         new WebClient5xxException(res.bodyToMono(String.class).toString())
                 ))
                 .bodyToMono(JSONObject.class);
-        return ResponseEntity.ok(Result.successResult(mono.block()));
+        return ResponseEntity.ok(Result.successResult(mono.block().get("data")));
     }
     // UserID들을 이용하여 User 정보들을 가져오기
     // 토큰 필요? 일단 X
@@ -77,7 +77,7 @@ public class AuthQueryController {
     @GetMapping("/info/users/{userIds}")
     @Operation(summary = "Get User Infos By UserIds", description = "유저 정보들을 유저 아이디 리스트를 통해 가져오는 메소드")
     public ResponseEntity<Result<?>> getUserInfoByUserIds(@PathVariable List<Long> userIds) {
-        Flux<JSONObject> flux = webClient.get()
+        Mono<JSONObject> mono = webClient.get()
                 .uri(AUTH_SERVICE_URL + "/user/info/users/" + userIds)
                 .retrieve()
                 // 4-- 에러 -> 요청 오류
@@ -88,9 +88,9 @@ public class AuthQueryController {
                 .onStatus(HttpStatusCode::is5xxServerError, res -> Mono.error(
                         new WebClient5xxException(res.bodyToMono(String.class).toString())
                 ))
-                .bodyToFlux(JSONObject.class);
+                .bodyToMono(JSONObject.class);
 
-        List<JSONObject> userlist = flux.collectList().block();
-        return ResponseEntity.ok(Result.successResult(userlist));
+        JSONObject userlist = mono.block();
+        return ResponseEntity.ok(Result.successResult(userlist.get("data")));
     }
 }
