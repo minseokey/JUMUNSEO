@@ -120,8 +120,7 @@ public class SubjectServiceImpl implements SubjectService{
                 // 해당 주제를 DB에 추가.
                 Subject subject = Subject.builder()
                         .contents(sub)
-//                        .term(Duration.ofDays(2))
-                        .term(Duration.ofSeconds(5L))
+                        .term(Duration.ofDays(2))
                         .build();
 
                 subjectRepository.save(subject);
@@ -205,5 +204,48 @@ public class SubjectServiceImpl implements SubjectService{
         SubjectSummary subjectSummary = subjectSummartJPARepository.findTop1ByOrderByIdDesc().orElseThrow((
         ) -> new NotExistSubjectException("최신 주제의 요약이 존재하지 않습니다."));
         return subjectSummary.getId();
+    }
+
+    @Transactional
+    public void addTestSubject(){
+        if(lockService.acquireLock("add_subject")) {
+            try {
+                // OpenAI에 보낼 요청문 빌드.
+                List<String> req = new ArrayList<>();
+                req.add("사람들이 법적으로 곤란해 할만한 주제를 만들어주세요," +
+                        " 해당 주제는 찬성, 반대로 의견이 나뉘어서 사람들이 논쟁을 벌일 수 있을만한 것이여야하고" +
+                        " 당신은 \"주제\" 를 의문형으로 ~해야 하는가? 의 형식으로 작성해주세요 이외의 다른 정보는 필요하지 않습니다." +
+                        " 인사말이나 네 알겠습니다 이런 말은 필요하지 않습니다." +
+                        " 또한 \"\"주제\": \" 이런 형식 없이 오로지 주제만 입력해 주세요" +
+                        " 아래 입력되는 문장들인 이미 사용된 주제들 입니다. 이 주제와 중복되지 않고 참신한 주제로 만들어주세요");
+
+                StringBuilder tempword = new StringBuilder();
+                List<SubjectCollectDto> history = subjectRepository.findTop30ByStartTimeOrderByStartTimeDesc(LocalDateTime.now());
+                for (SubjectCollectDto subject : history) {
+                    tempword.append(subject.getContents());
+                }
+                req.add(tempword + "이 주제들은 이미 사용된 주제들 입니다. 이 주제들과 중복되지 않고 참신한 주제로 만들어주세요");
+
+                // OpenAI에 요청을 보내서 주제를 받아온다.
+                String sub = openAIService.sendRequest(req, "너는 오늘 토론의 주제를 만들어주는 인공지능이야");
+
+                // 해당 주제를 레디스 토픽에 추가, 이제 해당 주제를 구독할 수 있다.
+                redisChannelService.registerChannel(sub);
+
+                // 해당 주제를 DB에 추가.
+                Subject subject = Subject.builder()
+                        .contents(sub)
+                        .term(Duration.ofSeconds(5L))
+                        .build();
+
+                subjectRepository.save(subject);
+            }
+            finally {
+                lockService.releaseLock("add_subject");
+            }
+        }
+        else {
+            System.out.println("락 없음 주제추가 x");
+        }
     }
 }

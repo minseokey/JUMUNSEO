@@ -56,7 +56,7 @@ public class TestController {
         System.out.println("0");
 
         // 1. 주제 생성 일반적으로 주제 번호는 1이다.
-        subjectService.addSubject();
+        subjectService.addTestSubject();
         Subject sub = subjectRepository.findById(1L).get();
         System.out.println("1");
 
