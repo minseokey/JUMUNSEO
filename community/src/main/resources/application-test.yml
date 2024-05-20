@@ -16,8 +16,8 @@ spring:
 
   data:
     redis:
-      port: ${AUTH_REDIS_PORT}
-      host: ${AUTH_REDIS_HOST}
+      port: 6379
+      host: localhost
 
 cloud:
   aws:
