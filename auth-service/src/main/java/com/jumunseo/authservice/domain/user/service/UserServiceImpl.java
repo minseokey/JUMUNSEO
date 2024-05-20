@@ -223,7 +223,6 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     @Override
-    @Transactional
     public String updateProfileImage(String token, MultipartFile file) {
         User user = userRepository.findByEmail(jwtTokenProvider.getEmailForAccessToken(token)).orElseThrow(
                 () -> new NotExistUserException("사용자가 없습니다."));
