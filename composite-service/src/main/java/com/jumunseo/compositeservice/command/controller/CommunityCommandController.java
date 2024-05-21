@@ -88,7 +88,7 @@ public class CommunityCommandController {
 
     // 글 생성 (토론 요약)
     // 이건 자동 생성 (Cron Job)
-    @Scheduled(cron = "0 0 12 * 7 *")
+    @Scheduled(cron = "0 5 12 * * ?")
     @Tag(name = "Community Command")
     @Operation(summary = "Posting Create", description = "게시글 생성 메소드(토론 요약), 매일 12시에 실행됩니다.(실행금지)")
     @PostMapping("/board/create/summary")
