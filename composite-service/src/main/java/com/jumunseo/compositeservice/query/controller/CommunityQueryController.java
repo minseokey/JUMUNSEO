@@ -29,7 +29,7 @@ import java.util.Map;
 @RequiredArgsConstructor
 @Controller
 @RequestMapping("/query/community")
-@Tag(name = "Communinty Query", description = "커뮤니티 서비스를 위한 쿼리 컨트롤러")
+@Tag(name = "Community Query", description = "커뮤니티 서비스를 위한 쿼리 컨트롤러")
 public class CommunityQueryController {
     @Value("${address.community}")
     private String COMMUNITY_URL;
