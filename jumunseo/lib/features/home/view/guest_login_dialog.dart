@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:jumunseo/features/login/cubit/login_cubit.dart';
 
-Dialog loginAskDialog(BuildContext context) {
+Dialog guestLoginDialog(BuildContext context) {
   return Dialog(
     shape: RoundedRectangleBorder(
       borderRadius: BorderRadius.circular(16),
@@ -28,38 +26,19 @@ Dialog loginAskDialog(BuildContext context) {
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
           const Text(
-            '로그인이 필요한 서비스입니다.',
+            '게스트로는 접근할 수 없는 항목입니다.',
             style: TextStyle(
               fontSize: 24,
               fontWeight: FontWeight.w700,
             ),
           ),
           const SizedBox(height: 24),
-          const Text(
-            '로그인 후 이용해주세요.',
-            style: TextStyle(
-              fontSize: 16,
-            ),
-          ),
-          const SizedBox(height: 24),
           Row(
-            mainAxisAlignment: MainAxisAlignment.end,
+            mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               TextButton(
                 onPressed: () {
                   context.pop();
-                },
-                child: const Text(
-                  '취소',
-                  style: TextStyle(
-                    fontSize: 16,
-                    color: Colors.black,
-                  ),
-                ),
-              ),
-              TextButton(
-                onPressed: () {
-                  context.read<LoginCubit>().goTologin(context);
                 },
                 child: const Text(
                   '확인',

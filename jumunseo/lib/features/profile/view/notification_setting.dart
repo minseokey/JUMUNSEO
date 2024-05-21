@@ -1,4 +1,5 @@
 import 'package:jumunseo/core/blank.dart';
+import 'package:jumunseo/core/notification.dart';
 import 'package:jumunseo/features/wizard/chat/chat.dart';
 import 'package:jumunseo/shared/gradient_icon.dart';
 import 'package:jumunseo/shared/gradient_switch.dart';
@@ -13,7 +14,7 @@ class NotificationSetting extends StatefulWidget {
 class _NotificationSettingState extends State<NotificationSetting> {
 
   List<Widget> iconList = [const GradientIcon(child: Icon(Icons.alarm))];
-  List<String> accountList = ["Pop-up notification",];
+  List<String> accountList = ["딜레마 알림",];
 
   bool isSwitchOn = false;
 
@@ -58,6 +59,13 @@ class _NotificationSettingState extends State<NotificationSetting> {
                       Transform.scale(
                         scale: 0.5,
                         child: GradientSwitch(isSwitchOn: isSwitchOn, onChange: (changeValue) {
+                          if(changeValue) {
+                            FlutterLocalNotification.showNotification();
+                          }
+                          else {
+                            FlutterLocalNotification.cancelNotification();
+                          }
+
                           setState(() => isSwitchOn = changeValue);
                         },),
                       ),

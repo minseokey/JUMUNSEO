@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:jumunseo/config/theme/app_color.dart';
-import 'package:jumunseo/core/logger.dart';
+import 'package:jumunseo/features/auth/auth.dart';
 import '../chat.dart';
 
 class RoomListView extends StatefulWidget{
@@ -14,6 +14,7 @@ class RoomListView extends StatefulWidget{
 class _RoomListViewState extends State<RoomListView> {
   late WizardRepository repo;
   Dio dio = Dio();
+  bool internet = false;
 
   @override
   void initState() {
@@ -23,6 +24,12 @@ class _RoomListViewState extends State<RoomListView> {
 
   @override
   Widget build(BuildContext context) {
+    context.read<WizardCubit>().internetAccessOk(context).then((value) {
+      if(value) {
+        internet = true;
+      }
+    },);
+
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -38,7 +45,7 @@ class _RoomListViewState extends State<RoomListView> {
         backgroundColor: Colors.white,
         scrolledUnderElevation: 0,
       ),
-      body: Column(
+      body: !internet?Container():Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const Padding(
@@ -49,7 +56,7 @@ class _RoomListViewState extends State<RoomListView> {
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 30),
               child: FutureBuilder(
-                future: repo.getRooms(context.read<WizardCubit>().getUserId()),
+                future: repo.getRooms(context.read<AuthCubit>().getAcessToken()),
                 initialData: [],
                 builder: (_, AsyncSnapshot snapshot) {
                   if(snapshot.connectionState == ConnectionState.waiting) {
@@ -67,7 +74,6 @@ class _RoomListViewState extends State<RoomListView> {
                     children: List.generate(chats.chats.length, (index) {
                       return GestureDetector(
                         onTapUp: (details) {
-                          logger.d("선택");
                           context.read<WizardCubit>().setRoom(chats.chats[index].room_id);
                           context.read<WizardCubit>().toChat(context, null); 
                         },

@@ -1,7 +1,7 @@
-import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:jumunseo/features/home/cubit/home_cubit.dart';
-import 'package:jumunseo/features/login/login.dart';
+import 'package:jumunseo/features/profile/cubit/profile_cubit.dart';
+import 'package:jumunseo/features/auth/auth.dart';
 import 'package:jumunseo/features/wizard/chat/chat.dart';
 
 class BlocWidget extends StatelessWidget {
@@ -19,7 +19,10 @@ class BlocWidget extends StatelessWidget {
         BlocProvider<HomeCubit>(
           create: (BuildContext context) => HomeCubit(),
         ),
-        BlocProvider(create: (BuildContext context) => LoginCubit()),
+        BlocProvider<ProfileCubit>(
+          create: (BuildContext context) => ProfileCubit(),
+        ),
+        BlocProvider(create: (BuildContext context) => AuthCubit()),
       ],
       child: child,
     );

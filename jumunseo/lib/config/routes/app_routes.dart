@@ -1,12 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:jumunseo/core/login_status.dart';
 
 import 'package:jumunseo/features/community/community.dart';
+import 'package:jumunseo/features/community/home/view/community_my_write.dart';
 
 import 'package:jumunseo/features/dilemma/dilemma_screen.dart';
 import 'package:jumunseo/features/home/view/home_screen.dart';
-import 'package:jumunseo/features/login/login.dart';
+import 'package:jumunseo/features/auth/auth.dart';
+import 'package:jumunseo/features/auth/view/sign_in_view.dart';
+import 'package:jumunseo/features/auth/view/sign_up_view.dart';
+import 'package:jumunseo/features/profile/view/privacy_policy.dart';
+import 'package:jumunseo/features/profile/view/profile_edit_screen.dart';
+import 'package:jumunseo/features/profile/view/terms_of_use_view.dart';
 import 'package:jumunseo/features/profile/view/profile_screen.dart';
+import 'package:jumunseo/features/profile/view/settings_view.dart';
 import 'package:jumunseo/features/wizard/chat/view/category_view.dart';
 import 'package:jumunseo/features/wizard/chat/view/chat_view.dart';
 import 'package:jumunseo/features/wizard/chat/view/fwohView/how_view.dart';
@@ -79,6 +87,12 @@ GoRouter appRouter = GoRouter(
       },
     ),
     GoRoute(
+      path: '/community/myWrite',
+      builder: (context, state) {
+        return const CommunityMyWrite();
+      },
+    ),
+    GoRoute(
         path: '/community/:postId',
         builder: (context, state) {
           return CommunityDetailScreen(
@@ -96,14 +110,71 @@ GoRouter appRouter = GoRouter(
     //   );
     // }),
     GoRoute(
-        path: '/profile',
-        builder: (context, state) {
-          return const ProfileScreen();
-        }),
+      path: '/profile',
+      builder: (context, state) {
+        return const ProfileScreen();
+      },
+      routes: [
+        GoRoute(
+          path: 'settings',
+          builder: (context, state) {
+            return const SettingsView();
+          }),
+        GoRoute(
+          path: 'termsOfUse',
+          builder: (context, state) {
+            return const TermsOfUseView();
+          }),
+        GoRoute(
+          path: 'privacyPolicy',
+          builder: (context, state) {
+            return const PrivacyPolicyView();
+          }),
+        GoRoute(
+          path: 'edit',
+          builder: (context, state) {
+            return const ProfileEditScreen();
+          }),
+      ]
+    ),
     GoRoute(
-        path: '/login',
+        path: '/auth',
         builder: (context, state) {
-          return const LoginScreen();
-        }),
+          return const AuthScreen();
+        },
+        routes: [
+          GoRoute(
+            path: 'signUp',
+            builder: (context, state) {
+              return const SignUpView();
+            }),
+          GoRoute(
+            path: 'signIn',
+            builder: (context, state) {
+              return const SignInView();
+            }),
+        ]
+      ),
   ],
+  redirect: (context, state) {
+    if(LoginStatus.isLogin) {
+      return null;
+    }
+    else {
+      if(LoginStatus.isGeust) {
+        return null;
+      }
+
+      if(LoginStatus.signining) {
+        return '/auth/signIn';
+      }
+
+      if(LoginStatus.joining) {
+        return '/auth/signUp';
+      }
+      else {
+        return '/auth';
+      }
+    }
+  },
 );

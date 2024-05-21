@@ -16,6 +16,7 @@ class _PlusInfoViewState extends State<PlusInfoView> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
+      resizeToAvoidBottomInset : false,
       appBar: AppBar(
         centerTitle: true,
         title: const Text(

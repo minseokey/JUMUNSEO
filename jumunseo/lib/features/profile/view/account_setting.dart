@@ -1,4 +1,6 @@
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:jumunseo/core/blank.dart';
+import 'package:jumunseo/features/profile/cubit/profile_cubit.dart';
 import 'package:jumunseo/features/wizard/chat/chat.dart';
 import 'package:jumunseo/shared/gradient_icon.dart';
 
@@ -11,10 +13,10 @@ class AccountSetting extends StatefulWidget {
 
 class _AccountSettingState extends State<AccountSetting> {
 
-  List<Widget> iconList = [const GradientIcon(child: Icon(Icons.account_circle_rounded)), 
-                        const GradientIcon(child: Icon(Icons.playlist_play)),
-                        const GradientIcon(child: Icon(Icons.analytics_outlined))];
-  List<String> accountList = ["내가 쓴 글", "상담 내역", "좋아요 or etc"];
+  List<Widget> iconList = [const GradientIcon(child: Icon(Icons.account_circle_rounded))];
+                        // const GradientIcon(child: Icon(Icons.playlist_play)),
+                        // const GradientIcon(child: Icon(Icons.analytics_outlined))];
+  List<String> accountList = ["내가 쓴 글"];
 
   @override
   Widget build(BuildContext context) {
@@ -46,16 +48,21 @@ class _AccountSettingState extends State<AccountSetting> {
               children: List.generate(iconList.length, (index) {
                 return Padding(
                   padding: const EdgeInsets.symmetric(vertical: 5),
-                  child: Row(
-                    children: [
-                      iconList[index],
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 10),
-                        child: Text(accountList[index], style: const TextStyle(color: Colors.grey, fontSize: 12),),
-                      ),
-                      const Spacer(),
-                      const Icon(Icons.arrow_forward_ios, size: 18,),
-                    ],
+                  child: GestureDetector(
+                    onTap: () {
+                      context.read<ProfileCubit>().toMyWritting(context);
+                    },
+                    child: Row(
+                      children: [
+                        iconList[index],
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 10),
+                          child: Text(accountList[index], style: const TextStyle(color: Colors.grey, fontSize: 12),),
+                        ),
+                        const Spacer(),
+                        const Icon(Icons.arrow_forward_ios, size: 18,),
+                      ],
+                    ),
                   ),
                 );
               }),
