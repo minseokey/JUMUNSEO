@@ -129,7 +129,13 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         } catch (Exception e) {
             throw new AccessTokenNotValidException("토큰이 유효하지 않습니다.");
         }
-        userRepository.deleteByEmail(jwtTokenProvider.getEmailForAccessToken(token));
+        User user = userRepository.findByEmail(jwtTokenProvider.getEmailForAccessToken(token)).orElseThrow(
+                () -> new NotExistUserException("사용자를 찾을 수 없습니다.")
+        );
+        if (user.getProfileImageUrl() != null) {
+            s3Uploader.delete(user.getProfileImageUrl());
+        }
+        userRepository.delete(user);
     }
 
     @Override
@@ -217,7 +223,6 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     @Override
-    @Transactional
     public String updateProfileImage(String token, MultipartFile file) {
         User user = userRepository.findByEmail(jwtTokenProvider.getEmailForAccessToken(token)).orElseThrow(
                 () -> new NotExistUserException("사용자가 없습니다."));

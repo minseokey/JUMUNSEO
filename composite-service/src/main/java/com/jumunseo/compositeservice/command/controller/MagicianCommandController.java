@@ -1,6 +1,5 @@
 package com.jumunseo.compositeservice.command.controller;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jumunseo.compositeservice.command.dto.CommandDto;
 import com.jumunseo.compositeservice.command.service.RedisService;

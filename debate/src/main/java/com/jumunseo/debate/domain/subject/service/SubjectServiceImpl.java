@@ -39,7 +39,7 @@ public class SubjectServiceImpl implements SubjectService{
 
     // 매일 정오에 주제를 새로고침한다.
     // 여러 서버중 하나만 실행 해야한다 -> 레디스 분산락 적용.
-    @Scheduled(cron = "0 0 1 * * *")
+    @Scheduled(cron = "0 3 12 * * ?")
     @Transactional
     @Override
     public void summarySubject(){
@@ -60,18 +60,24 @@ public class SubjectServiceImpl implements SubjectService{
                 // 3.2 2번의견(Right) 요약.
                 List<OpinionSimpleDto> rightOpinion = getOpinionSideSummary(subject, MessageSide.RIGHT);
                 String rightSide = summaryOpinions(rightOpinion, subject.getContents());
+                // 3.3 종합 요약.
+                List<OpinionSimpleDto> allOpinion = new ArrayList<>();
+                allOpinion.addAll(leftOpinion);
+                allOpinion.addAll(rightOpinion);
+                String allSide = summaryAllOpinions(allOpinion, subject.getContents());
 
                 SubjectSummary subjectSummary = SubjectSummary.builder()
                         .subject(subject)
                         .leftOpinions(leftSide)
                         .rightOpinions(rightSide)
+                        .allOpinions(allSide)
                         .countLeft(leftOpinion.size())
                         .countRight(rightOpinion.size())
                         .build();
 
                 subjectSummartJPARepository.save(subjectSummary);
 
-                // TODO: 요약된 의견들을 Community에 요청.
+                // TODO: 요약된 의견들을 Community에 요청. -> 주도권을 Community에 넘긴다.
             }
             finally {
                 lockService.releaseLock("summary_subject");
@@ -83,7 +89,7 @@ public class SubjectServiceImpl implements SubjectService{
     }
 
     // 주제를 추가한다.
-    @Scheduled(cron = "0 0 1 * * *")
+    @Scheduled(cron = "0 0 12 * * ?")
     @Transactional
     @Override
     public void addSubject(){
@@ -114,8 +120,7 @@ public class SubjectServiceImpl implements SubjectService{
                 // 해당 주제를 DB에 추가.
                 Subject subject = Subject.builder()
                         .contents(sub)
-//                        .term(Duration.ofDays(2))
-                        .term(Duration.ofSeconds(5L))
+                        .term(Duration.ofDays(2))
                         .build();
 
                 subjectRepository.save(subject);
@@ -153,8 +158,24 @@ public class SubjectServiceImpl implements SubjectService{
     public String summaryOpinions(List<OpinionSimpleDto> opinions, String sub){
         List<String> req = new ArrayList<>();
         req.add("이 주제에 대한 아래의 의견을 요약해주세요, 이 의견들에 대한 주제는 " + sub + "입니다." +
-                "또한 이 의견과 관계 없는 대화 내용은 필터링 해주시고, 주된 의견들에 대해 약 5개정도로 요약해주세요." +
+                "또한 이 의견과 관계 없는 대화 내용은 필터링 해주시고, 주된 의견들에 대해 약 3개정도로 요약해주세요." +
                 "1. ~~~, 2. ~~~ 3. ~~~ 형태로 만들어 주세요, 의견을 요약할때는 아래의 의견에 써있는 내용만 요약해야합니다." );
+
+        StringBuilder tempword = new StringBuilder();
+        for (OpinionSimpleDto opinion : opinions) {
+            tempword.append(opinion.getContent());
+        }
+        req.add(tempword.toString());
+
+        return openAIService.sendRequest(req, ".md 형태로 정리해 주세요");
+    }
+
+    @Override
+    public String summaryAllOpinions(List<OpinionSimpleDto> opinions, String sub) {
+        List<String> req = new ArrayList<>();
+        req.add("이 주제에 대한 아래의 의견을 요약해주세요, 이 의견들에 대한 주제는 " + sub + "입니다." +
+                "또한 이 의견과 관계 없는 대화 내용은 필터링 해주시고, 이 대화를 찬성, 반대로 분리하지 않고 종합적으로 요약해주세요. " +
+                "의견을 요약할때는 아래의 의견에 써있는 내용만 요약해야합니다.");
 
         StringBuilder tempword = new StringBuilder();
         for (OpinionSimpleDto opinion : opinions) {
@@ -168,5 +189,63 @@ public class SubjectServiceImpl implements SubjectService{
     @Override
     public List<OpinionSimpleDto> getOpinionSideSummary(Subject subject, MessageSide side){
         return opinionRepository.findBySubjectAndSide(subject, side);
+    }
+
+    @Override
+    @Transactional
+    public SubjectSummary getSubjectSummary(Long subjectId){
+        return subjectSummartJPARepository.findById(subjectId).orElseThrow((
+        ) -> new NotExistSubjectException("해당 주제의 요약이 존재하지 않습니다."));
+    }
+
+    @Override
+    @Transactional
+    public Long getLatestSubjectSummary(){
+        SubjectSummary subjectSummary = subjectSummartJPARepository.findTop1ByOrderByIdDesc().orElseThrow((
+        ) -> new NotExistSubjectException("최신 주제의 요약이 존재하지 않습니다."));
+        return subjectSummary.getId();
+    }
+
+    @Transactional
+    public void addTestSubject(){
+        if(lockService.acquireLock("add_subject")) {
+            try {
+                // OpenAI에 보낼 요청문 빌드.
+                List<String> req = new ArrayList<>();
+                req.add("사람들이 법적으로 곤란해 할만한 주제를 만들어주세요," +
+                        " 해당 주제는 찬성, 반대로 의견이 나뉘어서 사람들이 논쟁을 벌일 수 있을만한 것이여야하고" +
+                        " 당신은 \"주제\" 를 의문형으로 ~해야 하는가? 의 형식으로 작성해주세요 이외의 다른 정보는 필요하지 않습니다." +
+                        " 인사말이나 네 알겠습니다 이런 말은 필요하지 않습니다." +
+                        " 또한 \"\"주제\": \" 이런 형식 없이 오로지 주제만 입력해 주세요" +
+                        " 아래 입력되는 문장들인 이미 사용된 주제들 입니다. 이 주제와 중복되지 않고 참신한 주제로 만들어주세요");
+
+                StringBuilder tempword = new StringBuilder();
+                List<SubjectCollectDto> history = subjectRepository.findTop30ByStartTimeOrderByStartTimeDesc(LocalDateTime.now());
+                for (SubjectCollectDto subject : history) {
+                    tempword.append(subject.getContents());
+                }
+                req.add(tempword + "이 주제들은 이미 사용된 주제들 입니다. 이 주제들과 중복되지 않고 참신한 주제로 만들어주세요");
+
+                // OpenAI에 요청을 보내서 주제를 받아온다.
+                String sub = openAIService.sendRequest(req, "너는 오늘 토론의 주제를 만들어주는 인공지능이야");
+
+                // 해당 주제를 레디스 토픽에 추가, 이제 해당 주제를 구독할 수 있다.
+                redisChannelService.registerChannel(sub);
+
+                // 해당 주제를 DB에 추가.
+                Subject subject = Subject.builder()
+                        .contents(sub)
+                        .term(Duration.ofSeconds(5L))
+                        .build();
+
+                subjectRepository.save(subject);
+            }
+            finally {
+                lockService.releaseLock("add_subject");
+            }
+        }
+        else {
+            System.out.println("락 없음 주제추가 x");
+        }
     }
 }

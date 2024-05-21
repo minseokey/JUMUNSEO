@@ -17,6 +17,7 @@ services:
       - composite
       - debate
       - magician
+      - community
 
   # magician
   mongo-magician:
@@ -93,7 +94,7 @@ services:
       GOOGLE_CLIENT_SECRET: ""
       AWS_ACCESS_KEY: ""
       AWS_SECRET_KEY: ""
-      AWS_S3_BUCKET: ""
+      AWS_S3_BUCKET: "jumunseo-photo"
     depends_on:
       - redis
       - postgres-auth
@@ -118,6 +119,9 @@ services:
       ADDRESS_DEBATE: "http://debate-service:8082"
       ADDRESS_MAGICIAN: "http://magician:8000"
       ADDRESS_COMMUNITY: "http://community-service:8083"
+      AWS_ACCESS_KEY: ""
+      AWS_SECRET_KEY: ""
+      AWS_S3_BUCKET: ""
 
     depends_on:
       - redis
@@ -164,6 +168,47 @@ services:
       - debate
       - composite
 
+  application-community:
+    container_name: community-service
+    build: community/.
+    ports:
+      - "8083:8083"
+    restart: always
+    environment:
+      TZ: "Asia/Seoul"
+      COMMUNITY_REDIS_PORT: 6379
+      COMMUNITY_REDIS_HOST: redis
+      COMMUNITY_POSTGRES_HOST: postgres-community
+      COMMUNITY_POSTGRES_PORT: 5434
+      COMMUNITY_POSTGRES_USER: community
+      COMMUNITY_POSTGRES_PASSWORD: 1234
+      AWS_ACCESS_KEY: ""
+      AWS_SECRET_KEY: ""
+      AWS_S3_BUCKET: "jumunseo-photo"
+    depends_on:
+      - postgres-community
+      - redis
+    networks:
+      - community
+      - composite
+
+  postgres-community:
+    container_name: postgres-community
+    hostname: postgres-community
+    image: postgres:latest
+    ports:
+      - "5434:5434"
+    restart: always
+    environment:
+      POSTGRES_DB: community
+      POSTGRES_USER: community
+      POSTGRES_PASSWORD: 1234
+      TZ: "Asia/Seoul"
+    volumes:
+      - ./community/postgres-data:/var/lib/postgresql/data
+    networks:
+      - community
+
 networks:
   magician:
     driver: bridge
@@ -172,6 +217,8 @@ networks:
   composite:
     driver: bridge
   debate:
+    driver: bridge
+  community:
     driver: bridge
 
 

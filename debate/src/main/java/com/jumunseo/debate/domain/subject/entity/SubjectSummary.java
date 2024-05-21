@@ -25,14 +25,18 @@ public class SubjectSummary {
     @Lob
     private String rightOpinions;
 
+    @Lob
+    private String allOpinions;
+
     private int countLeft;
     private int countRight;
 
     @Builder
-    public SubjectSummary(Subject subject, String leftOpinions, String rightOpinions, int countLeft, int countRight) {
+    public SubjectSummary(Subject subject, String leftOpinions, String rightOpinions, String allOpinions ,int countLeft, int countRight) {
         this.subject = subject;
         this.leftOpinions = leftOpinions;
         this.rightOpinions = rightOpinions;
+        this.allOpinions = allOpinions;
         this.countLeft = countLeft;
         this.countRight = countRight;
     }

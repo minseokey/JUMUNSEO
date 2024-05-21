@@ -17,5 +17,17 @@ address:
   magician: "http://magician:8000"
   community: "http://community-service:8083"
 
+cloud:
+  aws:
+    region:
+      static: ap-northeast-2
+    credentials:
+      accessKey: ${AWS_ACCESS_KEY}
+      secretKey: ${AWS_SECRET_KEY}
+    s3:
+      bucket: ${AWS_S3_BUCKET}
+    stack:
+      auto: false
+
 server:
   port: 8081

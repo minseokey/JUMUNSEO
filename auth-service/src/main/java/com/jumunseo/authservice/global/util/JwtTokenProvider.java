@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Value;
 import io.jsonwebtoken.*;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.UUID;
 
@@ -32,12 +33,12 @@ public class JwtTokenProvider {
     public String createAccessToken(String userId, String role) {
         Claims claims = Jwts.claims().setSubject(userId);
         claims.put("role", role);
-        log.info("현재시간" + System.currentTimeMillis() + (9 * 60 * 60 * 1000));
 
+        Date now = new Date();
         return JwtPrefix + Jwts.builder()
                 .setClaims(claims)
-                .setIssuedAt(new Date())
-                .setExpiration(new Date(System.currentTimeMillis() + accessTokenExpiration + (9 * 60 * 60 * 1000)))
+                .setIssuedAt(now)
+                .setExpiration(new Date(now.getTime() + accessTokenExpiration))
                 .signWith(SignatureAlgorithm.HS256, secretKey)
                 .compact();
     }
