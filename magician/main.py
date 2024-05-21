@@ -44,7 +44,7 @@ redis = Redis(host=os.getenv("MAGICIAN_REDIS_HOST"), port=int(os.getenv("MAGICIA
 
 
 # INPUT -> USERID
-@app.websocket("/ws/{user_id}")
+@app.websocket("/magician/ws/{user_id}")
 async def websocket_endpoint(websocket: WebSocket, user_id: str):
     await websocket.accept()
     init = await websocket.receive_text()
