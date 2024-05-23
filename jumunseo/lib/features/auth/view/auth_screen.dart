@@ -10,82 +10,76 @@ class AuthScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: const BoxDecoration(
-        gradient: LinearGradient( 
+        gradient: LinearGradient(
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
-
-          colors: [
-            ColorStyles.mainColor,
-            ColorStyles.secondMainColor
-          ], 
+          colors: [ColorStyles.mainColor, ColorStyles.secondMainColor],
         ),
       ),
-
       child: Padding(
         padding: const EdgeInsets.only(top: 300),
-        child: Column(
-          children: [
-            const DefaultTextStyle(
-              style: TextStyle(color: Colors.white, fontSize: 30, fontWeight: FontWeight.bold),
-              child: Text('주문서(Jumunseo)'),
-            ),
-            const Spacer(),
-            Padding(
-              padding: const EdgeInsets.only(bottom: 50, left: 70, right: 70),
-              child: Column(
-                children: [
-                  Row(
-                    children: [
-                      Expanded(
-                        child: ElevatedButton(
-                          onPressed: (){
-                            context.read<AuthCubit>().goToSignIn(context);
-                          },
-                          child: const Text('주문서 계정으로 로그인하기'),
-                        ),
+        child: Column(children: [
+          Image.asset(
+            'assets/icons/main_logo2.png',
+            width: 200,
+            height: 200,
+          ),
+          const Spacer(),
+          Padding(
+            padding: const EdgeInsets.only(bottom: 50, left: 70, right: 70),
+            child: Column(
+              children: [
+                Row(
+                  children: [
+                    Expanded(
+                      child: ElevatedButton(
+                        onPressed: () {
+                          context.read<AuthCubit>().goToSignIn(context);
+                        },
+                        child: const Text('주문서 계정으로 로그인하기'),
                       ),
-                    ],
-                  ),
-                  Row(
-                    children: [
-                      Expanded(
-                        child: ElevatedButton(
-                          onPressed: (){
-                            context.read<AuthCubit>().guestLogin();
-                            context.read<AuthCubit>().goToHome(context);
-                          },
-                          child: const Text('둘러보기'),
-                        ),
+                    ),
+                  ],
+                ),
+                Row(
+                  children: [
+                    Expanded(
+                      child: ElevatedButton(
+                        onPressed: () {
+                          context.read<AuthCubit>().guestLogin();
+                          context.read<AuthCubit>().goToHome(context);
+                        },
+                        child: const Text('둘러보기'),
                       ),
-                    ],
-                  ),
-                  Row(
-                    children: [
-                      const DefaultTextStyle(
-                        style: TextStyle(color: Colors.white, fontSize: 12),
-                        child: Text('아직 계정이 없으신가요?'),
-                      ),
-                      TextButton(
-                        onPressed: (){
+                    ),
+                  ],
+                ),
+                Row(
+                  children: [
+                    const DefaultTextStyle(
+                      style: TextStyle(color: Colors.white, fontSize: 12),
+                      child: Text('아직 계정이 없으신가요?'),
+                    ),
+                    TextButton(
+                        onPressed: () {
                           context.read<AuthCubit>().goToJoin(context);
-                        }, 
+                        },
                         child: const DefaultTextStyle(
                           style: TextStyle(
-                            color: Colors.white, fontSize: 12, 
+                            color: Colors.white,
+                            fontSize: 12,
                             decoration: TextDecoration.underline,
                           ),
                           child: Text(
                             '회원가입',
                           ),
-                        )
-                      ),
-                    ],
-                  )
-                ],
-              ),
+                        )),
+                  ],
+                )
+              ],
             ),
-          ]
-        ),
+          ),
+        ]),
       ),
     );
   }

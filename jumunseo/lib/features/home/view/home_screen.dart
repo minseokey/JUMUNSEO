@@ -125,32 +125,37 @@ class _HomeScreenState extends State<HomeScreen> {
                 const Spacer(),
                 Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 10),
-                    child: LoginStatus.isGeust
-                        ? CircleAvatar(
-                            radius: 25.0,
-                            backgroundImage:
-                                ExtendedImage.asset('assets/icons/profile.png')
-                                    .image,
-                          )
-                        : ValueListenableBuilder<String>(
-                            valueListenable: LoginStatus.imageUrl,
-                            builder: (context, value, child) {
-                              if (value == '' || value == '기본사진') {
-                                return CircleAvatar(
-                                  radius: 25.0,
-                                  backgroundImage: ExtendedImage.asset(
-                                          'assets/icons/profile.png')
-                                      .image,
-                                );
-                              } else {
-                                return CircleAvatar(
-                                  radius: 25.0,
-                                  backgroundImage:
-                                      ExtendedImage.network(value).image,
-                                );
-                              }
-                            },
-                          )),
+                    child: GestureDetector(
+                      onTap: () {
+                        context.read<HomeCubit>().hometoProfile(context);
+                      },
+                      child: LoginStatus.isGeust
+                          ? CircleAvatar(
+                              radius: 25.0,
+                              backgroundImage: ExtendedImage.asset(
+                                      'assets/icons/profile.png')
+                                  .image,
+                            )
+                          : ValueListenableBuilder<String>(
+                              valueListenable: LoginStatus.imageUrl,
+                              builder: (context, value, child) {
+                                if (value == '' || value == '기본사진') {
+                                  return CircleAvatar(
+                                    radius: 25.0,
+                                    backgroundImage: ExtendedImage.asset(
+                                            'assets/icons/profile.png')
+                                        .image,
+                                  );
+                                } else {
+                                  return CircleAvatar(
+                                    radius: 25.0,
+                                    backgroundImage:
+                                        ExtendedImage.network(value).image,
+                                  );
+                                }
+                              },
+                            ),
+                    )),
                 // GestureDetector(
                 //   onTapUp: (details) {
                 //     context.read<HomeCubit>().hometoProfile(context);
