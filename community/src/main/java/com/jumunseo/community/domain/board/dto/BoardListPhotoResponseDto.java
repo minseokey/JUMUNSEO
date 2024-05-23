@@ -6,10 +6,11 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Getter
 @NoArgsConstructor
-public class BoardListResponseDto {
+public class BoardListPhotoResponseDto {
     String title;
     String content;
     Long id;
@@ -19,8 +20,10 @@ public class BoardListResponseDto {
 
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     LocalDateTime createdAt;
+    List<String> imageUrl;
+
     @Builder
-    public BoardListResponseDto(String title, String content, Long id, Long viewCount, String category, String userId, LocalDateTime createdAt) {
+    public BoardListPhotoResponseDto(String title, String content, Long id, Long viewCount, String category, String userId, LocalDateTime createdAt, List<String> imageUrl) {
         this.title = title;
         this.content = content;
         this.id = id;
@@ -28,5 +31,6 @@ public class BoardListResponseDto {
         this.category = category;
         this.userId = userId;
         this.createdAt = createdAt;
+        this.imageUrl = imageUrl;
     }
 }

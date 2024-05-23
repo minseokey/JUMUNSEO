@@ -1,5 +1,6 @@
 package com.jumunseo.community.domain.board.service;
 
+import com.jumunseo.community.domain.board.dto.BoardListPhotoResponseDto;
 import com.jumunseo.community.domain.board.dto.BoardListResponseDto;
 import com.jumunseo.community.domain.board.dto.BoardRequestDto;
 import com.jumunseo.community.domain.board.dto.BoardResponseDto;
@@ -24,6 +25,10 @@ public interface BoardService {
     List<BoardListResponseDto> getBoardListByLatestAndCategory (Long index, String category);
 
     List<BoardListResponseDto> getBoardListByLatest(Long index);
+
+    List<BoardListPhotoResponseDto> getBoardPhotoListByLatestAndCategory (Long index, String category);
+
+    List<BoardListPhotoResponseDto> getBoardPhotoListByLatest(Long index);
 
     // 6. 게시글 좋아요 (토글)
 

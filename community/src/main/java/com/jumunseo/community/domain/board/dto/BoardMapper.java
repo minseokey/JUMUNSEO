@@ -59,6 +59,23 @@ public class BoardMapper {
                 .title(board.getTitle())
                 .content(board.getContent())
                 .viewCount(board.getViewCount())
+                .category(board.getCategory())
+                .userId(board.getUserId())
+                .createdAt(board.getCreatedAt())
                 .build();
     }
+
+    public BoardListPhotoResponseDto entityToBoardListPhotoResponse(Board board) {
+        return BoardListPhotoResponseDto.builder()
+                .id(board.getId())
+                .title(board.getTitle())
+                .content(board.getContent())
+                .viewCount(board.getViewCount())
+                .category(board.getCategory())
+                .userId(board.getUserId())
+                .createdAt(board.getCreatedAt())
+                .imageUrl(imageToUrl(board.getImageUrl()))
+                .build();
+    }
+
 }
