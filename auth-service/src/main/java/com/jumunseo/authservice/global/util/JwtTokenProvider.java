@@ -1,17 +1,21 @@
 package com.jumunseo.authservice.global.util;
 
+import com.jumunseo.authservice.domain.user.entity.Role;
 import com.jumunseo.authservice.domain.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import io.jsonwebtoken.*;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.UUID;
 
 @Component
 @RequiredArgsConstructor
+@Slf4j
 public class JwtTokenProvider {
 
     // OS 환경변수
@@ -22,18 +26,19 @@ public class JwtTokenProvider {
     @Value("${jwt.access_expiration}")
     private long accessTokenExpiration;
 
-    private final UserRepository userRepository;
     private final String JwtPrefix = "Bearer ";
-
+    public String fromHeader(String header) {
+        return header.replace(JwtPrefix, "");
+    }
     public String createAccessToken(String userId, String role) {
         Claims claims = Jwts.claims().setSubject(userId);
         claims.put("role", role);
-        claims.put("name", userRepository.findByEmail(userId).get().getName());
 
-        return Jwts.builder()
+        Date now = new Date();
+        return JwtPrefix + Jwts.builder()
                 .setClaims(claims)
-                .setIssuedAt(new Date())
-                .setExpiration(new Date(System.currentTimeMillis() + accessTokenExpiration))
+                .setIssuedAt(now)
+                .setExpiration(new Date(now.getTime() + accessTokenExpiration))
                 .signWith(SignatureAlgorithm.HS256, secretKey)
                 .compact();
     }
@@ -50,12 +55,16 @@ public class JwtTokenProvider {
     }
 
     // 토큰의 서브젝트인 이메일 추출
-    public String getEmailForAccessToken(String token) {
+    public String getEmailForAccessToken(String a_token) {
+        String token = fromHeader(a_token);
         return getClaimes(token).getSubject();
     }
 
     // 토큰의 클레임 추출
     public Claims getClaimes(String token) {
+        if (token.startsWith(JwtPrefix)){
+            token = fromHeader(token);
+        }
         try {
             return Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody();
         }
@@ -64,24 +73,31 @@ public class JwtTokenProvider {
         }
     }
 
-    public String getRefreshTokenId(String token) {
-        return getClaimes(token).get("value").toString();
+    public String getRefreshTokenId(String r_token) {
+        return getClaimes(r_token).get("value").toString();
     }
 
     public Date getExpirationTime(String token) {
+        if(token.startsWith(JwtPrefix)){
+            token = fromHeader(token);
+        }
         return getClaimes(token).getExpiration();
     }
 
-    public String getRole(String token) {
+    public String getRole(String a_token) {
+        String token = fromHeader(a_token);
         return getClaimes(token).get("role").toString();
     }
 
     // Token의 UUID 와 RefreshTokenId 비교
-    public Boolean sameRefreshToken(String token, String tokenId) {
-        return getRefreshTokenId(token).equals(tokenId);
+    public Boolean sameRefreshToken(String r_token, String tokenId) {
+        return getRefreshTokenId(r_token).equals(tokenId);
     }
 
     public boolean validateToken(String token) {
+        if (token.startsWith(JwtPrefix)){
+            token = fromHeader(token);
+        }
         try {
             Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token);
             return true;
