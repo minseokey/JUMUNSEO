@@ -78,7 +78,46 @@ public class CommunityQueryController {
                 .bodyToMono(JSONObject.class);
         return ResponseEntity.ok(Result.successResult(mono.block().get("data")));
     }
+    // 커뮤니티 목록(사진) 조회
+    @GetMapping("/list/photo/{index}")
+    @Tag(name = "Community Query")
+    @Operation(summary = "Community List With Photo", description = "커뮤니티 목록 + 사진 조회")
+    private ResponseEntity<Result<?>> getCommunityPhotoList(@PathVariable Long index) {
+        Mono<JSONObject> mono = webClient.get()
+                .uri(COMMUNITY_URL +"/community/board/list/photo/" + index)
+                .retrieve()
+                // 4-- 에러 -> 요청 오류
+                .onStatus(HttpStatusCode::is4xxClientError, res -> Mono.error(
+                        new WebClient4xxException(res.bodyToMono(String.class).toString())
+                ))
+                // 5-- 에러 -> 시스템 오류
+                .onStatus(HttpStatusCode::is5xxServerError, res -> Mono.error(
+                        new WebClient5xxException(res.bodyToMono(String.class).toString())
+                ))
+                .bodyToMono(JSONObject.class);
+        return ResponseEntity.ok(Result.successResult(mono.block().get("data")));
+    }
 
+    // 커뮤니티 목록(사진) 조회 with 카테고리
+    // 토큰 필요 X
+    @GetMapping("/list/photo/{category}/{index}")
+    @Tag(name = "Community Query")
+    @Operation(summary = "Community List with Photo With Category", description = "카테고리별 커뮤니티 목록 조회")
+    private ResponseEntity<Result<?>> getCommunityPhotoListWithCategory(@PathVariable String category, @PathVariable Long index) {
+        Mono<JSONObject> mono = webClient.get()
+                .uri(COMMUNITY_URL +"/community/board/list/photo/" + category + "/" + index)
+                .retrieve()
+                // 4-- 에러 -> 요청 오류
+                .onStatus(HttpStatusCode::is4xxClientError, res -> Mono.error(
+                        new WebClient4xxException(res.bodyToMono(String.class).toString())
+                ))
+                // 5-- 에러 -> 시스템 오류
+                .onStatus(HttpStatusCode::is5xxServerError, res -> Mono.error(
+                        new WebClient5xxException(res.bodyToMono(String.class).toString())
+                ))
+                .bodyToMono(JSONObject.class);
+        return ResponseEntity.ok(Result.successResult(mono.block().get("data")));
+    }
 
     // 커뮤니티 상세 조회 -> 마법사 or 토론 요약 or 바닐라
     // 토큰 필요 X

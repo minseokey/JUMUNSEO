@@ -14,7 +14,6 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
-import org.json.simple.JSONObject;
 import org.springframework.http.ResponseEntity;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Controller;
@@ -114,7 +113,8 @@ public class CommunityCommandController {
             redisService.send("community", sending_data);
         }
         catch (Exception e) {
-            throw  new EventDeliveryError("이벤트를 Redis로 전달하는 과정에서 에러가 발생했습니다.");
+//            throw new EventDeliveryError("이벤트를 Redis로 전달하는 과정에서 에러가 발생했습니다.");
+            throw new EventDeliveryError(e.getMessage());
         }
     }
 
@@ -144,9 +144,14 @@ public class CommunityCommandController {
     @Operation(summary = "Posting Update", description = "게시글 수정 메소드")
     public ResponseEntity<Result<?>> updateBoard(HttpServletRequest request, @PathVariable Long boardId, @RequestPart Map<String,Object> update, @RequestPart(required = false) List<MultipartFile> files) {
         try {
-            List<String> imageUrls = new ArrayList<>();
-            for (MultipartFile file : files) {
-                imageUrls.add(s3Uploader.upload("board", file));
+            List<String> addImageUrls = new ArrayList<>();
+            List<String> remainImageUrls = new ArrayList<>();
+            System.out.println(files);
+            if(files != null) {
+                for (MultipartFile file : files) {
+                    if (!file.isEmpty())
+                        addImageUrls.add(s3Uploader.upload("board", file));
+                }
             }
             Map<String,Object> newData = new HashMap<>();
             newData.put("boardId", boardId);
@@ -156,9 +161,16 @@ public class CommunityCommandController {
             if (update.get("content") != null) {
                 newData.put("content", update.get("content"));
             }
-            if (!imageUrls.isEmpty()) {
-                newData.put("imageUrl", imageUrls);
+            if (update.get("imageUrls") != null){
+                remainImageUrls.addAll((List<String>) update.get("imageUrls"));
             }
+
+            // 이전 이미지를 유지하고 싶으면 이전 이미지 주소 넣어주기 (주소 형태로)
+            // 삭제하고싶으면 삭제할 사진의 주소를 뺀 나머지만 넣어주기
+            // 추가하고 싶은 사진은 그냥 사진 자체를 Multipart 로 넣어주기
+            newData.put("addImageUrl", addImageUrls);
+            newData.put("remainImageUrl", remainImageUrls);
+
             CommandDto data = new CommandDto();
             String requestStr = objectMapper.writeValueAsString(newData);
             CommandDto sending_data = redisService.setMessage(request, data, requestStr, "Board_Update");
@@ -167,8 +179,9 @@ public class CommunityCommandController {
 
             return ResponseEntity.ok(Result.successResult(null));
         }
-        catch (Exception e) {
-            throw  new EventDeliveryError("이벤트를 Redis로 전달하는 과정에서 에러가 발생했습니다.");
+        catch (Exception e){
+//            throw new EventDeliveryError("이벤트를 Redis로 전달하는 과정에서 에러가 발생했습니다.");
+            throw new EventDeliveryError(e.getMessage());
         }
     }
 
