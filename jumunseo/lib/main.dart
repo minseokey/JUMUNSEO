@@ -16,6 +16,8 @@ Future<void> main() async {
   await Hive.initFlutter();
   await Hive.openBox("myBox");
 
+  await Future.delayed(const Duration(seconds: 2));
+
   FlutterNativeSplash.remove();
 
   initializeDateFormatting('ko', null).then((value) => runApp(const MyApp()));

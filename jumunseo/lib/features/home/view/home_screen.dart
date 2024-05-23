@@ -4,6 +4,11 @@ import 'package:jumunseo/shared/gradient_text.dart';
 import '../home.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:jumunseo/core/logger.dart';
+import 'package:shorebird_code_push/shorebird_code_push.dart';
+import 'package:restart_app/restart_app.dart';
+
+// Create an instance of the ShorebirdCodePush class
+final shorebirdCodePush = ShorebirdCodePush();
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -15,6 +20,10 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  final _isShorebirdAvailable = shorebirdCodePush.isShorebirdAvailable();
+  int? _currentPatchVersion;
+  bool isUpdateAvailable = true;
+  bool isCheckingForUpdate = false;
   late List<String> homeWidgets;
 
   Widget proxyDecorator(Widget child, int index, Animation<double> animation) {
@@ -29,6 +38,120 @@ class _HomeScreenState extends State<HomeScreen> {
       },
       child: child,
     );
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    shorebirdCodePush.currentPatchNumber().then((currentPatchVersion) {
+      if (!mounted) return;
+      setState(() {
+        _currentPatchVersion = currentPatchVersion;
+      });
+    });
+    // after a frame is drawn show a dialog
+    WidgetsBinding.instance!.addPostFrameCallback((_) {
+      if (_isShorebirdAvailable) {
+        _checkForUpdate();
+      }
+    });
+  }
+
+  Future<void> _checkForUpdate() async {
+    setState(() {
+      isCheckingForUpdate = true;
+    });
+
+    // Ask the Shorebird servers if there is a new patch available.
+    isUpdateAvailable =
+        await shorebirdCodePush.isNewPatchAvailableForDownload();
+
+    if (!mounted) return;
+
+    setState(() {
+      isCheckingForUpdate = false;
+    });
+
+    if (isUpdateAvailable) {
+      _showUpdateAvailableBanner();
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('No update available'),
+        ),
+      );
+    }
+    // while (isUpdateAvailable) {
+
+    // }
+  }
+
+  void _showDownloadingBanner() {
+    ScaffoldMessenger.of(context).showMaterialBanner(
+      const MaterialBanner(
+        content: Text('Downloading...'),
+        actions: [
+          SizedBox(
+            height: 14,
+            width: 14,
+            child: CircularProgressIndicator(
+              strokeWidth: 2,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  void _showUpdateAvailableBanner() {
+    ScaffoldMessenger.of(context).showMaterialBanner(
+      MaterialBanner(
+        content: const Text('Update available'),
+        actions: [
+          TextButton(
+            onPressed: () async {
+              ScaffoldMessenger.of(context).hideCurrentMaterialBanner();
+              await _downloadUpdate();
+
+              if (!mounted) return;
+              ScaffoldMessenger.of(context).hideCurrentMaterialBanner();
+            },
+            child: const Text('Download'),
+          ),
+        ],
+      ),
+    );
+  }
+
+  void _showRestartBanner() {
+    ScaffoldMessenger.of(context).showMaterialBanner(
+      const MaterialBanner(
+        content: Text('A new patch is ready!'),
+        actions: [
+          TextButton(
+            // Restart the app for the new patch to take effect.
+            onPressed: Restart.restartApp,
+            child: Text('Restart app'),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Future<void> _downloadUpdate() async {
+    _showDownloadingBanner();
+
+    await Future.wait([
+      shorebirdCodePush.downloadUpdateIfAvailable(),
+      // Add an artificial delay so the banner has enough time to animate in.
+      Future<void>.delayed(const Duration(milliseconds: 250)),
+    ]);
+
+    if (!mounted) return;
+
+    ScaffoldMessenger.of(context).hideCurrentMaterialBanner();
+    _showRestartBanner();
   }
 
   @override
