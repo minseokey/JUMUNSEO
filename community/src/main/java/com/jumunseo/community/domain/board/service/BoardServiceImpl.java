@@ -1,9 +1,6 @@
 package com.jumunseo.community.domain.board.service;
 
-import com.jumunseo.community.domain.board.dto.BoardListResponseDto;
-import com.jumunseo.community.domain.board.dto.BoardMapper;
-import com.jumunseo.community.domain.board.dto.BoardRequestDto;
-import com.jumunseo.community.domain.board.dto.BoardResponseDto;
+import com.jumunseo.community.domain.board.dto.*;
 import com.jumunseo.community.domain.board.entity.Board;
 import com.jumunseo.community.domain.board.entity.Image;
 import com.jumunseo.community.domain.board.entity.LikeBoard;
@@ -66,14 +63,20 @@ public class BoardServiceImpl implements BoardService {
             board.setTitle((String) update.get("title"));
         if(update.get("content") != null)
             board.setContent((String) update.get("content"));
-        if (update.get("imageUrl") != null) {
+        // 받은 URL 에 남아있다면 유지, 사라졌다면 삭제.
+        if (update.get("remainImageUrl") != null) {
             // 기존 이미지 삭제
+            List<String> remainImageUrl = (List<String>) update.get("remainImageUrl");
             for(Image image : board.getImageUrl()) {
-                s3Uploader.delete(image.getPath());
+                if (!remainImageUrl.contains(image.getPath())) { // 남아있는 이미지가 아니라면 삭제
+                    s3Uploader.delete(image.getPath());
+                    imageRepository.delete(image);
+                }
             }
-            imageRepository.deleteAll(board.getImageUrl());
-            // 새로운 이미지 등록
-            List<String> imageUrls = (List<String>) update.get("imageUrl");
+        }
+        // 이미지 추가
+        if (update.get("addImageUrl") != null) {
+            List<String> imageUrls = (List<String>) update.get("addImageUrl");
             for(String imageUrl : imageUrls) {
                 imageRepository.save(Image.builder().path(imageUrl).board(board).build());
             }
@@ -140,6 +143,41 @@ public class BoardServiceImpl implements BoardService {
         }
         return boardResponseDtos;
     }
+
+    @Override
+    public List<BoardListPhotoResponseDto> getBoardPhotoListByLatestAndCategory(Long index, String category) {
+        List<Board> boards;
+        if(index == -1L){
+            boards = boardRepository.findAllByLatestAndCategory(category);
+        }
+        else {
+            boards = boardRepository.findAllByCategoryAndIndex(index, category);
+        }
+        List<BoardListPhotoResponseDto> boardResponseDtos = new ArrayList<>();
+        for(Board board : boards) {
+            boardResponseDtos.add(mapper.entityToBoardListPhotoResponse(board));
+        }
+        return boardResponseDtos;
+    }
+
+
+    @Override
+    public List<BoardListPhotoResponseDto> getBoardPhotoListByLatest(Long index) {
+        List<Board> boards;
+        if(index == -1L)
+            boards = boardRepository.findAllByLatest();
+        else {
+            boards = boardRepository.findAllByIndex(index);
+        }
+        List<BoardListPhotoResponseDto> boardResponseDtos = new ArrayList<>();
+        for(Board board : boards) {
+            boardResponseDtos.add(mapper.entityToBoardListPhotoResponse(board));
+        }
+        return boardResponseDtos;
+    }
+
+
+
 
     @Override
     @Transactional

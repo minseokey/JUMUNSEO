@@ -1,10 +1,12 @@
 package com.jumunseo.compositeservice.query.internal;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @NoArgsConstructor
+@AllArgsConstructor
 @Setter
 @Getter
 public class DebateSummary {
@@ -12,7 +14,7 @@ public class DebateSummary {
     String leftOpinions;
     String rightOpinions;
     String allOpinions;
-    Long countLeft;
-    Long countRight;
+    int countLeft;
+    int countRight;
     Object subject;
 }

@@ -1,5 +1,6 @@
 package com.jumunseo.compositeservice.query.internal;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -8,6 +9,7 @@ import java.util.Map;
 import java.util.List;
 
 @NoArgsConstructor
+@AllArgsConstructor
 @Setter
 @Getter
 public class MagicianChat {

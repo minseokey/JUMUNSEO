@@ -28,6 +28,19 @@ public class BoardQueryController {
                 .getBoardListByLatestAndCategory(index, category)));
     }
 
+    // 게시글 리스트 + 사진 조회
+    @GetMapping("/list/photo/{index}")
+    public ResponseEntity<Result<?>> getBoardPhotoList(@PathVariable Long index) {
+        return ResponseEntity.ok().body(Result.successResult(boardService.getBoardPhotoListByLatest(index)));
+    }
+
+    // 게시글 리스트 + 사진 조회 with 카테고리
+    @GetMapping("/list/photo/{category}/{index}")
+    public ResponseEntity<Result<?>> getBoardPhotoListByCategory(@PathVariable Long index, @PathVariable String category) {
+        return ResponseEntity.ok().body(Result.successResult(boardService
+                .getBoardPhotoListByLatestAndCategory(index, category)));
+    }
+
     // 게시글 상세 조회
     @GetMapping("/detail/{id}")
     public ResponseEntity<Result<?>> getBoardDetail(@RequestHeader("email") String userId, @PathVariable Long id) {
