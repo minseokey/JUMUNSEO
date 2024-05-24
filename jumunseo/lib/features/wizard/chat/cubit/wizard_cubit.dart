@@ -112,26 +112,31 @@ class WizardCubit extends Cubit<WizardState> {
     state.myChat.insert(0, true);
     state.statusKey.currentState?.insertItem(0);
 
-    state.chats.insert(0, """
+    Future.delayed(const Duration(seconds: 5), () {
+      state.chats.insert(0, """
 이런 경우에는 민법 제758조에 따라 손해배상책임을 지게 됩니다. 해당 조항에 따르면, 타인의 물건을 과실로 인하여 훼손한 경우 그 손해를 배상할 책임이 있다고 규정되어 있습니다. 일반적으로는 피해를 입은 물건의 수리비 또는 교환가치(시가)가 배상액의 기준이 됩니다. 만약 화분이 고가품이거나 특수한 제작 방법으로 만들어진 것이라면, 해당 물건의 가치를 고려하여 배상액이 결정될 수 있습니다.
 화분을 깨뜨린 행위가 식당 주인의 영업에 큰 지장을 준 경우라면, 추가적인 손해배상책임을 질 수도 있습니다. 예를 들어, 화분이 식당 내부 인테리어의 중요한 부분을 차지하거나, 화분이 깨지면서 식당 내부가 더러워진 경우 등이 이에 해당됩니다. 하지만 이러한 경우에도 배상액은 합리적인 수준이어야 합니다.
 
 그러므로 실제 배상의 범위는 여러 가지 요인에 따라 달라질 수 있으므로 보다 정확한 판단을 위해서는 변호사나 법률 전문가와 상담하시기를 권장합니다.
     """);
-    state.myChat.insert(0, false);
-    state.statusKey.currentState?.insertItem(0);
+      state.myChat.insert(0, false);
+      state.statusKey.currentState?.insertItem(0);
+    });
 
-    state.chats.insert(0, "현재 정가로 봤을때 5만원정도에 판매되는 화분인거 같은데 계속 10만원을 달라고 해");
-    state.myChat.insert(0, true);
-    state.statusKey.currentState?.insertItem(0);
+    // state.chats.insert(0, "현재 정가로 봤을때 5만원정도에 판매되는 화분인거 같은데 계속 10만원을 달라고 해");
+    // state.myChat.insert(0, true);
+    // state.statusKey.currentState?.insertItem(0);
 
-    state.chats.insert(0, """
+    Future.delayed(const Duration(seconds: 30), () {
+      state.chats.insert(0, """
 판매정가가 5만원인 화분을 식당 주인이 10만원을 요구하는 것은 다소 과한 요구로 보입니다. 그러나 화분이 깨지면서 발생한 추가적인 손해나 청소비용 등을 고려하였을 때 적정한 금액인지 여부를 먼저 파악하시는 것이 좋습니다.
 
 만약 식당 주인과의 협의가 어렵다면 소비자보호원에 피해구제 신청을 통해 도움을 받으실 수 있습니다. 이를 통해 전문가의 조언과 함께 적절한 배상금액을 산정하실 수 있으며 필요시 합의중재 및 분쟁조정 절차를 통해 문제를 해결 할 수 있습니다.
     """);
-    state.myChat.insert(0, false);
-    state.statusKey.currentState?.insertItem(0);
+      state.myChat.insert(0, false);
+      state.statusKey.currentState?.insertItem(0);
+    });
+
     // if(state.roomId == "-1"){
     //   onButtonPress("카테고리:${state.cateogry},\n언제?: ${state.when},\n왜?: ${state.why},\n어디서?: ${state.where},\n무엇을?: ${state.what},\n어떻게?: ${state.how},\n누가?: ${state.who}\n,추가 정보: ${state.plusInfo}");
     // }

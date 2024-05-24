@@ -93,7 +93,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                     LoginStatus.isGeust
                         ? const Text(
-                            'Guest',
+                            '홍길동',
                             style: TextStyle(
                                 fontSize: 20,
                                 fontWeight: FontWeight.bold,
@@ -190,15 +190,16 @@ class _HomeScreenState extends State<HomeScreen> {
                       child: (e == '마법사')
                           ? GestureDetector(
                               onTapUp: (details) {
-                                if (LoginStatus.isGeust) {
-                                  context
-                                      .read<HomeCubit>()
-                                      .guestDialog(context);
-                                } else {
-                                  context
-                                      .read<HomeCubit>()
-                                      .homeToWizard(context);
-                                }
+                                context.read<HomeCubit>().homeToWizard(context);
+                                // if (LoginStatus.isGeust) {
+                                //   context
+                                //       .read<HomeCubit>()
+                                //       .guestDialog(context);
+                                // } else {
+                                //   context
+                                //       .read<HomeCubit>()
+                                //       .homeToWizard(context);
+                                // }
                               },
                               child: const WizardMenu())
                           : (e == '딜레마')

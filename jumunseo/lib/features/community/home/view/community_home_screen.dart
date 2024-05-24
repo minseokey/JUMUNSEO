@@ -9,6 +9,7 @@ import 'package:jumunseo/core/logger.dart';
 import 'package:jumunseo/features/community/detail/model/community_detail_model.dart';
 import 'package:jumunseo/shared/svg_strings.dart';
 import 'package:jumunseo/shared/time_diff_string.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 PagingController<int, CommunityDetailModel> communityPageController =
     PagingController(firstPageKey: 1);
@@ -254,8 +255,7 @@ class CommunityListItem extends StatelessWidget {
             color: Colors.transparent,
             child: InkWell(
               onTap: () {
-                //TODO: 글세부보기
-                context.push('/community/1');
+                context.push('/community/2');
               },
               borderRadius: BorderRadius.circular(15),
               child: Padding(
@@ -465,11 +465,25 @@ class CommunityHomeScreen extends StatelessWidget {
                             child: SizedBox(
                               child: Column(
                                 children: [
-                                  Container(
-                                    height: 250,
-                                    child: ExtendedImage.network(
-                                      'https://www.korea.kr/newsWeb/resources/attaches/2023.09/13/5c5469f53381edd51601bbd5a4aac7df.jpg',
-                                      fit: BoxFit.contain,
+                                  GestureDetector(
+                                    onTap: () {
+                                      launchUrl(Uri.parse(
+                                          'https://seoul.scourt.go.kr/dcboard/new/DcNewsViewAction.work?seqnum=229&gubun=215&cbub_code=000210&searchWord=&pageIndex=1'));
+                                    },
+                                    child: Container(
+                                      height: 250,
+                                      width: maxWidth,
+                                      child: ExtendedImage.network(
+                                        [
+                                          'https://www.korea.kr/newsWeb/resources/attaches/2023.09/13/5c5469f53381edd51601bbd5a4aac7df.jpg',
+                                          "http://file.scourt.go.kr/crosseditor/images/000001/20161215091146604_69P2HFMA.jpg",
+                                          "http://file.scourt.go.kr/crosseditor/images/000001/20160913084705650_W0QTBHY3.jpg",
+                                        ][index],
+                                        alignment: Alignment.topCenter,
+                                        fit: index == 0
+                                            ? BoxFit.contain
+                                            : BoxFit.cover,
+                                      ),
                                     ),
                                   )
                                   // Expanded(

@@ -16,15 +16,15 @@ class _ChatViewState extends State<ChatView> {
   void initState() {
     super.initState();
 
-    context.read<WizardCubit>().internetAccessOk(context).then((value) {
-      if (value) {
-        //웹소켓 연결
-        context.read<WizardCubit>().sokectEventSetting(context);
+    // context.read<WizardCubit>().internetAccessOk(context).then((value) {
+    //   if (value) {
+    //     //웹소켓 연결
+    //     context.read<WizardCubit>().sokectEventSetting(context);
 
-        WidgetsBinding.instance.addPostFrameCallback(
-            (_) => context.read<WizardCubit>().pushFirstMessage());
-      }
-    });
+    WidgetsBinding.instance.addPostFrameCallback(
+        (_) => context.read<WizardCubit>().pushFirstMessage());
+
+    // });
   }
 
   @override
@@ -35,264 +35,133 @@ class _ChatViewState extends State<ChatView> {
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: () async {
-        context.read<WizardCubit>().socketDispose();
-        context.read<WizardCubit>().toHome(context);
-        return false;
-      },
-      child: Scaffold(
-        backgroundColor: Colors.blue.shade50,
-        appBar: AppBar(
-          title: Row(children: [
-            ExtendedImage.asset(
-              'assets/images/mage.png',
-              width: 24.0,
-              height: 36.0,
-            ),
-            const Padding(
-              padding: EdgeInsets.symmetric(horizontal: 20.0),
-              child: Text(
-                "주문서 봇",
-                style: TextStyle(
-                  color: ColorStyles.mainColor,
-                  fontSize: 20.0,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ),
-          ]),
-          shape: const Border(
-            bottom: BorderSide(
-              color: Colors.grey,
-              width: 1,
-            ),
-          ),
-          backgroundColor: Colors.white,
-          scrolledUnderElevation: 0,
+    return Scaffold(
+      backgroundColor: Colors.blue.shade50,
+      appBar: AppBar(
+        leading:
+            //뒤로가기 버튼
+            IconButton(
+          icon: const Icon(Icons.arrow_back_ios),
+          onPressed: () {
+            context.pop();
+          },
         ),
-        body: Container(
-          //배경 색상 그라데이션 표시
-          width: MediaQuery.of(context).size.width,
-          color: Colors.white,
-          //채팅이 올라오는 화면과 채팅을 치는 텍스트 필드 전송 버튼 묶음 컬럼
-          child: Column(
+        titleSpacing: 0,
+        // centerTitle: false,
+        title: Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Expanded(
-                child: GestureDetector(
-                  onTap: () {
-                    FocusScope.of(context).unfocus();
-                  },
-                  child: AnimatedList(
-                    key: context.read<WizardCubit>().getStatusKey(),
-                    itemBuilder: context.read<WizardCubit>().onSubmitAnimation,
-                    reverse: true,
+              ExtendedImage.asset(
+                'assets/icons/jumunseo_letter.png',
+                height: 30,
+              ),
+              const Padding(
+                padding: EdgeInsets.symmetric(horizontal: 12.0),
+                child: Text(
+                  "마법사 봇",
+                  style: TextStyle(
+                    color: ColorStyles.mainColor,
+                    fontSize: 20.0,
+                    fontWeight: FontWeight.bold,
                   ),
                 ),
               ),
-              Padding(
-                padding: const EdgeInsets.symmetric(
-                    horizontal: 21.0, vertical: 36.0),
-                child: Container(
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(30),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.grey.withOpacity(0.2),
-                        spreadRadius: 5,
-                        blurRadius: 7,
-                        offset: const Offset(0, 3),
+            ]),
+        shape: const Border(
+          bottom: BorderSide(
+            color: Colors.grey,
+            width: 1,
+          ),
+        ),
+        backgroundColor: Colors.white,
+        scrolledUnderElevation: 0,
+      ),
+      body: Container(
+        //배경 색상 그라데이션 표시
+        width: MediaQuery.of(context).size.width,
+        color: Colors.white,
+        //채팅이 올라오는 화면과 채팅을 치는 텍스트 필드 전송 버튼 묶음 컬럼
+        child: Column(
+          children: [
+            Expanded(
+              child: GestureDetector(
+                onTap: () {
+                  FocusScope.of(context).unfocus();
+                },
+                child: AnimatedList(
+                  key: context.read<WizardCubit>().getStatusKey(),
+                  itemBuilder: context.read<WizardCubit>().onSubmitAnimation,
+                  reverse: true,
+                ),
+              ),
+            ),
+            Padding(
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 21.0, vertical: 36.0),
+              child: Container(
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(30),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.grey.withOpacity(0.2),
+                      spreadRadius: 5,
+                      blurRadius: 7,
+                      offset: const Offset(0, 3),
+                    ),
+                  ],
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: 16.0, vertical: 16.0),
+                  //채팅을 치는 텍스트 필드, 전송 버튼 구분 로우
+                  child: Row(
+                    children: [
+                      Expanded(
+                          child: TextField(
+                        controller:
+                            context.read<WizardCubit>().getChatMessage(),
+                        decoration: const InputDecoration(
+                          hintText: "Write additional message",
+                          hintStyle: TextStyle(
+                              fontSize: 13.0,
+                              fontWeight: FontWeight.bold,
+                              color: Color.fromARGB(0xff, 0xa1, 0xa1, 0xa1)),
+                          border: InputBorder.none,
+                          isDense: true,
+                          contentPadding:
+                              EdgeInsets.symmetric(horizontal: 0, vertical: 0),
+                        ),
+                        keyboardType: TextInputType.multiline,
+                        minLines: 1,
+                        maxLines: 7,
+                        onSubmitted: (String text) {
+                          context.read<WizardCubit>().onButtonPress(
+                              context.read<WizardCubit>().getChatTextField());
+                          context.read<WizardCubit>().clearChatTextField();
+                        },
+                      )),
+                      GestureDetector(
+                        child: ExtendedImage.asset(
+                          'assets/images/send.png',
+                          width: 24.0,
+                          height: 24.0,
+                        ),
+                        onTap: () {
+                          context.read<WizardCubit>().onButtonPress(
+                              context.read<WizardCubit>().getChatTextField());
+                          context.read<WizardCubit>().clearChatTextField();
+                        },
                       ),
                     ],
                   ),
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 16.0, vertical: 16.0),
-                    //채팅을 치는 텍스트 필드, 전송 버튼 구분 로우
-                    child: Row(
-                      children: [
-                        Expanded(
-                            child: TextField(
-                          controller:
-                              context.read<WizardCubit>().getChatMessage(),
-                          decoration: const InputDecoration(
-                            hintText: "Write additional message",
-                            hintStyle: TextStyle(
-                                fontSize: 13.0,
-                                fontWeight: FontWeight.bold,
-                                color: Color.fromARGB(0xff, 0xa1, 0xa1, 0xa1)),
-                            border: InputBorder.none,
-                            isDense: true,
-                            contentPadding: EdgeInsets.symmetric(
-                                horizontal: 0, vertical: 0),
-                          ),
-                          keyboardType: TextInputType.multiline,
-                          minLines: 1,
-                          maxLines: 7,
-                          onSubmitted: (String text) {
-                            context.read<WizardCubit>().onButtonPress(
-                                context.read<WizardCubit>().getChatTextField());
-                            context.read<WizardCubit>().clearChatTextField();
-                          },
-                        )),
-                        GestureDetector(
-                          child: ExtendedImage.asset(
-                            'assets/images/send.png',
-                            width: 24.0,
-                            height: 24.0,
-                          ),
-                          onTap: () {
-                            context.read<WizardCubit>().onButtonPress(
-                                context.read<WizardCubit>().getChatTextField());
-                            context.read<WizardCubit>().clearChatTextField();
-                          },
-                        ),
-                      ],
-                    ),
-                  ),
                 ),
               ),
-            ],
-          ),
+            )
+          ],
         ),
       ),
     );
   }
 }
-
-// Scaffold(
-//       backgroundColor: Colors.blue.shade50,
-//       appBar: AppBar(
-//         leading:
-//             //뒤로가기 버튼
-//             IconButton(
-//           icon: const Icon(Icons.arrow_back_ios),
-//           onPressed: () {
-//             context.pop();
-//           },
-//         ),
-//         titleSpacing: 0,
-//         // centerTitle: false,
-//         title: Row(
-//             mainAxisAlignment: MainAxisAlignment.start,
-//             crossAxisAlignment: CrossAxisAlignment.center,
-//             children: [
-//               ExtendedImage.asset(
-//                 'assets/icons/jumunseo_letter.png',
-//                 height: 30,
-//               ),
-//               const Padding(
-//                 padding: EdgeInsets.symmetric(horizontal: 12.0),
-//                 child: Text(
-//                   "마법사 봇",
-//                   style: TextStyle(
-//                     color: ColorStyles.mainColor,
-//                     fontSize: 20.0,
-//                     fontWeight: FontWeight.bold,
-//                   ),
-//                 ),
-//               ),
-//             ]),
-//         shape: const Border(
-//           bottom: BorderSide(
-//             color: Colors.grey,
-//             width: 1,
-//           ),
-//           shape: const Border(
-//             bottom: BorderSide(
-//               color: Colors.grey,
-//               width: 1,
-//             ),
-//           ),
-//           backgroundColor: Colors.white,
-//           scrolledUnderElevation: 0,
-//         ),
-//         backgroundColor: Colors.white,
-//         scrolledUnderElevation: 0,
-//       ),
-//       body: Container(
-//         //배경 색상 그라데이션 표시
-//         width: MediaQuery.of(context).size.width,
-//         color: Colors.white,
-//         //채팅이 올라오는 화면과 채팅을 치는 텍스트 필드 전송 버튼 묶음 컬럼
-//         child: Column(
-//           children: [
-//             Expanded(
-//               child: GestureDetector(
-//                 onTap: () {
-//                   FocusScope.of(context).unfocus();
-//                 },
-//                 child: AnimatedList(
-//                   key: context.read<WizardCubit>().getStatusKey(),
-//                   itemBuilder: context.read<WizardCubit>().onSubmitAnimation,
-//                   reverse: true,
-//                 ),
-//               ),
-//             ),
-//             Padding(
-//               padding:
-//                   const EdgeInsets.symmetric(horizontal: 21.0, vertical: 36.0),
-//               child: Container(
-//                 decoration: BoxDecoration(
-//                   color: Colors.white,
-//                   borderRadius: BorderRadius.circular(30),
-//                   boxShadow: [
-//                     BoxShadow(
-//                       color: Colors.grey.withOpacity(0.2),
-//                       spreadRadius: 5,
-//                       blurRadius: 7,
-//                       offset: const Offset(0, 3),
-//                     ),
-//                   ],
-//                 ),
-//                 child: Padding(
-//                   padding: const EdgeInsets.symmetric(
-//                       horizontal: 16.0, vertical: 16.0),
-//                   //채팅을 치는 텍스트 필드, 전송 버튼 구분 로우
-//                   child: Row(
-//                     children: [
-//                       Expanded(
-//                           child: TextField(
-//                         controller:
-//                             context.read<WizardCubit>().getChatMessage(),
-//                         decoration: const InputDecoration(
-//                           hintText: "Write additional message",
-//                           hintStyle: TextStyle(
-//                               fontSize: 13.0,
-//                               fontWeight: FontWeight.bold,
-//                               color: Color.fromARGB(0xff, 0xa1, 0xa1, 0xa1)),
-//                           border: InputBorder.none,
-//                           isDense: true,
-//                           contentPadding:
-//                               EdgeInsets.symmetric(horizontal: 0, vertical: 0),
-//                         ),
-//                         keyboardType: TextInputType.multiline,
-//                         minLines: 1,
-//                         maxLines: 7,
-//                         onSubmitted: (String text) {
-//                           context.read<WizardCubit>().onButtonPress(
-//                               context.read<WizardCubit>().getChatTextField());
-//                           context.read<WizardCubit>().clearChatTextField();
-//                         },
-//                       )),
-//                       GestureDetector(
-//                         child: ExtendedImage.asset(
-//                           'assets/images/send.png',
-//                           width: 24.0,
-//                           height: 24.0,
-//                         ),
-//                         onTap: () {
-//                           context.read<WizardCubit>().onButtonPress(
-//                               context.read<WizardCubit>().getChatTextField());
-//                           context.read<WizardCubit>().clearChatTextField();
-//                         },
-//                       ),
-//                     ],
-//                   ),
-//                 ),
-//               ),
-//             ],
-//           ),
-//         ),
-//       ),

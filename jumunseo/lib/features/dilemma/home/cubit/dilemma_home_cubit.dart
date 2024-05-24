@@ -20,10 +20,14 @@ class Repository {
   Future<List<DilemmaHomeModel>> fetchItems() async {
     final getResponse = jsonDecode(await repository.getDilemmaList());
 
-    final items = getResponse['data'][0]['data']
-        .map<DilemmaHomeModel>((item) => DilemmaHomeModel.fromJson(item))
-        .toList();
-    return items;
+    try {
+      final items = getResponse['data'][0]['data']
+          .map<DilemmaHomeModel>((item) => DilemmaHomeModel.fromJson(item))
+          .toList();
+      return items;
+    } on Exception catch (e) {
+      return [];
+    }
   }
 
   // Future<void> deleteItem(String id) async {

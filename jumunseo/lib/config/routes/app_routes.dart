@@ -137,33 +137,32 @@ GoRouter appRouter = GoRouter(
     //   );
     // }),
     GoRoute(
-      path: '/profile',
-      builder: (context, state) {
-        return const ProfileScreen();
-      },
-      routes: [
-        GoRoute(
-          path: 'settings',
-          builder: (context, state) {
-            return const SettingsView();
-          }),
-        GoRoute(
-          path: 'termsOfUse',
-          builder: (context, state) {
-            return const TermsOfUseView();
-          }),
-        GoRoute(
-          path: 'privacyPolicy',
-          builder: (context, state) {
-            return const PrivacyPolicyView();
-          }),
-        GoRoute(
-          path: 'edit',
-          builder: (context, state) {
-            return const ProfileEditScreen();
-          }),
-      ]
-    ),
+        path: '/profile',
+        builder: (context, state) {
+          return const ProfileScreen();
+        },
+        routes: [
+          GoRoute(
+              path: 'settings',
+              builder: (context, state) {
+                return const SettingsView();
+              }),
+          GoRoute(
+              path: 'termsOfUse',
+              builder: (context, state) {
+                return const TermsOfUseView();
+              }),
+          GoRoute(
+              path: 'privacyPolicy',
+              builder: (context, state) {
+                return const PrivacyPolicyView();
+              }),
+          GoRoute(
+              path: 'edit',
+              builder: (context, state) {
+                return const ProfileEditScreen();
+              }),
+        ]),
     GoRoute(
         path: '/auth',
         builder: (context, state) {
@@ -171,35 +170,32 @@ GoRouter appRouter = GoRouter(
         },
         routes: [
           GoRoute(
-            path: 'signUp',
-            builder: (context, state) {
-              return const SignUpView();
-            }),
+              path: 'signUp',
+              builder: (context, state) {
+                return const SignUpView();
+              }),
           GoRoute(
-            path: 'signIn',
-            builder: (context, state) {
-              return const SignInView();
-            }),
-        ]
-      ),
+              path: 'signIn',
+              builder: (context, state) {
+                return const SignInView();
+              }),
+        ]),
   ],
   redirect: (context, state) {
-    if(LoginStatus.isLogin) {
+    if (LoginStatus.isLogin) {
       return null;
-    }
-    else {
-      if(LoginStatus.isGeust) {
+    } else {
+      if (LoginStatus.isGeust) {
         return null;
       }
 
-      if(LoginStatus.signining) {
+      if (LoginStatus.signining) {
         return '/auth/signIn';
       }
 
-      if(LoginStatus.joining) {
+      if (LoginStatus.joining) {
         return '/auth/signUp';
-      }
-      else {
+      } else {
         return '/auth';
       }
     }
