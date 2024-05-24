@@ -1,9 +1,6 @@
-import 'package:flutter/material.dart';
+import '../../chat.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:jumunseo/config/theme/app_color.dart';
-import 'package:jumunseo/features/wizard/chat/view/gradient_button.dart';
-
-import '../../cubit/wizard_cubit.dart';
 
 class WhoView extends StatefulWidget{
   const WhoView({super.key});
@@ -20,6 +17,7 @@ class _WhoViewState extends State<WhoView> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
+        centerTitle: true,
         title: const Text(
             "내용을 자세하게 적어주세요.",
             style: TextStyle(
@@ -57,9 +55,10 @@ class _WhoViewState extends State<WhoView> {
               children: [
                 Expanded(
                   child: GradientButton(
-                    onButtonPress: () {context.read<WizardCubit>().toPlusInfo(context, textEditingController); },
-                    message: 'Continue',
-                  ),
+                    child: TextButton(
+                    onPressed: () {context.read<WizardCubit>().toPlusInfo(context, textEditingController); },
+                    child: const Text('Continue', style: TextStyle(color: Colors.white),),
+                  ),),
                 ),
               ]
             ),
