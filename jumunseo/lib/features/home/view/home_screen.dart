@@ -190,7 +190,6 @@ class _HomeScreenState extends State<HomeScreen> {
                       child: (e == '마법사')
                           ? GestureDetector(
                               onTapUp: (details) {
-                                context.read<HomeCubit>().homeToWizard(context);
                                 if (LoginStatus.isGeust) {
                                   context
                                       .read<HomeCubit>()

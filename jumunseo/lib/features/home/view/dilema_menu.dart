@@ -33,7 +33,7 @@ class DilemaMenu extends StatelessWidget {
               ),
               Blank(0, 5),
               Text(
-                "종료 20시간 전",
+                "",
                 style: TextStyle(
                     color: ColorStyles.secondMainColor,
                     fontWeight: FontWeight.bold,
@@ -46,7 +46,7 @@ class DilemaMenu extends StatelessWidget {
                     style: TextStyle(color: Colors.black, fontSize: 12.0)),
                 Spacer(),
                 Text(
-                  "32명 참여",
+                  "",
                   style: TextStyle(color: Colors.black, fontSize: 10.0),
                 )
               ]),
@@ -55,7 +55,7 @@ class DilemaMenu extends StatelessWidget {
                 children: [
                   Expanded(
                     child: Text(
-                      "개인이 소유한 데이터는 정부에 의해 자동으로 공유되어야 하는가?",
+                      "",
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                       style: TextStyle(
