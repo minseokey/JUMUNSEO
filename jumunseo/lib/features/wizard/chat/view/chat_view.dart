@@ -16,20 +16,20 @@ class _ChatViewState extends State<ChatView> {
   void initState() {
     super.initState();
 
-    // context.read<WizardCubit>().internetAccessOk(context).then((value) {
-    //   if (value) {
-    //     //웹소켓 연결
-    //     context.read<WizardCubit>().sokectEventSetting(context);
+    context.read<WizardCubit>().internetAccessOk(context).then((value) {
+      if (value) {
+        //웹소켓 연결
+        context.read<WizardCubit>().sokectEventSetting(context);
 
-    WidgetsBinding.instance.addPostFrameCallback(
-        (_) => context.read<WizardCubit>().pushFirstMessage());
-
-    // });
+        WidgetsBinding.instance.addPostFrameCallback(
+            (_) => context.read<WizardCubit>().pushFirstMessage());
+      }
+    });
   }
 
   @override
   void dispose() {
-    // context.read<WizardCubit>().socketDispose();
+    context.read<WizardCubit>().socketDispose();
     super.dispose();
   }
 

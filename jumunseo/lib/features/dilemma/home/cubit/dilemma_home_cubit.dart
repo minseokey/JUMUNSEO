@@ -18,9 +18,8 @@ class Repository {
   }
 
   Future<List<DilemmaHomeModel>> fetchItems() async {
-    final getResponse = jsonDecode(await repository.getDilemmaList());
-
     try {
+      final getResponse = jsonDecode(await repository.getDilemmaList());
       final items = getResponse['data'][0]['data']
           .map<DilemmaHomeModel>((item) => DilemmaHomeModel.fromJson(item))
           .toList();

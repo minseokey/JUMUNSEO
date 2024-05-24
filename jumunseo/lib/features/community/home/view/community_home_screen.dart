@@ -14,90 +14,23 @@ import 'package:url_launcher/url_launcher.dart';
 PagingController<int, CommunityDetailModel> communityPageController =
     PagingController(firstPageKey: 1);
 
-CommunityDetailModel testDItem1 = CommunityDetailModel(
-    title: "디지털 유산을 상속 받을 권리를 법적으로 보장해야 하는가?",
-    id: '1',
-    author: "관리자",
-    content: "2024년 5월 19일 딜레마 디지털 유산을 상속 받을 권리를 법적으로 보장해야 하는가?",
-    image: "assets/icons/logo.png",
-    description: "asset",
-    type: '딜레마',
-    created_at: "4시간 전");
-
-CommunityDetailModel testDItem2 = CommunityDetailModel(
-    title: "의료 연구를 위해 개인의 유전 정보를 정부가 수집해야 하는가?",
-    id: '1',
-    author: "관리자",
-    content: "2024년 5월 19일 딜레마 디지털 유산을 상속 받을 권리를 법적으로 보장해야 하는가?",
-    image: "assets/icons/logo.png",
-    description: "asset",
-    type: '딜레마',
-    created_at: "4시간 전");
-
-CommunityDetailModel testDItem3 = CommunityDetailModel(
-    title: "종교적 신념에 반하는 의료 처치를 거부할 권리를 부모가 자녀에게 적용해야 하는가?",
-    id: '1',
-    author: "관리자",
-    content: "2024년 5월 19일 딜레마 디지털 유산을 상속 받을 권리를 법적으로 보장해야 하는가?",
-    image: "assets/icons/logo.png",
-    description: "asset",
-    type: '딜레마',
-    created_at: "4시간 전");
-
-CommunityDetailModel testMItem1 = CommunityDetailModel(
-    title: "친구가 돈을 빌리고 안갚습니다",
-    id: '1',
-    author: "관리자",
-    content: "2024년 5월 19일 딜레마 디지털 유산을 상속 받을 권리를 법적으로 보장해야 하는가?",
-    image: "assets/icons/logo.png",
-    description: "asset",
-    type: '마법사',
-    created_at: "4시간 전");
-CommunityDetailModel testMItem2 = CommunityDetailModel(
-    title: "집주인이 전세금을 안돌려줍니다",
-    id: '1',
-    author: "관리자",
-    content: "2024년 5월 19일 딜레마 디지털 유산을 상속 받을 권리를 법적으로 보장해야 하는가?",
-    image: "assets/icons/logo.png",
-    description: "asset",
-    type: '마법사',
-    created_at: "4시간 전");
-CommunityDetailModel testMItem3 = CommunityDetailModel(
-    title: "지나가다가 행인에게 폭력을 당했습니다",
-    id: '1',
-    author: "관리자",
-    content: "2024년 5월 19일 딜레마 디지털 유산을 상속 받을 권리를 법적으로 보장해야 하는가?",
-    image: "assets/icons/logo.png",
-    description: "asset",
-    type: '마법사',
-    created_at: "4시간 전");
-
 Future<void> _fetchPage(int pageKey) async {
   try {
-    final newItems = await Future.delayed(
-        Duration(seconds: 3),
-        () => List.generate(10, (index) {
-              return CommunityDetailModel(
-                title: "차 문열다가 옆차 긁었는데 어떻게 해야할까요?",
-                id: '1',
-                content: '주차장에서 차 문을 열다가 실수로 옆차를 긁었는데 심하진 않은데',
-                author: '홍길동',
-                description: 'network',
-                created_at: '2024년 4월 25일',
-                image:
-                    'https://mblogthumb-phinf.pstatic.net/MjAyMjExMjlfMTU0/MDAxNjY5Njg0NjkwOTUy.72LsU39rH8OF2RcIfZW6zjuYmSp31jPuqRxBaOoeWo4g.bP_Ndrl5r5Oep3MBh-zQu3ft9505x56vwuBNZTOeHwgg.JPEG.jackq741004/20221109_155437.jpg?type=w800',
-                type: '',
-              );
-            }));
-    final nextPageKey = pageKey + 1;
-    communityPageController.appendPage(
-        newItems
-            // .where((element) =>
-            //     (element.postStatus == 1) &&
-            //     (!BlockSet().blockUserUniqIdSet.contains(element.userUniqId)) &&
-            //     (!BlockSet().blockPostingPostIdSet.contains(element.postId)))
-            .toList(),
-        nextPageKey);
+    final newItems = await Future.delayed(Duration(seconds: 3), () => []
+        // List.generate(10, (index) {
+        //       return;
+        //     })
+        );
+    communityPageController.appendLastPage([]);
+    // final nextPageKey = pageKey + 1;
+    // communityPageController.appendPage(
+    //     newItems
+    //         // .where((element) =>
+    //         //     (element.postStatus == 1) &&
+    //         //     (!BlockSet().blockUserUniqIdSet.contains(element.userUniqId)) &&
+    //         //     (!BlockSet().blockPostingPostIdSet.contains(element.postId)))
+    //         .toList(),
+    //     nextPageKey);
     // communityPageController.appendLastPage(newItems
     //     .where((element) =>
     //         (element.postStatus == 1) &&
@@ -522,9 +455,9 @@ class CommunityHomeScreen extends StatelessWidget {
                                     fontWeight: FontWeight.bold,
                                     fontSize: 16.0)),
                           ),
-                          CommunityListSmallItem(item: testMItem1),
-                          CommunityListSmallItem(item: testMItem2),
-                          CommunityListSmallItem(item: testMItem3),
+                          // CommunityListSmallItem(item: testMItem1),
+                          // CommunityListSmallItem(item: testMItem2),
+                          // CommunityListSmallItem(item: testMItem3),
                         ],
                       ),
                     ),
@@ -547,9 +480,9 @@ class CommunityHomeScreen extends StatelessWidget {
                                     fontWeight: FontWeight.bold,
                                     fontSize: 16.0)),
                           ),
-                          CommunityListSmallItem(item: testDItem1),
-                          CommunityListSmallItem(item: testDItem2),
-                          CommunityListSmallItem(item: testDItem3),
+                          // CommunityListSmallItem(item: testDItem1),
+                          // CommunityListSmallItem(item: testDItem2),
+                          // CommunityListSmallItem(item: testDItem3),
                           Padding(
                             padding: const EdgeInsets.fromLTRB(8, 16, 8, 0),
                             child: Text('전체글',
@@ -563,17 +496,17 @@ class CommunityHomeScreen extends StatelessWidget {
                   ],
                 ),
               ),
-              PagedSliverList(
-                  pagingController: communityPageController,
-                  builderDelegate:
-                      PagedChildBuilderDelegate<CommunityDetailModel>(
-                    itemBuilder: (context, item, index) {
-                      return Padding(
-                        padding: const EdgeInsets.fromLTRB(16, 0, 16, 0),
-                        child: CommunityListItem(item: item),
-                      );
-                    },
-                  )),
+              // PagedSliverList(
+              //     pagingController: communityPageController,
+              //     builderDelegate:
+              //         PagedChildBuilderDelegate<CommunityDetailModel>(
+              //       itemBuilder: (context, item, index) {
+              //         return Padding(
+              //           padding: const EdgeInsets.fromLTRB(16, 0, 16, 0),
+              //           child: CommunityListItem(item: item),
+              //         );
+              //       },
+              //     )),
             ],
           ),
         ),

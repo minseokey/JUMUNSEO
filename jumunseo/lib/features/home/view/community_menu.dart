@@ -29,28 +29,7 @@ class WritingStatus {
 class _CommunityMenuState extends State<CommunityMenu> {
   @override
   Widget build(BuildContext context) {
-    List<CommunityDetailModel> writeStatus = [
-      CommunityDetailModel(
-          title: "디지털 유산을 상속 받을 권리를 법적으로 보장해야 하는가?",
-          id: '1',
-          author: "관리자",
-          content: "2024년 5월 19일 딜레마 디지털 유산을 상속 받을 권리를 법적으로 보장해야 하는가?",
-          image: "assets/icons/logo.png",
-          description: "asset",
-          type: '딜레마',
-          created_at: "4시간 전"),
-      CommunityDetailModel(
-        title: "차 문열다가 옆차 긁었는데 어떻게 해야할까요?",
-        id: '1',
-        content: '주차장에서 차 문을 열다가 실수로 옆차를 긁었는데 심하진 않은데',
-        author: '홍길동',
-        description: 'network',
-        created_at: '2024년 4월 25일',
-        image:
-            'https://mblogthumb-phinf.pstatic.net/MjAyMjExMjlfMTU0/MDAxNjY5Njg0NjkwOTUy.72LsU39rH8OF2RcIfZW6zjuYmSp31jPuqRxBaOoeWo4g.bP_Ndrl5r5Oep3MBh-zQu3ft9505x56vwuBNZTOeHwgg.JPEG.jackq741004/20221109_155437.jpg?type=w800',
-        type: '',
-      )
-    ];
+    List<CommunityDetailModel> writeStatus = [];
 
     return Column(
       children: [

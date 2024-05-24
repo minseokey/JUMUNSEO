@@ -77,8 +77,8 @@ class CommunityDetailScreen extends StatelessWidget {
 
   final bool hasPicture = false;
   final bool isMine = false;
-  final int pictureCount = 3;
-  final int replyCount = 3;
+  final int pictureCount = 0;
+  final int replyCount = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -579,7 +579,7 @@ class CommunityDetailScreen extends StatelessWidget {
                                       //     outerRadius: 20.0,
                                       //   ),
                                       // ),
-                                      Text("${"관리자"}",
+                                      Text("${""}",
                                           overflow: TextOverflow.ellipsis,
                                           style: const TextStyle(
                                             fontSize: 14,
@@ -589,7 +589,7 @@ class CommunityDetailScreen extends StatelessWidget {
                                         padding: const EdgeInsets.fromLTRB(
                                             0, 0, 0, 8),
                                         child: Text(
-                                            "8시간 전", //timeDiffString(communityData!.createAt
+                                            "", //timeDiffString(communityData!.createAt
                                             // (communityData == null)
                                             //     ? ""
                                             //     : "${communityData!.createAt.year}.${(communityData!.createAt.month < 10) ? "0${communityData!.createAt.month}" : communityData!.createAt.month}.${(communityData!.createAt.day < 10) ? "0${communityData!.createAt.day}" : communityData!.createAt.day} | ${communityData!.createAt.hour < 10 ? "0${communityData!.createAt.hour}" : communityData!.createAt.hour.toString()}:${communityData!.createAt.minute < 10 ? "0${communityData!.createAt.minute}" : communityData!.createAt.minute}",
@@ -607,8 +607,7 @@ class CommunityDetailScreen extends StatelessWidget {
                         ),
                         Padding(
                           padding: const EdgeInsets.fromLTRB(0, 0, 0, 12),
-                          child: Text(
-                              "디지털 유산을 상속 받을 권리를 법적으로 보장해야 하는가? - (토론완료)",
+                          child: Text("",
                               style: const TextStyle(
                                   fontSize: 20, fontWeight: FontWeight.w600)),
                         ),
@@ -618,8 +617,7 @@ class CommunityDetailScreen extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             mainAxisAlignment: MainAxisAlignment.start,
                             children: [
-                              SelectableText(
-                                  "2024년 5월 19일 딜레마 디지털 유산을 상속 받을 권리를 법적으로 보장해야 하는가?",
+                              SelectableText("",
                                   style: const TextStyle(
                                     fontSize: 16,
                                   )),
@@ -650,15 +648,12 @@ class CommunityDetailScreen extends StatelessWidget {
                                             mainAxisAlignment:
                                                 MainAxisAlignment.center,
                                             children: [
-                                              Text('찬성측 : 128명',
+                                              Text('',
                                                   style: const TextStyle(
                                                     fontSize: 16,
                                                   )),
                                               Column(
-                                                children: [
-                                                  Text(
-                                                      '디지털 유품이 반드시 일신전속권에 해당하지 않으며, 만약 해당한다고 하더라도 향수상의 일신전속권과는 달리 행사상의 일신전속권 중에는 상속이 허용되는 경우가 있기 때문에 디지털 유품 역시 상속의 대상이 될 수도 있다')
-                                                ],
+                                                children: [Text('')],
                                               )
                                             ],
                                           ),
@@ -685,15 +680,12 @@ class CommunityDetailScreen extends StatelessWidget {
                                           mainAxisAlignment:
                                               MainAxisAlignment.center,
                                           children: [
-                                            Text('반대측 : 97',
+                                            Text('',
                                                 style: const TextStyle(
                                                   fontSize: 16,
                                                 )),
                                             Column(
-                                              children: [
-                                                Text(
-                                                    '디지털 유품은 민법에서 규정하는 일신전속적 권리로써, 일신전속권은 일반적으로 상속이 제한되기 때문에 디지털 유품 역시 상속이 제한되어야 한다.')
-                                              ],
+                                              children: [Text('')],
                                             )
                                           ],
                                         ),
@@ -734,383 +726,383 @@ class CommunityDetailScreen extends StatelessWidget {
                   ),
                 ),
               ])),
-              PagedSliverList(
-                  pagingController: _replyPageController,
-                  builderDelegate: PagedChildBuilderDelegate<int>(
-                      noItemsFoundIndicatorBuilder: (context) => Container(),
-                      itemBuilder: (context, item, index) {
-                        return Column(
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.only(
-                                  left: 16.0, top: 16, bottom: 16, right: 16),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: [
-                                  GestureDetector(
-                                    onTap: () {},
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.center,
-                                      children: [
-                                        SizedBox(
-                                          height: 38,
-                                          child: Padding(
-                                            padding: const EdgeInsets.only(
-                                                right: 8.0),
-                                            child: CircleAvatar(
-                                              backgroundImage:
-                                                  ExtendedNetworkImageProvider(
-                                                      "https://picsum.photos/seed/2/800/600",
-                                                      cache: true),
-                                            ),
-                                          ),
-                                        ),
-                                        Expanded(
-                                          child: Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.start,
-                                            children: [
-                                              Row(
-                                                children: [
-                                                  Text("율곡이이",
-                                                      overflow:
-                                                          TextOverflow.ellipsis,
-                                                      style: const TextStyle(
-                                                        fontSize: 14,
-                                                        color: Color.fromARGB(
-                                                            255, 128, 128, 128),
-                                                      )),
-                                                ],
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                        // Padding(
-                                        //   padding: const EdgeInsets.only(right: 4),
-                                        //   child: Material(
-                                        //     color: Colors.transparent,
-                                        //     child: InkWell(
-                                        //       onTap: () {
+              // PagedSliverList(
+              //     pagingController: _replyPageController,
+              //     builderDelegate: PagedChildBuilderDelegate<int>(
+              //         noItemsFoundIndicatorBuilder: (context) => Container(),
+              //         itemBuilder: (context, item, index) {
+              //           return Column(
+              //             children: [
+              //               Padding(
+              //                 padding: const EdgeInsets.only(
+              //                     left: 16.0, top: 16, bottom: 16, right: 16),
+              //                 child: Column(
+              //                   crossAxisAlignment: CrossAxisAlignment.start,
+              //                   mainAxisAlignment: MainAxisAlignment.start,
+              //                   children: [
+              //                     GestureDetector(
+              //                       onTap: () {},
+              //                       child: Row(
+              //                         mainAxisAlignment:
+              //                             MainAxisAlignment.start,
+              //                         crossAxisAlignment:
+              //                             CrossAxisAlignment.center,
+              //                         children: [
+              //                           SizedBox(
+              //                             height: 38,
+              //                             child: Padding(
+              //                               padding: const EdgeInsets.only(
+              //                                   right: 8.0),
+              //                               child: CircleAvatar(
+              //                                 backgroundImage:
+              //                                     ExtendedNetworkImageProvider(
+              //                                         "https://picsum.photos/seed/2/800/600",
+              //                                         cache: true),
+              //                               ),
+              //                             ),
+              //                           ),
+              //                           Expanded(
+              //                             child: Column(
+              //                               crossAxisAlignment:
+              //                                   CrossAxisAlignment.start,
+              //                               mainAxisAlignment:
+              //                                   MainAxisAlignment.start,
+              //                               children: [
+              //                                 Row(
+              //                                   children: [
+              //                                     Text("율곡이이",
+              //                                         overflow:
+              //                                             TextOverflow.ellipsis,
+              //                                         style: const TextStyle(
+              //                                           fontSize: 14,
+              //                                           color: Color.fromARGB(
+              //                                               255, 128, 128, 128),
+              //                                         )),
+              //                                   ],
+              //                                 ),
+              //                               ],
+              //                             ),
+              //                           ),
+              //                           // Padding(
+              //                           //   padding: const EdgeInsets.only(right: 4),
+              //                           //   child: Material(
+              //                           //     color: Colors.transparent,
+              //                           //     child: InkWell(
+              //                           //       onTap: () {
 
-                                        //       },
-                                        //       child: Container(
-                                        //         alignment: Alignment.center,
-                                        //         decoration: BoxDecoration(
-                                        //             borderRadius:
-                                        //                 BorderRadius.circular(
-                                        //                     5),
-                                        //             border: Border.all(
-                                        //                 color: Colors.grey)),
-                                        //         width: 32,
-                                        //         height: 32,
-                                        //         child: SvgPicture.string(
-                                        //           reReplyButtonSvgString,
-                                        //         ),
-                                        //       ),
-                                        //     ),
-                                        //   ),
-                                        // ),
-                                        // Material(
-                                        //   color: Colors.transparent,
-                                        //   child: InkWell(
-                                        //     onTap: () {
-                                        //       var contexta = context;
-                                        //       showModalBottomSheet(
-                                        //           context: contexta,
-                                        //           shape: const RoundedRectangleBorder(
-                                        //               borderRadius:
-                                        //                   BorderRadius.only(
-                                        //                       topLeft: Radius
-                                        //                           .circular(10),
-                                        //                       topRight: Radius
-                                        //                           .circular(
-                                        //                               10))),
-                                        //           builder: (contextb) {
-                                        //             return Container(
-                                        //               padding: EdgeInsets.only(
-                                        //                   top: 8,
-                                        //                   bottom: MediaQuery.of(
-                                        //                           contextb)
-                                        //                       .viewPadding
-                                        //                       .bottom),
-                                        //               width: MediaQuery.of(
-                                        //                       contextb)
-                                        //                   .size
-                                        //                   .width,
-                                        //               decoration: const BoxDecoration(
-                                        //                   color: Colors.white,
-                                        //                   borderRadius:
-                                        //                       BorderRadius.only(
-                                        //                           topLeft: Radius
-                                        //                               .circular(
-                                        //                                   20),
-                                        //                           topRight: Radius
-                                        //                               .circular(
-                                        //                                   20))),
-                                        //               child: Column(
-                                        //                 mainAxisSize:
-                                        //                     MainAxisSize.min,
-                                        //                 children: [
-                                        //                   Container(
-                                        //                     width: 100,
-                                        //                     height: 3,
-                                        //                     decoration:
-                                        //                         const BoxDecoration(
-                                        //                       color:
-                                        //                           Colors.grey,
-                                        //                     ),
-                                        //                   ),
-                                        //                   const SizedBox(
-                                        //                     height: 25,
-                                        //                   ),
-                                        //                   if (isMine)
-                                        //                     GestureDetector(
-                                        //                       onTap: () async {
-                                        //                         contextb.pop();
-                                        //                       },
-                                        //                       child: Container(
-                                        //                           padding:
-                                        //                               const EdgeInsets
-                                        //                                   .all(
-                                        //                                   15),
-                                        //                           width: MediaQuery
-                                        //                                   .sizeOf(
-                                        //                                       contextb)
-                                        //                               .width,
-                                        //                           height: 60,
-                                        //                           child: Row(
-                                        //                             children: [
-                                        //                               const Icon(
-                                        //                                 Icons
-                                        //                                     .delete_outline_rounded,
-                                        //                                 color: Colors
-                                        //                                     .redAccent,
-                                        //                                 size:
-                                        //                                     30,
-                                        //                               ),
-                                        //                               Text(
-                                        //                                 "reply_delete",
-                                        //                                 style: const TextStyle(
-                                        //                                     color:
-                                        //                                         Colors.redAccent,
-                                        //                                     fontWeight: FontWeight.w700),
-                                        //                               )
-                                        //                             ],
-                                        //                           )),
-                                        //                     ),
-                                        //                   if (!isMine)
-                                        //                     GestureDetector(
-                                        //                       onTap: () async {
-                                        //                         contextb.pop();
-                                        //                       },
-                                        //                       child: Container(
-                                        //                           padding:
-                                        //                               const EdgeInsets
-                                        //                                   .all(
-                                        //                                   15),
-                                        //                           width: MediaQuery
-                                        //                                   .sizeOf(
-                                        //                                       contextb)
-                                        //                               .width,
-                                        //                           height: 60,
-                                        //                           child: Row(
-                                        //                             children: [
-                                        //                               const Icon(
-                                        //                                 Icons
-                                        //                                     .report_outlined,
-                                        //                                 color: Color.fromARGB(
-                                        //                                     138,
-                                        //                                     158,
-                                        //                                     158,
-                                        //                                     158),
-                                        //                                 size:
-                                        //                                     30,
-                                        //                               ),
-                                        //                               Text(
-                                        //                                 "report", //개시물 신고하기
-                                        //                                 style: const TextStyle(
-                                        //                                     color:
-                                        //                                         Colors.redAccent,
-                                        //                                     fontWeight: FontWeight.w700),
-                                        //                               )
-                                        //                             ],
-                                        //                           )),
-                                        //                     ),
-                                        //                   const Divider(
-                                        //                     height: 1,
-                                        //                     thickness: 1,
-                                        //                     color: Colors.grey,
-                                        //                   ),
-                                        //                   // if (item.userUniqId !=
-                                        //                   //     Token()
-                                        //                   //         .userUniqId)
-                                        //                   //   GestureDetector(
-                                        //                   //     onTap:
-                                        //                   //         () async {
-                                        //                   //       showDialog(
-                                        //                   //           context:
-                                        //                   //               contextb,
-                                        //                   //           builder:
-                                        //                   //               (contextc) {
-                                        //                   //             return AlertDialog(
-                                        //                   //               title:
-                                        //                   //                   Text("block".tr()),
-                                        //                   //               content:
-                                        //                   //                   Text("block_meeting".tr()),
-                                        //                   //               actions: [
-                                        //                   //                 TextButton(
-                                        //                   //                     onPressed: () async {
-                                        //                   //                       bool onlyDetail = true;
-                                        //                   //                       await showDialog(
-                                        //                   //                           context: contextc,
-                                        //                   //                           builder: (contextd) {
-                                        //                   //                             return AlertDialog(
-                                        //                   //                               content: Text("block_additional".tr()),
-                                        //                   //                               actions: [
-                                        //                   //                                 TextButton(
-                                        //                   //                                     onPressed: () {
-                                        //                   //                                       onlyDetail = false;
-                                        //                   //                                       contextd.pop();
-                                        //                   //                                     },
-                                        //                   //                                     child: Text("block".tr())),
-                                        //                   //                                 TextButton(
-                                        //                   //                                     onPressed: () {
-                                        //                   //                                       onlyDetail = true;
-                                        //                   //                                       contextd.pop();
-                                        //                   //                                     },
-                                        //                   //                                     child: Text("no".tr()))
-                                        //                   //                               ],
-                                        //                   //                             );
-                                        //                   //                           });
+              //                           //       },
+              //                           //       child: Container(
+              //                           //         alignment: Alignment.center,
+              //                           //         decoration: BoxDecoration(
+              //                           //             borderRadius:
+              //                           //                 BorderRadius.circular(
+              //                           //                     5),
+              //                           //             border: Border.all(
+              //                           //                 color: Colors.grey)),
+              //                           //         width: 32,
+              //                           //         height: 32,
+              //                           //         child: SvgPicture.string(
+              //                           //           reReplyButtonSvgString,
+              //                           //         ),
+              //                           //       ),
+              //                           //     ),
+              //                           //   ),
+              //                           // ),
+              //                           // Material(
+              //                           //   color: Colors.transparent,
+              //                           //   child: InkWell(
+              //                           //     onTap: () {
+              //                           //       var contexta = context;
+              //                           //       showModalBottomSheet(
+              //                           //           context: contexta,
+              //                           //           shape: const RoundedRectangleBorder(
+              //                           //               borderRadius:
+              //                           //                   BorderRadius.only(
+              //                           //                       topLeft: Radius
+              //                           //                           .circular(10),
+              //                           //                       topRight: Radius
+              //                           //                           .circular(
+              //                           //                               10))),
+              //                           //           builder: (contextb) {
+              //                           //             return Container(
+              //                           //               padding: EdgeInsets.only(
+              //                           //                   top: 8,
+              //                           //                   bottom: MediaQuery.of(
+              //                           //                           contextb)
+              //                           //                       .viewPadding
+              //                           //                       .bottom),
+              //                           //               width: MediaQuery.of(
+              //                           //                       contextb)
+              //                           //                   .size
+              //                           //                   .width,
+              //                           //               decoration: const BoxDecoration(
+              //                           //                   color: Colors.white,
+              //                           //                   borderRadius:
+              //                           //                       BorderRadius.only(
+              //                           //                           topLeft: Radius
+              //                           //                               .circular(
+              //                           //                                   20),
+              //                           //                           topRight: Radius
+              //                           //                               .circular(
+              //                           //                                   20))),
+              //                           //               child: Column(
+              //                           //                 mainAxisSize:
+              //                           //                     MainAxisSize.min,
+              //                           //                 children: [
+              //                           //                   Container(
+              //                           //                     width: 100,
+              //                           //                     height: 3,
+              //                           //                     decoration:
+              //                           //                         const BoxDecoration(
+              //                           //                       color:
+              //                           //                           Colors.grey,
+              //                           //                     ),
+              //                           //                   ),
+              //                           //                   const SizedBox(
+              //                           //                     height: 25,
+              //                           //                   ),
+              //                           //                   if (isMine)
+              //                           //                     GestureDetector(
+              //                           //                       onTap: () async {
+              //                           //                         contextb.pop();
+              //                           //                       },
+              //                           //                       child: Container(
+              //                           //                           padding:
+              //                           //                               const EdgeInsets
+              //                           //                                   .all(
+              //                           //                                   15),
+              //                           //                           width: MediaQuery
+              //                           //                                   .sizeOf(
+              //                           //                                       contextb)
+              //                           //                               .width,
+              //                           //                           height: 60,
+              //                           //                           child: Row(
+              //                           //                             children: [
+              //                           //                               const Icon(
+              //                           //                                 Icons
+              //                           //                                     .delete_outline_rounded,
+              //                           //                                 color: Colors
+              //                           //                                     .redAccent,
+              //                           //                                 size:
+              //                           //                                     30,
+              //                           //                               ),
+              //                           //                               Text(
+              //                           //                                 "reply_delete",
+              //                           //                                 style: const TextStyle(
+              //                           //                                     color:
+              //                           //                                         Colors.redAccent,
+              //                           //                                     fontWeight: FontWeight.w700),
+              //                           //                               )
+              //                           //                             ],
+              //                           //                           )),
+              //                           //                     ),
+              //                           //                   if (!isMine)
+              //                           //                     GestureDetector(
+              //                           //                       onTap: () async {
+              //                           //                         contextb.pop();
+              //                           //                       },
+              //                           //                       child: Container(
+              //                           //                           padding:
+              //                           //                               const EdgeInsets
+              //                           //                                   .all(
+              //                           //                                   15),
+              //                           //                           width: MediaQuery
+              //                           //                                   .sizeOf(
+              //                           //                                       contextb)
+              //                           //                               .width,
+              //                           //                           height: 60,
+              //                           //                           child: Row(
+              //                           //                             children: [
+              //                           //                               const Icon(
+              //                           //                                 Icons
+              //                           //                                     .report_outlined,
+              //                           //                                 color: Color.fromARGB(
+              //                           //                                     138,
+              //                           //                                     158,
+              //                           //                                     158,
+              //                           //                                     158),
+              //                           //                                 size:
+              //                           //                                     30,
+              //                           //                               ),
+              //                           //                               Text(
+              //                           //                                 "report", //개시물 신고하기
+              //                           //                                 style: const TextStyle(
+              //                           //                                     color:
+              //                           //                                         Colors.redAccent,
+              //                           //                                     fontWeight: FontWeight.w700),
+              //                           //                               )
+              //                           //                             ],
+              //                           //                           )),
+              //                           //                     ),
+              //                           //                   const Divider(
+              //                           //                     height: 1,
+              //                           //                     thickness: 1,
+              //                           //                     color: Colors.grey,
+              //                           //                   ),
+              //                           //                   // if (item.userUniqId !=
+              //                           //                   //     Token()
+              //                           //                   //         .userUniqId)
+              //                           //                   //   GestureDetector(
+              //                           //                   //     onTap:
+              //                           //                   //         () async {
+              //                           //                   //       showDialog(
+              //                           //                   //           context:
+              //                           //                   //               contextb,
+              //                           //                   //           builder:
+              //                           //                   //               (contextc) {
+              //                           //                   //             return AlertDialog(
+              //                           //                   //               title:
+              //                           //                   //                   Text("block".tr()),
+              //                           //                   //               content:
+              //                           //                   //                   Text("block_meeting".tr()),
+              //                           //                   //               actions: [
+              //                           //                   //                 TextButton(
+              //                           //                   //                     onPressed: () async {
+              //                           //                   //                       bool onlyDetail = true;
+              //                           //                   //                       await showDialog(
+              //                           //                   //                           context: contextc,
+              //                           //                   //                           builder: (contextd) {
+              //                           //                   //                             return AlertDialog(
+              //                           //                   //                               content: Text("block_additional".tr()),
+              //                           //                   //                               actions: [
+              //                           //                   //                                 TextButton(
+              //                           //                   //                                     onPressed: () {
+              //                           //                   //                                       onlyDetail = false;
+              //                           //                   //                                       contextd.pop();
+              //                           //                   //                                     },
+              //                           //                   //                                     child: Text("block".tr())),
+              //                           //                   //                                 TextButton(
+              //                           //                   //                                     onPressed: () {
+              //                           //                   //                                       onlyDetail = true;
+              //                           //                   //                                       contextd.pop();
+              //                           //                   //                                     },
+              //                           //                   //                                     child: Text("no".tr()))
+              //                           //                   //                               ],
+              //                           //                   //                             );
+              //                           //                   //                           });
 
-                                        //                   //                       contextc.pop();
-                                        //                   //                       contextb.pop();
-                                        //                   //                       contexta.pop();
-                                        //                   //                       if (onlyDetail) {
-                                        //                   //                         // CommunityBlockSet().addBlockMeeting(
-                                        //                   //                         //   postId: communityData!.postId,
-                                        //                   //                         //   title: communityData!.title,
-                                        //                   //                         //   authorNickname: communityData!.authorNickname,
-                                        //                   //                         // );
-                                        //                   //                       } else {
-                                        //                   //                         // CommunityBlockSet().addBlockUser(uniqId: communityData!.userUniqId, nickname: communityData!.authorNickname);
-                                        //                   //                       }
+              //                           //                   //                       contextc.pop();
+              //                           //                   //                       contextb.pop();
+              //                           //                   //                       contexta.pop();
+              //                           //                   //                       if (onlyDetail) {
+              //                           //                   //                         // CommunityBlockSet().addBlockMeeting(
+              //                           //                   //                         //   postId: communityData!.postId,
+              //                           //                   //                         //   title: communityData!.title,
+              //                           //                   //                         //   authorNickname: communityData!.authorNickname,
+              //                           //                   //                         // );
+              //                           //                   //                       } else {
+              //                           //                   //                         // CommunityBlockSet().addBlockUser(uniqId: communityData!.userUniqId, nickname: communityData!.authorNickname);
+              //                           //                   //                       }
 
-                                        //                   //                       communityPageController.refresh();
-                                        //                   //                       ScaffoldMessenger.of(contexta).showSnackBar(SnackBar(content: Text("unblock_message".tr())));
-                                        //                   //                     },
-                                        //                   //                     child: Text("confirm".tr())),
-                                        //                   //                 TextButton(
-                                        //                   //                     onPressed: () {
-                                        //                   //                       contextc.pop();
-                                        //                   //                     },
-                                        //                   //                     child: Text("cancel".tr()))
-                                        //                   //               ],
-                                        //                   //             );
-                                        //                   //           });
-                                        //                   //     },
-                                        //                   //     child:
-                                        //                   //         Container(
-                                        //                   //             padding: const EdgeInsets
-                                        //                   //                 .all(
-                                        //                   //                 15),
-                                        //                   //             width: MediaQuery.sizeOf(contextb)
-                                        //                   //                 .width,
-                                        //                   //             height:
-                                        //                   //                 60,
-                                        //                   //             child:
-                                        //                   //                 Row(
-                                        //                   //               children: [
-                                        //                   //                 const Icon(
-                                        //                   //                   Icons.block_outlined,
-                                        //                   //                   color: Color.fromARGB(138, 158, 158, 158),
-                                        //                   //                   size: 30,
-                                        //                   //                 ),
-                                        //                   //                 Text(
-                                        //                   //                   "block".tr(), //개시물 신고하기
-                                        //                   //                   style: const TextStyle(color: Colors.pinkAccent, fontWeight: FontWeight.w700),
-                                        //                   //                 )
-                                        //                   //               ],
-                                        //                   //             )),
-                                        //                   //   ),
-                                        //                   const SizedBox(
-                                        //                     height: 20,
-                                        //                   ),
-                                        //                   SizedBox(
-                                        //                     // SizedBox 대신 Container를 사용 가능
-                                        //                     width: 300,
-                                        //                     height: 50,
-                                        //                     child: FilledButton(
-                                        //                       onPressed: () {
-                                        //                         contextb.pop();
-                                        //                       },
-                                        //                       child: Text(
-                                        //                           'cancel'),
-                                        //                     ),
-                                        //                   )
-                                        //                 ],
-                                        //               ),
-                                        //             );
-                                        //           });
-                                        //     },
-                                        //     child: Container(
-                                        //       alignment: Alignment.center,
-                                        //       decoration: BoxDecoration(
-                                        //           borderRadius:
-                                        //               BorderRadius.circular(5),
-                                        //           border: Border.all(
-                                        //               color: Colors.grey)),
-                                        //       width: 32,
-                                        //       height: 32,
-                                        //       child: const Icon(
-                                        //         CupertinoIcons.ellipsis,
-                                        //         color: Colors.grey,
-                                        //       ),
-                                        //     ),
-                                        //   ),
-                                        // )
-                                      ],
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding:
-                                        const EdgeInsets.fromLTRB(0, 12, 0, 0),
-                                    child: Text(
-                                      //item.content,
-                                      "좋은 정보 감사합니다",
-                                      style: const TextStyle(
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.w400),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            //대댓글
-                            const CommunityDetailReply(
-                              isMine: true,
-                            ),
-                            SizedBox(
-                              height: 10,
-                            ),
-                            const CommunityDetailReply(
-                              isMine: true,
-                            ),
-                            SizedBox(
-                              height: 10,
-                            ),
-                            const CommunityDetailReply(
-                              isMine: true,
-                            ),
-                          ],
-                        );
-                      }))
+              //                           //                   //                       communityPageController.refresh();
+              //                           //                   //                       ScaffoldMessenger.of(contexta).showSnackBar(SnackBar(content: Text("unblock_message".tr())));
+              //                           //                   //                     },
+              //                           //                   //                     child: Text("confirm".tr())),
+              //                           //                   //                 TextButton(
+              //                           //                   //                     onPressed: () {
+              //                           //                   //                       contextc.pop();
+              //                           //                   //                     },
+              //                           //                   //                     child: Text("cancel".tr()))
+              //                           //                   //               ],
+              //                           //                   //             );
+              //                           //                   //           });
+              //                           //                   //     },
+              //                           //                   //     child:
+              //                           //                   //         Container(
+              //                           //                   //             padding: const EdgeInsets
+              //                           //                   //                 .all(
+              //                           //                   //                 15),
+              //                           //                   //             width: MediaQuery.sizeOf(contextb)
+              //                           //                   //                 .width,
+              //                           //                   //             height:
+              //                           //                   //                 60,
+              //                           //                   //             child:
+              //                           //                   //                 Row(
+              //                           //                   //               children: [
+              //                           //                   //                 const Icon(
+              //                           //                   //                   Icons.block_outlined,
+              //                           //                   //                   color: Color.fromARGB(138, 158, 158, 158),
+              //                           //                   //                   size: 30,
+              //                           //                   //                 ),
+              //                           //                   //                 Text(
+              //                           //                   //                   "block".tr(), //개시물 신고하기
+              //                           //                   //                   style: const TextStyle(color: Colors.pinkAccent, fontWeight: FontWeight.w700),
+              //                           //                   //                 )
+              //                           //                   //               ],
+              //                           //                   //             )),
+              //                           //                   //   ),
+              //                           //                   const SizedBox(
+              //                           //                     height: 20,
+              //                           //                   ),
+              //                           //                   SizedBox(
+              //                           //                     // SizedBox 대신 Container를 사용 가능
+              //                           //                     width: 300,
+              //                           //                     height: 50,
+              //                           //                     child: FilledButton(
+              //                           //                       onPressed: () {
+              //                           //                         contextb.pop();
+              //                           //                       },
+              //                           //                       child: Text(
+              //                           //                           'cancel'),
+              //                           //                     ),
+              //                           //                   )
+              //                           //                 ],
+              //                           //               ),
+              //                           //             );
+              //                           //           });
+              //                           //     },
+              //                           //     child: Container(
+              //                           //       alignment: Alignment.center,
+              //                           //       decoration: BoxDecoration(
+              //                           //           borderRadius:
+              //                           //               BorderRadius.circular(5),
+              //                           //           border: Border.all(
+              //                           //               color: Colors.grey)),
+              //                           //       width: 32,
+              //                           //       height: 32,
+              //                           //       child: const Icon(
+              //                           //         CupertinoIcons.ellipsis,
+              //                           //         color: Colors.grey,
+              //                           //       ),
+              //                           //     ),
+              //                           //   ),
+              //                           // )
+              //                         ],
+              //                       ),
+              //                     ),
+              //                     Padding(
+              //                       padding:
+              //                           const EdgeInsets.fromLTRB(0, 12, 0, 0),
+              //                       child: Text(
+              //                         //item.content,
+              //                         "좋은 정보 감사합니다",
+              //                         style: const TextStyle(
+              //                             fontSize: 14,
+              //                             fontWeight: FontWeight.w400),
+              //                       ),
+              //                     ),
+              //                   ],
+              //                 ),
+              //               ),
+              //               //대댓글
+              //               const CommunityDetailReply(
+              //                 isMine: true,
+              //               ),
+              //               SizedBox(
+              //                 height: 10,
+              //               ),
+              //               const CommunityDetailReply(
+              //                 isMine: true,
+              //               ),
+              //               SizedBox(
+              //                 height: 10,
+              //               ),
+              //               const CommunityDetailReply(
+              //                 isMine: true,
+              //               ),
+              //             ],
+              //           );
+              //         }))
             ],
           ),
         ),
