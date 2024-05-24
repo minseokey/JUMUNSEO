@@ -37,27 +37,32 @@
         <td>
             <h3>딜레마</h3>
         </td>
-        <td>
-            <h3>게시판</h3>
-        </td>
-        <td>
-            <h3>로그인</h3>
-        </td>
-    </tr>
-    <tr align='center'>
+       <tr align='center'>
         <td>
             <img src="https://github.com/kookmin-sw/capstone-2024-19/assets/48516380/194046ab-4593-4555-9eb3-b85d123c7555">
         </td>
         <td>
             <img src="https://github.com/kookmin-sw/capstone-2024-19/assets/48516380/4ec0a7bc-2ece-40fa-8b70-f5d92abc8f47">
         </td>
+      </tr>
+</table>
+<table>
+      <tr align='center'>  
+        <td>
+            <h3>게시판</h3>
+        </td>
+        <td>
+            <h3>로그인</h3>
+        </td>
+      </tr>
+      <tr align='center'>
         <td>
             <img src="https://github.com/kookmin-sw/capstone-2024-19/assets/48516380/2d5b065a-fe77-4c91-8867-2c166f4d0fb7">
         </td>
         <td>
             <img src="https://github.com/kookmin-sw/capstone-2024-19/assets/48516380/5ae6ce30-ed34-4e09-9b65-bdf33130dcb0">
         </td>
-    </tr>
+      </tr>
 </table>
 
 <br/>
