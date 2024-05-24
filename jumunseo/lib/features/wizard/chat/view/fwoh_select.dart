@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import '../chat.dart';
 
 class Fwoh extends StatelessWidget {
   final String fwohName;

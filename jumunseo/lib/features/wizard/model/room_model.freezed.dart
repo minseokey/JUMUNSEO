@@ -36,8 +36,7 @@ mixin _$RoomModel {
 
 /// @nodoc
 abstract class $RoomModelCopyWith<$Res> {
-  factory $RoomModelCopyWith(
-          RoomModel value, $Res Function(RoomModel) then) =
+  factory $RoomModelCopyWith(RoomModel value, $Res Function(RoomModel) then) =
       _$RoomModelCopyWithImpl<$Res, RoomModel>;
   @useResult
   $Res call(

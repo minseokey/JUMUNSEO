@@ -1,8 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:jumunseo/features/community/community_screen.dart';
-import 'package:jumunseo/features/dilemma/dilemma_screen.dart';
-import 'package:jumunseo/features/home/home_screen.dart';
+import 'package:jumunseo/core/login_status.dart';
+
+import 'package:jumunseo/features/community/community.dart';
+import 'package:jumunseo/features/community/home/view/community_my_write.dart';
+
+import 'package:jumunseo/features/dilemma/dilemma.dart';
+import 'package:jumunseo/features/home/view/home_screen.dart';
+import 'package:jumunseo/features/auth/auth.dart';
+import 'package:jumunseo/features/auth/view/sign_in_view.dart';
+import 'package:jumunseo/features/auth/view/sign_up_view.dart';
+import 'package:jumunseo/features/profile/view/privacy_policy.dart';
+import 'package:jumunseo/features/profile/view/profile_edit_screen.dart';
+import 'package:jumunseo/features/profile/view/terms_of_use_view.dart';
+import 'package:jumunseo/features/profile/view/profile_screen.dart';
+import 'package:jumunseo/features/profile/view/settings_view.dart';
 import 'package:jumunseo/features/wizard/chat/view/category_view.dart';
 import 'package:jumunseo/features/wizard/chat/view/chat_view.dart';
 import 'package:jumunseo/features/wizard/chat/view/fwohView/how_view.dart';
@@ -18,7 +31,34 @@ import 'package:jumunseo/features/wizard/chat/view/wizard_setting_view.dart';
 final GlobalKey<NavigatorState> rootNavigatorKey =
     GlobalKey<NavigatorState>(debugLabel: 'root');
 
+const List<Widget> wizardDownRoutes = [
+  CategoryView(),
+  ChatView(),
+  SettingView(),
+  WhenView(),
+  WhoView(),
+  WhereView(),
+  HowView(),
+  PlusInfoView(),
+  WhatView(),
+  WhyView()
+];
+const List<String> wizardDownRoutesPath = [
+  'category',
+  'chat',
+  'chat_set',
+  'when',
+  'who',
+  'where',
+  'how',
+  'plus_info',
+  'what',
+  'why'
+];
+
 GoRouter appRouter = GoRouter(
+  navigatorKey: rootNavigatorKey,
+  initialLocation: '/',
   routes: [
     GoRoute(
       path: '/',
@@ -27,83 +67,137 @@ GoRouter appRouter = GoRouter(
       },
     ),
     GoRoute(
-        path: '/dilemma/:catagory/:id',
+        path: '/dilemma',
         builder: (context, state) {
-          return const DilemmaScreen();
+          return BlocProvider(
+            create: (context) => DilemmaHomeCubit(
+              repository: Repository(),
+            )..fetchList(),
+            child: const DilemmaHomeScreen(),
+          );
         }),
     GoRoute(
-      path: '/wizard',
+        path: '/dilemma/chat/:id',
+        builder: (context, state) {
+          return BlocProvider(
+            create: (context) => DilemmaChatCubit(),
+            child: DilemmaChatScreen(
+              roomId: state.pathParameters['id'] ?? "",
+            ),
+          );
+        }),
+    GoRoute(
+        path: '/wizard',
+        builder: (context, state) {
+          return const RoomListView();
+        },
+        routes: List.generate(wizardDownRoutes.length, ((index) {
+          return GoRoute(
+              path: wizardDownRoutesPath[index],
+              builder: (context, state) {
+                return wizardDownRoutes[index];
+              });
+        }))),
+    GoRoute(
+      path: '/community',
       builder: (context, state) {
-        return const RoomListView();
+        return BlocProvider(
+          create: (context) => CommunityHomeCubit(),
+          child: const CommunityHomeScreen(),
+        );
       },
-      routes: [
-        GoRoute(
-          path: 'category',
-          builder: (context, state) {
-            return const CategoryView();
-          }
-        ),
-        GoRoute(
-          path: 'chat',
-          builder: (context, state) {
-            return const ChatView();
-          }
-        ),
-        GoRoute(
-          path: 'chat_set',
-          builder: (context, state) {
-            return const SettingView();
-          }
-        ),
-        //육하원칙 뷰들
-        GoRoute(
-          path: 'when',
-          builder: (context, state) {
-            return const WhenView();
-          }
-        ),
-        GoRoute(
-          path: 'who',
-          builder: (context, state) {
-            return const WhoView();
-          }
-        ),
-        GoRoute(
-          path: 'where',
-          builder: (context, state) {
-            return const WhereView();
-          }
-        ),
-        GoRoute(
-          path: 'how',
-          builder: (context, state) {
-            return const HowView();
-          }
-        ),
-        GoRoute(
-          path: 'plus_info',
-          builder: (context, state) {
-            return const PlusInfoView();
-          }
-        ),
-        GoRoute(
-          path: 'what',
-          builder: (context, state) {
-            return const WhatView();
-          }
-        ),
-        GoRoute(
-          path: 'why',
-          builder: (context, state) {
-            return const WhyView();
-          }
-        ),
-      ],
     ),
     GoRoute(
-        path: '/community',
+      path: '/community/myWrite',
+      builder: (context, state) {
+        return const CommunityMyWrite();
+      },
+    ),
+    GoRoute(
+        path: '/community/:postId',
         builder: (context, state) {
-          return const CommunityScreen();
+          return BlocProvider(
+            create: (context) => CommunityPostCubit(),
+            child: CommunityDetailScreen(
+              postId: state.pathParameters['postId'] ?? "",
+            ),
+          );
         }),
+    GoRoute(
+        path: '/community/post/write',
+        builder: (context, state) {
+          return BlocProvider(
+            create: (context) => CommunityPostCubit(),
+            child: CommunityPostFrame(kind: PostType.write),
+          );
+        }),
+    // GoRoute(path: '/community/post/edit/:postId', builder: (context, state) {
+    //   return CommunityPostScreen(
+    //     postId: state.pathParameters['postId'] ?? "",
+    //   );
+    // }),
+    GoRoute(
+        path: '/profile',
+        builder: (context, state) {
+          return const ProfileScreen();
+        },
+        routes: [
+          GoRoute(
+              path: 'settings',
+              builder: (context, state) {
+                return const SettingsView();
+              }),
+          GoRoute(
+              path: 'termsOfUse',
+              builder: (context, state) {
+                return const TermsOfUseView();
+              }),
+          GoRoute(
+              path: 'privacyPolicy',
+              builder: (context, state) {
+                return const PrivacyPolicyView();
+              }),
+          GoRoute(
+              path: 'edit',
+              builder: (context, state) {
+                return const ProfileEditScreen();
+              }),
+        ]),
+    GoRoute(
+        path: '/auth',
+        builder: (context, state) {
+          return const AuthScreen();
+        },
+        routes: [
+          GoRoute(
+              path: 'signUp',
+              builder: (context, state) {
+                return const SignUpView();
+              }),
+          GoRoute(
+              path: 'signIn',
+              builder: (context, state) {
+                return const SignInView();
+              }),
+        ]),
   ],
+  redirect: (context, state) {
+    if (LoginStatus.isLogin) {
+      return null;
+    } else {
+      if (LoginStatus.isGeust) {
+        return null;
+      }
+
+      if (LoginStatus.signining) {
+        return '/auth/signIn';
+      }
+
+      if (LoginStatus.joining) {
+        return '/auth/signUp';
+      } else {
+        return '/auth';
+      }
+    }
+  },
 );

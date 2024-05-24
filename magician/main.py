@@ -1,6 +1,9 @@
 from fastapi import FastAPI, WebSocket
 from fastapi.middleware.cors import CORSMiddleware
+
+import json
 import asyncio
+from redis.asyncio import Redis
 import uvicorn
 import motor.motor_asyncio
 import uuid
@@ -36,9 +39,12 @@ client = motor.motor_asyncio.AsyncIOMotorClient(MONGO_URI)
 db = client["chat_db"]  # MongoDB 데이터베이스 선택
 collection = db["chats"]  # 채팅 내용을 저장할 컬렉션 선택
 
+# 레디스 클라이언트 생성
+redis = Redis(host=os.getenv("MAGICIAN_REDIS_HOST"), port=int(os.getenv("MAGICIAN_REDIS_PORT")))
+
 
 # INPUT -> USERID
-@app.websocket("/ws/{user_id}")
+@app.websocket("/magician/ws/{user_id}")
 async def websocket_endpoint(websocket: WebSocket, user_id: str):
     await websocket.accept()
     init = await websocket.receive_text()
@@ -68,11 +74,14 @@ async def websocket_endpoint(websocket: WebSocket, user_id: str):
             is_continued = False
             room_id = str(uuid.uuid4())
 
+        msg_history = []
         # 대화 시작
         while True:
             data = await websocket.receive_text()
             # 응답 생성 with added_prompt
-            msg = await gpt.gpt_talk(data, added_prompt)
+            msg = await gpt.gpt_talk(" ".join(msg_history), data, added_prompt)
+            # 문맥 유지
+            msg_history .append(msg)
             await websocket.send_text(msg)
             conversation.append({"user_message": data, "bot_response": msg})
 
@@ -93,6 +102,30 @@ async def save_chat(user_id, room_id, added_prompt, conversation, is_continued):
         await collection.insert_one(chat_data)
 
 
+@app.on_event("startup")
+async def startup_event():
+    asyncio.create_task(subscribe())
+
+
+async def subscribe():
+    # Pub/Sub 객체 생성
+    pubsub = redis.pubsub()
+    # 채널 구독
+    await pubsub.subscribe('magician')
+
+    async for message in pubsub.listen():
+        # 메시지 유형 확인
+        if message['type'] == 'message':
+            await process_message(message['data'])
+
+
+async def process_message(message):
+    data = json.loads(message.decode('utf-8'))
+    cmd = data['command']
+    if cmd == "DeleteChat":
+        await delete_chat(json.loads(data['data'])['room_id'])
+
+
 # READ
 # TODO: CQRS 패턴으로 변경
 # 어떤 사용자가 진행했던 채팅들 리스트 반환
@@ -100,9 +133,10 @@ async def save_chat(user_id, room_id, added_prompt, conversation, is_continued):
 async def chat_list(user_id: str):
     chats = []
     async for chat in collection.find({"user_id": user_id}):
-        chat["_id"] = str(chat["_id"])
+        chat["id"] = str(chat["_id"])
+        chat.pop("_id")
         chats.append(chat)
-    return {"chats": chats}
+    return chats
 
 
 # READ
@@ -111,15 +145,19 @@ async def chat_list(user_id: str):
 @app.get("/chat/{room_id}")
 async def chat_detail(room_id: str):
     chat = await collection.find_one({"room_id": room_id})
-    chat["_id"] = str(chat["_id"])
-    return {"chat": chat}
+    if chat:
+        chat["_id"] = str(chat["_id"])
+        chat.pop("_id")
+        return chat
+    else:
+        return None
+
 
 # DELETE
 # 채팅방의 채팅 내용 삭제
-@app.delete("/chat/{room_id}")
 async def delete_chat(room_id: str):
+    # TODO: 어플리케이션 기능은 완성. but 로깅은 어떻게하지?
     await collection.delete_one({"room_id": room_id})
-    return {"message": "Chat deleted successfully"}
 
 
 # FastAPI 서버 실행

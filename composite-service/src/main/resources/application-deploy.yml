@@ -1,0 +1,34 @@
+spring:
+  application:
+    name: composite-service
+
+  data:
+    redis:
+      port: ${COMPOSITE_REDIS_PORT}
+      host: ${COMPOSITE_REDIS_HOST}
+
+jwt:
+  secret: ${JWT_SECRET}
+
+# at K8s
+address:
+  auth: ${ADDRESS_AUTH}
+  debate: ${ADDRESS_DEBATE}
+  magician: ${ADDRESS_MAGICIAN}
+  community: ${ADDRESS_COMMUNITY}
+
+cloud:
+  aws:
+    region:
+      static: ap-northeast-2
+    credentials:
+      accessKey: ${AWS_ACCESS_KEY}
+      secretKey: ${AWS_SECRET_KEY}
+    s3:
+      bucket: ${AWS_S3_BUCKET}
+    stack:
+      auto: false
+
+server:
+  port: 8081
+

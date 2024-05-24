@@ -1,9 +1,6 @@
-import 'package:flutter/material.dart';
+import '../../chat.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:jumunseo/config/theme/app_color.dart';
-import 'package:jumunseo/features/wizard/chat/view/gradient_button.dart';
-
-import '../../cubit/wizard_cubit.dart';
 
 class PlusInfoView extends StatefulWidget{
   const PlusInfoView({super.key});
@@ -19,7 +16,9 @@ class _PlusInfoViewState extends State<PlusInfoView> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
+      resizeToAvoidBottomInset : false,
       appBar: AppBar(
+        centerTitle: true,
         title: const Text(
             "내용을 자세하게 적어주세요.",
             style: TextStyle(
@@ -60,9 +59,10 @@ class _PlusInfoViewState extends State<PlusInfoView> {
               children: [
                 Expanded(
                   child: GradientButton(
-                    onButtonPress: () {context.read<WizardCubit>().toWizardSet(context); },
-                    message: '주문서 봇 설정하기',
-                  ),
+                    child: TextButton(
+                    onPressed: () {context.read<WizardCubit>().toWizardSet(context); },
+                    child: const Text('주문서 봇 설정하기', style: TextStyle(color: Colors.white),),
+                  ),),
                 ),
               ]
             ),
@@ -73,9 +73,10 @@ class _PlusInfoViewState extends State<PlusInfoView> {
               children: [
                 Expanded(
                   child: GradientButton(
-                    onButtonPress: () {context.read<WizardCubit>().toChat(context, textEditingController); },
-                    message: 'Continue',
-                  ),
+                    child: TextButton(
+                    onPressed: () {context.read<WizardCubit>().toChat(context, textEditingController); },
+                    child: const Text('Continue', style: TextStyle(color: Colors.white),),
+                  ),),
                 ),
               ]
             ),
