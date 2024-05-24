@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:jumunseo/core/login_status.dart';
 
 import 'package:jumunseo/features/community/community.dart';
 import 'package:jumunseo/features/community/home/view/community_my_write.dart';
 
-import 'package:jumunseo/features/dilemma/dilemma_screen.dart';
+import 'package:jumunseo/features/dilemma/dilemma.dart';
 import 'package:jumunseo/features/home/view/home_screen.dart';
 import 'package:jumunseo/features/auth/auth.dart';
 import 'package:jumunseo/features/auth/view/sign_in_view.dart';
@@ -56,6 +57,8 @@ const List<String> wizardDownRoutesPath = [
 ];
 
 GoRouter appRouter = GoRouter(
+  navigatorKey: rootNavigatorKey,
+  initialLocation: '/',
   routes: [
     GoRoute(
       path: '/',
@@ -64,9 +67,24 @@ GoRouter appRouter = GoRouter(
       },
     ),
     GoRoute(
-        path: '/dilemma/:catagory/:id',
+        path: '/dilemma',
         builder: (context, state) {
-          return const DilemmaScreen();
+          return BlocProvider(
+            create: (context) => DilemmaHomeCubit(
+              repository: Repository(),
+            )..fetchList(),
+            child: const DilemmaHomeScreen(),
+          );
+        }),
+    GoRoute(
+        path: '/dilemma/chat/:id',
+        builder: (context, state) {
+          return BlocProvider(
+            create: (context) => DilemmaChatCubit(),
+            child: DilemmaChatScreen(
+              roomId: state.pathParameters['id'] ?? "",
+            ),
+          );
         }),
     GoRoute(
         path: '/wizard',
@@ -83,7 +101,10 @@ GoRouter appRouter = GoRouter(
     GoRoute(
       path: '/community',
       builder: (context, state) {
-        return const CommunityHomeScreen();
+        return BlocProvider(
+          create: (context) => CommunityHomeCubit(),
+          child: const CommunityHomeScreen(),
+        );
       },
     ),
     GoRoute(
@@ -95,14 +116,20 @@ GoRouter appRouter = GoRouter(
     GoRoute(
         path: '/community/:postId',
         builder: (context, state) {
-          return CommunityDetailScreen(
-            postId: state.pathParameters['postId'] ?? "",
+          return BlocProvider(
+            create: (context) => CommunityPostCubit(),
+            child: CommunityDetailScreen(
+              postId: state.pathParameters['postId'] ?? "",
+            ),
           );
         }),
     GoRoute(
         path: '/community/post/write',
         builder: (context, state) {
-          return CommunityPostFrame(kind: PostType.write);
+          return BlocProvider(
+            create: (context) => CommunityPostCubit(),
+            child: CommunityPostFrame(kind: PostType.write),
+          );
         }),
     // GoRoute(path: '/community/post/edit/:postId', builder: (context, state) {
     //   return CommunityPostScreen(
@@ -110,33 +137,32 @@ GoRouter appRouter = GoRouter(
     //   );
     // }),
     GoRoute(
-      path: '/profile',
-      builder: (context, state) {
-        return const ProfileScreen();
-      },
-      routes: [
-        GoRoute(
-          path: 'settings',
-          builder: (context, state) {
-            return const SettingsView();
-          }),
-        GoRoute(
-          path: 'termsOfUse',
-          builder: (context, state) {
-            return const TermsOfUseView();
-          }),
-        GoRoute(
-          path: 'privacyPolicy',
-          builder: (context, state) {
-            return const PrivacyPolicyView();
-          }),
-        GoRoute(
-          path: 'edit',
-          builder: (context, state) {
-            return const ProfileEditScreen();
-          }),
-      ]
-    ),
+        path: '/profile',
+        builder: (context, state) {
+          return const ProfileScreen();
+        },
+        routes: [
+          GoRoute(
+              path: 'settings',
+              builder: (context, state) {
+                return const SettingsView();
+              }),
+          GoRoute(
+              path: 'termsOfUse',
+              builder: (context, state) {
+                return const TermsOfUseView();
+              }),
+          GoRoute(
+              path: 'privacyPolicy',
+              builder: (context, state) {
+                return const PrivacyPolicyView();
+              }),
+          GoRoute(
+              path: 'edit',
+              builder: (context, state) {
+                return const ProfileEditScreen();
+              }),
+        ]),
     GoRoute(
         path: '/auth',
         builder: (context, state) {
@@ -144,35 +170,32 @@ GoRouter appRouter = GoRouter(
         },
         routes: [
           GoRoute(
-            path: 'signUp',
-            builder: (context, state) {
-              return const SignUpView();
-            }),
+              path: 'signUp',
+              builder: (context, state) {
+                return const SignUpView();
+              }),
           GoRoute(
-            path: 'signIn',
-            builder: (context, state) {
-              return const SignInView();
-            }),
-        ]
-      ),
+              path: 'signIn',
+              builder: (context, state) {
+                return const SignInView();
+              }),
+        ]),
   ],
   redirect: (context, state) {
-    if(LoginStatus.isLogin) {
+    if (LoginStatus.isLogin) {
       return null;
-    }
-    else {
-      if(LoginStatus.isGeust) {
+    } else {
+      if (LoginStatus.isGeust) {
         return null;
       }
 
-      if(LoginStatus.signining) {
+      if (LoginStatus.signining) {
         return '/auth/signIn';
       }
 
-      if(LoginStatus.joining) {
+      if (LoginStatus.joining) {
         return '/auth/signUp';
-      }
-      else {
+      } else {
         return '/auth';
       }
     }

@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
+import 'package:jumunseo/config/theme/app_color.dart';
 import 'package:jumunseo/core/blank.dart';
 import 'package:jumunseo/core/logger.dart';
 
@@ -74,10 +75,10 @@ class CommunityDetailScreen extends StatelessWidget {
 
   final String postId;
 
-  final bool hasPicture = true;
+  final bool hasPicture = false;
   final bool isMine = false;
-  final int pictureCount = 3;
-  final int replyCount = 3;
+  final int pictureCount = 0;
+  final int replyCount = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -101,6 +102,35 @@ class CommunityDetailScreen extends StatelessWidget {
           backgroundColor:
               // (communityData != null && communityData!.picture.isNotEmpty)
               hasPicture ? Colors.white10 : Colors.white,
+          title: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                children: [
+                  Expanded(
+                      child: Text("게시판",
+                          style: TextStyle(
+                              fontSize: 16, fontWeight: FontWeight.bold))),
+                ],
+              ),
+              Padding(
+                padding: const EdgeInsets.fromLTRB(0, 4, 8, 0),
+                child: Container(
+                  decoration: BoxDecoration(
+                      color: ColorStyles.secondMainColor,
+                      borderRadius: BorderRadius.circular(5)),
+                  child: Padding(
+                    padding: const EdgeInsets.fromLTRB(4, 2, 4, 2),
+                    child: Text("딜레마",
+                        style: TextStyle(
+                            fontSize: 12,
+                            color: Colors.grey[100],
+                            fontWeight: FontWeight.w600)),
+                  ),
+                ),
+              ),
+            ],
+          ),
 
           actions: [
             IconButton(
@@ -486,101 +516,191 @@ class CommunityDetailScreen extends StatelessWidget {
                       },
                     ),
                   ),
-                InkWell(
-                  onTap: () {
-                    // context.push('/profileOther/${communityData!.userUniqId}');
-                  },
-                  child: SizedBox(
-                    height: 80,
-                    width: MediaQuery.of(context).size.width,
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.fromLTRB(16, 0, 0, 0),
-                          child: SizedBox(
-                            // height: 56,
-                            child: Padding(
-                              padding: const EdgeInsets.only(right: 8.0),
-                              child: CircleAvatar(
-                                radius: 30,
-                                backgroundImage: ExtendedNetworkImageProvider(
-                                    "https://picsum.photos/seed/1/800/600",
-                                    cache: true),
-                              ),
-                            ),
-                          ),
-                        ),
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              // if ((communityData?.authorStatus ?? 0) == 1)
-                              // Padding(
-                              //   padding:
-                              //       const EdgeInsets.fromLTRB(4, 0, 0, 6),
-                              //   child: RoundedBackgroundText(
-                              //     (communityData!.userType == 0
-                              //             ? "foreigner"
-                              //             : "local")
-                              //         .tr(),
-                              //     style: TextStyle(
-                              //         fontSize: 12,
-                              //         color: communityData!.userType == 0
-                              //             ? AppColors.primary
-                              //             : AppColors.white),
-                              //     backgroundColor:
-                              //         communityData!.userType == 0
-                              //             ? AppColors.extraLightGrey
-                              //             : AppColors.primary,
-                              //     innerRadius: 20.0,
-                              //     outerRadius: 20.0,
-                              //   ),
-                              // ),
-                              Text("${"communityData?.authorNickname"}",
-                                  overflow: TextOverflow.ellipsis,
-                                  style: const TextStyle(
-                                    fontSize: 14,
-                                    color: Color.fromARGB(255, 128, 128, 128),
-                                  )),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
                 Padding(
                   padding: const EdgeInsets.fromLTRB(16, 0, 16, 8),
                   child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
-                        Padding(
-                          padding: const EdgeInsets.fromLTRB(0, 0, 0, 8),
-                          child: Text(
-                              DateTime.now()
-                                  .toString(), //timeDiffString(communityData!.createAt
-                              // (communityData == null)
-                              //     ? ""
-                              //     : "${communityData!.createAt.year}.${(communityData!.createAt.month < 10) ? "0${communityData!.createAt.month}" : communityData!.createAt.month}.${(communityData!.createAt.day < 10) ? "0${communityData!.createAt.day}" : communityData!.createAt.day} | ${communityData!.createAt.hour < 10 ? "0${communityData!.createAt.hour}" : communityData!.createAt.hour.toString()}:${communityData!.createAt.minute < 10 ? "0${communityData!.createAt.minute}" : communityData!.createAt.minute}",
-                              style: const TextStyle(
-                                  fontSize: 14,
-                                  color: Color.fromARGB(255, 128, 128, 128))),
+                        InkWell(
+                          onTap: () {
+                            // context.push('/profileOther/${communityData!.userUniqId}');
+                          },
+                          child: SizedBox(
+                            height: 80,
+                            width: MediaQuery.of(context).size.width,
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Padding(
+                                  padding:
+                                      const EdgeInsets.fromLTRB(4, 0, 0, 0),
+                                  child: SizedBox(
+                                    // height: 56,
+                                    child: Padding(
+                                      padding:
+                                          const EdgeInsets.only(right: 8.0),
+                                      child: CircleAvatar(
+                                        radius: 24,
+                                        backgroundImage:
+                                            AssetImage('assets/icons/logo.png'),
+                                        // ExtendedNetworkImageProvider(
+                                        //     "https://picsum.photos/seed/1/800/600",
+                                        //     cache: true),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                Expanded(
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      // if ((communityData?.authorStatus ?? 0) == 1)
+                                      // Padding(
+                                      //   padding:
+                                      //       const EdgeInsets.fromLTRB(4, 0, 0, 6),
+                                      //   child: RoundedBackgroundText(
+                                      //     (communityData!.userType == 0
+                                      //             ? "foreigner"
+                                      //             : "local")
+                                      //         .tr(),
+                                      //     style: TextStyle(
+                                      //         fontSize: 12,
+                                      //         color: communityData!.userType == 0
+                                      //             ? AppColors.primary
+                                      //             : AppColors.white),
+                                      //     backgroundColor:
+                                      //         communityData!.userType == 0
+                                      //             ? AppColors.extraLightGrey
+                                      //             : AppColors.primary,
+                                      //     innerRadius: 20.0,
+                                      //     outerRadius: 20.0,
+                                      //   ),
+                                      // ),
+                                      Text("${""}",
+                                          overflow: TextOverflow.ellipsis,
+                                          style: const TextStyle(
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.w600,
+                                          )),
+                                      Padding(
+                                        padding: const EdgeInsets.fromLTRB(
+                                            0, 0, 0, 8),
+                                        child: Text(
+                                            "", //timeDiffString(communityData!.createAt
+                                            // (communityData == null)
+                                            //     ? ""
+                                            //     : "${communityData!.createAt.year}.${(communityData!.createAt.month < 10) ? "0${communityData!.createAt.month}" : communityData!.createAt.month}.${(communityData!.createAt.day < 10) ? "0${communityData!.createAt.day}" : communityData!.createAt.day} | ${communityData!.createAt.hour < 10 ? "0${communityData!.createAt.hour}" : communityData!.createAt.hour.toString()}:${communityData!.createAt.minute < 10 ? "0${communityData!.createAt.minute}" : communityData!.createAt.minute}",
+                                            style: const TextStyle(
+                                                fontSize: 14,
+                                                color: Color.fromARGB(
+                                                    255, 128, 128, 128))),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
                         ),
                         Padding(
                           padding: const EdgeInsets.fromLTRB(0, 0, 0, 12),
-                          child: Text("communityData?.title",
+                          child: Text("",
                               style: const TextStyle(
                                   fontSize: 20, fontWeight: FontWeight.w600)),
                         ),
                         Padding(
                           padding: const EdgeInsets.fromLTRB(0, 0, 0, 12),
-                          child: SelectableText("communityData?.content",
-                              style: const TextStyle(
-                                fontSize: 16,
-                              )),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              SelectableText("",
+                                  style: const TextStyle(
+                                    fontSize: 16,
+                                  )),
+                              Padding(
+                                padding: const EdgeInsets.fromLTRB(0, 8, 0, 8),
+                                child: Row(
+                                  children: [
+                                    Padding(
+                                      padding:
+                                          const EdgeInsets.fromLTRB(0, 0, 8, 0),
+                                      child: Container(
+                                        //half of the screen
+                                        width:
+                                            MediaQuery.of(context).size.width /
+                                                    2 -
+                                                20,
+                                        decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(10),
+                                            color: Color.fromARGB(
+                                                255, 255, 158, 158)),
+
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.center,
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            children: [
+                                              Text('',
+                                                  style: const TextStyle(
+                                                    fontSize: 16,
+                                                  )),
+                                              Column(
+                                                children: [Text('')],
+                                              )
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                    Container(
+                                      // height: 100,
+                                      //half of the screen
+                                      width: MediaQuery.of(context).size.width /
+                                              2 -
+                                          20,
+                                      decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(10),
+                                          color: Color.fromARGB(
+                                              255, 173, 229, 255)),
+
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.center,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: [
+                                            Text('',
+                                                style: const TextStyle(
+                                                  fontSize: 16,
+                                                )),
+                                            Column(
+                                              children: [Text('')],
+                                            )
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              // Text(
+                              //     '요약 : 대다수의asdas;kdjklsdfjaklsdjfhkljszdjfkljasdklfjaskldjflkasjdfkljasldkfjlk ',
+                              //     style: const TextStyle(
+                              //       fontSize: 16,
+                              //     )),
+                            ],
+                          ),
                         ),
                       ]),
                 ),
@@ -606,423 +726,423 @@ class CommunityDetailScreen extends StatelessWidget {
                   ),
                 ),
               ])),
-              PagedSliverList(
-                  pagingController: _replyPageController,
-                  builderDelegate: PagedChildBuilderDelegate<int>(
-                      noItemsFoundIndicatorBuilder: (context) => Container(),
-                      itemBuilder: (context, item, index) {
-                        return Column(
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.only(
-                                  left: 16.0, top: 16, bottom: 16, right: 16),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: [
-                                  GestureDetector(
-                                    onTap: () {},
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.center,
-                                      children: [
-                                        SizedBox(
-                                          height: 38,
-                                          child: Padding(
-                                            padding: const EdgeInsets.only(
-                                                right: 8.0),
-                                            child: CircleAvatar(
-                                              backgroundImage:
-                                                  ExtendedNetworkImageProvider(
-                                                      "https://picsum.photos/seed/1/800/600",
-                                                      cache: true),
-                                            ),
-                                          ),
-                                        ),
-                                        Expanded(
-                                          child: Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.start,
-                                            children: [
-                                              Row(
-                                                children: [
-                                                  Text("item.authorNickname",
-                                                      overflow:
-                                                          TextOverflow.ellipsis,
-                                                      style: const TextStyle(
-                                                        fontSize: 14,
-                                                        color: Color.fromARGB(
-                                                            255, 128, 128, 128),
-                                                      )),
-                                                ],
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                        // Padding(
-                                        //   padding: const EdgeInsets.only(right: 4),
-                                        //   child: Material(
-                                        //     color: Colors.transparent,
-                                        //     child: InkWell(
-                                        //       onTap: () {
+              // PagedSliverList(
+              //     pagingController: _replyPageController,
+              //     builderDelegate: PagedChildBuilderDelegate<int>(
+              //         noItemsFoundIndicatorBuilder: (context) => Container(),
+              //         itemBuilder: (context, item, index) {
+              //           return Column(
+              //             children: [
+              //               Padding(
+              //                 padding: const EdgeInsets.only(
+              //                     left: 16.0, top: 16, bottom: 16, right: 16),
+              //                 child: Column(
+              //                   crossAxisAlignment: CrossAxisAlignment.start,
+              //                   mainAxisAlignment: MainAxisAlignment.start,
+              //                   children: [
+              //                     GestureDetector(
+              //                       onTap: () {},
+              //                       child: Row(
+              //                         mainAxisAlignment:
+              //                             MainAxisAlignment.start,
+              //                         crossAxisAlignment:
+              //                             CrossAxisAlignment.center,
+              //                         children: [
+              //                           SizedBox(
+              //                             height: 38,
+              //                             child: Padding(
+              //                               padding: const EdgeInsets.only(
+              //                                   right: 8.0),
+              //                               child: CircleAvatar(
+              //                                 backgroundImage:
+              //                                     ExtendedNetworkImageProvider(
+              //                                         "https://picsum.photos/seed/2/800/600",
+              //                                         cache: true),
+              //                               ),
+              //                             ),
+              //                           ),
+              //                           Expanded(
+              //                             child: Column(
+              //                               crossAxisAlignment:
+              //                                   CrossAxisAlignment.start,
+              //                               mainAxisAlignment:
+              //                                   MainAxisAlignment.start,
+              //                               children: [
+              //                                 Row(
+              //                                   children: [
+              //                                     Text("율곡이이",
+              //                                         overflow:
+              //                                             TextOverflow.ellipsis,
+              //                                         style: const TextStyle(
+              //                                           fontSize: 14,
+              //                                           color: Color.fromARGB(
+              //                                               255, 128, 128, 128),
+              //                                         )),
+              //                                   ],
+              //                                 ),
+              //                               ],
+              //                             ),
+              //                           ),
+              //                           // Padding(
+              //                           //   padding: const EdgeInsets.only(right: 4),
+              //                           //   child: Material(
+              //                           //     color: Colors.transparent,
+              //                           //     child: InkWell(
+              //                           //       onTap: () {
 
-                                        //       },
-                                        //       child: Container(
-                                        //         alignment: Alignment.center,
-                                        //         decoration: BoxDecoration(
-                                        //             borderRadius:
-                                        //                 BorderRadius.circular(
-                                        //                     5),
-                                        //             border: Border.all(
-                                        //                 color: Colors.grey)),
-                                        //         width: 32,
-                                        //         height: 32,
-                                        //         child: SvgPicture.string(
-                                        //           reReplyButtonSvgString,
-                                        //         ),
-                                        //       ),
-                                        //     ),
-                                        //   ),
-                                        // ),
-                                        Material(
-                                          color: Colors.transparent,
-                                          child: InkWell(
-                                            onTap: () {
-                                              var contexta = context;
-                                              showModalBottomSheet(
-                                                  context: contexta,
-                                                  shape: const RoundedRectangleBorder(
-                                                      borderRadius:
-                                                          BorderRadius.only(
-                                                              topLeft: Radius
-                                                                  .circular(10),
-                                                              topRight: Radius
-                                                                  .circular(
-                                                                      10))),
-                                                  builder: (contextb) {
-                                                    return Container(
-                                                      padding: EdgeInsets.only(
-                                                          top: 8,
-                                                          bottom: MediaQuery.of(
-                                                                  contextb)
-                                                              .viewPadding
-                                                              .bottom),
-                                                      width: MediaQuery.of(
-                                                              contextb)
-                                                          .size
-                                                          .width,
-                                                      decoration: const BoxDecoration(
-                                                          color: Colors.white,
-                                                          borderRadius:
-                                                              BorderRadius.only(
-                                                                  topLeft: Radius
-                                                                      .circular(
-                                                                          20),
-                                                                  topRight: Radius
-                                                                      .circular(
-                                                                          20))),
-                                                      child: Column(
-                                                        mainAxisSize:
-                                                            MainAxisSize.min,
-                                                        children: [
-                                                          Container(
-                                                            width: 100,
-                                                            height: 3,
-                                                            decoration:
-                                                                const BoxDecoration(
-                                                              color:
-                                                                  Colors.grey,
-                                                            ),
-                                                          ),
-                                                          const SizedBox(
-                                                            height: 25,
-                                                          ),
-                                                          if (isMine)
-                                                            GestureDetector(
-                                                              onTap: () async {
-                                                                contextb.pop();
-                                                              },
-                                                              child: Container(
-                                                                  padding:
-                                                                      const EdgeInsets
-                                                                          .all(
-                                                                          15),
-                                                                  width: MediaQuery
-                                                                          .sizeOf(
-                                                                              contextb)
-                                                                      .width,
-                                                                  height: 60,
-                                                                  child: Row(
-                                                                    children: [
-                                                                      const Icon(
-                                                                        Icons
-                                                                            .delete_outline_rounded,
-                                                                        color: Colors
-                                                                            .redAccent,
-                                                                        size:
-                                                                            30,
-                                                                      ),
-                                                                      Text(
-                                                                        "reply_delete",
-                                                                        style: const TextStyle(
-                                                                            color:
-                                                                                Colors.redAccent,
-                                                                            fontWeight: FontWeight.w700),
-                                                                      )
-                                                                    ],
-                                                                  )),
-                                                            ),
-                                                          if (!isMine)
-                                                            GestureDetector(
-                                                              onTap: () async {
-                                                                contextb.pop();
-                                                              },
-                                                              child: Container(
-                                                                  padding:
-                                                                      const EdgeInsets
-                                                                          .all(
-                                                                          15),
-                                                                  width: MediaQuery
-                                                                          .sizeOf(
-                                                                              contextb)
-                                                                      .width,
-                                                                  height: 60,
-                                                                  child: Row(
-                                                                    children: [
-                                                                      const Icon(
-                                                                        Icons
-                                                                            .report_outlined,
-                                                                        color: Color.fromARGB(
-                                                                            138,
-                                                                            158,
-                                                                            158,
-                                                                            158),
-                                                                        size:
-                                                                            30,
-                                                                      ),
-                                                                      Text(
-                                                                        "report", //개시물 신고하기
-                                                                        style: const TextStyle(
-                                                                            color:
-                                                                                Colors.redAccent,
-                                                                            fontWeight: FontWeight.w700),
-                                                                      )
-                                                                    ],
-                                                                  )),
-                                                            ),
-                                                          const Divider(
-                                                            height: 1,
-                                                            thickness: 1,
-                                                            color: Colors.grey,
-                                                          ),
-                                                          // if (item.userUniqId !=
-                                                          //     Token()
-                                                          //         .userUniqId)
-                                                          //   GestureDetector(
-                                                          //     onTap:
-                                                          //         () async {
-                                                          //       showDialog(
-                                                          //           context:
-                                                          //               contextb,
-                                                          //           builder:
-                                                          //               (contextc) {
-                                                          //             return AlertDialog(
-                                                          //               title:
-                                                          //                   Text("block".tr()),
-                                                          //               content:
-                                                          //                   Text("block_meeting".tr()),
-                                                          //               actions: [
-                                                          //                 TextButton(
-                                                          //                     onPressed: () async {
-                                                          //                       bool onlyDetail = true;
-                                                          //                       await showDialog(
-                                                          //                           context: contextc,
-                                                          //                           builder: (contextd) {
-                                                          //                             return AlertDialog(
-                                                          //                               content: Text("block_additional".tr()),
-                                                          //                               actions: [
-                                                          //                                 TextButton(
-                                                          //                                     onPressed: () {
-                                                          //                                       onlyDetail = false;
-                                                          //                                       contextd.pop();
-                                                          //                                     },
-                                                          //                                     child: Text("block".tr())),
-                                                          //                                 TextButton(
-                                                          //                                     onPressed: () {
-                                                          //                                       onlyDetail = true;
-                                                          //                                       contextd.pop();
-                                                          //                                     },
-                                                          //                                     child: Text("no".tr()))
-                                                          //                               ],
-                                                          //                             );
-                                                          //                           });
+              //                           //       },
+              //                           //       child: Container(
+              //                           //         alignment: Alignment.center,
+              //                           //         decoration: BoxDecoration(
+              //                           //             borderRadius:
+              //                           //                 BorderRadius.circular(
+              //                           //                     5),
+              //                           //             border: Border.all(
+              //                           //                 color: Colors.grey)),
+              //                           //         width: 32,
+              //                           //         height: 32,
+              //                           //         child: SvgPicture.string(
+              //                           //           reReplyButtonSvgString,
+              //                           //         ),
+              //                           //       ),
+              //                           //     ),
+              //                           //   ),
+              //                           // ),
+              //                           // Material(
+              //                           //   color: Colors.transparent,
+              //                           //   child: InkWell(
+              //                           //     onTap: () {
+              //                           //       var contexta = context;
+              //                           //       showModalBottomSheet(
+              //                           //           context: contexta,
+              //                           //           shape: const RoundedRectangleBorder(
+              //                           //               borderRadius:
+              //                           //                   BorderRadius.only(
+              //                           //                       topLeft: Radius
+              //                           //                           .circular(10),
+              //                           //                       topRight: Radius
+              //                           //                           .circular(
+              //                           //                               10))),
+              //                           //           builder: (contextb) {
+              //                           //             return Container(
+              //                           //               padding: EdgeInsets.only(
+              //                           //                   top: 8,
+              //                           //                   bottom: MediaQuery.of(
+              //                           //                           contextb)
+              //                           //                       .viewPadding
+              //                           //                       .bottom),
+              //                           //               width: MediaQuery.of(
+              //                           //                       contextb)
+              //                           //                   .size
+              //                           //                   .width,
+              //                           //               decoration: const BoxDecoration(
+              //                           //                   color: Colors.white,
+              //                           //                   borderRadius:
+              //                           //                       BorderRadius.only(
+              //                           //                           topLeft: Radius
+              //                           //                               .circular(
+              //                           //                                   20),
+              //                           //                           topRight: Radius
+              //                           //                               .circular(
+              //                           //                                   20))),
+              //                           //               child: Column(
+              //                           //                 mainAxisSize:
+              //                           //                     MainAxisSize.min,
+              //                           //                 children: [
+              //                           //                   Container(
+              //                           //                     width: 100,
+              //                           //                     height: 3,
+              //                           //                     decoration:
+              //                           //                         const BoxDecoration(
+              //                           //                       color:
+              //                           //                           Colors.grey,
+              //                           //                     ),
+              //                           //                   ),
+              //                           //                   const SizedBox(
+              //                           //                     height: 25,
+              //                           //                   ),
+              //                           //                   if (isMine)
+              //                           //                     GestureDetector(
+              //                           //                       onTap: () async {
+              //                           //                         contextb.pop();
+              //                           //                       },
+              //                           //                       child: Container(
+              //                           //                           padding:
+              //                           //                               const EdgeInsets
+              //                           //                                   .all(
+              //                           //                                   15),
+              //                           //                           width: MediaQuery
+              //                           //                                   .sizeOf(
+              //                           //                                       contextb)
+              //                           //                               .width,
+              //                           //                           height: 60,
+              //                           //                           child: Row(
+              //                           //                             children: [
+              //                           //                               const Icon(
+              //                           //                                 Icons
+              //                           //                                     .delete_outline_rounded,
+              //                           //                                 color: Colors
+              //                           //                                     .redAccent,
+              //                           //                                 size:
+              //                           //                                     30,
+              //                           //                               ),
+              //                           //                               Text(
+              //                           //                                 "reply_delete",
+              //                           //                                 style: const TextStyle(
+              //                           //                                     color:
+              //                           //                                         Colors.redAccent,
+              //                           //                                     fontWeight: FontWeight.w700),
+              //                           //                               )
+              //                           //                             ],
+              //                           //                           )),
+              //                           //                     ),
+              //                           //                   if (!isMine)
+              //                           //                     GestureDetector(
+              //                           //                       onTap: () async {
+              //                           //                         contextb.pop();
+              //                           //                       },
+              //                           //                       child: Container(
+              //                           //                           padding:
+              //                           //                               const EdgeInsets
+              //                           //                                   .all(
+              //                           //                                   15),
+              //                           //                           width: MediaQuery
+              //                           //                                   .sizeOf(
+              //                           //                                       contextb)
+              //                           //                               .width,
+              //                           //                           height: 60,
+              //                           //                           child: Row(
+              //                           //                             children: [
+              //                           //                               const Icon(
+              //                           //                                 Icons
+              //                           //                                     .report_outlined,
+              //                           //                                 color: Color.fromARGB(
+              //                           //                                     138,
+              //                           //                                     158,
+              //                           //                                     158,
+              //                           //                                     158),
+              //                           //                                 size:
+              //                           //                                     30,
+              //                           //                               ),
+              //                           //                               Text(
+              //                           //                                 "report", //개시물 신고하기
+              //                           //                                 style: const TextStyle(
+              //                           //                                     color:
+              //                           //                                         Colors.redAccent,
+              //                           //                                     fontWeight: FontWeight.w700),
+              //                           //                               )
+              //                           //                             ],
+              //                           //                           )),
+              //                           //                     ),
+              //                           //                   const Divider(
+              //                           //                     height: 1,
+              //                           //                     thickness: 1,
+              //                           //                     color: Colors.grey,
+              //                           //                   ),
+              //                           //                   // if (item.userUniqId !=
+              //                           //                   //     Token()
+              //                           //                   //         .userUniqId)
+              //                           //                   //   GestureDetector(
+              //                           //                   //     onTap:
+              //                           //                   //         () async {
+              //                           //                   //       showDialog(
+              //                           //                   //           context:
+              //                           //                   //               contextb,
+              //                           //                   //           builder:
+              //                           //                   //               (contextc) {
+              //                           //                   //             return AlertDialog(
+              //                           //                   //               title:
+              //                           //                   //                   Text("block".tr()),
+              //                           //                   //               content:
+              //                           //                   //                   Text("block_meeting".tr()),
+              //                           //                   //               actions: [
+              //                           //                   //                 TextButton(
+              //                           //                   //                     onPressed: () async {
+              //                           //                   //                       bool onlyDetail = true;
+              //                           //                   //                       await showDialog(
+              //                           //                   //                           context: contextc,
+              //                           //                   //                           builder: (contextd) {
+              //                           //                   //                             return AlertDialog(
+              //                           //                   //                               content: Text("block_additional".tr()),
+              //                           //                   //                               actions: [
+              //                           //                   //                                 TextButton(
+              //                           //                   //                                     onPressed: () {
+              //                           //                   //                                       onlyDetail = false;
+              //                           //                   //                                       contextd.pop();
+              //                           //                   //                                     },
+              //                           //                   //                                     child: Text("block".tr())),
+              //                           //                   //                                 TextButton(
+              //                           //                   //                                     onPressed: () {
+              //                           //                   //                                       onlyDetail = true;
+              //                           //                   //                                       contextd.pop();
+              //                           //                   //                                     },
+              //                           //                   //                                     child: Text("no".tr()))
+              //                           //                   //                               ],
+              //                           //                   //                             );
+              //                           //                   //                           });
 
-                                                          //                       contextc.pop();
-                                                          //                       contextb.pop();
-                                                          //                       contexta.pop();
-                                                          //                       if (onlyDetail) {
-                                                          //                         // CommunityBlockSet().addBlockMeeting(
-                                                          //                         //   postId: communityData!.postId,
-                                                          //                         //   title: communityData!.title,
-                                                          //                         //   authorNickname: communityData!.authorNickname,
-                                                          //                         // );
-                                                          //                       } else {
-                                                          //                         // CommunityBlockSet().addBlockUser(uniqId: communityData!.userUniqId, nickname: communityData!.authorNickname);
-                                                          //                       }
+              //                           //                   //                       contextc.pop();
+              //                           //                   //                       contextb.pop();
+              //                           //                   //                       contexta.pop();
+              //                           //                   //                       if (onlyDetail) {
+              //                           //                   //                         // CommunityBlockSet().addBlockMeeting(
+              //                           //                   //                         //   postId: communityData!.postId,
+              //                           //                   //                         //   title: communityData!.title,
+              //                           //                   //                         //   authorNickname: communityData!.authorNickname,
+              //                           //                   //                         // );
+              //                           //                   //                       } else {
+              //                           //                   //                         // CommunityBlockSet().addBlockUser(uniqId: communityData!.userUniqId, nickname: communityData!.authorNickname);
+              //                           //                   //                       }
 
-                                                          //                       communityPageController.refresh();
-                                                          //                       ScaffoldMessenger.of(contexta).showSnackBar(SnackBar(content: Text("unblock_message".tr())));
-                                                          //                     },
-                                                          //                     child: Text("confirm".tr())),
-                                                          //                 TextButton(
-                                                          //                     onPressed: () {
-                                                          //                       contextc.pop();
-                                                          //                     },
-                                                          //                     child: Text("cancel".tr()))
-                                                          //               ],
-                                                          //             );
-                                                          //           });
-                                                          //     },
-                                                          //     child:
-                                                          //         Container(
-                                                          //             padding: const EdgeInsets
-                                                          //                 .all(
-                                                          //                 15),
-                                                          //             width: MediaQuery.sizeOf(contextb)
-                                                          //                 .width,
-                                                          //             height:
-                                                          //                 60,
-                                                          //             child:
-                                                          //                 Row(
-                                                          //               children: [
-                                                          //                 const Icon(
-                                                          //                   Icons.block_outlined,
-                                                          //                   color: Color.fromARGB(138, 158, 158, 158),
-                                                          //                   size: 30,
-                                                          //                 ),
-                                                          //                 Text(
-                                                          //                   "block".tr(), //개시물 신고하기
-                                                          //                   style: const TextStyle(color: Colors.pinkAccent, fontWeight: FontWeight.w700),
-                                                          //                 )
-                                                          //               ],
-                                                          //             )),
-                                                          //   ),
-                                                          const SizedBox(
-                                                            height: 20,
-                                                          ),
-                                                          SizedBox(
-                                                            // SizedBox 대신 Container를 사용 가능
-                                                            width: 300,
-                                                            height: 50,
-                                                            child: FilledButton(
-                                                              onPressed: () {
-                                                                contextb.pop();
-                                                              },
-                                                              child: Text(
-                                                                  'cancel'),
-                                                            ),
-                                                          )
-                                                        ],
-                                                      ),
-                                                    );
-                                                  });
-                                            },
-                                            child: Container(
-                                              alignment: Alignment.center,
-                                              decoration: BoxDecoration(
-                                                  borderRadius:
-                                                      BorderRadius.circular(5),
-                                                  border: Border.all(
-                                                      color: Colors.grey)),
-                                              width: 32,
-                                              height: 32,
-                                              child: const Icon(
-                                                CupertinoIcons.ellipsis,
-                                                color: Colors.grey,
-                                              ),
-                                            ),
-                                          ),
-                                        )
-                                      ],
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding:
-                                        const EdgeInsets.fromLTRB(0, 12, 0, 0),
-                                    child: Text(
-                                      //item.content,
-                                      "item.content",
-                                      style: const TextStyle(
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.w400),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            //대댓글
-                            const CommunityDetailReply(
-                              isMine: true,
-                            ),
-                            SizedBox(
-                              height: 10,
-                            ),
-                            const CommunityDetailReply(
-                              isMine: true,
-                            ),
-                            SizedBox(
-                              height: 10,
-                            ),
-                            const CommunityDetailReply(
-                              isMine: true,
-                            ),
-                          ],
-                        );
-                      }))
+              //                           //                   //                       communityPageController.refresh();
+              //                           //                   //                       ScaffoldMessenger.of(contexta).showSnackBar(SnackBar(content: Text("unblock_message".tr())));
+              //                           //                   //                     },
+              //                           //                   //                     child: Text("confirm".tr())),
+              //                           //                   //                 TextButton(
+              //                           //                   //                     onPressed: () {
+              //                           //                   //                       contextc.pop();
+              //                           //                   //                     },
+              //                           //                   //                     child: Text("cancel".tr()))
+              //                           //                   //               ],
+              //                           //                   //             );
+              //                           //                   //           });
+              //                           //                   //     },
+              //                           //                   //     child:
+              //                           //                   //         Container(
+              //                           //                   //             padding: const EdgeInsets
+              //                           //                   //                 .all(
+              //                           //                   //                 15),
+              //                           //                   //             width: MediaQuery.sizeOf(contextb)
+              //                           //                   //                 .width,
+              //                           //                   //             height:
+              //                           //                   //                 60,
+              //                           //                   //             child:
+              //                           //                   //                 Row(
+              //                           //                   //               children: [
+              //                           //                   //                 const Icon(
+              //                           //                   //                   Icons.block_outlined,
+              //                           //                   //                   color: Color.fromARGB(138, 158, 158, 158),
+              //                           //                   //                   size: 30,
+              //                           //                   //                 ),
+              //                           //                   //                 Text(
+              //                           //                   //                   "block".tr(), //개시물 신고하기
+              //                           //                   //                   style: const TextStyle(color: Colors.pinkAccent, fontWeight: FontWeight.w700),
+              //                           //                   //                 )
+              //                           //                   //               ],
+              //                           //                   //             )),
+              //                           //                   //   ),
+              //                           //                   const SizedBox(
+              //                           //                     height: 20,
+              //                           //                   ),
+              //                           //                   SizedBox(
+              //                           //                     // SizedBox 대신 Container를 사용 가능
+              //                           //                     width: 300,
+              //                           //                     height: 50,
+              //                           //                     child: FilledButton(
+              //                           //                       onPressed: () {
+              //                           //                         contextb.pop();
+              //                           //                       },
+              //                           //                       child: Text(
+              //                           //                           'cancel'),
+              //                           //                     ),
+              //                           //                   )
+              //                           //                 ],
+              //                           //               ),
+              //                           //             );
+              //                           //           });
+              //                           //     },
+              //                           //     child: Container(
+              //                           //       alignment: Alignment.center,
+              //                           //       decoration: BoxDecoration(
+              //                           //           borderRadius:
+              //                           //               BorderRadius.circular(5),
+              //                           //           border: Border.all(
+              //                           //               color: Colors.grey)),
+              //                           //       width: 32,
+              //                           //       height: 32,
+              //                           //       child: const Icon(
+              //                           //         CupertinoIcons.ellipsis,
+              //                           //         color: Colors.grey,
+              //                           //       ),
+              //                           //     ),
+              //                           //   ),
+              //                           // )
+              //                         ],
+              //                       ),
+              //                     ),
+              //                     Padding(
+              //                       padding:
+              //                           const EdgeInsets.fromLTRB(0, 12, 0, 0),
+              //                       child: Text(
+              //                         //item.content,
+              //                         "좋은 정보 감사합니다",
+              //                         style: const TextStyle(
+              //                             fontSize: 14,
+              //                             fontWeight: FontWeight.w400),
+              //                       ),
+              //                     ),
+              //                   ],
+              //                 ),
+              //               ),
+              //               //대댓글
+              //               const CommunityDetailReply(
+              //                 isMine: true,
+              //               ),
+              //               SizedBox(
+              //                 height: 10,
+              //               ),
+              //               const CommunityDetailReply(
+              //                 isMine: true,
+              //               ),
+              //               SizedBox(
+              //                 height: 10,
+              //               ),
+              //               const CommunityDetailReply(
+              //                 isMine: true,
+              //               ),
+              //             ],
+              //           );
+              //         }))
             ],
           ),
         ),
-        bottomSheet: Container(
-          height: 60,
-          decoration: const BoxDecoration(color: Colors.white),
-          margin: const EdgeInsets.only(top: 8),
-          padding: const EdgeInsets.all(8),
-          child: Row(
-            children: [
-              Expanded(
-                  child: TextField(
-                controller: _replyInputController,
-                style: const TextStyle(fontSize: 15),
-                decoration: InputDecoration(
-                    isDense: true,
-                    contentPadding: const EdgeInsets.all(8),
-                    filled: true,
-                    fillColor: const Color.fromARGB(97, 158, 158, 158),
-                    hintText: "reply_enter_hint",
-                    hintStyle:
-                        const TextStyle(fontSize: 15, color: Colors.grey),
-                    border: const OutlineInputBorder(
-                        borderSide: BorderSide.none,
-                        borderRadius: BorderRadius.all(Radius.circular(20)))),
-                maxLines: null,
-              )),
-              IconButton(
-                onPressed: () async {
-                  if (_replyInputController.text.isNotEmpty) {
-                    // await _replySend(content: _replyInputController.text);
-                    _replyInputController.clear();
-                  }
-                },
-                icon: const Icon(CupertinoIcons.paperplane_fill),
-                color: Colors.blue,
-              )
-            ],
-          ),
-        ),
+        // bottomSheet: Container(
+        //   height: 60,
+        //   decoration: const BoxDecoration(color: Colors.white),
+        //   margin: const EdgeInsets.only(top: 8),
+        //   padding: const EdgeInsets.all(8),
+        //   child: Row(
+        //     children: [
+        //       Expanded(
+        //           child: TextField(
+        //         controller: _replyInputController,
+        //         style: const TextStyle(fontSize: 15),
+        //         decoration: InputDecoration(
+        //             isDense: true,
+        //             contentPadding: const EdgeInsets.all(8),
+        //             filled: true,
+        //             fillColor: const Color.fromARGB(97, 158, 158, 158),
+        //             hintText: "reply_enter_hint",
+        //             hintStyle:
+        //                 const TextStyle(fontSize: 15, color: Colors.grey),
+        //             border: const OutlineInputBorder(
+        //                 borderSide: BorderSide.none,
+        //                 borderRadius: BorderRadius.all(Radius.circular(20)))),
+        //         maxLines: null,
+        //       )),
+        //       IconButton(
+        //         onPressed: () async {
+        //           if (_replyInputController.text.isNotEmpty) {
+        //             // await _replySend(content: _replyInputController.text);
+        //             _replyInputController.clear();
+        //           }
+        //         },
+        //         icon: const Icon(CupertinoIcons.paperplane_fill),
+        //         color: Colors.blue,
+        //       )
+        //     ],
+        //   ),
+        // ),
       ),
     );
   }

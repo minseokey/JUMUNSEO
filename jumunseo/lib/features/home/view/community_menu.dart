@@ -1,5 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:jumunseo/core/blank.dart';
+import 'package:jumunseo/features/community/detail/model/community_detail_model.dart';
+import 'package:jumunseo/features/community/home/view/community_home_screen.dart';
 import '../home.dart';
 
 class CommunityMenu extends StatefulWidget {
@@ -9,11 +11,25 @@ class CommunityMenu extends StatefulWidget {
   State<CommunityMenu> createState() => _CommunityMenuState();
 }
 
+class WritingStatus {
+  final String title;
+  final String name;
+  final String writeDate;
+  final String content;
+  final String image;
+
+  WritingStatus(
+      {required this.title,
+      required this.name,
+      required this.writeDate,
+      required this.content,
+      required this.image});
+}
+
 class _CommunityMenuState extends State<CommunityMenu> {
   @override
   Widget build(BuildContext context) {
-    // List<WritingStatus> writeStatus = [WritingStatus(title: '제목', name: '유상록', writeDate: '2024년 4월 5일'),
-    //                                   WritingStatus(title: '제목2', name: '유상록', writeDate: '2024년 4월 6일')];
+    List<CommunityDetailModel> writeStatus = [];
 
     return Column(
       children: [
@@ -36,63 +52,14 @@ class _CommunityMenuState extends State<CommunityMenu> {
                 )),
           ],
         ),
-        // ListView(
-        //   shrinkWrap: true,
-        //   children: writeStatus
-        //       .map((status) => Padding(
-        //             padding: const EdgeInsets.only(top: 19),
-        //             child: Container(
-        //               decoration: BoxDecoration(
-        //                 color: Colors.white,
-        //                 boxShadow: [
-        //                   BoxShadow(
-        //                     color: Colors.grey.withOpacity(0.05),
-        //                     spreadRadius: 5,
-        //                     blurRadius: 7,
-        //                     offset: const Offset(0, 3),
-        //                   ),
-        //                 ],
-        //               ),
-        //               child: Padding(
-        //                 padding: const EdgeInsets.symmetric(
-        //                     vertical: 15, horizontal: 15),
-        //                 child: Row(
-        //                   children: [
-        //                     const CircleAvatar(
-        //                       backgroundImage:
-        //                           AssetImage('assets/images/community.png'),
-        //                       radius: 25.0,
-        //                     ),
-        //                     const Blank(10, 0),
-        //                     Column(
-        //                       crossAxisAlignment: CrossAxisAlignment.start,
-        //                       children: [
-        //                         Text(
-        //                           status.title,
-        //                           style: const TextStyle(
-        //                               color: Colors.black,
-        //                               fontWeight: FontWeight.bold,
-        //                               fontSize: 20),
-        //                         ),
-        //                         Text(
-        //                           status.name,
-        //                           style: const TextStyle(
-        //                               color: Colors.grey, fontSize: 10),
-        //                         ),
-        //                         Text(
-        //                           status.writeDate,
-        //                           style: const TextStyle(
-        //                               color: Colors.grey, fontSize: 10),
-        //                         ),
-        //                       ],
-        //                     )
-        //                   ],
-        //                 ),
-        //               ),
-        //             ),
-        //           ))
-        //       .toList(),
-        // ),
+        ListView(
+          shrinkWrap: true,
+          children: writeStatus
+              .map((status) => CommunityListItem(
+                    item: status,
+                  ))
+              .toList(),
+        ),
       ],
     );
   }

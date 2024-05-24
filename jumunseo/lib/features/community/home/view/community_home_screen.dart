@@ -1,45 +1,36 @@
 import 'package:card_swiper/card_swiper.dart';
 import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+import "package:flutter_svg/flutter_svg.dart";
 import 'package:go_router/go_router.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
+import 'package:jumunseo/config/theme/app_color.dart';
 import 'package:jumunseo/core/logger.dart';
 import 'package:jumunseo/features/community/detail/model/community_detail_model.dart';
 import 'package:jumunseo/shared/svg_strings.dart';
 import 'package:jumunseo/shared/time_diff_string.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 PagingController<int, CommunityDetailModel> communityPageController =
     PagingController(firstPageKey: 1);
 
-CommunityDetailModel testItem = CommunityDetailModel(
-  id: '1',
-  name: 'name',
-  description: 'description',
-  image: 'image',
-);
-
 Future<void> _fetchPage(int pageKey) async {
   try {
-    final newItems = await Future.delayed(
-        Duration(seconds: 1),
-        () => List.generate(10, (index) {
-              return CommunityDetailModel(
-                id: '1',
-                name: 'name',
-                description: 'description',
-                image: 'image',
-              );
-            }));
-    final nextPageKey = pageKey + 1;
-    communityPageController.appendPage(
-        newItems
-            // .where((element) =>
-            //     (element.postStatus == 1) &&
-            //     (!BlockSet().blockUserUniqIdSet.contains(element.userUniqId)) &&
-            //     (!BlockSet().blockPostingPostIdSet.contains(element.postId)))
-            .toList(),
-        nextPageKey);
+    final newItems = await Future.delayed(Duration(seconds: 3), () => []
+        // List.generate(10, (index) {
+        //       return;
+        //     })
+        );
+    communityPageController.appendLastPage([]);
+    // final nextPageKey = pageKey + 1;
+    // communityPageController.appendPage(
+    //     newItems
+    //         // .where((element) =>
+    //         //     (element.postStatus == 1) &&
+    //         //     (!BlockSet().blockUserUniqIdSet.contains(element.userUniqId)) &&
+    //         //     (!BlockSet().blockPostingPostIdSet.contains(element.postId)))
+    //         .toList(),
+    //     nextPageKey);
     // communityPageController.appendLastPage(newItems
     //     .where((element) =>
     //         (element.postStatus == 1) &&
@@ -75,6 +66,111 @@ Future<void> _fetchPage(int pageKey) async {
   }
 }
 
+class CommunityListSmallItem extends StatelessWidget {
+  const CommunityListSmallItem({super.key, required this.item});
+
+  final CommunityDetailModel item;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 2),
+      child: Card(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+        child: SizedBox(
+          height: 38,
+          child: Material(
+            color: Colors.transparent,
+            child: InkWell(
+              onTap: () {
+                //TODO: 글세부보기
+                context.push('/community/1');
+              },
+              borderRadius: BorderRadius.circular(15),
+              child: Padding(
+                padding: const EdgeInsets.only(
+                    left: 16.0, top: 4, bottom: 4, right: 16),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                if (item.type.isNotEmpty)
+                                  Padding(
+                                    padding:
+                                        const EdgeInsets.fromLTRB(0, 0, 8, 0),
+                                    child: item.type == "딜레마"
+                                        ? Container(
+                                            decoration: BoxDecoration(
+                                                color:
+                                                    ColorStyles.secondMainColor,
+                                                borderRadius:
+                                                    BorderRadius.circular(5)),
+                                            child: Padding(
+                                              padding:
+                                                  const EdgeInsets.fromLTRB(
+                                                      4, 2, 4, 2),
+                                              child: Text(item.type,
+                                                  style: TextStyle(
+                                                      fontSize: 12,
+                                                      color: Colors.grey[100],
+                                                      fontWeight:
+                                                          FontWeight.w600)),
+                                            ),
+                                          )
+                                        : Container(
+                                            decoration: BoxDecoration(
+                                                color: ColorStyles.mainColor,
+                                                borderRadius:
+                                                    BorderRadius.circular(5)),
+                                            child: Padding(
+                                              padding:
+                                                  const EdgeInsets.fromLTRB(
+                                                      4, 2, 4, 2),
+                                              child: Text(item.type,
+                                                  style: TextStyle(
+                                                      fontSize: 12,
+                                                      color: Colors.grey[100],
+                                                      fontWeight:
+                                                          FontWeight.w600)),
+                                            ),
+                                          ),
+                                  ),
+                                Expanded(
+                                  child: Text(item.title,
+                                      maxLines: 1,
+                                      overflow: TextOverflow.ellipsis,
+                                      style: const TextStyle(
+                                        fontSize: 12,
+                                      )),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
 class CommunityListItem extends StatelessWidget {
   const CommunityListItem({super.key, required this.item});
 
@@ -83,21 +179,21 @@ class CommunityListItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+      padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 8),
       child: Card(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
         child: SizedBox(
-          height: 124,
+          height: 116,
           child: Material(
             color: Colors.transparent,
             child: InkWell(
               onTap: () {
-                //TODO: 글세부보기
-                context.push('/community/1');
+                context.push('/community/2');
               },
+              borderRadius: BorderRadius.circular(15),
               child: Padding(
                 padding: const EdgeInsets.only(
-                    left: 16.0, top: 20, bottom: 20, right: 16),
+                    left: 16.0, top: 16, bottom: 12, right: 16),
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.start,
@@ -109,18 +205,47 @@ class CommunityListItem extends StatelessWidget {
                         children: [
                           Padding(
                             padding: const EdgeInsets.fromLTRB(0, 0, 0, 4),
-                            child: Text("제목",
-                                maxLines: 1,
-                                overflow: TextOverflow.ellipsis,
-                                style: const TextStyle(
-                                    fontSize: 16, fontWeight: FontWeight.bold)),
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                if (item.type.isNotEmpty)
+                                  Padding(
+                                    padding:
+                                        const EdgeInsets.fromLTRB(0, 0, 8, 0),
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                          color: ColorStyles.secondMainColor,
+                                          borderRadius:
+                                              BorderRadius.circular(5)),
+                                      child: Padding(
+                                        padding: const EdgeInsets.fromLTRB(
+                                            4, 2, 4, 2),
+                                        child: Text(item.type,
+                                            style: TextStyle(
+                                                fontSize: 12,
+                                                color: Colors.grey[100],
+                                                fontWeight: FontWeight.w600)),
+                                      ),
+                                    ),
+                                  ),
+                                Expanded(
+                                  child: Text(item.title,
+                                      maxLines: 1,
+                                      overflow: TextOverflow.ellipsis,
+                                      style: const TextStyle(
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.bold)),
+                                ),
+                              ],
+                            ),
                           ),
                           Expanded(
                             child: Padding(
                               padding: const EdgeInsets.fromLTRB(0, 0, 24, 0),
                               child: Text(
                                 //item.content,
-                                "item.content",
+                                item.content,
                                 maxLines: 2,
                                 overflow: TextOverflow.ellipsis,
                                 style: const TextStyle(
@@ -143,7 +268,8 @@ class CommunityListItem extends StatelessWidget {
                                 ),
                                 Expanded(
                                   child: Text(
-                                    " | ${timeDiffString(DateTime.now().subtract(Duration(hours: 12)))} | ${"item.authorNickname"}",
+                                    " | ${item.created_at} | ${item.author}",
+                                    // " | ${timeDiffString(DateTime.now().subtract(Duration(hours: 12)))} | ${item.author}",
                                     maxLines: 1,
                                     overflow: TextOverflow.ellipsis,
                                     style: const TextStyle(
@@ -158,15 +284,22 @@ class CommunityListItem extends StatelessWidget {
                     ),
                     // if (item.picture.isNotEmpty)
                     Padding(
-                      padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
+                      padding: const EdgeInsets.fromLTRB(4, 0, 0, 0),
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(15),
-                        child: ExtendedImage.network(
-                          'https://picsum.photos/200/300',
-                          height: 84,
-                          width: 84,
-                          fit: BoxFit.cover,
-                        ),
+                        child: item.description == 'network'
+                            ? ExtendedImage.network(
+                                item.image,
+                                height: 76,
+                                width: 76,
+                                fit: BoxFit.cover,
+                              )
+                            : ExtendedImage.asset(
+                                item.image,
+                                height: 76,
+                                width: 76,
+                                fit: BoxFit.cover,
+                              ),
                       ),
                     )
                   ],
@@ -191,7 +324,26 @@ class CommunityHomeScreen extends StatelessWidget {
     });
     return Scaffold(
         appBar: AppBar(
-          title: const Text('Community Home Screen'),
+          titleSpacing: 0,
+          title: Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                ExtendedImage.asset(
+                  'assets/icons/jumunseo_letter.png',
+                  height: 30,
+                ),
+                const Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 12.0),
+                  child: Text(
+                    "게시판",
+                    style: TextStyle(
+                      fontSize: 20.0,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+              ]),
         ),
         body: RefreshIndicator(
           onRefresh: () {
@@ -205,7 +357,7 @@ class CommunityHomeScreen extends StatelessWidget {
                   delegate: SliverChildListDelegate([
                 SizedBox(
                   width: maxWidth,
-                  height: 220,
+                  height: 250,
                   child: Swiper(
                     pagination: SwiperCustomPagination(builder:
                         (BuildContext context, SwiperPluginConfig config) {
@@ -244,20 +396,39 @@ class CommunityHomeScreen extends StatelessWidget {
                           padding: const EdgeInsets.all(0.0),
                           child: ClipRRect(
                             child: SizedBox(
-                              width: maxWidth,
-                              height: 220,
                               child: Column(
                                 children: [
-                                  Expanded(
+                                  GestureDetector(
+                                    onTap: () {
+                                      launchUrl(Uri.parse(
+                                          'https://seoul.scourt.go.kr/dcboard/new/DcNewsViewAction.work?seqnum=229&gubun=215&cbub_code=000210&searchWord=&pageIndex=1'));
+                                    },
                                     child: Container(
-                                      color: Colors.blueGrey,
-                                      child: Text(
-                                        '오늘의 상식 $index',
-                                        style: const TextStyle(
-                                            color: Colors.white, fontSize: 24),
+                                      height: 250,
+                                      width: maxWidth,
+                                      child: ExtendedImage.network(
+                                        [
+                                          'https://www.korea.kr/newsWeb/resources/attaches/2023.09/13/5c5469f53381edd51601bbd5a4aac7df.jpg',
+                                          "http://file.scourt.go.kr/crosseditor/images/000001/20161215091146604_69P2HFMA.jpg",
+                                          "http://file.scourt.go.kr/crosseditor/images/000001/20160913084705650_W0QTBHY3.jpg",
+                                        ][index],
+                                        alignment: Alignment.topCenter,
+                                        fit: index == 0
+                                            ? BoxFit.contain
+                                            : BoxFit.cover,
                                       ),
                                     ),
-                                  ),
+                                  )
+                                  // Expanded(
+                                  //   child: Container(
+                                  //     color: Colors.blueGrey,
+                                  //     child: Text(
+                                  //       '오늘의 상식 $index',
+                                  //       style: const TextStyle(
+                                  //           color: Colors.white, fontSize: 24),
+                                  //     ),
+                                  //   ),
+                                  // ),
                                 ],
                               ),
                             ),
@@ -271,13 +442,24 @@ class CommunityHomeScreen extends StatelessWidget {
               SliverList(
                 delegate: SliverChildListDelegate(
                   [
-                    Column(
-                      children: [
-                        Text('자유게시판'),
-                        CommunityListItem(item: testItem),
-                        CommunityListItem(item: testItem),
-                        CommunityListItem(item: testItem),
-                      ],
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Text('마법사',
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 16.0)),
+                          ),
+                          // CommunityListSmallItem(item: testMItem1),
+                          // CommunityListSmallItem(item: testMItem2),
+                          // CommunityListSmallItem(item: testMItem3),
+                        ],
+                      ),
                     ),
                   ],
                 ),
@@ -285,35 +467,46 @@ class CommunityHomeScreen extends StatelessWidget {
               SliverList(
                 delegate: SliverChildListDelegate(
                   [
-                    Column(
-                      children: [
-                        Text('토론글'),
-                        Text('토론글들'),
-                      ],
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(16, 0, 16, 0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Text('딜레마',
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 16.0)),
+                          ),
+                          // CommunityListSmallItem(item: testDItem1),
+                          // CommunityListSmallItem(item: testDItem2),
+                          // CommunityListSmallItem(item: testDItem3),
+                          Padding(
+                            padding: const EdgeInsets.fromLTRB(8, 16, 8, 0),
+                            child: Text('전체글',
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 16.0)),
+                          ),
+                        ],
+                      ),
                     ),
                   ],
                 ),
               ),
-              SliverList(
-                delegate: SliverChildListDelegate(
-                  [
-                    Column(
-                      children: [
-                        Text('상담글'),
-                        Text('상담글들'),
-                      ],
-                    ),
-                  ],
-                ),
-              ),
-              PagedSliverList(
-                  pagingController: communityPageController,
-                  builderDelegate:
-                      PagedChildBuilderDelegate<CommunityDetailModel>(
-                    itemBuilder: (context, item, index) {
-                      return CommunityListItem(item: item);
-                    },
-                  )),
+              // PagedSliverList(
+              //     pagingController: communityPageController,
+              //     builderDelegate:
+              //         PagedChildBuilderDelegate<CommunityDetailModel>(
+              //       itemBuilder: (context, item, index) {
+              //         return Padding(
+              //           padding: const EdgeInsets.fromLTRB(16, 0, 16, 0),
+              //           child: CommunityListItem(item: item),
+              //         );
+              //       },
+              //     )),
             ],
           ),
         ),
@@ -321,6 +514,7 @@ class CommunityHomeScreen extends StatelessWidget {
           onPressed: () {
             context.push('/community/post/write');
           },
+          backgroundColor: ColorStyles.mainColor,
           child: const Icon(Icons.add),
         ));
   }

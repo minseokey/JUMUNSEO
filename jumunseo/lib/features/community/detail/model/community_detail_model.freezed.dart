@@ -20,11 +20,14 @@ CommunityDetailModel _$CommunityDetailModelFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$CommunityDetailModel {
+  String get content => throw _privateConstructorUsedError;
   String get id => throw _privateConstructorUsedError;
-  String get name => throw _privateConstructorUsedError;
+  String get title => throw _privateConstructorUsedError;
+  String get author => throw _privateConstructorUsedError;
   String get description => throw _privateConstructorUsedError;
   String get image => throw _privateConstructorUsedError;
-  DateTime? get created_at => throw _privateConstructorUsedError;
+  String get type => throw _privateConstructorUsedError;
+  String? get created_at => throw _privateConstructorUsedError;
   DateTime? get updated_at => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -40,11 +43,14 @@ abstract class $CommunityDetailModelCopyWith<$Res> {
       _$CommunityDetailModelCopyWithImpl<$Res, CommunityDetailModel>;
   @useResult
   $Res call(
-      {String id,
-      String name,
+      {String content,
+      String id,
+      String title,
+      String author,
       String description,
       String image,
-      DateTime? created_at,
+      String type,
+      String? created_at,
       DateTime? updated_at});
 }
 
@@ -62,21 +68,32 @@ class _$CommunityDetailModelCopyWithImpl<$Res,
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? content = null,
     Object? id = null,
-    Object? name = null,
+    Object? title = null,
+    Object? author = null,
     Object? description = null,
     Object? image = null,
+    Object? type = null,
     Object? created_at = freezed,
     Object? updated_at = freezed,
   }) {
     return _then(_value.copyWith(
+      content: null == content
+          ? _value.content
+          : content // ignore: cast_nullable_to_non_nullable
+              as String,
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
               as String,
-      name: null == name
-          ? _value.name
-          : name // ignore: cast_nullable_to_non_nullable
+      title: null == title
+          ? _value.title
+          : title // ignore: cast_nullable_to_non_nullable
+              as String,
+      author: null == author
+          ? _value.author
+          : author // ignore: cast_nullable_to_non_nullable
               as String,
       description: null == description
           ? _value.description
@@ -86,10 +103,14 @@ class _$CommunityDetailModelCopyWithImpl<$Res,
           ? _value.image
           : image // ignore: cast_nullable_to_non_nullable
               as String,
+      type: null == type
+          ? _value.type
+          : type // ignore: cast_nullable_to_non_nullable
+              as String,
       created_at: freezed == created_at
           ? _value.created_at
           : created_at // ignore: cast_nullable_to_non_nullable
-              as DateTime?,
+              as String?,
       updated_at: freezed == updated_at
           ? _value.updated_at
           : updated_at // ignore: cast_nullable_to_non_nullable
@@ -107,11 +128,14 @@ abstract class _$$CommunityDetailModelImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {String id,
-      String name,
+      {String content,
+      String id,
+      String title,
+      String author,
       String description,
       String image,
-      DateTime? created_at,
+      String type,
+      String? created_at,
       DateTime? updated_at});
 }
 
@@ -126,21 +150,32 @@ class __$$CommunityDetailModelImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? content = null,
     Object? id = null,
-    Object? name = null,
+    Object? title = null,
+    Object? author = null,
     Object? description = null,
     Object? image = null,
+    Object? type = null,
     Object? created_at = freezed,
     Object? updated_at = freezed,
   }) {
     return _then(_$CommunityDetailModelImpl(
+      content: null == content
+          ? _value.content
+          : content // ignore: cast_nullable_to_non_nullable
+              as String,
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
               as String,
-      name: null == name
-          ? _value.name
-          : name // ignore: cast_nullable_to_non_nullable
+      title: null == title
+          ? _value.title
+          : title // ignore: cast_nullable_to_non_nullable
+              as String,
+      author: null == author
+          ? _value.author
+          : author // ignore: cast_nullable_to_non_nullable
               as String,
       description: null == description
           ? _value.description
@@ -150,10 +185,14 @@ class __$$CommunityDetailModelImplCopyWithImpl<$Res>
           ? _value.image
           : image // ignore: cast_nullable_to_non_nullable
               as String,
+      type: null == type
+          ? _value.type
+          : type // ignore: cast_nullable_to_non_nullable
+              as String,
       created_at: freezed == created_at
           ? _value.created_at
           : created_at // ignore: cast_nullable_to_non_nullable
-              as DateTime?,
+              as String?,
       updated_at: freezed == updated_at
           ? _value.updated_at
           : updated_at // ignore: cast_nullable_to_non_nullable
@@ -166,10 +205,13 @@ class __$$CommunityDetailModelImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$CommunityDetailModelImpl implements _CommunityDetailModel {
   _$CommunityDetailModelImpl(
-      {required this.id,
-      required this.name,
+      {required this.content,
+      required this.id,
+      required this.title,
+      required this.author,
       required this.description,
       required this.image,
+      required this.type,
       this.created_at,
       this.updated_at});
 
@@ -177,21 +219,27 @@ class _$CommunityDetailModelImpl implements _CommunityDetailModel {
       _$$CommunityDetailModelImplFromJson(json);
 
   @override
+  final String content;
+  @override
   final String id;
   @override
-  final String name;
+  final String title;
+  @override
+  final String author;
   @override
   final String description;
   @override
   final String image;
   @override
-  final DateTime? created_at;
+  final String type;
+  @override
+  final String? created_at;
   @override
   final DateTime? updated_at;
 
   @override
   String toString() {
-    return 'CommunityDetailModel(id: $id, name: $name, description: $description, image: $image, created_at: $created_at, updated_at: $updated_at)';
+    return 'CommunityDetailModel(content: $content, id: $id, title: $title, author: $author, description: $description, image: $image, type: $type, created_at: $created_at, updated_at: $updated_at)';
   }
 
   @override
@@ -199,11 +247,14 @@ class _$CommunityDetailModelImpl implements _CommunityDetailModel {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$CommunityDetailModelImpl &&
+            (identical(other.content, content) || other.content == content) &&
             (identical(other.id, id) || other.id == id) &&
-            (identical(other.name, name) || other.name == name) &&
+            (identical(other.title, title) || other.title == title) &&
+            (identical(other.author, author) || other.author == author) &&
             (identical(other.description, description) ||
                 other.description == description) &&
             (identical(other.image, image) || other.image == image) &&
+            (identical(other.type, type) || other.type == type) &&
             (identical(other.created_at, created_at) ||
                 other.created_at == created_at) &&
             (identical(other.updated_at, updated_at) ||
@@ -212,8 +263,8 @@ class _$CommunityDetailModelImpl implements _CommunityDetailModel {
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(
-      runtimeType, id, name, description, image, created_at, updated_at);
+  int get hashCode => Object.hash(runtimeType, content, id, title, author,
+      description, image, type, created_at, updated_at);
 
   @JsonKey(ignore: true)
   @override
@@ -233,26 +284,35 @@ class _$CommunityDetailModelImpl implements _CommunityDetailModel {
 
 abstract class _CommunityDetailModel implements CommunityDetailModel {
   factory _CommunityDetailModel(
-      {required final String id,
-      required final String name,
+      {required final String content,
+      required final String id,
+      required final String title,
+      required final String author,
       required final String description,
       required final String image,
-      final DateTime? created_at,
+      required final String type,
+      final String? created_at,
       final DateTime? updated_at}) = _$CommunityDetailModelImpl;
 
   factory _CommunityDetailModel.fromJson(Map<String, dynamic> json) =
       _$CommunityDetailModelImpl.fromJson;
 
   @override
+  String get content;
+  @override
   String get id;
   @override
-  String get name;
+  String get title;
+  @override
+  String get author;
   @override
   String get description;
   @override
   String get image;
   @override
-  DateTime? get created_at;
+  String get type;
+  @override
+  String? get created_at;
   @override
   DateTime? get updated_at;
   @override

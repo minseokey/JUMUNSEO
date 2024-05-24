@@ -1,4 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:jumunseo/core/logger.dart';
 import 'package:jumunseo/core/login_status.dart';
 import 'package:jumunseo/features/auth/auth.dart';
 import 'package:jumunseo/features/home/view/guest_login_dialog.dart';
@@ -19,10 +20,11 @@ class HomeCubit extends Cubit<HomeState> {
   }
 
   void homeToDilema(BuildContext context) {
-    context.push("/dilemma/1/1");
+    context.push("/dilemma");
   }
 
   void homeToWizard(BuildContext context) {
+    logger.d('homeToWizard');
     context.push("/wizard");
   }
 
@@ -43,6 +45,7 @@ class HomeCubit extends Cubit<HomeState> {
   }
 
   void guestDialog(BuildContext context) {
-    showDialog(context: context, builder: (context) => guestLoginDialog(context));
+    showDialog(
+        context: context, builder: (context) => guestLoginDialog(context));
   }
 }

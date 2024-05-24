@@ -1,4 +1,4 @@
-package com.example.jumunseo
+package com.jumunseo
 
 import io.flutter.embedding.android.FlutterActivity
 
