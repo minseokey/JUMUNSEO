@@ -1,37 +1,61 @@
 ## 🔉 프로젝트 소개 
 
-- github pages: <a href=" https://github.com/kookmin-sw/capstone-2024-19"> https://github.com/kookmin-sw/capstone-2024-19 </a>
-- 중간 보고서: <a href="https://docs.google.com/document/d/19_dItr86QYaiE_dQVc6W3ocl0ktKDnzcoQrBuSRfS2Q/edit?usp=sharing"> 중간보고서 링크 </a>
+- github pages: [https://github.com/kookmin-sw/capstone-2024-19](https://github.com/kookmin-sw/capstone-2024-19)
+- 중간 보고서: [중간보고서 링크](https://docs.google.com/document/d/19_dItr86QYaiE_dQVc6W3ocl0ktKDnzcoQrBuSRfS2Q/edit?usp=sharing)
+- 기말 보고서: [기말보고서 링크](https://docs.google.com/document/d/1IkzFPRzTNZizsuihYOpaRw_DFVN3TBcs/edit?usp=sharing&ouid=113092270746547319088&rtpof=true&sd=true)
+- 발표자료: [발표자료 링크](https://drive.google.com/drive/folders/1D2DZ0fPCsbpCiZF-GK5ZxIUq7cd3p60O?usp=sharing)
+<hr>
+<img width="998" alt="스크린샷 2024-05-24 오후 2 03 33" src="https://github.com/kookmin-sw/capstone-2024-19/assets/91869302/67c18c80-3f0e-4992-afde-deca652d0840">
+<hr>
 
-###  🧙‍♂️ 마법사
-- 법적인 분쟁을 도와주는 채팅봇
+### 📜 주문서란?
+**법적으로 해결 가능한 문제, 법적으로 해결하지 못하는 문제를 해결하는데 도움을 주는 서비스를 제공합니다.**
 
+### 🧙‍♂️ 마법사 
+- 법적인 분쟁을 도와주는 채팅봇 
+  - 언제 어디서든 간편하고 저렴하게 법률 문제에 대한 상담을 받을 수 있다.
+  - 유사 판례 조회 기능을 활용하여 자신의 문제에 대한 해결책을 찾을 수 있다.
+  - 게시판과 연계하여 다수의 의견을 참고할 수 있다.
 
-###  😟 딜레마
-- 하루마다 갱신되는 주제에 대하여 사용자들이 찬반을 가르고 의견을 나누는 공간
+### 😟 딜레마 
+- 하루마다 갱신되는 주제에 대하여 사용자들이 찬반을 가르고 의견을 나누는 공간 
+  - 사회의 아젠다를 확인할 수 있고, 서로 다른 의견과 주장을 확인할 수 있다.
+  - 분산된 의견을 중앙 집중화 시켜 각 주장을 정리하고 요약할 수 있다.
+  - 앱을 이용하는 사용자 리텐션을 높이는 효과를 제공한다.
 
-
-###  🍀 커뮤니티
-- 마법사, 딜레마에서 나온 결과를 토대로 자유롭게 얘기를 나눌 수 있는 커뮤니티
-
-</br>
+### 🍀 커뮤니티 
+- 마법사, 딜레마에서 나온 결과를 토대로 자유롭게 얘기를 나눌 수 있는 커뮤니티 
+  - 마법사의 결과를 공유하고 타인의 의견을 들을 수 있다.
+  - 사용자 간 자유로운 소통을 가능하게 할 수 있다.
 
 ## 🎥 실행 영상 (미완)
 <table>
     <tr align='center'>
         <td>
-            <h3> 마법사
+            <h3>마법사</h3>
         </td>
         <td>
-            <h3> 딜레마
+            <h3>딜레마</h3>
+        </td>
+        <td>
+            <h3>게시판</h3>
+        </td>
+        <td>
+            <h3>로그인</h3>
         </td>
     </tr>
     <tr align='center'>
         <td>
-            <img src="https://github.com/kookmin-sw/capstone-2024-19/assets/48516380/c2f1ac03-4f6f-47c2-8076-51432261bf76">
+            <img src="https://github.com/kookmin-sw/capstone-2024-19/assets/48516380/194046ab-4593-4555-9eb3-b85d123c7555">
         </td>
         <td>
-            <img src="https://github.com/kookmin-sw/capstone-2024-19/assets/48516380/c6856ac4-7554-4b32-9f98-446fb5ade221">
+            <img src="https://github.com/kookmin-sw/capstone-2024-19/assets/48516380/4ec0a7bc-2ece-40fa-8b70-f5d92abc8f47">
+        </td>
+        <td>
+            <img src="https://github.com/kookmin-sw/capstone-2024-19/assets/48516380/2d5b065a-fe77-4c91-8867-2c166f4d0fb7">
+        </td>
+        <td>
+            <img src="https://github.com/kookmin-sw/capstone-2024-19/assets/48516380/5ae6ce30-ed34-4e09-9b65-bdf33130dcb0">
         </td>
     </tr>
 </table>
@@ -48,16 +72,7 @@
               <b>유상록(dbtkdfhr)</b>
             </a> 
             <br/>
-              ****1630
-        </td>
-        <td style="min-width: 150px;">
-            <a href="https://github.com/Misun-k">
-              <img src="https://github.com/Misun-k.png" width="100">
-              <br />
-              <b>김미선(Misun-k)</b>
-            </a> 
-            <br/>
-              ****1583
+            ****1630
         </td>
         <td style="min-width: 150px;">
             <a href="https://github.com/ggstargame45">
@@ -66,7 +81,7 @@
               <b>조현민(ggstargame45)</b>
             </a> 
             <br/>
-              ****1672
+            ****1672
         </td>
         <td style="min-width: 150px;">
           <a href="https://github.com/minseokey">
@@ -84,29 +99,16 @@
               <b>이진호(binary-h0)</b>
             </a> 
             <br/>
-              ****1649
+            ****1649
         </td>
     </tr>
     <tr align="center">
-        <td>
-            Frontend
-        </td>
-        <td>
-            Frontend
-        </td>
-        <td>
-            Frontend
-        </td>
-                <td>
-            Backend
-        </td>
-                <td>
-            Backend
-        </td>
+        <td>Frontend</td>
+        <td>Frontend</td>
+        <td>Backend</td>
+        <td>Backend</td>
     </tr>
 </table>
-
-<br/>
 
 ## 🛠 기술 스택
 
@@ -163,11 +165,25 @@
 
 ├── 📂composite-server 🗂 백엔드-데이터통합 서버(Spring Boot)
 
+├── 📂community-server 🗂 백엔드-커뮤니티 서버(Spring Boot)
+
+├── 📂debate-server 🗂 백엔드-토론 서버(Spring Boot)
+
 ├── 📂magician 🗂 백엔드-마법사 서버 (FastAPI)
 
+    ├── 📂finetune 🗂 파인튜닝 관련 코드, 데이터
+
+├── 📂helm 🗂 Helm 관리 디렉토리
+
 ├── 📂docs 📚github pages 레포지토리
+
+└── 📜docker-compose(테스트 환경 도커 컴포즈 구성) 
 
 └── 📜각종 세팅 파일
 
 └── 📕README.md
 ```
+
+<hr>
+<img src = "https://github.com/kookmin-sw/capstone-2024-19/assets/91869302/930a5a13-3cfd-4162-9a4a-75a614402cf7">
+
